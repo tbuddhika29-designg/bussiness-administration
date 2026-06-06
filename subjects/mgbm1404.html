@@ -1,1 +1,291 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MGBM1404 — Soft Skil in Business Comunication</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --p1:#7c3aed;--p2:#9333ea;--p3:#a855f7;--p4:#c084fc;
+  --g1:#ec4899;--g2:#f43f5e;
+  --bg:#05020f;
+  --border:rgba(168,85,247,0.25);
+  --border2:rgba(196,132,252,0.4);
+  --gold:#f9c74f;--gold2:#f8961e;
+  --white:rgba(255,255,255,0.95);
+  --muted:rgba(255,255,255,0.5);
+  --dim:rgba(255,255,255,0.25);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.bg-scene{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -20%,rgba(124,58,237,0.35) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 50% at 100% 80%,rgba(147,51,234,0.2) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 60%,rgba(236,72,153,0.12) 0%,transparent 60%),
+    var(--bg);
+}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;mix-blend-mode:screen;}
+.blob-1{width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,0.35) 0%,transparent 65%);top:-180px;left:-120px;animation:b1 20s ease-in-out infinite;}
+.blob-2{width:450px;height:450px;background:radial-gradient(circle,rgba(236,72,153,0.25) 0%,transparent 65%);bottom:-80px;right:-80px;animation:b2 25s ease-in-out infinite;}
+.blob-3{width:350px;height:350px;background:radial-gradient(circle,rgba(168,85,247,0.2) 0%,transparent 65%);top:45%;left:55%;animation:b3 18s ease-in-out infinite;}
+@keyframes b1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,80px)}}
+@keyframes b2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-60px)}}
+@keyframes b3{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,50px)}}
+.grid-overlay{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(168,85,247,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:white;animation:twinkle var(--dur,3s) ease-in-out infinite;animation-delay:var(--del,0s);}
+@keyframes twinkle{0%,100%{opacity:0.1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.5)}}
+
+.page{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:50px 36px 80px;}
+
+.top-nav{margin-bottom:44px;opacity:0;animation:fadeUp 0.6s ease forwards 0.05s;}
+.back-link{
+  display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;font-size:0.82rem;font-weight:600;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--p4);
+  background:rgba(124,58,237,0.12);border:1px solid rgba(168,85,247,0.25);
+  padding:10px 20px;border-radius:100px;transition:all 0.3s ease;
+}
+.back-link:hover{background:rgba(124,58,237,0.25);border-color:var(--border2);color:#fff;transform:translateX(-3px);box-shadow:0 8px 30px rgba(124,58,237,0.3);}
+.back-arrow{font-size:1rem;transition:transform 0.3s ease;}
+.back-link:hover .back-arrow{transform:translateX(-4px);}
+
+.hero{
+  padding:56px 50px 48px;border-radius:28px;
+  background:linear-gradient(135deg,rgba(124,58,237,0.18) 0%,rgba(30,10,60,0.5) 100%);
+  border:1px solid var(--border2);backdrop-filter:blur(24px);
+  position:relative;overflow:hidden;margin-bottom:50px;text-align:center;
+  box-shadow:0 0 80px rgba(124,58,237,0.2),inset 0 1px 0 rgba(255,255,255,0.08);
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.15s;
+}
+.hero::before{
+  content:'';position:absolute;inset:-1px;border-radius:28px;
+  background:linear-gradient(135deg,rgba(196,132,252,0.45),transparent 50%,rgba(236,72,153,0.2));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;padding:1px;pointer-events:none;
+}
+.hero-watermark{
+  position:absolute;right:-10px;bottom:-20px;
+  font-family:'Playfair Display',serif;font-size:8rem;font-weight:700;
+  color:rgba(168,85,247,0.05);pointer-events:none;user-select:none;line-height:1;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.35);
+  border-radius:100px;padding:6px 18px;
+  font-size:0.72rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--p4);margin-bottom:22px;animation:tagPulse 4s ease-in-out infinite;
+}
+.tag-dot{width:6px;height:6px;border-radius:50%;background:var(--p3);animation:dotPulse 2s ease-in-out infinite;}
+@keyframes tagPulse{0%,100%{border-color:rgba(168,85,247,0.3)}50%{border-color:rgba(168,85,247,0.7)}}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,0.7)}50%{box-shadow:0 0 0 6px rgba(168,85,247,0)}}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4.5vw,3.8rem);font-weight:700;line-height:1.1;
+  background:linear-gradient(135deg,#fff 0%,#e9d5ff 40%,#c084fc 70%,#f9c74f 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200% 200%;animation:titleShimmer 8s ease-in-out infinite;
+  position:relative;z-index:1;margin-bottom:14px;
+}
+@keyframes titleShimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+.hero-meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:26px;position:relative;z-index:1;}
+.hero-chip{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);
+  border-radius:10px;padding:8px 16px;font-size:0.8rem;font-weight:500;color:var(--muted);
+}
+.hero-chip strong{color:var(--p4);font-weight:700;}
+
+.section-hd{display:flex;align-items:center;gap:18px;margin-bottom:28px;opacity:0;animation:fadeUp 0.8s ease forwards 0.35s;}
+.section-hd-badge{
+  padding:6px 16px;border-radius:100px;
+  background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(168,85,247,0.2));
+  border:1px solid rgba(168,85,247,0.4);
+  font-size:0.7rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--p4);white-space:nowrap;
+}
+.section-hd-title{
+  font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;font-style:italic;
+  background:linear-gradient(90deg,#fff,#c084fc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-hd-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(168,85,247,0.4),transparent);}
+.section-hd-count{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);white-space:nowrap;}
+
+.lectures-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));
+  gap:14px;opacity:0;animation:fadeUp 0.8s ease forwards 0.45s;
+}
+
+.lec-card{
+  position:relative;border-radius:16px;overflow:hidden;aspect-ratio:1;
+  cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;
+  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.4s ease;
+}
+.lec-card:hover{transform:translateY(-8px) scale(1.06);box-shadow:0 24px 60px rgba(124,58,237,0.45),0 0 40px rgba(168,85,247,0.25);}
+.lec-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(124,58,237,0.14) 0%,rgba(20,8,50,0.65) 100%);
+  border:1px solid rgba(168,85,247,0.22);border-radius:16px;backdrop-filter:blur(16px);
+  transition:border-color 0.35s ease,background 0.35s ease;
+}
+.lec-card:hover .lec-bg{border-color:rgba(196,132,252,0.55);background:linear-gradient(135deg,rgba(124,58,237,0.28) 0%,rgba(20,8,50,0.7) 100%);}
+.lec-card::before{
+  content:'';position:absolute;top:-100%;left:-100%;width:70%;height:200%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,0.07),transparent);
+  transform:skewX(-20deg);transition:top 0.55s ease,left 0.55s ease;z-index:2;pointer-events:none;
+}
+.lec-card:hover::before{top:-10%;left:130%;}
+.lec-num{
+  position:relative;z-index:1;font-family:'Playfair Display',serif;
+  font-size:1.9rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);line-height:1;
+}
+.lec-card:hover .lec-num{transform:scale(1.15);}
+.lec-accent{
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--p1),var(--p3),var(--gold));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;z-index:3;
+}
+.lec-card:hover .lec-accent{transform:scaleX(1);}
+
+.lec-card{opacity:0;animation:fadeUp 0.5s ease forwards;}
+.lec-card:nth-child(1){animation-delay:0.5s}
+.lec-card:nth-child(2){animation-delay:0.52s}
+.lec-card:nth-child(3){animation-delay:0.54s}
+.lec-card:nth-child(4){animation-delay:0.56s}
+.lec-card:nth-child(5){animation-delay:0.58s}
+.lec-card:nth-child(6){animation-delay:0.6s}
+.lec-card:nth-child(7){animation-delay:0.62s}
+.lec-card:nth-child(8){animation-delay:0.64s}
+.lec-card:nth-child(9){animation-delay:0.66s}
+.lec-card:nth-child(10){animation-delay:0.68s}
+.lec-card:nth-child(11){animation-delay:0.7s}
+.lec-card:nth-child(12){animation-delay:0.72s}
+.lec-card:nth-child(13){animation-delay:0.74s}
+.lec-card:nth-child(14){animation-delay:0.76s}
+.lec-card:nth-child(15){animation-delay:0.78s}
+.lec-card:nth-child(16){animation-delay:0.8s}
+.lec-card:nth-child(17){animation-delay:0.82s}
+.lec-card:nth-child(18){animation-delay:0.84s}
+.lec-card:nth-child(19){animation-delay:0.86s}
+.lec-card:nth-child(20){animation-delay:0.88s}
+
+.bottom-nav{margin-top:60px;text-align:center;opacity:0;animation:fadeUp 0.8s ease forwards 1s;}
+.bottom-back{
+  display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  font-size:0.9rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(168,85,247,0.2));
+  border:1px solid var(--border2);padding:16px 36px;border-radius:14px;
+  backdrop-filter:blur(16px);transition:all 0.35s ease;
+}
+.bottom-back:hover{background:linear-gradient(135deg,rgba(124,58,237,0.55),rgba(168,85,247,0.35));border-color:rgba(196,132,252,0.7);transform:translateY(-4px);box-shadow:0 20px 50px rgba(124,58,237,0.4);}
+.bottom-back .arr{font-size:1.1rem;transition:transform 0.3s ease;}
+.bottom-back:hover .arr{transform:translateX(-4px);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:700px){
+  .page{padding:32px 16px 60px;}
+  .hero{padding:36px 24px 32px;}
+  .lectures-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;}
+  .lec-num{font-size:1.5rem;}
+}
+@media(max-width:480px){
+  .lectures-grid{grid-template-columns:repeat(5,1fr);gap:8px;}
+  .lec-num{font-size:1.3rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-scene"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="grid-overlay"></div>
+<div class="stars" id="stars"></div>
+
+<div class="page">
+
+  <div class="top-nav">
+    <a href="../index.html" class="back-link">
+      <span class="back-arrow">←</span>
+      Back to Portal
+    </a>
+  </div>
+
+  <div class="hero">
+    <div class="hero-watermark">BM</div>
+    <div class="hero-tag"><span class="tag-dot"></span>Business Mathematics</div>
+    <h1>Soft Skil in Business Comunication</h1>
+    <div class="hero-meta">
+      <div class="hero-chip">📘 Course Code: <strong>MGBM1404</strong></div>
+      <div class="hero-chip">📅 Year 1 — Semester 1</div>
+      <div class="hero-chip">🎯 20 Lectures</div>
+    </div>
+  </div>
+
+  <div class="section-hd">
+    <span class="section-hd-badge">Lectures</span>
+    <span class="section-hd-title">Select a Lecture</span>
+    <div class="section-hd-line"></div>
+    <span class="section-hd-count">1 — 20</span>
+  </div>
+
+  <div class="lectures-grid">
+    <a href="../lectures/mgbm1404-lecture01.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">1</div><div class="lec-accent"></div></a>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="../index.html" class="bottom-back">
+      <span class="arr">←</span>
+      Back to Portal Home
+    </a>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<100;i++){
+    const s=document.createElement('div');
+    const sz=Math.random()*2+0.5;
+    s.className='star';
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--del:${Math.random()*5}s;opacity:${Math.random()*0.3+0.05};`;
+    c.appendChild(s);
+  }
+})();
+
+document.querySelectorAll('.lec-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width-0.5)*18;
+    const y=((e.clientY-r.top)/r.height-0.5)*-18;
+    card.style.transform=`translateY(-8px) scale(1.06) rotateX(${y}deg) rotateY(${x}deg)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+});
+</script>
+</body>
+</html>
