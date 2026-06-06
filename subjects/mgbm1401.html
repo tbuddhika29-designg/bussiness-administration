@@ -1,65 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MGBM1401 - Management Fundamentals</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGBM1401 - Management Fundamentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body{
-    font-family: Arial, sans-serif;
-    background:#0f172a;
-    color:white;
-    padding:30px;
-}
+        :root {
+            --primary-purple: #7c3aed;
+            --secondary-purple: #a855f7;
+            --dark-purple: #5b21b6;
+            --light-purple: #ede9fe;
+            --accent-gold: #fbbf24;
+            --dark-bg: #0f0b1f;
+            --card-bg: #1a1529;
+            --text-light: #f3f4f6;
+            --text-muted: #d1d5db;
+        }
 
-h1{
-    text-align:center;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1f1636 50%, #2d1b4e 100%);
+            background-attachment: fixed;
+            color: var(--text-light);
+            padding: 20px;
+            min-height: 100vh;
+        }
 
-.container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
-    max-width:1200px;
-    margin:auto;
-}
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark-purple) 0%, var(--primary-purple) 100%);
+            padding: 60px 30px;
+            border-radius: 20px;
+            margin: 0 auto 40px;
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(124, 58, 237, 0.3);
+            text-align: center;
+        }
 
-.btn{
-    background:#1e293b;
-    color:white;
-    text-decoration:none;
-    padding:15px;
-    border-radius:10px;
-    text-align:center;
-    display:block;
-}
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+        }
 
-.btn:hover{
-    background:#334155;
-}
-</style>
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -1px;
+        }
+
+        header .code {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            color: var(--text-light);
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: var(--secondary-purple);
+            border-color: var(--secondary-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--secondary-purple);
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--secondary-purple), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Lecture Grid */
+        .lectures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        /* Lecture Button Card */
+        .lecture-btn-card {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            padding: 25px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+            cursor: pointer;
+            min-height: 120px;
+        }
+
+        .lecture-btn-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        .lecture-btn-card:hover {
+            transform: scale(1.1);
+            border-color: var(--secondary-purple);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(124, 58, 237, 0.15) 100%);
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+        }
+
+        .lecture-btn-card:hover::before {
+            top: -20%;
+            right: -20%;
+        }
+
+        .lecture-number {
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .lecture-btn-card:hover .lecture-number {
+            color: #ffed4e;
+            text-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+            transform: scale(1.2);
+        }
+
+        /* Back Button */
+        .back-section {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            color: var(--text-light);
+            padding: 15px 35px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--secondary-purple);
+            border-color: var(--secondary-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .lectures-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 12px;
+            }
+
+            .lecture-btn-card {
+                min-height: 100px;
+            }
+
+            .lecture-number {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header .code {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .lectures-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 10px;
+            }
+
+            .lecture-btn-card {
+                min-height: 80px;
+            }
+
+            .lecture-number {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            .lectures-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+                gap: 8px;
+            }
+
+            .lecture-btn-card {
+                min-height: 70px;
+            }
+
+            .lecture-number {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lecture-btn-card {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        .lecture-btn-card:nth-child(1) { animation-delay: 0.01s; }
+        .lecture-btn-card:nth-child(2) { animation-delay: 0.02s; }
+        .lecture-btn-card:nth-child(3) { animation-delay: 0.03s; }
+        .lecture-btn-card:nth-child(4) { animation-delay: 0.04s; }
+        .lecture-btn-card:nth-child(5) { animation-delay: 0.05s; }
+        .lecture-btn-card:nth-child(6) { animation-delay: 0.06s; }
+        .lecture-btn-card:nth-child(7) { animation-delay: 0.07s; }
+        .lecture-btn-card:nth-child(8) { animation-delay: 0.08s; }
+        .lecture-btn-card:nth-child(9) { animation-delay: 0.09s; }
+        .lecture-btn-card:nth-child(10) { animation-delay: 0.1s; }
+        .lecture-btn-card:nth-child(n+11) { animation-delay: 0.1s; }
+    </style>
 </head>
-
 <body>
+    <!-- Header -->
+    <header>
+        <div class="code">📚 MGBM1401</div>
+        <h1>Management Fundamentals</h1>
+    </header>
 
-<h1>📚 MGBM1401 - Management Fundamentals</h1>
+    <!-- Navigation -->
+    <div class="navbar">
+        <a href="../index.html" class="nav-btn">⬅ Back to Home</a>
+    </div>
 
-<div class="container">
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Lectures Section -->
+        <h2 class="section-title">Lectures (1-50)</h2>
+        <div class="lectures-grid">
+            <a href="../lectures/mgbm1401-lecture01.html" class="lecture-btn-card"><div class="lecture-number">1</div></a>
+            <a href="../lectures/mgbm1401-lecture02.html" class="lecture-btn-card"><div class="lecture-number">2</div></a>
+            <a href="../lectures/mgbm1401-lecture03.html" class="lecture-btn-card"><div class="lecture-number">3</div></a>
+            <a href="../lectures/mgbm1401-lecture04.html" class="lecture-btn-card"><div class="lecture-number">4</div></a>
+            <a href="../lectures/mgbm1401-lecture05.html" class="lecture-btn-card"><div class="lecture-number">5</div></a>
+            <a href="../lectures/mgbm1401-lecture06.html" class="lecture-btn-card"><div class="lecture-number">6</div></a>
+            <a href="../lectures/mgbm1401-lecture07.html" class="lecture-btn-card"><div class="lecture-number">7</div></a>
+            <a href="../lectures/mgbm1401-lecture08.html" class="lecture-btn-card"><div class="lecture-number">8</div></a>
+            <a href="../lectures/mgbm1401-lecture09.html" class="lecture-btn-card"><div class="lecture-number">9</div></a>
+            <a href="../lectures/mgbm1401-lecture10.html" class="lecture-btn-card"><div class="lecture-number">10</div></a>
+            <a href="../lectures/mgbm1401-lecture11.html" class="lecture-btn-card"><div class="lecture-number">11</div></a>
+            <a href="../lectures/mgbm1401-lecture12.html" class="lecture-btn-card"><div class="lecture-number">12</div></a>
+            <a href="../lectures/mgbm1401-lecture13.html" class="lecture-btn-card"><div class="lecture-number">13</div></a>
+            <a href="../lectures/mgbm1401-lecture14.html" class="lecture-btn-card"><div class="lecture-number">14</div></a>
+            <a href="../lectures/mgbm1401-lecture15.html" class="lecture-btn-card"><div class="lecture-number">15</div></a>
+            <a href="../lectures/mgbm1401-lecture16.html" class="lecture-btn-card"><div class="lecture-number">16</div></a>
+            <a href="../lectures/mgbm1401-lecture17.html" class="lecture-btn-card"><div class="lecture-number">17</div></a>
+            <a href="../lectures/mgbm1401-lecture18.html" class="lecture-btn-card"><div class="lecture-number">18</div></a>
+            <a href="../lectures/mgbm1401-lecture19.html" class="lecture-btn-card"><div class="lecture-number">19</div></a>
+            <a href="../lectures/mgbm1401-lecture20.html" class="lecture-btn-card"><div class="lecture-number">20</div></a>
+            <a href="../lectures/mgbm1401-lecture21.html" class="lecture-btn-card"><div class="lecture-number">21</div></a>
+            <a href="../lectures/mgbm1401-lecture22.html" class="lecture-btn-card"><div class="lecture-number">22</div></a>
+            <a href="../lectures/mgbm1401-lecture23.html" class="lecture-btn-card"><div class="lecture-number">23</div></a>
+            <a href="../lectures/mgbm1401-lecture24.html" class="lecture-btn-card"><div class="lecture-number">24</div></a>
+            <a href="../lectures/mgbm1401-lecture25.html" class="lecture-btn-card"><div class="lecture-number">25</div></a>
+            <a href="../lectures/mgbm1401-lecture26.html" class="lecture-btn-card"><div class="lecture-number">26</div></a>
+            <a href="../lectures/mgbm1401-lecture27.html" class="lecture-btn-card"><div class="lecture-number">27</div></a>
+            <a href="../lectures/mgbm1401-lecture28.html" class="lecture-btn-card"><div class="lecture-number">28</div></a>
+            <a href="../lectures/mgbm1401-lecture29.html" class="lecture-btn-card"><div class="lecture-number">29</div></a>
+            <a href="../lectures/mgbm1401-lecture30.html" class="lecture-btn-card"><div class="lecture-number">30</div></a>
+            <a href="../lectures/mgbm1401-lecture31.html" class="lecture-btn-card"><div class="lecture-number">31</div></a>
+            <a href="../lectures/mgbm1401-lecture32.html" class="lecture-btn-card"><div class="lecture-number">32</div></a>
+            <a href="../lectures/mgbm1401-lecture33.html" class="lecture-btn-card"><div class="lecture-number">33</div></a>
+            <a href="../lectures/mgbm1401-lecture34.html" class="lecture-btn-card"><div class="lecture-number">34</div></a>
+            <a href="../lectures/mgbm1401-lecture35.html" class="lecture-btn-card"><div class="lecture-number">35</div></a>
+            <a href="../lectures/mgbm1401-lecture36.html" class="lecture-btn-card"><div class="lecture-number">36</div></a>
+            <a href="../lectures/mgbm1401-lecture37.html" class="lecture-btn-card"><div class="lecture-number">37</div></a>
+            <a href="../lectures/mgbm1401-lecture38.html" class="lecture-btn-card"><div class="lecture-number">38</div></a>
+            <a href="../lectures/mgbm1401-lecture39.html" class="lecture-btn-card"><div class="lecture-number">39</div></a>
+            <a href="../lectures/mgbm1401-lecture40.html" class="lecture-btn-card"><div class="lecture-number">40</div></a>
+            <a href="../lectures/mgbm1401-lecture41.html" class="lecture-btn-card"><div class="lecture-number">41</div></a>
+            <a href="../lectures/mgbm1401-lecture42.html" class="lecture-btn-card"><div class="lecture-number">42</div></a>
+            <a href="../lectures/mgbm1401-lecture43.html" class="lecture-btn-card"><div class="lecture-number">43</div></a>
+            <a href="../lectures/mgbm1401-lecture44.html" class="lecture-btn-card"><div class="lecture-number">44</div></a>
+            <a href="../lectures/mgbm1401-lecture45.html" class="lecture-btn-card"><div class="lecture-number">45</div></a>
+            <a href="../lectures/mgbm1401-lecture46.html" class="lecture-btn-card"><div class="lecture-number">46</div></a>
+            <a href="../lectures/mgbm1401-lecture47.html" class="lecture-btn-card"><div class="lecture-number">47</div></a>
+            <a href="../lectures/mgbm1401-lecture48.html" class="lecture-btn-card"><div class="lecture-number">48</div></a>
+            <a href="../lectures/mgbm1401-lecture49.html" class="lecture-btn-card"><div class="lecture-number">49</div></a>
+            <a href="../lectures/mgbm1401-lecture50.html" class="lecture-btn-card"><div class="lecture-number">50</div></a>
+        </div>
 
-<a class="btn" href="../lectures/mgbm1401-lecture01.html">Lecture 01</a>
-<a class="btn" href="../lectures/mgbm1401-lecture02.html">Lecture 02</a>
-<a class="btn" href="../lectures/mgbm1401-lecture03.html">Lecture 03</a>
-<a class="btn" href="../lectures/mgbm1401-lecture04.html">Lecture 04</a>
-<a class="btn" href="../lectures/mgbm1401-lecture05.html">Lecture 05</a>
-
-<!-- මේ වගේ Lecture 40 වෙනකම් -->
-
-</div>
-
-<br><br>
-
-<a href="../index.html">⬅ Back to Home</a>
-
+        <!-- Back Button -->
+        <div class="back-section">
+            <a href="../index.html" class="back-btn">⬅ Back to Portal Home</a>
+        </div>
+    </div>
 </body>
 </html>
