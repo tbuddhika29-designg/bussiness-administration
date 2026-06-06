@@ -5,170 +5,285 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Business Administration Study Portal</title>
 <style>
-body{font-family:Arial,sans-serif;background:#0f172a;color:#fff;margin:0}
-header{padding:30px;text-align:center;background:#111827}
-.container{max-width:1200px;margin:auto;padding:20px}
-input{width:100%;padding:12px;border-radius:10px;border:none;margin:20px 0}
-.semester{margin:25px 0}
-.semester h2{color:#38bdf8}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
-.card{background:#1e293b;padding:16px;border-radius:14px;transition:.2s}
-.card:hover{transform:translateY(-3px)}
-.card a{color:white;text-decoration:none;font-weight:bold}
-.code{color:#94a3b8;font-size:14px}
+/* Premium Purple Theme Styles */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0b071e; /* Deep purple-black background */
+    color: #f1f0f7;
+    margin: 0;
+    padding-bottom: 50px;
+}
+header {
+    padding: 40px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #1e0b36 0%, #0f0826 100%);
+    border-bottom: 2px solid #3b1d6e;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.sub-header-info {
+    margin-top: 12px;
+    font-size: 15px;
+    color: #c084fc;
+    line-height: 1.6;
+}
+.sub-header-info span {
+    display: inline-block;
+    margin: 0 10px;
+}
+.dashboard-count {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 5px 15px;
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 20px;
+    font-size: 14px;
+    color: #e9d5ff;
+}
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+/* Premium Search Bar Styling */
+.search-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid #4c1d95;
+    background: #190f34;
+    color: #fff;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+input:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    background: #1f1244;
+}
+/* Grid & Premium Cards */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.card {
+    background: linear-gradient(145deg, #1c103a, #13092b);
+    border: 1px solid #2d1656;
+    padding: 22px;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #a855f7, #ec4899);
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #6366f1;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.25);
+}
+.card:hover::before {
+    opacity: 1;
+}
+.card a {
+    color: #f3e8ff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+    display: block;
+    transition: color 0.2s;
+}
+.card:hover a {
+    color: #ffffff;
+}
 </style>
 </head>
 <body>
+
 <header>
-<h1>Business Administration Study Portal</h1>
-<p>31 Subjects Dashboard</p>
+    <h1>Business Administration Study Portal</h1>
+    <div class="sub-header-info">
+        <strong>Tharindu Buddhika</strong><br>
+        <span>COM/BMgt-558/IFLS26-15/0001</span>
+    </div>
+    <div class="dashboard-count">31 Subjects Dashboard</div>
 </header>
 
-<!-- YEAR 1 SEMESTER 1 -->
-
-<div class="card">
-<a href="subjects/mgbm1401.html">MGBM1401 - Management Fundamentals</a>
+<div class="search-container">
+    <input type="text" id="search" placeholder="Search for subjects...">
 </div>
 
-<div class="card">
-<a href="subjects/mgbm1302.html">MGBM1302 - Business Mathematics for Decisions</a>
+<div class="grid">
+
+    <div class="card">
+    <a href="subjects/mgbm1401.html">MGBM1401 - Management Fundamentals</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1302.html">MGBM1302 - Business Mathematics for Decisions</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1403.html">MGBM1403 - Introduction to Information & Communication Technology</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1404.html">MGBM1404 - Soft Skills in Business Communication</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1005.html">MGBM1005 - English Language for Business 1</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1306.html">MGBM1306 - Microeconomics</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1407.html">MGBM1407 - Marketing Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1408.html">MGBM1408 - Financial Accounting</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1409.html">MGBM1409 - Organizational Behaviour</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm1010.html">MGBM1010 - English Language for Business 2</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2411.html">MGBM2411 - Business Law</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2412.html">MGBM2412 - Business Statistics</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2413.html">MGBM2413 - Management Accounting</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2314.html">MGBM2314 - Business Information Systems</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2415.html">MGBM2415 - Managerial Economics</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2416.html">MGBM2416 - Human Resource Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2417.html">MGBM2417 - Finance Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm2318.html">MGBM2318 - Managerial Soft Skills</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3419.html">MGBM3419 - Development Economics</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3420.html">MGBM3420 - Strategic Marketing Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3421.html">MGBM3421 - Supply Chain Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3422.html">MGBM3422 - International Business Strategy</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3423.html">MGBM3423 - Strategic Brand Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3424.html">MGBM3424 - Research Methodology</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3325.html">MGBM3325 - Operations Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3326.html">MGBM3326 - Corporate Social Responsibility & Ethics</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3327.html">MGBM3327 - Entrepreneurship</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm3328.html">MGBM3328 - E-Commerce</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm4429.html">MGBM4429 - Strategic Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm4430.html">MGBM4430 - Strategic Finance</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm4631.html">MGBM4631 - Project Management</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm4432.html">MGBM4432 - Academic Writing</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm4633.html">MGBM4633 - Dissertation</a>
+    </div>
+
+    <div class="card">
+    <a href="subjects/mgbm4634.html">MGBM4634 - Internship in Business Administration</a>
+    </div>
+
 </div>
 
-<div class="card">
-<a href="subjects/mgbm1403.html">MGBM1403 - Introduction to Information & Communication Technology</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm1404.html">MGBM1404 - Soft Skills in Business Communication</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm1005.html">MGBM1005 - English Language for Business 1</a>
-</div>
-
-<!-- YEAR 1 SEMESTER 2 -->
-
-<div class="card">
-<a href="subjects/mgbm1306.html">MGBM1306 - Microeconomics</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm1407.html">MGBM1407 - Marketing Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm1408.html">MGBM1408 - Financial Accounting</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm1409.html">MGBM1409 - Organizational Behaviour</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm1010.html">MGBM1010 - English Language for Business 2</a>
-</div>
-
-<!-- YEAR 2 -->
-
-<div class="card">
-<a href="subjects/mgbm2411.html">MGBM2411 - Business Law</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm2412.html">MGBM2412 - Business Statistics</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm2413.html">MGBM2413 - Management Accounting</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm2314.html">MGBM2314 - Business Information Systems</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm2415.html">MGBM2415 - Managerial Economics</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm2416.html">MGBM2416 - Human Resource Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm2417.html">MGBM2417 - Finance Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm2318.html">MGBM2318 - Managerial Soft Skills</a>
-</div>
-
-<!-- YEAR 3 -->
-
-<div class="card">
-<a href="subjects/mgbm3419.html">MGBM3419 - Development Economics</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3420.html">MGBM3420 - Strategic Marketing Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3421.html">MGBM3421 - Supply Chain Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3422.html">MGBM3422 - International Business Strategy</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3423.html">MGBM3423 - Strategic Brand Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3424.html">MGBM3424 - Research Methodology</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3325.html">MGBM3325 - Operations Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3326.html">MGBM3326 - Corporate Social Responsibility & Ethics</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3327.html">MGBM3327 - Entrepreneurship</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm3328.html">MGBM3328 - E-Commerce</a>
-</div>
-
-<!-- YEAR 4 -->
-
-<div class="card">
-<a href="subjects/mgbm4429.html">MGBM4429 - Strategic Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm4430.html">MGBM4430 - Strategic Finance</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm4631.html">MGBM4631 - Project Management</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm4432.html">MGBM4432 - Academic Writing</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm4633.html">MGBM4633 - Dissertation</a>
-</div>
-
-<div class="card">
-<a href="subjects/mgbm4634.html">MGBM4634 - Internship in Business Administration</a>
-</div>
 <script>
 document.getElementById('search').addEventListener('keyup',function(){
  const q=this.value.toLowerCase();
