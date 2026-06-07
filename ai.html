@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Tharindu Buddhika | Premium Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
   /* === PREMIUM LUXURY VIBRANT PURPLE LIGHT THEME === */
   :root {
@@ -31,10 +31,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Laptop තිරවල උඩ කොටස කැපීම වැළැක්වීමට */
     overflow-x: hidden;
     position: relative;
-    padding: 60px 20px;
+    padding: 40px 20px 60px 20px;
   }
 
   /* Premium Background Decorative Glows */
@@ -66,6 +66,23 @@
     animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  /* === LIVE PREMIUM CLOCK === */
+  .portal-clock {
+    align-self: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    padding: 8px 18px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.04);
+    margin-bottom: 25px;
+  }
+  .clock-time { font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600; color: var(--accent); }
+  .clock-date { font-size: 11px; font-weight: 600; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 10px; }
+
   .portal-badge {
     display: inline-block;
     font-family: 'Fira Code', monospace;
@@ -83,12 +100,13 @@
   }
 
   .hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(2.8rem, 6vw, 4.5rem);
     font-weight: 800;
     color: var(--text-title);
     line-height: 1.1;
     margin-bottom: 16px;
+    letter-spacing: -1px;
   }
   .hero-title span {
     background: var(--accent-gradient);
@@ -314,17 +332,21 @@
 </head>
 <body>
 
-  <!-- MAIN CENTRAL APP WRAPPER -->
   <div class="home-wrapper">
+
+    <div class="portal-clock">
+      <div class="clock-time" id="portal-time">00:00:00 AM</div>
+      <div class="clock-date" id="portal-date">Workspace Loading...</div>
+    </div>
+    <br>
+
     <div class="portal-badge">Premium Student Workspace</div>
     
     <h1 class="hero-title">Tharindu<br><span>Buddhika</span></h1>
     <p class="hero-subtitle">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහතින් පහසුවෙන් කළමනාකරණය කරන්න.</p>
 
-    <!-- NAVIGATION HUB SELECTION GRID -->
     <div class="hub-grid">
       
-      <!-- CARD 01: ACADEMIC PORTAL -->
       <a href="dashboard.html" class="hub-card">
         <div class="icon-wrapper">🎓</div>
         <div class="card-name">Academic Portal</div>
@@ -332,7 +354,6 @@
         <div class="card-footer-link">Open Dashboard</div>
       </a>
 
-      <!-- CARD 02: AI ASSISTANT (DIRECT TO GEMINI) -->
       <a href="https://gemini.google.com" target="_blank" class="hub-card" style="border: 1px solid rgba(168, 85, 247, 0.4);">
         <div class="icon-wrapper" style="background: rgba(168, 85, 247, 0.15);">✨</div>
         <div class="card-name" style="color: #6d28d9;">Gemini AI</div>
@@ -340,7 +361,6 @@
         <div class="card-footer-link">Open Gemini AI</div>
       </a>
 
-      <!-- CARD 03: VOCABULARY ENGINE -->
       <a href="vocabulary.html" class="hub-card">
         <div class="icon-wrapper">📖</div>
         <div class="card-name">Vocabulary</div>
@@ -350,11 +370,9 @@
 
     </div>
 
-    <!-- === GPA CALCULATOR WIDGET === -->
     <div class="gpa-section">
       <div class="gpa-title">📊 CINEC GPA Calculator</div>
       <div id="gpa-container">
-        <!-- Initial Row 1 -->
         <div class="gpa-row">
           <input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
           <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
@@ -392,6 +410,28 @@
   </footer>
 
 <script>
+  // Dynamic Premium Clock Engine
+  function updatePortalClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0 should be 12
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    hours = hours < 10 ? '0' + hours : hours;
+
+    document.getElementById('portal-time').textContent = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    document.getElementById('portal-date').textContent = now.toLocaleDateString('en-US', options);
+  }
+  setInterval(updatePortalClock, 1000);
+  updatePortalClock();
+
   // Dynamic GPA Calculation Engine
   function calculateGPA() {
     const rows = document.querySelectorAll('.gpa-row');
