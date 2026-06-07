@@ -1,2209 +1,894 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium ICT Learning Hub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            /* Purple Theme Light Mode Variables */
-            --bg: #f8f6fc;
-            --card: rgba(255, 255, 255, 0.75);
-            --text: #2d213d;
-            --text-secondary: #625674;
-            --accent: #7c3aed;
-            --secondary: #d8b4fe;
-            --border: rgba(124, 58, 237, 0.15);
-            --nav-bg: rgba(248, 246, 252, 0.8);
-            --bar-bg: #e2daf7;
-            --shadow: 0 8px 32px 0 rgba(124, 58, 237, 0.08);
-            --badge-bg: #ede9fe;
-            --badge-text: #6d28d9;
-            --glass-blur: 16px;
-        }
-
-        [data-theme="dark"] {
-            /* Purple Theme Dark Mode Variables */
-            --bg: #0b0713;
-            --card: rgba(20, 13, 33, 0.7);
-            --text: #f3effa;
-            --text-secondary: #a79cb8;
-            --accent: #a78bfa;
-            --secondary: #4c1d95;
-            --border: rgba(167, 139, 250, 0.2);
-            --nav-bg: rgba(11, 7, 19, 0.8);
-            --bar-bg: #23153c;
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            --badge-bg: #2e1065;
-            --badge-text: #ddd6fe;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-family: 'Inter', sans-serif;
-            color: var(--text);
-            background-color: var(--bg);
-            overflow-x: hidden;
-        }
-
-        body {
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 80px;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-        }
-
-        /* Loading Screen Animation */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid var(--secondary);
-            border-top: 5px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .loader-text {
-            margin-top: 20px;
-            font-family: 'Poppins', sans-serif;
-            color: var(--accent);
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Floating Background Animation Components */
-        .bg-bubbles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .bubble {
-            position: absolute;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            opacity: 0.12;
-            border-radius: 50%;
-            animation: floatBubbles 25s infinite linear;
-            bottom: -150px;
-        }
-
-        @keyframes floatBubbles {
-            0% {
-                transform: translateY(0) scale(1) rotate(0deg);
-                opacity: 0.12;
-            }
-            50% {
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-120vh) scale(1.3) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--bar-bg);
-            z-index: 1001;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--secondary), var(--accent));
-            border-radius: 0 2px 2px 0;
-        }
-
-        /* Top Header Navigation */
-        header {
-            position: sticky;
-            top: 5px;
-            z-index: 1000;
-            margin: 10px auto;
-            width: 95%;
-            max-width: 1400px;
-        }
-
-        .navbar {
-            background: var(--nav-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--border);
-            padding: 15px 25px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow);
-        }
-
-        .nav-logo {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 1.2rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .nav-student-id {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 15px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-links a.active, .nav-links a:hover {
-            background: var(--badge-bg);
-            color: var(--badge-text);
-        }
-
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .btn-toggle {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--accent);
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.1rem;
-            box-shadow: var(--shadow);
-        }
-
-        .btn-toggle:hover {
-            background: var(--accent);
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-        .btn-action-top {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            box-shadow: var(--shadow);
-        }
-
-        .btn-action-top:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        /* Container Layout */
-        .main-container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        /* Glassmorphism General Rule */
-        .glass-card {
-            background: var(--card);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 35px;
-            box-shadow: var(--shadow);
-            margin-bottom: 40px;
-        }
-
-        /* Section Layout Reveal Animations */
-        .section-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUpActive 0.8s forwards ease-out;
-        }
-
-        @keyframes fadeUpActive {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            color: var(--text);
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 12px;
-        }
-
-        .section-title i {
-            color: var(--accent);
-        }
-
-        /* Hero banner design */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(216, 180, 254, 0.05));
-            border-radius: 30px;
-            margin-bottom: 40px;
-            border: 1px solid var(--border);
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(135deg, var(--text), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 25px auto;
-            line-height: 1.6;
-        }
-
-        .hero-meta {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .meta-badge {
-            background: var(--badge-bg);
-            color: var(--badge-text);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        /* Search Boxes and Inputs */
-        .search-wrapper {
-            position: relative;
-            margin-bottom: 25px;
-            max-width: 450px;
-        }
-
-        .search-wrapper i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .search-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
-        }
-
-        /* Vocabulary Cards Layout */
-        .vocab-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .vocab-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .vocab-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(124, 58, 237, 0.15);
-        }
-
-        .vocab-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .vocab-word {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .sinhala-badge {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 8px;
-            white-space: nowrap;
-        }
-
-        .vocab-def {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* Lecture Content Specific Configurations */
-        .lecture-controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .btn-secondary {
-            background: var(--badge-bg);
-            color: var(--badge-text);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-secondary:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .btn-sinhala-active {
-            background: linear-gradient(135deg, #059669, #10b981);
-            color: #fff;
-            border: none;
-        }
-
-        .topic-accordion {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .accordion-item {
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .accordion-header {
-            padding: 18px 25px;
-            background: var(--card);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            user-select: none;
-        }
-
-        .accordion-header:hover {
-            background: var(--badge-bg);
-            color: var(--badge-text);
-        }
-
-        .accordion-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .accordion-item.open .accordion-icon {
-            transform: rotate(180deg);
-        }
-
-        .accordion-content {
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .accordion-item.open .accordion-content {
-            max-height: 10000px;
-            padding: 25px;
-            overflow: visible;
-        }
-
-        .slide-block {
-            border-bottom: 1px dashed var(--border);
-            padding-bottom: 25px;
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .slide-block:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-bottom: 0;
-        }
-
-        .slide-num {
-            position: absolute;
-            top: 0;
-            right: 0;
-            font-size: 0.75rem;
-            background: var(--bar-bg);
-            color: var(--text-secondary);
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        .lecture-text {
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-
-        .lecture-text p {
-            margin-bottom: 12px;
-            cursor: pointer;
-        }
-
-        .lecture-text p:hover {
-            text-decoration: underline dotted var(--accent) 2px;
-        }
-
-        .lecture-text h3 {
-            margin: 20px 0 10px 0;
-            color: var(--accent);
-            font-size: 1.3rem;
-        }
-
-        .lecture-text h4 {
-            margin: 15px 0 8px 0;
-            color: var(--text);
-            font-size: 1.1rem;
-        }
-
-        .lecture-text ul, .lecture-text ol {
-            margin-left: 25px;
-            margin-bottom: 15px;
-        }
-
-        .lecture-text li {
-            margin-bottom: 6px;
-        }
-
-        /* Embedded Sinhala Explanations */
-        .sinhala-explanation {
-            display: none;
-            background: rgba(245, 158, 11, 0.06);
-            border-left: 4px solid #f59e0b;
-            padding: 10px 15px;
-            border-radius: 0 10px 10px 0;
-            margin: 8px 0 16px 0;
-            font-size: 0.9rem;
-            color: var(--text);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .accordion-item.sinhala-on .sinhala-explanation {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(2px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive Beautiful Tables */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            margin: 20px 0;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        th {
-            background-color: var(--badge-bg);
-            color: var(--badge-text);
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            padding: 14px 18px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        td {
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text);
-            background: var(--card);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Examples Section Grid Styles */
-        .examples-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .example-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .example-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--accent), var(--secondary));
-        }
-
-        .example-tag {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--accent);
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        .example-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .example-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Summary Checklist Designs */
-        .summary-wrapper {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 40px;
-        }
-
-        @media (max-width: 900px) {
-            .summary-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .checklist-container {
-            background: rgba(124, 58, 237, 0.03);
-            border: 1px dashed var(--border);
-            border-radius: 20px;
-            padding: 25px;
-        }
-
-        .checklist-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--accent);
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 10px;
-        }
-
-        .checklist-item:hover {
-            background: var(--card);
-        }
-
-        .checklist-checkbox {
-            width: 20px;
-            height: 20px;
-            border-radius: 6px;
-            border: 2px solid var(--accent);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        .checklist-checkbox i {
-            font-size: 0.75rem;
-            color: #fff;
-            display: none;
-        }
-
-        .checklist-item.checked .checklist-checkbox {
-            background: var(--accent);
-        }
-
-        .checklist-item.checked .checklist-checkbox i {
-            display: block;
-        }
-
-        .checklist-item.checked .checklist-text {
-            text-decoration: line-through;
-            color: var(--text-secondary);
-        }
-
-        .checklist-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .checklist-progress-bar {
-            width: 100%;
-            height: 6px;
-            background: var(--bar-bg);
-            border-radius: 10px;
-            margin-top: 15px;
-            overflow: hidden;
-        }
-
-        .checklist-progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #10b981;
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
-
-        /* Flashcards Engine Elements */
-        .flashcard-section-layout {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 0;
-        }
-
-        .flashcard-container {
-            perspective: 1000px;
-            width: 100%;
-            max-width: 550px;
-            height: 320px;
-            cursor: pointer;
-        }
-
-        .flashcard {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .flashcard.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 24px;
-            padding: 35px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .card-front {
-            background: linear-gradient(135deg, var(--card), var(--bg));
-            color: var(--text);
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, var(--secondary), var(--badge-bg));
-            color: var(--text);
-            transform: rotateY(180deg);
-        }
-
-        .card-tag {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            margin-bottom: 15px;
-        }
-
-        .card-back .card-tag {
-            color: var(--badge-text);
-        }
-
-        .card-question {
-            font-size: 1.25rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.5;
-        }
-
-        .card-answer-sinhala {
-            margin-top: 15px;
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            border-top: 1px dashed rgba(0,0,0,0.1);
-            padding-top: 12px;
-            width: 100%;
-        }
-
-        .flashcard-controls {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .btn-round {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: var(--shadow);
-        }
-
-        .btn-round:hover {
-            background: var(--accent);
-            color: white;
-        }
-
-        .card-indicator {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        /* Floating Widgets Configuration */
-        .floating-widgets-container {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1002;
-        }
-
-        /* Circular Study Timer Grid Rules */
-        .timer-widget {
-            background: var(--card);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            width: 250px;
-        }
-
-        .timer-circle-wrap {
-            position: relative;
-            width: 60px;
-            height: 60px;
-        }
-
-        .timer-svg {
-            transform: rotate(-90deg);
-            width: 60px;
-            height: 60px;
-        }
-
-        .timer-svg circle {
-            width: 100%;
-            height: 100%;
-            fill: none;
-            stroke-width: 5;
-            stroke-linecap: round;
-        }
-
-        .circle-bg {
-            stroke: var(--bar-bg);
-        }
-
-        .circle-progress {
-            stroke: var(--accent);
-            stroke-dasharray: 172.7;
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 1s linear;
-        }
-
-        .timer-display {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.75rem;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .timer-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex-grow: 1;
-        }
-
-        .timer-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .timer-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .timer-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-
-        .timer-btn:hover {
-            color: var(--accent);
-        }
-
-        .btn-top {
-            background: var(--accent);
-            color: #fff;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.1rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            align-self: flex-end;
-        }
-
-        .btn-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Tooltip Mechanics */
-        .tooltip-word {
-            border-bottom: 1px dashed var(--accent);
-            position: relative;
-            cursor: help;
-        }
-
-        .tooltip-word::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: #1e1b4b;
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.25s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-        }
-
-        .tooltip-word:hover::after {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* Popups Configurations */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(11, 7, 19, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--shadow);
-            position: relative;
-            animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .popup-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .popup-title {
-            font-size: 1.1rem;
-            color: var(--accent);
-            margin-bottom: 15px;
-        }
-
-        .popup-body {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        /* Fullscreen Reading Mode Override variables */
-        body.fullscreen-mode header,
-        body.fullscreen-mode .hero,
-        body.fullscreen-mode footer,
-        body.fullscreen-mode .floating-widgets-container {
-            display: none !important;
-        }
-        body.fullscreen-mode .main-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding-top: 40px;
-        }
-        body.fullscreen-mode .glass-card {
-            display: none;
-        }
-        body.fullscreen-mode #lecture {
-            display: block !important;
-        }
-
-        /* Print Friendly Core Layout Rule CSS */
-        @media print {
-            header, .hero, .lecture-controls, .floating-widgets-container, .vocab-wrapper, .examples-grid, .checklist-container, .flashcard-section-layout, footer, .btn-toggle {
-                display: none !important;
-            }
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            .glass-card {
-                border: none !important;
-                box-shadow: none !important;
-                background: none !important;
-                padding: 0 !important;
-            }
-            .accordion-content {
-                max-height: none !important;
-                padding: 0 !important;
-                display: block !important;
-            }
-            .accordion-item {
-                border: none !important;
-                margin-bottom: 30px;
-            }
-        }
-
-        /* Footer System Design */
-        footer {
-            background: var(--nav-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            border-top: 1px solid var(--border);
-            padding: 25px 20px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        /* Responsiveness Framework rules */
-        @media (max-width: 1024px) {
-            .nav-links {
-                display: none; /* Desktop Links Hidden */
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .navbar {
-                padding: 12px 15px;
-            }
-            .hero h1 {
-                font-size: 1.7rem;
-            }
-            .glass-card {
-                padding: 20px;
-            }
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MGBM1403 — Introduction to ICT | Week 01</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff;
+  --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.2);
+  --gold:#f59e0b;--green:#10b981;--red:#ef4444;
+  --glass:rgba(255,255,255,0.7);--glass-border:rgba(124,58,237,0.2);
+}
+[data-theme="dark"] {
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38;
+  --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.8);--glass-border:rgba(167,139,250,0.2);
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+
+/* ===== LOADING SCREEN ===== */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s}
+#loader.hide{opacity:0;pointer-events:none}
+.loader-ring{width:60px;height:60px;border:4px solid var(--border2);border-top:4px solid var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+.loader-text{font-family:'Poppins',sans-serif;font-weight:600;color:var(--accent);letter-spacing:.15em;font-size:.85rem;text-transform:uppercase}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== PROGRESS BAR ===== */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));width:0%;z-index:1100;transition:width .1s;border-radius:0 2px 2px 0;box-shadow:0 0 10px var(--accent)}
+
+/* ===== BUBBLES ===== */
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+[data-theme="dark"] .bubble{opacity:.07}
+@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* ===== HEADER ===== */
+header{position:sticky;top:3px;z-index:1000;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow)}
+.header-left{display:flex;align-items:center;gap:12px;min-width:0}
+.header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);white-space:nowrap}
+.header-sub{font-size:.72rem;color:var(--muted);white-space:nowrap;display:none}
+@media(min-width:640px){.header-sub{display:block}}
+.student-id-badge{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.1);border:1px solid var(--border2);padding:4px 10px;border-radius:100px;white-space:nowrap;display:none}
+@media(min-width:900px){.student-id-badge{display:block}}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.fullscreen-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.fullscreen-btn:hover{background:var(--accent);color:#fff}
+.back-btn{display:flex;align-items:center;gap:6px;text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
+.back-btn:hover{background:var(--accent);color:#fff}
+
+/* ===== STICKY NAV ===== */
+.sticky-nav{position:sticky;top:67px;z-index:999;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.sticky-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:4px;padding:10px 20px;min-width:max-content}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;transition:all .3s;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(124,58,237,.35)}
+
+/* ===== MAIN ===== */
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px 100px}
+
+/* ===== HERO ===== */
+.hero{border-radius:24px;padding:60px 40px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08));border:1px solid var(--border2);backdrop-filter:blur(24px);text-align:center;margin-bottom:48px;position:relative;overflow:hidden;box-shadow:var(--shadow2)}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.25),transparent 70%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(168,85,247,.2),transparent 70%);border-radius:50%;pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid var(--border2);border-radius:100px;padding:6px 18px;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,var(--text),var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:24px}
+.hero-chip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:10px;font-size:.8rem;color:var(--muted)}
+.hero-chip span{color:var(--accent);font-weight:600}
+.hero-lecturer{margin-top:20px;font-size:.85rem;color:var(--muted)}
+.hero-lecturer strong{color:var(--text);font-weight:600}
+
+/* ===== SECTION LABEL ===== */
+.section-label{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.section-badge{padding:6px 16px;border-radius:100px;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(168,85,247,.1));border:1px solid var(--border2);font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.section-title{font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text)}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+
+/* ===== VOCAB ===== */
+.search-wrap{position:relative;margin-bottom:24px}
+.search-wrap i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+#vocab-search{width:100%;padding:14px 16px 14px 44px;border-radius:14px;border:1px solid var(--border2);background:var(--card);color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s,box-shadow .3s}
+#vocab-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+#vocab-search::placeholder{color:var(--muted)}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.vocab-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:default;animation:fadeUp .5s ease both}
+.vocab-card:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:var(--border2)}
+.vocab-word{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.vocab-sinhala{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:100px;margin-bottom:8px}
+.vocab-def{font-size:.82rem;color:var(--muted);line-height:1.5}
+
+/* ===== LECTURE ===== */
+.expand-bar{display:flex;gap:8px;margin-bottom:16px}
+.expand-bar button{padding:8px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .3s}
+.expand-bar button:hover{background:var(--accent);color:#fff}
+.sinhala-toggle{padding:10px 20px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:8px}
+.sinhala-toggle.on{background:var(--accent);color:#fff}
+.topic-block{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .3s}
+.topic-block:hover{box-shadow:var(--shadow2)}
+.topic-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;user-select:none;gap:12px}
+.topic-header-left{display:flex;align-items:center;gap:12px}
+.topic-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.topic-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:.95rem;color:var(--text)}
+.topic-chevron{color:var(--accent);transition:transform .3s;font-size:.9rem;flex-shrink:0}
+.topic-block.open .topic-chevron{transform:rotate(180deg)}
+.topic-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.topic-block.open .topic-body{max-height:2000px}
+.topic-content{padding:6px 22px 22px;border-top:1px solid var(--border)}
+.topic-content p{font-size:.9rem;color:var(--text);line-height:1.75;margin-bottom:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .2s}
+.topic-content p:hover{background:rgba(124,58,237,.06)}
+.topic-content ul,.topic-content ol{padding-left:20px;margin-bottom:10px}
+.topic-content li{font-size:.9rem;color:var(--text);line-height:1.8;margin-bottom:4px}
+.topic-content h4{font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);margin:14px 0 6px}
+.sinhala-exp{background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(168,85,247,.04));border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:6px;font-size:.82rem;color:var(--muted);display:none;font-style:italic}
+.sinhala-exp.show{display:block;animation:fadeUp .3s ease}
+.gen-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem;overflow-x:auto;display:block}
+.gen-table th{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-family:'Poppins',sans-serif}
+.gen-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+.gen-table tr:hover td{background:rgba(124,58,237,.04)}
+.gen-table th:first-child,.gen-table td:first-child{border-radius:8px 0 0 8px}
+
+/* ===== EXAMPLES ===== */
+.examples-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.example-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;animation:fadeUp .5s ease both}
+.example-card::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;opacity:.08}
+.example-card:hover{transform:translateY(-6px);box-shadow:var(--shadow2)}
+.example-card.c1::before{background:var(--accent)}
+.example-card.c2::before{background:var(--gold)}
+.example-card.c3::before{background:var(--green)}
+.example-card.c4::before{background:var(--red)}
+.example-card.c5::before{background:var(--accent2)}
+.example-card.c6::before{background:#0ea5e9}
+.example-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px}
+.c1 .example-icon{background:rgba(124,58,237,.12);color:var(--accent)}
+.c2 .example-icon{background:rgba(245,158,11,.12);color:var(--gold)}
+.c3 .example-icon{background:rgba(16,185,129,.12);color:var(--green)}
+.c4 .example-icon{background:rgba(239,68,68,.12);color:var(--red)}
+.c5 .example-icon{background:rgba(147,51,234,.12);color:var(--accent2)}
+.c6 .example-icon{background:rgba(14,165,233,.12);color:#0ea5e9}
+.example-label{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.example-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:8px}
+.example-body{font-size:.85rem;color:var(--muted);line-height:1.65}
+
+/* ===== SUMMARY ===== */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:32px}
+.summary-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;animation:fadeUp .5s ease both}
+.summary-card h4{font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.summary-card ul{list-style:none;padding:0}
+.summary-card li{font-size:.85rem;color:var(--muted);line-height:1.7;padding-left:16px;position:relative;margin-bottom:4px}
+.summary-card li::before{content:'›';position:absolute;left:0;color:var(--accent);font-weight:700}
+.checklist-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px}
+.checklist-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.checklist-progress{background:var(--bg2);border-radius:100px;height:8px;margin-bottom:20px;overflow:hidden}
+.checklist-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;transition:width .4s ease;width:0%}
+.checklist-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .3s}
+.checklist-item:last-child{border-bottom:none}
+.check-box{width:22px;height:22px;border-radius:6px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.checklist-item.done .check-box{background:var(--accent);border-color:var(--accent)}
+.checklist-item.done .check-box::after{content:'✓';color:#fff;font-size:.75rem;font-weight:700}
+.checklist-item.done .check-label{text-decoration:line-through;opacity:.5}
+.check-label{font-size:.9rem;color:var(--text)}
+.checklist-count{font-size:.8rem;color:var(--muted);margin-left:auto}
+
+/* ===== FLASHCARDS ===== */
+.fc-wrap{perspective:1000px;margin:0 auto 28px;max-width:540px}
+.fc-card{width:100%;aspect-ratio:3/2;position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);cursor:pointer}
+.fc-card.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+.fc-front{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:var(--shadow2)}
+.fc-back{background:var(--card);border:1px solid var(--border2);transform:rotateY(180deg);box-shadow:var(--shadow2)}
+.fc-front .fc-q-label{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:14px}
+.fc-front .fc-question{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;line-height:1.4}
+.fc-front .fc-hint{margin-top:16px;font-size:.75rem;color:rgba(255,255,255,.5)}
+.fc-back .fc-a-label{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.fc-back .fc-answer{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:10px}
+.fc-back .fc-sinhala{font-size:.82rem;color:var(--muted);font-style:italic;line-height:1.5}
+.fc-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.fc-btn{display:flex;align-items:center;gap:6px;padding:12px 24px;border-radius:100px;border:1px solid var(--border2);background:var(--card);color:var(--accent);font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .3s}
+.fc-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fc-btn.shuffle{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.fc-counter{text-align:center;font-size:.85rem;color:var(--muted);font-weight:500}
+
+/* ===== STUDY TIMER ===== */
+#timer-widget{position:fixed;bottom:24px;right:24px;z-index:998;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:20px;padding:16px;box-shadow:var(--shadow2);width:180px;transition:all .3s}
+.timer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.timer-header button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;padding:2px}
+.timer-ring-wrap{position:relative;width:80px;height:80px;margin:0 auto 12px}
+.timer-svg{width:80px;height:80px;transform:rotate(-90deg)}
+.timer-ring-bg{fill:none;stroke:var(--border2);stroke-width:5}
+.timer-ring-fg{fill:none;stroke:url(#timerGrad);stroke-width:5;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:0;transition:stroke-dashoffset .5s}
+.timer-time{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--text)}
+.timer-btns{display:flex;gap:6px;justify-content:center}
+.timer-btns button{flex:1;padding:7px 0;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s}
+.timer-btns button:hover{background:var(--accent);color:#fff}
+
+/* ===== SINHALA POPUP ===== */
+#sinhala-popup{display:none;position:fixed;z-index:2000;background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow2);max-width:320px;animation:fadeUp .3s ease}
+#sinhala-popup .pop-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;color:var(--accent);margin-bottom:8px}
+#sinhala-popup .pop-body{font-size:.85rem;color:var(--text);line-height:1.6}
+#sinhala-popup .pop-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem}
+
+/* ===== BACK TO TOP ===== */
+#back-top{position:fixed;bottom:220px;right:24px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s;z-index:997;box-shadow:var(--shadow)}
+#back-top.show{opacity:1;transform:translateY(0)}
+#back-top:hover{background:var(--accent);color:#fff}
+
+/* ===== FOOTER ===== */
+footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-inner p{font-size:.82rem;color:var(--muted);line-height:1.7}
+.footer-inner strong{color:var(--accent)}
+.footer-id{display:inline-block;background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:4px 14px;border-radius:100px;font-size:.75rem;color:var(--accent);font-weight:600;margin-top:8px}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== COPY NOTES ===== */
+.copy-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .3s}
+.copy-btn:hover{background:var(--accent);color:#fff}
+
+/* ===== PRINT ===== */
+@media print{
+  #loader,#timer-widget,#back-top,.sticky-nav,.bubbles,header+div,#sinhala-popup{display:none!important}
+  .topic-body{max-height:none!important}
+  body{background:#fff;color:#000}
+}
+</style>
 </head>
-<body data-theme="light">
+<body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <div class="loader-text">PREMIUM LEARNING PLATFORM</div>
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">Loading Lecture...</div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- BUBBLES -->
+<div class="bubbles" id="bubbles"></div>
+
+<!-- SINHALA POPUP -->
+<div id="sinhala-popup">
+  <button class="pop-close" onclick="closePopup()"><i class="fas fa-times"></i></button>
+  <div class="pop-title">🇱🇰 සිංහල පැහැදිළි කිරීම</div>
+  <div class="pop-body" id="popup-text"></div>
+</div>
+
+<!-- HEADER -->
+<header id="top">
+  <div class="header-left">
+    <a href="../subjects/mgbm1403.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+    <div>
+      <div class="header-logo">MGBM1403</div>
+      <div class="header-sub">Introduction to ICT — Week 01</div>
     </div>
+    <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
+  </div>
+  <div class="header-right">
+    <button class="fullscreen-btn" id="fsBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+    <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+  </div>
+</header>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="scrollTo2('vocab')"><i class="fas fa-book"></i> Vocabulary</button>
+    <button class="nav-btn" onclick="scrollTo2('lecture')"><i class="fas fa-graduation-cap"></i> Lecture</button>
+    <button class="nav-btn" onclick="scrollTo2('examples')"><i class="fas fa-lightbulb"></i> Examples</button>
+    <button class="nav-btn" onclick="scrollTo2('summary')"><i class="fas fa-list-check"></i> Summary</button>
+    <button class="nav-btn" onclick="scrollTo2('flashcards')"><i class="fas fa-layer-group"></i> Flashcards</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero reveal">
+    <div class="hero-tag"><i class="fas fa-microchip"></i>&nbsp; Introduction to ICT — Week 01</div>
+    <h1>Concepts of Information and Communication Technology</h1>
+    <div class="hero-meta">
+      <div class="hero-chip"><i class="fas fa-hashtag"></i> <span>MGBM1403</span></div>
+      <div class="hero-chip"><i class="fas fa-calendar"></i> <span>Year 1 — Semester 1</span></div>
+      <div class="hero-chip"><i class="fas fa-book-open"></i> <span>Week 01 — Lecture 01</span></div>
+      <div class="hero-chip"><i class="fas fa-id-card"></i> <span>COM/BMgt-558/IFLS26-15/0001</span></div>
     </div>
+    <p class="hero-lecturer" style="margin-top:18px"><strong>M. Manosha Eronne Cooray</strong> &nbsp;·&nbsp; BSc (Hons) in Software Engineering &nbsp;·&nbsp; Lecturer, Faculty of Computing</p>
+  </div>
 
-    <div class="bg-bubbles" id="bubbleContainer"></div>
-
-    <header>
-        <nav class="navbar">
-            <a href="#" class="nav-logo">
-                <span>ICT BRIDGING HUBS</span>
-                <span class="nav-student-id"><i class="fa-solid fa-id-badge"></i> COM/BMgt-558/IFLS26-15/0001</span>
-            </a>
-            
-            <ul class="nav-links">
-                <li><a href="#vocabulary" class="nav-link-item">Vocabulary</a></li>
-                <li><a href="#lecture" class="nav-link-item">Lecture</a></li>
-                <li><a href="#examples" class="nav-link-item">Examples</a></li>
-                <li><a href="#summary" class="nav-link-item">Summary</a></li>
-                <li><a href="#flashcards" class="nav-link-item">Flashcards</a></li>
-            </ul>
-
-            <div class="nav-controls">
-                <button class="btn-action-top" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i> Read</button>
-                <button class="btn-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle Dark Mode">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-            </div>
-        </nav>
-    </header>
-
-    <main class="main-container">
-
-        <div class="hero section-reveal">
-            <span class="meta-badge">Management Bridging Programme</span>
-            <h1>Introduction to ICT</h1>
-            <p>Concepts of Information and Communication Technology – Part 1. High-fidelity web presentation matching advanced corporate educational standard profiles.</p>
-            <div class="hero-meta">
-                <span class="meta-badge"><i class="fa-solid fa-layer-group"></i> Week 01</span>
-                <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> M. Manosha Eronne Cooray</span>
-                <span class="meta-badge"><i class="fa-solid fa-graduation-cap"></i> Faculty of Computing</span>
-            </div>
-        </div>
-
-        <section id="vocabulary" class="glass-card section-reveal">
-            <h2 class="section-title"><i class="fa-solid fa-book-bookmark"></i> SECTION 01: KEY VOCABULARY</h2>
-            <div class="search-wrapper">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="vocabSearch" class="search-input" placeholder="Search parameters inside vocabulary base..." oninput="filterVocabulary()">
-            </div>
-            
-            <div class="vocab-grid" id="vocabGrid">
-                <div class="vocab-card" data-word="computer system">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Computer System</span>
-                        <span class="sinhala-badge">පරිගණක පද්ධතිය</span>
-                    </div>
-                    <p class="vocab-def">Combination of hardware and software to produce information from raw data.</p>
-                </div>
-                <div class="vocab-card" data-word="hardware">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Hardware</span>
-                        <span class="sinhala-badge">දෘඩාංග</span>
-                    </div>
-                    <p class="vocab-def">The physical and tangible components of a computer device that can be touched.</p>
-                </div>
-                <div class="vocab-card" data-word="software">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Software</span>
-                        <span class="sinhala-badge">මෘදුකාංග</span>
-                    </div>
-                    <p class="vocab-def">Intangible sequence of digital instructions and commands written according to strict roles.</p>
-                </div>
-                <div class="vocab-card" data-word="peripheral">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Peripheral Device</span>
-                        <span class="sinhala-badge">පර්යන්ත උපාංග</span>
-                    </div>
-                    <p class="vocab-def">Auxiliary external hardware components linked to the system module for operational processing.</p>
-                </div>
-                <div class="vocab-card" data-word="cpu">
-                    <div class="vocab-header">
-                        <span class="vocab-word">CPU</span>
-                        <span class="sinhala-badge">මධ්‍යම සැකසුම් ඒකකය</span>
-                    </div>
-                    <p class="vocab-def">Central Processing Unit responsible for handling mathematical logic calculations and instruction cycles.</p>
-                </div>
-                <div class="vocab-card" data-word="gpu">
-                    <div class="vocab-header">
-                        <span class="vocab-word">GPU</span>
-                        <span class="sinhala-badge">ප්‍රස්තාරික සැකසුම් ඒකකය</span>
-                    </div>
-                    <p class="vocab-def">Graphics Processing Unit optimized for rendering matrix computations and displays.</p>
-                </div>
-                <div class="vocab-card" data-word="ram">
-                    <div class="vocab-header">
-                        <span class="vocab-word">RAM</span>
-                        <span class="sinhala-badge">සසම්භාවී ප්‍රවේශ මතකය</span>
-                    </div>
-                    <p class="vocab-def">Random Access Memory providing fast volatile working runtime access pipelines to active applications.</p>
-                </div>
-                <div class="vocab-card" data-word="ssd">
-                    <div class="vocab-header">
-                        <span class="vocab-word">SSD</span>
-                        <span class="sinhala-badge">ඝන තත්ත්ව තැටිය</span>
-                    </div>
-                    <p class="vocab-def">Solid State Drive utilising flash microchips for persistent high-speed execution media storage.</p>
-                </div>
-                <div class="vocab-card" data-word="motherboard">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Motherboard</span>
-                        <span class="sinhala-badge">මව් පුවරුව</span>
-                    </div>
-                    <p class="vocab-def">The primary underlying integrated circuit chassis routing power and communications across system parts.</p>
-                </div>
-                <div class="vocab-card" data-word="router">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Router</span>
-                        <span class="sinhala-badge">රවුටරය</span>
-                    </div>
-                    <p class="vocab-def">A networking node directing network data packets between local networks and the broader internet infrastructure.</p>
-                </div>
-                <div class="vocab-card" data-word="modem">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Modem</span>
-                        <span class="sinhala-badge">මොඩමයට</span>
-                    </div>
-                    <p class="vocab-def">Modulator-Demodulator bridging analogue signals from carriers to local network digital paths.</p>
-                </div>
-                <div class="vocab-card" data-word="input device">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Input Device</span>
-                        <span class="sinhala-badge">ආදාන උපාංගය</span>
-                    </div>
-                    <p class="vocab-def">Any piece of equipment sending transactional interface data telemetry to system engines.</p>
-                </div>
-                <div class="vocab-card" data-word="output device">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Output Device</span>
-                        <span class="sinhala-badge">ප්‍රතිදාන උපාංගය</span>
-                    </div>
-                    <p class="vocab-def">Hardware translating processed abstract data streams into readable structures for humans.</p>
-                </div>
-                <div class="vocab-card" data-word="storage device">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Storage Device</span>
-                        <span class="sinhala-badge">ගබඩා උපාංගය</span>
-                    </div>
-                    <p class="vocab-def">A system unit holding digital metrics permanently or transiently across electrical states.</p>
-                </div>
-                <div class="vocab-card" data-word="communication device">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Communication Device</span>
-                        <span class="sinhala-badge">සන්නිවේදන උපාංගය</span>
-                    </div>
-                    <p class="vocab-def">Hardware modules permitting systems to wire or transmit packets outward securely.</p>
-                </div>
-                <div class="vocab-card" data-word="hdmi">
-                    <div class="vocab-header">
-                        <span class="vocab-word">HDMI</span>
-                        <span class="sinhala-badge">එච්.ඩී.එම්.අයි.</span>
-                    </div>
-                    <p class="vocab-def">High-Definition Multimedia Interface linking display modules via unified stream formats.</p>
-                </div>
-                <div class="vocab-card" data-word="usb">
-                    <div class="vocab-header">
-                        <span class="vocab-word">USB</span>
-                        <span class="sinhala-badge">යූ.එස්.බී.</span>
-                    </div>
-                    <p class="vocab-def">Universal Serial Bus establishing modern electrical signal routing and peripheral interfacing norms.</p>
-                </div>
-                <div class="vocab-card" data-word="display port">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Display Port</span>
-                        <span class="sinhala-badge">ඩිස්ප්ලේ පෝර්ට්</span>
-                    </div>
-                    <p class="vocab-def">Advanced digital video and audio packaging pipeline for ultra-high refresh rendering.</p>
-                </div>
-                <div class="vocab-card" data-word="ethernet">
-                    <div class="vocab-header">
-                        <span class="vocab-word">Ethernet</span>
-                        <span class="sinhala-badge">ඊතර්නෙට්</span>
-                    </div>
-                    <p class="vocab-def">Physical copper topology wiring frameworks connecting workstations directly into local nodes.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="lecture" class="glass-card section-reveal">
-            <h2 class="section-title"><i class="fa-solid fa-graduation-cap"></i> SECTION 02: FULL LECTURE CONTENT</h2>
-            
-            <div class="lecture-controls">
-                <button class="btn-secondary" onclick="expandAllAccordions()"><i class="fa-solid fa-folder-open"></i> Expand All</button>
-                <button class="btn-secondary" onclick="collapseAllAccordions()"><i class="fa-solid fa-folder"></i> Collapse All</button>
-                <button class="btn-secondary" id="sinhalaGlobalToggle" onclick="toggleSinhalaExplanationMode()"><i class="fa-solid fa-language"></i> 🇱🇰 Sinhala Explanations OFF</button>
-                <button class="btn-secondary" onclick="copyNotes()"><i class="fa-solid fa-copy"></i> Copy Lecture Notes</button>
-            </div>
-
-            <div class="topic-accordion" id="lectureAccordion">
-                
-                <div class="accordion-item open">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>1. Course Architecture & Learning Setup</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 1-3</span>
-                            <div class="lecture-text">
-                                <p><strong>Management Bridging Programme</strong><br>Introduction to ICT<br>Week 01<br>Concepts of Information and Communication Technology – P1</p>
-                                <div class="sinhala-explanation">කළමනාකරණ පරිපථ පරිශීලන පාඨමාලාව - තොරතුරු සහ සන්නිවේදන තාක්ෂණ හැඳින්වීම - සතිය 01.</div>
-                                
-                                <h3>Objectives</h3>
-                                <ul>
-                                    <li>Student should be able to understand how computer has evolved and how it has changes</li>
-                                    <li>Student should be able to understand the differences happen in each generation</li>
-                                    <li>Student should be able to understand computers have different types based on different criteria</li>
-                                </ul>
-                                <div class="sinhala-explanation">අරමුණු: පරිගණකය පරිණාමය වූ ආකාරය සහ එක් එක් පරම්පරා අතර වෙනස්කම් මෙන්ම ඒවා වර්ගීකරණය වන නිර්ණායක හඳුනා ගැනීම.</div>
-
-                                <h3>Learning Outcomes</h3>
-                                <ul>
-                                    <li><strong>LO1</strong> Identify the components and functions of a computer</li>
-                                    <li><strong>LO2</strong> Recognize appropriate web development tools and related digital technologies</li>
-                                    <li><strong>LO3</strong> Illustrate the acquired knowledge on computer and office packages into a real-world context</li>
-                                    <li><strong>LO4</strong> Discuss the classroom learning pertaining to information technology in other subject disciplines</li>
-                                </ul>
-                                <div class="sinhala-explanation">ඉගෙනුම් ඵල: පරිගණක කොටස් හඳුනා ගැනීම, වෙබ් සංවර්ධන මෙවලම්, කාර්යාලීය මෘදුකාංග ප්‍රායෝගිකව භාවිතය හා වෙනත් විෂයන් සමඟ තොරතුරු තාක්ෂණය සම්බන්ධ කිරීම.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>2. Introduction to Computing Engines & Core Systems</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 4-7</span>
-                            <div class="lecture-text">
-                                <h3>Content Syllabus Layout</h3>
-                                <ol>
-                                    <li>1.0 Concepts of Information and Communication Technology</li>
-                                    <li>1.1 Introduction to computers
-                                        <ul>
-                                            <li>1.1.1 History of the computers to the present date</li>
-                                            <li>1.1.2 Classification of computers</li>
-                                        </ul>
-                                    </li>
-                                </ol>
-
-                                <h3>What is a Computer?</h3>
-                                <p>“It’s an electronic device that accepts raw data as an input and process it using instructions, stores it and output as information for an organization.”</p>
-                                <div class="sinhala-explanation">පරිගණකයක් යනු අමු දත්ත ආදානයක් ලෙස ලබාගෙන, උපදෙස් අනුව සකස් කර, තොරතුරු ප්‍රතිදානයක් ලෙස ලබාදෙන ඉලෙක්ට්‍රොනික උපාංගයකි.</div>
-
-                                <h3>What is a Computer System?</h3>
-                                <p>“Combination of hardware, software, to produce information from data.”</p>
-                                <div class="sinhala-explanation">පරිගණක පද්ධතියක් යනු දත්ත ඇසුරෙන් තොරතුරු නිපදවීම සඳහා දෘඩාංග සහ මෘදුකාංග ඒකාබද්ධ වූ ව්‍යුහයකි.</div>
-
-                                <h3>Types of Computers</h3>
-                                <ul>
-                                    <li>Desktops</li>
-                                    <li>Laptops</li>
-                                    <li>Servers</li>
-                                    <li>Mobile Devices</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 9-10</span>
-                            <div class="lecture-text">
-                                <h3>Hardware Definition</h3>
-                                <p>“Physical and tangible parts of the computer”</p>
-                                <p>Examples: Mouse, Keyboard, Speakers, System Module, Monitor</p>
-                                <div class="sinhala-explanation">දෘඩාංග යනු පරිගණකයක භෞතිකව ස්පර්ශ කළ හැකි අංගයන් වේ (උදා: යතුරුපුවරුව, මූසිකය, මොනිටරය).</div>
-
-                                <h3>Software Definition</h3>
-                                <p>“Intangible part of computer. Consists sequence of commands written according to strict roles.”</p>
-                                <p>Examples: Windows 11, Windows 10, MS Paint, Zoom ...</p>
-                                <div class="sinhala-explanation">මෘදුකාංග යනු පරිගණකයේ ස්පර්ශ කළ නොහැකි කොටසයි. එය දැඩි නීතිරීතිවලට අනුව ලියන ලද අනුක්‍රමික විධාන මාලාවකි (උදා: වින්ඩෝස් 11, සූම්).</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>3. Deep Chronological Evolutionary History Milestones</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 11-13</span>
-                            <div class="lecture-text">
-                                <h3>The Key Milestones of Computing Devices (8 Key Milestones)</h3>
-                                
-                                <h4>1. Early Counting Devices (Pre-Computer Era)</h4>
-                                <ul>
-                                    <li><strong>The Abacus (4000BCE):</strong> Addition and subtraction. Used for calculations.</li>
-                                    <li><strong>Napier Bones (1617):</strong> Able to multiply and divide. Introduced concept of decimal point.</li>
-                                </ul>
-                                <div class="sinhala-explanation">මුල්කාලීන ගණන් කිරීමේ උපකරණ: ඇබකසය (එකතු කිරීම හා අඩු කිරීම) සහ නේපියර් බෝන්ස් (ගුණ කිරීම, බෙදීම සහ දශම ලක්ෂ්‍යය හඳුන්වා දීම).</div>
-
-                                <h4>2. Mechanical Calculators (17th – 19th Century)</h4>
-                                <ul>
-                                    <li><strong>Pascaline (1642 – 1644):</strong> Blaise Pascal developed this. First Mechanical calculator. Can add and subtract.</li>
-                                    <li><strong>Stepped Reckoner (1673):</strong> Improved version of Pascal developed by Gottfried Wilhelm Leibniz. Addition, subtraction, multiplication and division.</li>
-                                    <li><strong>Difference Engine (1820):</strong> Charles Babbage – “Father of Modern Computing” designed it.</li>
-                                    <li><strong>Analytical Engine (1830):</strong> General purpose mechanical computer. It had a control unit, memory and an input/output system using punch cards.</li>
-                                </ul>
-                                <div class="sinhala-explanation">යාන්ත්‍රික කැල්කියුලේටර: පැස්කලයින්, ස්ටෙප්ඩ් රෙකනර්, සහ චාල්ස් බැබේජ් (නවීන පරිගණකයේ පියා) විසින් නිර්මාණය කළ ඩිෆරන්ස් හා ඇනලිටිකල් එන්ජිම.</div>
-
-                                <h4>3. The Rise of Electronic Computing (1930s-1940s)</h4>
-                                <ul>
-                                    <li><strong>Tabulating Machine (1890):</strong> Based on punch cards.</li>
-                                    <li><strong>Differential Analyzer (1930s):</strong> First electronic computer. Use vacuum tubes.</li>
-                                    <li><strong>Mark 1 (1937):</strong> Howard Aiken developed, IBM and Harvard built it. First programmable digital computer.</li>
-                                </ul>
-                                <div class="sinhala-explanation">ඉලෙක්ට්‍රොනික පරිගණක නැගී සිටීම: පන්ච් කාඩ් පදනම් කරගත් ටැබියුලේටින් යන්ත්‍රය, වැකියුම් ටියුබ් සහිත ඩිෆරන්ෂල් ඇනලයිසර් සහ මාර්ක් 1.</div>
-                            </div>
-                        </div>
-
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 14-17</span>
-                            <div class="lecture-text">
-                                <h4>4. The Era of Transistors (1950s – 1960s)</h4>
-                                <ul>
-                                    <li><strong>Transistor Computers (1950s):</strong> More compact affordable machines developed because transistors were smaller, reliable and energy efficient.</li>
-                                    <li><strong>UNIVAC 1 (1951):</strong> Eckert and Mauchly developed it. First commercially successful computer. Used for scientific and business applications.</li>
-                                </ul>
-
-                                <h4>5. The Rise of Integrated Circuits (1960s – 1970s)</h4>
-                                <ul>
-                                    <li><strong>Integrated Circuits (1960s):</strong> Integrated Circuits (ICs) are used. Multiple transistors are placed in ICs. Reduced size and cost of computers.</li>
-                                    <li><strong>IBM System/360 (1964):</strong> First mainframe computer to utilize ICs. It set the new standard for computing in business.</li>
-                                    <li><strong>Minicomputers & Microcomputers:</strong> Computer size shrinks further. Affordability increased. Paved the way for the personal computer revolution. e.g., PDP-8, PDP-11.</li>
-                                </ul>
-
-                                <h4>6. The Personal Computer Revolution (1970s – 1980s)</h4>
-                                <ul>
-                                    <li><strong>Apple II (1977):</strong> Developed by Steve Jobs & Steve Wozniak. Able to run basic word processors and games.</li>
-                                    <li><strong>IBM PC (1981)</strong></li>
-                                    <li><strong>The Macintosh (1984):</strong> Graphical User Interface (GUI) was introduced.</li>
-                                </ul>
-                                <div class="sinhala-explanation">පුද්ගලික පරිගණක විප්ලවය: ඇපල් II පරිගණකය සහ මැකින්ටොෂ් (ප්‍රථම වරට ප්‍රස්තාරික පරිශීලක අතුරුමුහුණත හෙවත් GUI හඳුන්වා දීම).</div>
-
-                                <h4>7. The Internet and Networking (1990s – Present)</h4>
-                                <ul>
-                                    <li><strong>The World Wide Web (WWW) (1990s):</strong> Tim Berners Lee invented it. Internet browsers were created (e.g., Netscape Navigator, Internet Explorer).</li>
-                                    <li><strong>Cloud Computing (2000s – present):</strong> Introduction to services like Google Drive, Dropbox and Amazon Web Services (AWS).</li>
-                                </ul>
-
-                                <h4>8. The Modern Day and the Future of Computing</h4>
-                                <ul>
-                                    <li><strong>Artificial Intelligence (AI):</strong> Machine learning and deep learning algorithms are used. They can make decisions, recognize patterns, and understand human language. E.g., virtual assistants, autonomous vehicles.</li>
-                                    <li><strong>Quantum Computing (Emerging):</strong> Able to solve complex problems.</li>
-                                    <li><strong>The Internet of Things (IoT):</strong> E.g., Smart home, wearable watches, IoT devices.</li>
-                                </ul>
-                                <div class="sinhala-explanation">නූතන හා අනාගත පරිගණක ක්ෂේත්‍රය: කෘතිම බුද්ධිය (AI), ක්වොන්ටම් පරිගණක සහ ඉන්ටර්නෙට් ඔෆ් තින්ග්ස් (IoT) තාක්ෂණයන්.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>4. The Generational Changes Matrices</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 18</span>
-                            <div class="table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Feature</th>
-                                            <th>1st Generation (1940-1956)</th>
-                                            <th>2nd Generation (1957-1963)</th>
-                                            <th>3rd Generation (1964-1971)</th>
-                                            <th>4th Generation (1971-1980)</th>
-                                            <th>5th Generation (1980-Present)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Core Tech</strong></td>
-                                            <td>Vacuum Tubes</td>
-                                            <td>Transistors</td>
-                                            <td>Integrated Circuits (ICs)</td>
-                                            <td>Very Large Scale Integrated (VLSI)</td>
-                                            <td>Ultra Large Scale (ULSI) / AI</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Speed</strong></td>
-                                            <td>Slow</td>
-                                            <td>Faster than 1st Gen</td>
-                                            <td>Faster than 2nd Gen</td>
-                                            <td>Faster than 3rd Gen</td>
-                                            <td>Faster than 4th Gen</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Size</strong></td>
-                                            <td>Huge</td>
-                                            <td>Smaller than 1st Gen</td>
-                                            <td>Smaller than 2nd Gen</td>
-                                            <td>Smaller than 3rd Gen</td>
-                                            <td>Smaller than 4th Gen</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Cost</strong></td>
-                                            <td>Expensive</td>
-                                            <td>Less expensive than 1st</td>
-                                            <td>Less expensive than 2nd</td>
-                                            <td>Less expensive than 3rd</td>
-                                            <td>Less expensive / Mass market</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Examples</strong></td>
-                                            <td>ENIAC, EDVAC</td>
-                                            <td>IBM 1620, CDC 3600</td>
-                                            <td>Honeywell-600, IBM-370</td>
-                                            <td>STAR 1000, PDP 11</td>
-                                            <td>Desktop, Laptop, Ultrabook</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="sinhala-explanation">පරිගණක පරම්පරා සංසන්දනය: වැකියුම් ටියුබ් සිට ට්‍රාන්සිස්ටර, අයි.සී (IC) සහ වී.එල්.එස්.අයි (VLSI) හරහා කෘතිම බුද්ධිය දක්වා වේගය සහ ප්‍රමාණය වැඩි දියුණු වීම්.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>5. Complete Multi-Criteria Classifications Matrix</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 19-21</span>
-                            <p>Computers are classified based on the following factors: Size, Functionality, Purpose, Performance, Data Handling.</p>
-                            
-                            <h3>1. Classification Based on Size</h3>
-                            <div class="table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Computer Type</th>
-                                            <th>Processing Power</th>
-                                            <th>Memory Size</th>
-                                            <th>Special Requirements</th>
-                                            <th>Usage & Examples</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Supercomputer</strong></td>
-                                            <td>Higher</td>
-                                            <td>High</td>
-                                            <td>Controlled cooling</td>
-                                            <td>Scientific research, weather forecasting (IBM Blue Gene, Cray XT5)</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Mainframe Computer</strong></td>
-                                            <td>Higher</td>
-                                            <td>High</td>
-                                            <td>Controlled cooling</td>
-                                            <td>Large organizations like banks (IBM Z series)</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Mini Computer</strong></td>
-                                            <td>High</td>
-                                            <td>High</td>
-                                            <td>Not high as Mainframe</td>
-                                            <td>Smaller businesses (DEC VAX)</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Micro Computer</strong></td>
-                                            <td>Low</td>
-                                            <td>Low</td>
-                                            <td>Small / Standard</td>
-                                            <td>Personal computer, laptops (HP, Dell laptops)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <h4>Embedded Computers</h4>
-                            <p>“Embedded computers are also a type; however, they are not directly related because they are specialized and built into a device for a specialized task.”</p>
-                            <p>Examples: Smart TVs, Washing Machines, Microwave Ovens</p>
-                            <div class="sinhala-explanation">එම්බෙඩඩ් (Embedded) පරිගණක යනු යම් නිශ්චිත කාර්යයක් සඳහා උපකරණයක් තුළම සවි කර ඇති විශේෂිත පරිගණක විශේෂයකි (උදා: රදවන සේදුම් යන්ත්‍ර, මයික්‍රොවේව් උඳුන්).</div>
-                        </div>
-
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 22-24</span>
-                            <h3>2. Based on Functionality / Technology</h3>
-                            <ul>
-                                <li><strong>Analog:</strong> Process continuous data. Used for real-time simulations. Used in scientific research, engineering and control systems. E.g., speedometers, Thermometers, Radar systems.</li>
-                                <li><strong>Digital:</strong> Process discrete data – binary (0,1). Used for arithmetic and logical operations. Used in personal computers, smartphones.</li>
-                                <li><strong>Hybrid:</strong> Combination of analog and digital. E.g., Heart rate monitor, Digital thermometer.</li>
-                            </ul>
-                            <div class="sinhala-explanation">තාක්ෂණය අනුව වර්ගීකරණය: ඇනලොග් (අඛණ්ඩ දත්ත), ඩිජිටල් (බිටු 0, 1 දත්ත) සහ හයිබ්‍රිඩ් (දෙකෙහිම එකතුවක් වන හෘද ස්පන්දන මොනිටර).</div>
-
-                            <h3>3. Based on Purpose</h3>
-                            <ul>
-                                <li><strong>Workstations:</strong> Processing and graphic power is higher than regular PCs. E.g., Computer-Aided Design (CAD) Workstations, Video editing workstations.</li>
-                                <li><strong>Servers:</strong> Made to serve other devices (clients) within a network. E.g., Web servers, Database servers, File servers, Mail servers.</li>
-                            </ul>
-
-                            <h3>4. Based on Data Handling</h3>
-                            <ul>
-                                <li><strong>Batch Processing Systems:</strong> Processes are batched together into large batches and processed sequentially and in an orderly manner without user interaction. E.g., payroll system, banking system, Billing systems, Inventory management.</li>
-                                <li><strong>Real-Time Systems:</strong> Processed data immediately at once. E.g., Air traffic control systems, Industrial automation systems, Autonomous Vehicles.</li>
-                                <li><strong>Online Processing Systems:</strong> Data is processed at real time over a network. E.g., E-commerce websites, Online banking systems, reservation systems.</li>
-                            </ul>
-                            <div class="sinhala-explanation">දත්ත හැසිරවීම අනුව: බැලන්ස් (Batch) සැකසුම්, රියල්-ටයිම් (Real-time) ක්ෂණික පද්ධති සහ ඔන්ලයින් ජාලගත සැකසුම් ක්‍රමවේදයන්.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <span>6. Summary Review & Text References</span>
-                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="slide-block">
-                            <span class="slide-num">Slide 25-27</span>
-                            <h3>Summary Core Evaluation</h3>
-                            <ul>
-                                <li>Computers didn’t pop up as it is. It has evolved through time with different technologies.</li>
-                                <li>Each generational change resulted in a better improved system compared to predecessors.</li>
-                                <li>We are living in the current generation (generation 5).</li>
-                                <li>Computers are classified based on different criteria. Each criterion has its own reasons for categorization.</li>
-                            </ul>
-
-                            <h3>References Textbooks</h3>
-                            <ul>
-                                <li>R. E. Bryant and D. R. O’Hallaron, <em>Computer Systems: A Programmer’s Perspective</em>, 3rd ed. Boston, MA, USA: Pearson, 2016.</li>
-                                <li>E. G. Swedin and D. L. Ferro, <em>The Computer: A Brief History of the Machine That Changed the World</em>. Santa Barbara, CA, USA: ABC-CLIO, 2005.</li>
-                                <li>G. Celebic and D. I. Rendulic, <em>Basic Concepts of Information and Communication Technology Handbook</em>. Zagreb, Croatia: ODRAZ, 2011.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="examples" class="glass-card section-reveal">
-            <h2 class="section-title"><i class="fa-solid fa-lightbulb"></i> SECTION 03: EXAMPLES WORKSPACE</h2>
-            <div class="examples-grid">
-                <div class="example-card">
-                    <span class="example-tag">Lecture Extraction</span>
-                    <h3 class="example-title">Embedded Tasks</h3>
-                    <p class="example-desc">Washing machines, digital micro-ovens, and smart television micro-controllers handling highly single operational instruction patterns perfectly.</p>
-                </div>
-                <div class="example-card">
-                    <span class="example-tag">Lecture Extraction</span>
-                    <h3 class="example-title">Batch Processing System</h3>
-                    <p class="example-desc">Large corporate payroll engines and institutional billing pipelines processing queued data blocks sequential-wise during non-peak operating windows.</p>
-                </div>
-                <div class="example-card">
-                    <span class="example-tag">Real-World Case Study</span>
-                    <h3 class="example-title">Computer System Integration</h3>
-                    <p class="example-desc">An automated airline booking workspace combining physical counter terminals (hardware) with enterprise flight database software matrices to stream seat allocations real-time.</p>
-                </div>
-                <div class="example-card">
-                    <span class="example-tag">Real-World Case Study</span>
-                    <h3 class="example-title">Hardware Orchestration</h3>
-                    <p class="example-desc">Advanced high-refresh biometric security terminals piping scanner optics and thermal camera telemetry streams into the host processing matrix via physical high-speed USB hubs.</p>
-                </div>
-                <div class="example-card">
-                    <span class="example-tag">Real-World Case Study</span>
-                    <h3 class="example-title">Software Compilation Layer</h3>
-                    <p class="example-desc">Medical automation operating systems running strict deterministic process code loops to trigger radiation or dosing steps safely without structural frame delay.</p>
-                </div>
-                <div class="example-card">
-                    <span class="example-tag">Real-World Case Study</span>
-                    <h3 class="example-title">Peripheral Interfacing</h3>
-                    <p class="example-desc">High-speed media mixing desks connecting multi-channel audio cards via complex DisplayPort/HDMI lines to process high-fidelity waveforms instantly.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="summary" class="glass-card section-reveal">
-            <h2 class="section-title"><i class="fa-solid fa-list-check"></i> SECTION 04: KNOWLEDGE REVIEW & SUMMARY</h2>
-            <div class="summary-wrapper">
-                <div>
-                    <h3>Main Takeaways</h3>
-                    <p style="line-height: 1.6; color: var(--text-secondary); margin-bottom: 15px;">
-                        The technological shift spanning vacuum tubes to emerging artificial intelligence models exhibits an exponential reduction in form-factor concurrently with radical boosts in compute performance boundaries. Systems tracking distinct operational archetypes remain tailored intentionally along size, operational purpose, or metrics deployment rules.
-                    </p>
-                    <h4 style="margin-bottom: 10px;">What You Should Know After This Lecture:</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Complete the checklist opposite to assess personal learning performance against targeted course goals.</p>
-                </div>
-                
-                <div class="checklist-container">
-                    <h3 class="checklist-title">Learning Milestone Checklist</h3>
-                    
-                    <div class="checklist-item" onclick="toggleChecklistItem(this)">
-                        <div class="checklist-checkbox"><i class="fa-solid fa-check"></i></div>
-                        <span class="checklist-text">Understand Computer Systems architecture</span>
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklistItem(this)">
-                        <div class="checklist-checkbox"><i class="fa-solid fa-check"></i></div>
-                        <span class="checklist-text">Identify Hardware Components properly</span>
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklistItem(this)">
-                        <div class="checklist-checkbox"><i class="fa-solid fa-check"></i></div>
-                        <span class="checklist-text">Identify Software Types and deployment steps</span>
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklistItem(this)">
-                        <div class="checklist-checkbox"><i class="fa-solid fa-check"></i></div>
-                        <span class="checklist-text">Explain Peripheral Devices and system layout links</span>
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklistItem(this)">
-                        <div class="checklist-checkbox"><i class="fa-solid fa-check"></i></div>
-                        <span class="checklist-text">Differentiate Hardware & Software mechanisms cleanly</span>
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklistItem(this)">
-                        <div class="checklist-checkbox"><i class="fa-solid fa-check"></i></div>
-                        <span class="checklist-text">Recognize Computer Ports and transmission wiring standards</span>
-                    </div>
-
-                    <div class="checklist-progress-bar">
-                        <div class="checklist-progress-fill" id="checklistProgress"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="flashcards" class="glass-card section-reveal">
-            <h2 class="section-title"><i class="fa-solid fa-clone"></i> SECTION 05: INTERACTIVE FLASHCARDS</h2>
-            <div class="flashcard-section-layout">
-                <div class="flashcard-container" onclick="flipCard()">
-                    <div class="flashcard" id="flashcardElement">
-                        <div class="card-face card-front">
-                            <span class="card-tag">Question Layer</span>
-                            <div class="card-question" id="cardQuestion">Loading cards database module...</div>
-                            <small style="margin-top: 20px; color: var(--text-secondary);"><i class="fa-solid fa-rotate"></i> Click to Flip</small>
-                        </div>
-                        <div class="card-face card-back">
-                            <span class="card-tag">Answer Layer</span>
-                            <div class="card-question" id="cardAnswer">Loading card answers...</div>
-                            <div class="card-answer-sinhala" id="cardAnswerSinhala">සිංහල පරිවර්තනය මෙතනින් පෙන්වයි.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard-controls">
-                    <button class="btn-round" onclick="prevFlashcard(); event.stopPropagation();" aria-label="Previous Card"><i class="fa-solid fa-arrow-left"></i></button>
-                    <span class="card-indicator" id="cardIndicator">Card 1 / 10</span>
-                    <button class="btn-round" onclick="shuffleFlashcards(); event.stopPropagation();" aria-label="Shuffle"><i class="fa-solid fa-shuffle"></i></button>
-                    <button class="btn-round" onclick="nextFlashcard(); event.stopPropagation();" aria-label="Next Card"><i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <div class="floating-widgets-container">
-        <div class="timer-widget">
-            <div class="timer-circle-wrap">
-                <svg class="timer-svg">
-                    <circle class="circle-bg" cx="30" cy="30" r="27.5"></circle>
-                    <circle class="circle-progress" id="timerProgressCircle" cx="30" cy="30" r="27.5"></circle>
-                </svg>
-                <div class="timer-display" id="timerDisplay">30:00</div>
-            </div>
-            <div class="timer-info">
-                <span class="timer-title">Study Session</span>
-                <div class="timer-buttons">
-                    <button class="timer-btn" onclick="startTimer()" title="Start"><i class="fa-solid fa-play"></i></button>
-                    <button class="timer-btn" onclick="pauseTimer()" title="Pause"><i class="fa-solid fa-pause"></i></button>
-                    <button class="timer-btn" onclick="resetTimer()" title="Reset"><i class="fa-solid fa-arrow-rotate-left"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <button class="btn-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to Top"><i class="fa-solid fa-arrow-up"></i></button>
+  <!-- ============ SECTION 01: VOCABULARY ============ -->
+  <section id="vocab" style="margin-bottom:60px">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-book"></i> 01</div>
+      <div class="section-title">Key Vocabulary</div>
+      <div class="section-line"></div>
     </div>
-
-    <div class="popup-overlay" id="globalPopup" onclick="closePopup()">
-        <div class="popup-card" onclick="event.stopPropagation()">
-            <button class="popup-close" onclick="closePopup()"><i class="fa-solid fa-xmark"></i></button>
-            <div class="popup-title">Concept Explanation Module</div>
-            <div class="popup-body" id="popupBody">Concept contents text details.</div>
-        </div>
+    <div class="search-wrap reveal">
+      <i class="fas fa-search"></i>
+      <input type="text" id="vocab-search" placeholder="Search vocabulary terms..."/>
     </div>
+    <div class="vocab-grid" id="vocab-grid"></div>
+  </section>
 
-    <footer>
-        <div class="footer-content">
-            <div>
-                <p>&copy; 2026 Faculty of Computing - Management Bridging Programme Hub</p>
-                <p style="font-size: 0.75rem; margin-top: 4px;">Dynamic Educational Single-File Presentation Frame</p>
-            </div>
-            <div>
-                <span class="meta-badge" style="background: var(--border); color: var(--text); font-weight: 700;">
-                    STUDENT ID: COM/BMgt-558/IFLS26-15/0001
-                </span>
-            </div>
+  <!-- ============ SECTION 02: LECTURE ============ -->
+  <section id="lecture" style="margin-bottom:60px">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-graduation-cap"></i> 02</div>
+      <div class="section-title">Full Lecture Content</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="expand-bar reveal">
+      <button onclick="expandAll()"><i class="fas fa-expand-alt"></i> Expand All</button>
+      <button onclick="collapseAll()"><i class="fas fa-compress-alt"></i> Collapse All</button>
+      <button class="sinhala-toggle" id="sinBtn" onclick="toggleSinhala()">🇱🇰 Sinhala Explanations <span id="sin-status">OFF</span></button>
+      <button class="copy-btn" onclick="copyNotes()"><i class="fas fa-copy"></i> Copy Notes</button>
+    </div>
+    <div id="lecture-blocks"></div>
+  </section>
+
+  <!-- ============ SECTION 03: EXAMPLES ============ -->
+  <section id="examples" style="margin-bottom:60px">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-lightbulb"></i> 03</div>
+      <div class="section-title">Examples</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="examples-grid" id="examples-grid"></div>
+  </section>
+
+  <!-- ============ SECTION 04: SUMMARY ============ -->
+  <section id="summary" style="margin-bottom:60px">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-list-check"></i> 04</div>
+      <div class="section-title">Summary & Checklist</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="summary-grid reveal" id="summary-grid"></div>
+    <div class="checklist-wrap reveal">
+      <div class="checklist-title"><i class="fas fa-tasks" style="color:var(--accent)"></i> What You Should Know After This Lecture</div>
+      <div class="checklist-progress"><div class="checklist-bar" id="check-bar"></div></div>
+      <div id="checklist"></div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 05: FLASHCARDS ============ -->
+  <section id="flashcards" style="margin-bottom:60px">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-layer-group"></i> 05</div>
+      <div class="section-title">Flashcards</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="fc-wrap reveal">
+      <div class="fc-card" id="fc-card" onclick="flipCard()">
+        <div class="fc-face fc-front" id="fc-front">
+          <svg width="0" height="0"><defs><linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7c3aed"/><stop offset="100%" style="stop-color:#a855f7"/></linearGradient></defs></svg>
+          <div class="fc-q-label">Question</div>
+          <div class="fc-question" id="fc-question"></div>
+          <div class="fc-hint">Tap to flip ↩</div>
         </div>
-    </footer>
+        <div class="fc-face fc-back" id="fc-back">
+          <div class="fc-a-label">Answer</div>
+          <div class="fc-answer" id="fc-answer"></div>
+          <div class="fc-sinhala" id="fc-sinhala"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-controls reveal">
+      <button class="fc-btn" onclick="prevCard()"><i class="fas fa-arrow-left"></i> Previous</button>
+      <button class="fc-btn shuffle" onclick="shuffleCards()"><i class="fas fa-shuffle"></i> Shuffle</button>
+      <button class="fc-btn" onclick="nextCard()">Next <i class="fas fa-arrow-right"></i></button>
+    </div>
+    <div class="fc-counter reveal" id="fc-counter"></div>
+  </section>
 
-    <script>
-        // Flashcard content matrix setup configuration array
-        const flashcardsData = [
-            { q: "What is a computer system according to slide content?", a: "Combination of hardware and software to produce information from raw data.", s: "දත්ත මඟින් තොරතුරු නිපදවීම සඳහා දෘඩාංග සහ මෘදුකාංග එකිනෙක සම්බන්ධ වූ පද්ධතියකි." },
-            { q: "Who is recognized as the Father of Modern Computing?", a: "Charles Babbage, who designed the Difference Engine in 1820.", s: "චාල්ස් බැබේජ්, 1820 වසරේදී ඔහු ඩිෆරන්ස් එන්ජිම සැලසුම් කළේය." },
-            { q: "What primary core engineering technology belongs to Third Generation computing structures?", a: "Integrated Circuits (ICs).", s: "තෙවන පරම්පරාවේ ප්‍රධාන තාක්ෂණික මෙවලම වනුයේ ඒකාබද්ධ පරිපථ (ICs) වේ." },
-            { q: "Define what a Batch Processing System means.", a: "Processes are batched together and executed sequentially without user interaction.", s: "පරිශීලක මැදිහත්වීමකින් තොරව ක්‍රියාවලීන් කාණ්ඩ ලෙස එකතු කර අනුක්‍රමිකව ක්‍රියාත්මක කරන පද්ධතියකි." },
-            { q: "List three corporate or enterprise style storage node server system classifications.", a: "Web servers, Database servers, and File servers.", s: "වෙබ් සේවාදායකයන් (Web servers), දත්ත සමුදාය සේවාදායකයන් (Database) සහ ගොනු සේවාදායකයන් (File)." },
-            { q: "What are the primary performance and engineering traits of Analog Computers?", a: "They process continuous computational data fields used for real-time physics measurements.", s: "භෞතික විද්‍යාත්මක මිනුම් වැනි අඛණ්ඩ දත්ත ක්ෂේත්‍ර තත්කාලීනව සැකසීම සිදු කරයි." },
-            { q: "Which computer milestone introduced the very first Graphical User Interface (GUI)?", a: "The Apple Macintosh machine launched in 1984.", s: "1984 වසරේදී හඳුන්වා දුන් ඇපල් මැකින්ටොෂ් පරිගණක පද්ධතිය මඟින්." },
-            { q: "Give three structural hardware system examples extracted from slide notes.", a: "Mouse, Keyboard, Speakers, System Module, and Monitor frames.", s: "මූසිකය, යතුරුපුවරුව, ස්පීකර්, පද්ධති මොඩියුලය සහ මොනිටරය." },
-            { q: "What logic components are embedded into Modern Day Fifth Generation architectures?", a: "Artificial Intelligence (AI), Machine Learning, and Deep Learning computational algorithms.", s: "කෘතිම බුද්ධිය (AI), මැෂින් ලර්නින් සහ ඩීප් ලර්නින් ඇල්ගොරිතම පද්ධතීන්." },
-            { q: "What makes Embedded Computers unique compared to typical Microcomputers?", a: "They are specialized and built into an electronic appliance to tackle one specialized task.", s: "යම් නිශ්චිත කාර්යයක් සඳහාම පමණක් වෙනත් උපකරණයක් තුළම විශේෂිතව නිපදවා ඇති කොටසක් වීම." }
-        ];
+</main>
 
-        let currentCardIndex = 0;
-        let activeFlashcards = [...flashcardsData];
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <p><strong>MGBM1403</strong> — Introduction to Information & Communication Technology</p>
+    <p>Management Bridging Programme &nbsp;·&nbsp; Week 01 — Concepts of ICT</p>
+    <p>Lecturer: <strong>M. Manosha Eronne Cooray</strong> &nbsp;|&nbsp; BSc (Hons) Software Engineering</p>
+    <div class="footer-id">Student ID: COM/BMgt-558/IFLS26-15/0001</div>
+  </div>
+</footer>
 
-        // Core App Lifecycle Methods
-        window.addEventListener('DOMContentLoaded', () => {
-            // Hide Loader Screen
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 300);
-            }, 800);
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
-            // Initialize Background Bubbles
-            initBackgroundBubbles();
+<!-- STUDY TIMER -->
+<div id="timer-widget">
+  <div class="timer-header">
+    <span><i class="fas fa-clock"></i> Study Timer</span>
+    <button onclick="document.getElementById('timer-widget').style.display='none'" title="Hide"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="timer-ring-wrap">
+    <svg class="timer-svg" viewBox="0 0 80 80">
+      <defs><linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7c3aed"/><stop offset="100%" style="stop-color:#a855f7"/></linearGradient></defs>
+      <circle class="timer-ring-bg" cx="40" cy="40" r="35"/>
+      <circle class="timer-ring-fg" id="timer-ring" cx="40" cy="40" r="35"/>
+    </svg>
+    <div class="timer-time" id="timer-display">30:00</div>
+  </div>
+  <div class="timer-btns">
+    <button id="timer-start" onclick="timerStart()">Start</button>
+    <button onclick="timerPause()">Pause</button>
+    <button onclick="timerReset()">Reset</button>
+  </div>
+</div>
 
-            // Sync Local Storage Configurations
-            initLocalStorageData();
+<script>
+// ===== DATA =====
+const VOCAB = [
+  {w:"Computer",s:"පරිගණකය",d:"An electronic device that accepts raw data, processes it with instructions, stores it, and outputs information."},
+  {w:"Hardware",s:"දෘඩාංග",d:"Physical and tangible parts of a computer such as mouse, keyboard, monitor, and system unit."},
+  {w:"Software",s:"මෘදුකාංග",d:"Intangible part of a computer; a sequence of commands/programs (e.g., Windows 11, MS Paint, Zoom)."},
+  {w:"Computer System",s:"පරිගණක පද්ධතිය",d:"A combination of hardware and software that works together to produce information from data."},
+  {w:"Input Device",s:"ආදාන උපාංගය",d:"Devices used to enter data into a computer (e.g., keyboard, mouse, scanner)."},
+  {w:"Output Device",s:"ප්‍රතිදාන උපාංගය",d:"Devices that display or produce processed results (e.g., monitor, printer, speakers)."},
+  {w:"CPU",s:"මධ්‍යම සැකසුම් ඒකකය",d:"Central Processing Unit — the brain of the computer that executes instructions."},
+  {w:"RAM",s:"අහඹු ප්‍රවේශ මතකය",d:"Random Access Memory — temporary memory used while the computer is on."},
+  {w:"Storage Device",s:"ගබඩා උපාංගය",d:"Devices used to store data permanently (e.g., SSD, hard drive, USB drive)."},
+  {w:"Peripheral",s:"ආශ්‍රිත උපාංග",d:"External devices connected to a computer to expand its functionality (e.g., printer, webcam)."},
+  {w:"Abacus",s:"ගණනය කිරීමේ රාමුව",d:"An ancient counting device (4000 BCE) used for addition and subtraction calculations."},
+  {w:"Vacuum Tube",s:"රික්තක නාලිකාව",d:"Electronic component used in first-generation computers; large, slow, and generated excessive heat."},
+  {w:"Transistor",s:"ට්‍රාන්සිස්ටරය",d:"Semiconductor device that replaced vacuum tubes in 2nd generation computers; smaller and more reliable."},
+  {w:"Integrated Circuit",s:"ඒකාබද්ධ පරිපථය",d:"A chip containing multiple transistors; used in 3rd generation computers to reduce size and cost."},
+  {w:"VLSI",s:"ඉතා විශාල පරිමාණ ඒකාබද්ධ",d:"Very Large Scale Integrated circuits used in 4th generation computers; enabled microprocessors."},
+  {w:"Supercomputer",s:"අති-පරිගණකය",d:"Highest performance computer used for scientific research and weather forecasting (e.g., IBM Blue Gene)."},
+  {w:"Mainframe",s:"ප්‍රධාන රාමු පරිගණකය",d:"High-capacity computer used by large organizations like banks (e.g., IBM Z series)."},
+  {w:"Analog Computer",s:"ප්‍රතිරූප පරිගණකය",d:"Processes continuous data; used in scientific research and control systems (e.g., speedometers)."},
+  {w:"Digital Computer",s:"ඩිජිටල් පරිගණකය",d:"Processes discrete binary data (0s and 1s); used in personal computers and smartphones."},
+  {w:"GUI",s:"චිත්‍රක පරිශීලක අතුරු මුහුණත",d:"Graphical User Interface — introduced with the Macintosh (1984); allows visual interaction with computers."},
+  {w:"Cloud Computing",s:"වලාකුළු ගණනය",d:"Internet-based computing services like Google Drive, Dropbox, and AWS, available since the 2000s."},
+  {w:"Artificial Intelligence",s:"කෘත්‍රිම බුද්ධිය",d:"Computer systems that can make decisions, recognize patterns, and understand human language."},
+  {w:"IoT",s:"දේවල් අන්තර්ජාලය",d:"Internet of Things — network of smart devices like smart home appliances and wearable watches."},
+  {w:"Quantum Computing",s:"ක්වොන්ටම් ගණනය",d:"Emerging computing technology that can solve complex problems beyond classical computers."},
+];
 
-            // Setup Navigation Scroll Spy
-            window.addEventListener('scroll', handleWindowScrollActions);
+const LECTURE_TOPICS = [
+  {
+    title:"Objectives & Learning Outcomes",
+    content:`<h4>Objectives</h4>
+    <p data-sin="සිසුවාට පරිගණකය කෙසේ විකාශනය වූයේද සහ කෙසේ වෙනස් වූයේද යන්න තේරුම් ගැනීමට හැකි විය යුතුය.">Students should be able to understand how computers have evolved and changed over time.</p>
+    <p data-sin="සෑම පරම්පරාවකදීම සිදු වූ වෙනස්කම් අවබෝධ කර ගත යුතුය.">Students should understand the differences that happened in each generation of computers.</p>
+    <p data-sin="විවිධ නිර්ණායක මත පදනම්ව පරිගණකවල විවිධ වර්ග ඇති බව තේරුම් ගත යුතුය.">Students should understand that computers have different types based on different criteria.</p>
+    <h4>Learning Outcomes (LOs)</h4>
+    <ul>
+      <li><strong>LO1</strong> — Identify the components and functions of a computer</li>
+      <li><strong>LO2</strong> — Recognize appropriate web development tools and related digital technologies</li>
+      <li><strong>LO3</strong> — Illustrate the acquired knowledge on computer and office packages into a real-world context</li>
+      <li><strong>LO4</strong> — Discuss the classroom learning pertaining to information technology in other subject disciplines</li>
+    </ul>`
+  },
+  {
+    title:"Introduction to Computers",
+    content:`<h4>What is a Computer?</h4>
+    <p data-sin="පරිගණකය යනු අමු දත්ත ආදානය ලෙස ගෙන, උපදෙස් භාවිතා කර සකසා, ගබඩා කර, ප්‍රතිදානය ලෙස තොරතුරු ලබා දෙන ඉලෙක්ට්‍රොනික උපකරණයකි.">"It's an electronic device that accepts raw data as an input and process it using instructions, stores it and output as information for an organization."</p>
+    <h4>What is a Computer System?</h4>
+    <p data-sin="දත්තවලින් තොරතුරු නිපදවීමට hardware සහ software ඒකාබද්ධ කිරීමකි.">"Combination of hardware, software, to produce information from data."</p>
+    <h4>Types of Computers</h4>
+    <ul><li>Desktops</li><li>Laptops</li><li>Servers</li><li>Mobile Devices</li></ul>
+    <h4>Hardware</h4>
+    <p data-sin="Hardware යනු පරිගණකයේ භෞතික හා ස්පර්ශ කළ හැකි කොටස් ය. උදා: Mouse, Keyboard, Speakers, Monitor.">"Physical and tangible parts of the computer" — e.g. Mouse, Keyboard, Speakers, System unit, Monitor.</p>
+    <h4>Software</h4>
+    <p data-sin="Software යනු පරිගණකයේ අස්පර්ශ කොටස. දැඩි රීති අනුව ලිවූ විධාන අනුක්‍රමයකින් සමන්විතය. උදා: Windows 11, MS Paint, Zoom.">Intangible part of the computer. Consists of a sequence of commands written according to strict rules. e.g. Windows 11, Windows 10, MS Paint, Zoom.</p>`
+  },
+  {
+    title:"History of Computers — Early Counting Devices",
+    content:`<p data-sin="පරිගණනය ප්‍රධාන සන්ධිස්ථාන 8ක් ඔස්සේ ගොඩ නැඟුණි.">There are 8 key milestones in the history of computing devices.</p>
+    <h4>Early Counting Devices (Pre-Computer Era)</h4>
+    <ul>
+      <li><strong>The Abacus (4000 BCE)</strong> — Used for addition and subtraction calculations</li>
+      <li><strong>Napier Bones (1617)</strong> — Able to multiply and divide; introduced the concept of the decimal point</li>
+    </ul>
+    <h4>Mechanical Calculators (17th – 19th Century)</h4>
+    <ul>
+      <li><strong>Pascaline (1642–1644)</strong> — Developed by Blaise Pascal; first mechanical calculator; could add and subtract</li>
+      <li><strong>Stepped Reckoner (1673)</strong> — Improved version by Gottfried Wilhelm Leibniz; addition, subtraction, multiplication and division</li>
+      <li><strong>Difference Engine (1820)</strong> — Designed by Charles Babbage — "Father of Modern Computing"</li>
+    </ul>
+    <h4>Analytical Engine (1830)</h4>
+    <p data-sin="1830 දී නිර්මාණය කළ සාමාන්‍ය අරමුණු යාන්ත්‍රික පරිගණකය. එය punch cards භාවිත කරන control unit, memory සහ input/output system ඇතුළත් විය.">General purpose mechanical computer. Had a control unit, memory and an input/output system using punch cards.</p>`
+  },
+  {
+    title:"History of Computers — Electronic Era",
+    content:`<h4>The Rise of Electronic Computing (1930s–1940s)</h4>
+    <ul>
+      <li><strong>Tabulating Machine (1890)</strong> — Based on punch cards</li>
+      <li><strong>Differential Analyzer (1930s)</strong> — First electronic computer; used vacuum tubes</li>
+      <li><strong>Mark 1 (1937)</strong> — Developed by Howard Aiken; built by IBM and Harvard; first programmable digital computer</li>
+    </ul>
+    <h4>The Era of Transistors (1950s–1960s)</h4>
+    <ul>
+      <li><strong>Transistor Computers (1950s)</strong> — Smaller, reliable and energy efficient machines</li>
+      <li><strong>UNIVAC 1 (1951)</strong> — Developed by Eckert and Mauchly; first commercially successful computer; used for scientific and business applications</li>
+    </ul>
+    <h4>The Rise of Integrated Circuits (1960s–1970s)</h4>
+    <ul>
+      <li><strong>Integrated Circuits (1960s)</strong> — Multiple transistors placed in ICs; reduced size and cost</li>
+      <li><strong>IBM System/360 (1964)</strong> — First mainframe computer to utilize ICs; set a new standard for business computing</li>
+    </ul>
+    <h4>Minicomputers & Microcomputers</h4>
+    <p data-sin="පරිගණකයේ ප්‍රමාණය තවදුරටත් අඩු වී, Affordability වැඩිවී, personal computer revolution සඳහා මඟ පාදා දෙන ලදී.">Computer size shrinks further; affordability increased; paved the way for the personal computer revolution. e.g. PDP-8, PDP-11</p>`
+  },
+  {
+    title:"History of Computers — Personal Computer & Internet Era",
+    content:`<h4>The Personal Computer Revolution (1970s–1980s)</h4>
+    <ul>
+      <li><strong>Apple II (1977)</strong> — Developed by Steve Jobs & Steve Wozniak; able to run basic word processors and games</li>
+      <li><strong>IBM PC (1981)</strong> — Standardized personal computing</li>
+      <li><strong>The Macintosh (1984)</strong> — Graphical User Interface (GUI) was introduced</li>
+    </ul>
+    <h4>The Internet and Networking (1990s–Present)</h4>
+    <ul>
+      <li><strong>World Wide Web (WWW) (1990s)</strong> — Invented by Tim Berners-Lee; internet browsers created (e.g., Netscape Navigator, Internet Explorer)</li>
+      <li><strong>Cloud Computing (2000s–present)</strong> — Services like Google Drive, Dropbox and Amazon Web Services (AWS)</li>
+    </ul>
+    <h4>The Modern Day & Future of Computing</h4>
+    <ul>
+      <li><strong>Artificial Intelligence (AI)</strong> — Machine learning and deep learning algorithms; can make decisions, recognize patterns, understand human language; e.g., virtual assistants, autonomous vehicles</li>
+      <li><strong>Quantum Computing (Emerging)</strong> — Able to solve complex problems beyond classical computing</li>
+      <li><strong>Internet of Things (IoT)</strong> — e.g., Smart home, wearable watches, IoT devices</li>
+    </ul>`
+  },
+  {
+    title:"Generations of Computers",
+    content:`<p data-sin="පරිගණකයේ පරම්පරා 5ක් ඇති අතර, සෑම පරම්පරාවක්ම කලින් පරම්පරාවට වඩා වේගවත්, කුඩා හා මිල අඩු විය.">Computers evolved through 5 generations, each faster, smaller, and cheaper than the previous.</p>
+    <div style="overflow-x:auto"><table class="gen-table">
+      <thead><tr><th>Generation</th><th>Period</th><th>Technology</th><th>Features</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1st</strong></td><td>1940–1956</td><td>Vacuum Tubes</td><td>Slow, Huge, Expensive</td><td>—</td></tr>
+        <tr><td><strong>2nd</strong></td><td>1957–1963</td><td>Transistor</td><td>Faster, Smaller, Less expensive than 1st</td><td>IBM 1620, CDC 3600</td></tr>
+        <tr><td><strong>3rd</strong></td><td>1960s–1970s</td><td>Integrated Circuits (ICs)</td><td>Faster & smaller than 2nd</td><td>Honeywell-600 series, IBM-370</td></tr>
+        <tr><td><strong>4th</strong></td><td>1971–1980</td><td>VLSI Circuits</td><td>Faster & smaller than 3rd</td><td>STAR 1000, PDP 11</td></tr>
+        <tr><td><strong>5th</strong></td><td>1980–Present</td><td>AI & Internet</td><td>Fastest, Smallest, AI-powered</td><td>Desktop, Laptop, Notebook, Ultrabook</td></tr>
+      </tbody>
+    </table></div>`
+  },
+  {
+    title:"Classification of Computers",
+    content:`<p data-sin="පරිගණක ප්‍රමාණය, ක්‍රියාකාරිත්වය, අරමුණ, කාර්යක්ෂමතාව සහ දත්ත හැසිරවීම යන නිර්ණායක මත වර්ගීකරණය කෙරේ.">Computers are classified based on: Size, Functionality, Purpose, Performance, and Data Handling.</p>
+    <h4>Based on Size</h4>
+    <div style="overflow-x:auto"><table class="gen-table">
+      <thead><tr><th>Type</th><th>Processing</th><th>Memory</th><th>Usage</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Supercomputer</td><td>Highest</td><td>High</td><td>Scientific research, weather forecasting</td><td>IBM Blue Gene, Cray XT5</td></tr>
+        <tr><td>Mainframe</td><td>Higher</td><td>High</td><td>Large organizations (e.g., banks)</td><td>IBM Z series</td></tr>
+        <tr><td>Mini Computer</td><td>High</td><td>High</td><td>Smaller businesses</td><td>DEC VAX</td></tr>
+        <tr><td>Micro Computer</td><td>Low</td><td>Low</td><td>Personal computer, laptops</td><td>HP, Dell laptops</td></tr>
+      </tbody>
+    </table></div>
+    <p data-sin="Embedded computers ද ඇත; ඒවා නිශ්චිත කාර්යයක් සඳහා ගොඩ නැඟී ඇත. උදා: Smart TVs, Washing Machines, Microwave Ovens.">Embedded computers are also a type; specialized and built into a device for a specific task. e.g. Smart TVs, Washing Machines, Microwave Ovens.</p>
+    <h4>Based on Functionality / Technology</h4>
+    <ul>
+      <li><strong>Analog</strong> — Process continuous data; used for real time simulations, scientific research, engineering. e.g. Speedometers, Thermometers, Radar systems</li>
+      <li><strong>Digital</strong> — Process discrete binary data (0,1); used for arithmetic and logical operations. e.g. Personal computers, smartphones</li>
+      <li><strong>Hybrid</strong> — Combination of analog and digital. e.g. Heart rate monitor, Digital thermometer</li>
+    </ul>
+    <h4>Based on Purpose</h4>
+    <ul>
+      <li><strong>Workstations</strong> — Higher processing and graphics power. e.g. CAD workstations, video editing workstations</li>
+      <li><strong>Servers</strong> — Made to serve other devices within a network. e.g. Web servers, Database servers, File servers, Mail servers</li>
+    </ul>
+    <h4>Based on Data Handling</h4>
+    <ul>
+      <li><strong>Batch Processing</strong> — Processes batched together sequentially without user interaction. e.g. Payroll system, banking system, billing systems, inventory management</li>
+      <li><strong>Real-Time Systems</strong> — Processed immediately. e.g. Air traffic control systems, industrial automation, autonomous vehicles</li>
+      <li><strong>Online Processing Systems</strong> — Data processed in real time over a network. e.g. E-commerce websites, online banking, reservation systems</li>
+    </ul>`
+  },
+  {
+    title:"Summary & References",
+    content:`<h4>Summary</h4>
+    <ul>
+      <li>Computers didn't pop up as they are — they evolved through time with different technologies</li>
+      <li>Each generational change resulted in a better, improved system compared to predecessors</li>
+      <li>We are living in the current generation (Generation 5)</li>
+      <li>Computers are classified based on different criteria</li>
+      <li>Each criterion has its own reasons to categorize them</li>
+    </ul>
+    <h4>Brief on Next Week</h4>
+    <ul>
+      <li>Computer systems</li><li>Peripherals of computer systems</li>
+      <li>Hardware & Software</li><li>Connecting Peripherals</li>
+    </ul>
+    <h4>References</h4>
+    <ul>
+      <li>R. E. Bryant and D. R. O'Hallaron, <em>Computer Systems: A Programmer's Perspective</em>, 3rd ed. Boston, MA: Pearson, 2016.</li>
+      <li>E. G. Swedin and D. L. Ferro, <em>The Computer: A Brief History of the Machine That Changed the World</em>. Santa Barbara: ABC-CLIO, 2005.</li>
+      <li>G. Celebic and D. I. Rendulic, <em>Basic Concepts of ICT Handbook</em>. Zagreb: ODRAZ, 2011.</li>
+    </ul>`
+  },
+];
 
-            // Setup Interactive Document Paragraph Popups
-            initParagraphPopups();
+const EXAMPLES = [
+  {c:"c1",icon:"fas fa-desktop",label:"Lecture Example",title:"Computer System",body:"A desktop PC in a university lab: the monitor, keyboard, and mouse are hardware; Windows OS and MS Word are software. Together they form a complete computer system."},
+  {c:"c2",icon:"fas fa-calculator",label:"Real-World Example",title:"Abacus to AI",body:"From the Abacus (4000 BCE) used by ancient merchants to modern AI virtual assistants like Siri, the computing journey spans thousands of years of innovation."},
+  {c:"c3",icon:"fas fa-server",label:"Real-World Example",title:"Mainframe in Banking",body:"Sri Lanka's major banks use IBM Z-series mainframe computers to process millions of transactions daily, ensuring reliability and high-speed data handling."},
+  {c:"c4",icon:"fas fa-cloud",label:"Real-World Example",title:"Cloud Computing",body:"When you store photos on Google Drive or stream Netflix, you're using cloud computing — remote servers processing and delivering data over the internet."},
+  {c:"c5",icon:"fas fa-microchip",label:"Lecture Example",title:"Hardware vs Software",body:"Your smartphone's screen, battery, and chips are hardware. WhatsApp, your gallery app, and Android OS are software. Both must work together for the phone to function."},
+  {c:"c6",icon:"fas fa-network-wired",label:"Real-World Example",title:"IoT in Daily Life",body:"A smart home system uses IoT: your smart TV, air conditioner remote, and smartwatch are all embedded computers connected to the internet and each other."},
+];
 
-            // Flashcards initialization
-            renderFlashcard();
-        });
+const SUMMARY_CARDS = [
+  {title:"⚡ Main Points",items:["Computers evolved from Abacus (4000 BCE) to AI-powered systems","5 generations of computers, each better than the last","Computer system = Hardware + Software","Classification by size, function, purpose, data handling"]},
+  {title:"🎯 Key Takeaways",items:["Analog processes continuous data; Digital processes binary (0s & 1s)","Supercomputers → Mainframes → Mini → Micro computers","GUI introduced in 1984 with Macintosh","Internet & Cloud Computing transformed modern computing"]},
+  {title:"📌 Important Concepts",items:["Charles Babbage = Father of Modern Computing","Tim Berners-Lee invented the World Wide Web","AI uses machine learning & deep learning","IoT connects everyday devices to the internet"]},
+];
 
-        // Floating Bubbles Factory
-        function initBackgroundBubbles() {
-            const container = document.getElementById('bubbleContainer');
-            const bubbleCount = 12;
-            for(let i=0; i < bubbleCount; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
-                const size = Math.random() * 60 + 40;
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                bubble.style.left = `${Math.random() * 100}%`;
-                bubble.style.animationDelay = `${Math.random() * 8}s`;
-                bubble.style.animationDuration = `${Math.random() * 15 + 15}s`;
-                container.appendChild(bubble);
-            }
-        }
+const CHECKS = [
+  "Understand what a Computer System is",
+  "Identify types of computers (Desktop, Laptop, Server, Mobile)",
+  "Explain the difference between Hardware and Software",
+  "Describe the 5 generations of computers",
+  "Distinguish Analog, Digital, and Hybrid computers",
+  "Classify computers by size (Super, Mainframe, Mini, Micro)",
+  "Recall key milestones in computing history",
+  "Understand modern computing trends (AI, IoT, Cloud)",
+];
 
-        // Local Storage State Setup
-        function initLocalStorageData() {
-            const savedTheme = localStorage.getItem('ict_hub_theme') || 'light';
-            document.body.setAttribute('data-theme', savedTheme);
-            updateThemeToggleButtonIcon(savedTheme);
+const FLASHCARDS = [
+  {q:"What is a Computer?",a:"An electronic device that accepts raw data as input, processes it using instructions, stores it, and outputs information.",s:"ආදාන දත්ත ගෙන, උපදෙස් අනුව සකසා, ගබඩා කර, ප්‍රතිදාන ලෙස තොරතුරු ලබා දෙන ඉලෙක්ට්‍රොනික උපකරණයකි."},
+  {q:"Who is the Father of Modern Computing?",a:"Charles Babbage, who designed the Difference Engine (1820) and the Analytical Engine (1830).",s:"Charles Babbage 'නූතන ගණනය කිරීමේ පිය' ලෙස හැඳින්වේ. ඔහු Difference Engine සහ Analytical Engine නිර්මාණය කළේය."},
+  {q:"What technology did 1st generation computers use?",a:"Vacuum Tubes — large, slow, expensive, and generated excessive heat.",s:"1 වන පරම්පරා පරිගණකවල Vacuum Tubes භාවිත විය. ඒවා විශාල, මන්දගාමී, මිල අධික හා ඉතා රත් විය."},
+  {q:"What is the difference between Hardware and Software?",a:"Hardware is the physical/tangible parts; Software is intangible — programs and commands that run on hardware.",s:"Hardware = ස්පර්ශ කළ හැකි, දෘශ්‍ය කොටස්. Software = ස්පර්ශ කළ නොහැකි, programs සහ commands."},
+  {q:"Who invented the World Wide Web?",a:"Tim Berners-Lee invented the WWW in the 1990s.",s:"Tim Berners-Lee 1990 දශකයේ World Wide Web (WWW) නිර්මාණය කළේය."},
+  {q:"What are the 5 types of computers based on size?",a:"Supercomputer, Mainframe, Mini Computer, Micro Computer, and Embedded Computer.",s:"ප්‍රමාණය අනුව: Supercomputer, Mainframe, Mini Computer, Micro Computer, Embedded Computer."},
+  {q:"What is Cloud Computing?",a:"Internet-based computing services (e.g., Google Drive, Dropbox, AWS) that provide storage and processing remotely.",s:"Internet හරහා ලබා දෙන ගණනය කිරීමේ සේවා. Google Drive, Dropbox, AWS ඊට නිදසුන්."},
+  {q:"What is the difference between Analog and Digital computers?",a:"Analog processes continuous data; Digital processes discrete binary data (0s and 1s).",s:"Analog = අඛණ්ඩ දත්ත. Digital = discrete binary (0,1) දත්ත."},
+  {q:"What is IoT?",a:"Internet of Things — a network of smart everyday devices connected to the internet.",s:"IoT = Internet of Things. Smart TV, smart watch, wearable devices ඇතුළු ස්මාර්ට් උපකරණ internet හා සම්බන්ධ ජාලය."},
+  {q:"What generation of computers do we currently use?",a:"5th Generation — powered by AI, Internet, and VLSI circuits. Includes desktops, laptops, notebooks, and ultrabooks.",s:"අපි දැනට 5 වන පරම්පරා පරිගණක භාවිත කරන්නෙමු. AI, Internet, VLSI circuits භාවිත වේ."},
+  {q:"What was the first commercially successful computer?",a:"UNIVAC 1 (1951), developed by Eckert and Mauchly, used for scientific and business applications.",s:"UNIVAC 1 (1951) = ප්‍රථම වාණිජ වශයෙන් සාර්ථක පරිගණකය. Eckert සහ Mauchly විසින් නිර්මාණය විය."},
+  {q:"What is a Batch Processing system?",a:"Processes are batched together and executed sequentially without user interaction. e.g., payroll, billing systems.",s:"Batch Processing = පරිශීලක ක්‍රියාකාරිත්වයකින් තොරව, sequentially process කෙරෙන ක්‍රමය. Payroll, billing systems ඊට නිදසුන්."},
+];
 
-            const checklistState = JSON.parse(localStorage.getItem('ict_hub_checklist')) || [];
-            const items = document.querySelectorAll('.checklist-item');
-            items.forEach((item, index) => {
-                if(checklistState[index]) {
-                    item.classList.add('checked');
-                }
-            });
-            updateChecklistProgressBar();
-        }
+// ===== INIT =====
+let sinMode=false, fcIdx=0, fcFlipped=false, fcOrder=[...Array(FLASHCARDS.length).keys()];
+let timerSec=1800, timerRunning=false, timerInterval;
 
-        // Theme Toggle Engine
-        function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme');
-            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.body.setAttribute('data-theme', nextTheme);
-            localStorage.setItem('ict_hub_theme', nextTheme);
-            updateThemeToggleButtonIcon(nextTheme);
-        }
+window.addEventListener('load',()=>{
+  // Theme
+  const saved=localStorage.getItem('ict-theme')||'light';
+  if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>';}
+  buildVocab(); buildLecture(); buildExamples(); buildSummary(); buildChecklist(); buildFlashcard();
+  createBubbles(); initScroll(); initReveal();
+  setTimeout(()=>{document.getElementById('loader').classList.add('hide');},1200);
+  fcIdx=parseInt(localStorage.getItem('ict-fc-idx')||'0')%FLASHCARDS.length;
+  renderCard();
+});
 
-        function updateThemeToggleButtonIcon(theme) {
-            const button = document.getElementById('themeToggle');
-            if(theme === 'dark') {
-                button.innerHTML = '<i class="fa-solid fa-sun"></i>';
-            } else {
-                button.innerHTML = '<i class="fa-solid fa-moon"></i>';
-            }
-        }
+function buildVocab(){
+  const g=document.getElementById('vocab-grid');
+  VOCAB.forEach((v,i)=>{
+    const d=document.createElement('div');
+    d.className='vocab-card';d.style.animationDelay=(i*.04)+'s';
+    d.dataset.word=v.w.toLowerCase();d.dataset.def=v.d.toLowerCase();
+    d.innerHTML=`<div class="vocab-word">${v.w}</div><span class="vocab-sinhala">${v.s}</span><div class="vocab-def">${v.d}</div>`;
+    g.appendChild(d);
+  });
+  document.getElementById('vocab-search').addEventListener('input',function(){
+    const q=this.value.toLowerCase().trim();
+    document.querySelectorAll('.vocab-card').forEach(c=>{
+      c.style.display=(c.dataset.word.includes(q)||c.dataset.def.includes(q))?'':'none';
+    });
+  });
+}
 
-        // Scroll Actions handler
-        function handleWindowScrollActions() {
-            // Progress bar update
-            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + "%";
+function buildLecture(){
+  const c=document.getElementById('lecture-blocks');
+  LECTURE_TOPICS.forEach((t,i)=>{
+    const b=document.createElement('div');b.className='topic-block reveal';
+    b.innerHTML=`<div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left"><div class="topic-num">${i+1}</div><div class="topic-title">${t.title}</div></div>
+      <i class="fas fa-chevron-down topic-chevron"></i>
+    </div>
+    <div class="topic-body"><div class="topic-content">${t.content}</div></div>`;
+    c.appendChild(b);
+  });
+  // Make paragraphs clickable for popup
+  document.querySelectorAll('.topic-content p[data-sin]').forEach(p=>{
+    p.addEventListener('click',function(e){showPopup(e,this.dataset.sin);});
+  });
+}
 
-            // Back to top indicator visibility
-            const backTopBtn = document.getElementById('backToTop');
-            if (winScroll > 400) {
-                backTopBtn.classList.add('visible');
-            } else {
-                backTopBtn.classList.remove('visible');
-            }
+function buildExamples(){
+  const g=document.getElementById('examples-grid');
+  EXAMPLES.forEach((ex,i)=>{
+    const d=document.createElement('div');
+    d.className=`example-card ${ex.c} reveal`;d.style.animationDelay=(i*.06)+'s';
+    d.innerHTML=`<div class="example-icon"><i class="${ex.icon}"></i></div>
+      <div class="example-label">${ex.label}</div>
+      <div class="example-title">${ex.title}</div>
+      <div class="example-body">${ex.body}</div>`;
+    g.appendChild(d);
+  });
+}
 
-            // Scrollspy element selector mapping rules
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            let currentActiveId = "";
+function buildSummary(){
+  const g=document.getElementById('summary-grid');
+  SUMMARY_CARDS.forEach((sc,i)=>{
+    const d=document.createElement('div');d.className='summary-card reveal';d.style.animationDelay=(i*.08)+'s';
+    d.innerHTML=`<h4>${sc.title}</h4><ul>${sc.items.map(it=>`<li>${it}</li>`).join('')}</ul>`;
+    g.appendChild(d);
+  });
+}
 
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 120;
-                if(winScroll >= sectionTop) {
-                    currentActiveId = section.getAttribute('id');
-                }
-            });
+function buildChecklist(){
+  const c=document.getElementById('checklist');
+  let done=JSON.parse(localStorage.getItem('ict-checks')||'[]');
+  CHECKS.forEach((ch,i)=>{
+    const d=document.createElement('div');
+    d.className='checklist-item'+(done.includes(i)?' done':'');
+    d.innerHTML=`<div class="check-box"></div><div class="check-label">${ch}</div><div class="checklist-count">${i+1}/${CHECKS.length}</div>`;
+    d.addEventListener('click',()=>{
+      d.classList.toggle('done');
+      let arr=JSON.parse(localStorage.getItem('ict-checks')||'[]');
+      if(d.classList.contains('done')){if(!arr.includes(i))arr.push(i);}else{arr=arr.filter(x=>x!==i);}
+      localStorage.setItem('ict-checks',JSON.stringify(arr));
+      updateCheckBar();
+    });
+    c.appendChild(d);
+  });
+  updateCheckBar();
+}
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if(link.getAttribute('href') === `#${currentActiveId}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
+function updateCheckBar(){
+  const done=document.querySelectorAll('.checklist-item.done').length;
+  document.getElementById('check-bar').style.width=(done/CHECKS.length*100)+'%';
+}
 
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+function buildFlashcard(){renderCard();}
 
-        // Vocabulary Filter Logic Engine
-        function filterVocabulary() {
-            const query = document.getElementById('vocabSearch').value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.vocab-card');
-            cards.forEach(card => {
-                const term = card.getAttribute('data-word');
-                if(term.includes(query)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+function renderCard(){
+  const fc=FLASHCARDS[fcOrder[fcIdx]];
+  document.getElementById('fc-question').textContent=fc.q;
+  document.getElementById('fc-answer').textContent=fc.a;
+  document.getElementById('fc-sinhala').textContent='🇱🇰 '+fc.s;
+  document.getElementById('fc-counter').textContent=`Card ${fcIdx+1} / ${FLASHCARDS.length}`;
+  document.getElementById('fc-card').classList.remove('flipped');
+  fcFlipped=false;
+  localStorage.setItem('ict-fc-idx',fcIdx);
+}
 
-        // Accordion Interaction Functions
-        function toggleAccordion(header) {
-            const item = header.parentElement;
-            item.classList.toggle('open');
-        }
+function flipCard(){document.getElementById('fc-card').classList.toggle('flipped');fcFlipped=!fcFlipped;}
+function nextCard(){fcIdx=(fcIdx+1)%FLASHCARDS.length;renderCard();}
+function prevCard(){fcIdx=(fcIdx-1+FLASHCARDS.length)%FLASHCARDS.length;renderCard();}
+function shuffleCards(){
+  for(let i=fcOrder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]];}
+  fcIdx=0;renderCard();
+}
 
-        function expandAllAccordions() {
-            document.querySelectorAll('.accordion-item').forEach(item => item.classList.add('open'));
-        }
+function toggleTopic(h){const b=h.parentElement;b.classList.toggle('open');}
+function expandAll(){document.querySelectorAll('.topic-block').forEach(b=>b.classList.add('open'));}
+function collapseAll(){document.querySelectorAll('.topic-block').forEach(b=>b.classList.remove('open'));}
 
-        function collapseAllAccordions() {
-            document.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('open'));
-        }
+function toggleSinhala(){
+  sinMode=!sinMode;
+  const btn=document.getElementById('sinBtn');
+  btn.classList.toggle('on',sinMode);
+  document.getElementById('sin-status').textContent=sinMode?'ON':'OFF';
+  document.querySelectorAll('.sinhala-exp').forEach(e=>e.classList.toggle('show',sinMode));
+  if(sinMode){
+    document.querySelectorAll('.topic-content p[data-sin]').forEach(p=>{
+      if(!p.nextElementSibling||!p.nextElementSibling.classList.contains('sinhala-exp')){
+        const exp=document.createElement('div');exp.className='sinhala-exp show';
+        exp.textContent='🇱🇰 '+p.dataset.sin;p.after(exp);
+      }
+    });
+  }
+}
 
-        // Sinhala Language Mode Toggle System
-        function toggleSinhalaExplanationMode() {
-            const accordion = document.getElementById('lectureAccordion');
-            const items = accordion.querySelectorAll('.accordion-item');
-            const globalButton = document.getElementById('sinhalaGlobalToggle');
-            
-            const isCurrentlyOn = items[0].classList.contains('sinhala-on');
-            
-            items.forEach(item => {
-                if(isCurrentlyOn) {
-                    item.classList.remove('sinhala-on');
-                } else {
-                    item.classList.add('sinhala-on');
-                }
-            });
+function showPopup(e,text){
+  const pop=document.getElementById('sinhala-popup');
+  document.getElementById('popup-text').textContent='🇱🇰 '+text;
+  pop.style.display='block';
+  let x=e.pageX+14,y=e.pageY-60;
+  if(x+340>window.innerWidth)x=e.pageX-320;
+  pop.style.left=x+'px';pop.style.top=y+'px';
+}
+function closePopup(){document.getElementById('sinhala-popup').style.display='none';}
+document.addEventListener('click',e=>{if(!e.target.closest('#sinhala-popup')&&!e.target.closest('[data-sin]'))closePopup();});
 
-            if(isCurrentlyOn) {
-                globalButton.innerHTML = '<i class="fa-solid fa-language"></i> 🇱🇰 Sinhala Explanations OFF';
-                globalButton.classList.remove('btn-sinhala-active');
-            } else {
-                globalButton.innerHTML = '<i class="fa-solid fa-language"></i> 🇱🇰 Sinhala Explanations ON';
-                globalButton.classList.add('btn-sinhala-active');
-            }
-        }
+function copyNotes(){
+  let txt='MGBM1403 — Introduction to ICT\n\n';
+  LECTURE_TOPICS.forEach(t=>{txt+=`== ${t.title} ==\n${t.content.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim()}\n\n`;});
+  navigator.clipboard.writeText(txt).then(()=>{alert('Notes copied to clipboard!');});
+}
 
-        // Interactive Paragraph click popups setup
-        function initParagraphPopups() {
-            const paragraphs = document.querySelectorAll('.lecture-text p');
-            paragraphs.forEach(p => {
-                p.addEventListener('click', () => {
-                    const block = p.closest('.lecture-text');
-                    const sinhalaBlock = block.querySelector('.sinhala-explanation');
-                    if(sinhalaBlock) {
-                        showPopup(p.innerText, sinhalaBlock.innerText);
-                    }
-                });
-            });
-        }
+function scrollTo2(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
 
-        function showPopup(engText, sinhalaText) {
-            const popup = document.getElementById('globalPopup');
-            const body = document.getElementById('popupBody');
-            body.innerHTML = `<strong>Original Context:</strong><br><p style="margin-bottom:12px; color:var(--text-secondary);">${engText}</p><strong>🇱🇰 සිංහල පැහැදිලි කිරීම:</strong><br><p style="color:var(--accent); font-weight:500;">${sinhalaText}</p>`;
-            popup.style.display = 'flex';
-        }
+// Scroll spy
+function initScroll(){
+  const sections=['vocab','lecture','examples','summary','flashcards'];
+  const btns=document.querySelectorAll('.nav-btn');
+  window.addEventListener('scroll',()=>{
+    // progress
+    const h=document.documentElement;
+    const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+    document.getElementById('progress-bar').style.width=pct+'%';
+    // back-top
+    document.getElementById('back-top').classList.toggle('show',h.scrollTop>400);
+    // spy
+    let cur=0;
+    sections.forEach((id,i)=>{
+      const el=document.getElementById(id);
+      if(el&&el.getBoundingClientRect().top<120)cur=i;
+    });
+    btns.forEach((b,i)=>b.classList.toggle('active',i===cur));
+  });
+}
 
-        function closePopup() {
-            document.getElementById('globalPopup').style.display = 'none';
-        }
+function initReveal(){
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}
 
-        // Checklist Engine
-        function toggleChecklistItem(item) {
-            item.classList.toggle('checked');
-            updateChecklistProgressBar();
+function createBubbles(){
+  const wrap=document.getElementById('bubbles');
+  const cols=['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
+  for(let i=0;i<18;i++){
+    const b=document.createElement('div');b.className='bubble';
+    const sz=Math.random()*80+30;
+    b.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
+    wrap.appendChild(b);
+  }
+}
 
-            // Save Checklist status to local storage
-            const items = document.querySelectorAll('.checklist-item');
-            const stateArr = [];
-            items.forEach(el => stateArr.push(el.classList.contains('checked')));
-            localStorage.setItem('ict_hub_checklist', JSON.stringify(stateArr));
-        }
+// Theme toggle
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('themeBtn').innerHTML=isDark?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme',isDark?'light':'dark');
+});
 
-        function updateChecklistProgressBar() {
-            const items = document.querySelectorAll('.checklist-item');
-            const checkedItems = document.querySelectorAll('.checklist-item.checked');
-            const percentage = items.length ? (checkedItems.length / items.length) * 100 : 0;
-            document.getElementById('checklistProgress').style.width = `${percentage}%`;
-        }
+// Fullscreen
+document.getElementById('fsBtn').addEventListener('click',()=>{
+  if(!document.fullscreenElement){document.documentElement.requestFullscreen();document.getElementById('fsBtn').innerHTML='<i class="fas fa-compress"></i>';}
+  else{document.exitFullscreen();document.getElementById('fsBtn').innerHTML='<i class="fas fa-expand"></i>';}
+});
 
-        // Flashcards Engine Controllers
-        function renderFlashcard() {
-            const card = activeFlashcards[currentCardIndex];
-            const element = document.getElementById('flashcardElement');
-            element.classList.remove('flipped');
-            
-            setTimeout(() => {
-                document.getElementById('cardQuestion').innerText = card.q;
-                document.getElementById('cardAnswer').innerText = card.a;
-                document.getElementById('cardAnswerSinhala').innerText = card.s;
-                document.getElementById('cardIndicator').innerText = `Card ${currentCardIndex + 1} / ${activeFlashcards.length}`;
-            }, 150);
-        }
+// Timer
+function timerStart(){
+  if(timerRunning)return;timerRunning=true;
+  document.getElementById('timer-start').textContent='Running';
+  timerInterval=setInterval(()=>{
+    if(timerSec<=0){clearInterval(timerInterval);timerRunning=false;alert('⏱ 30-minute study session complete! Great work!');timerReset();return;}
+    timerSec--;updateTimer();
+  },1000);
+}
+function timerPause(){clearInterval(timerInterval);timerRunning=false;document.getElementById('timer-start').textContent='Resume';}
+function timerReset(){clearInterval(timerInterval);timerRunning=false;timerSec=1800;updateTimer();document.getElementById('timer-start').textContent='Start';}
+function updateTimer(){
+  const m=Math.floor(timerSec/60),s=timerSec%60;
+  document.getElementById('timer-display').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const pct=(1800-timerSec)/1800;
+  const circ=2*Math.PI*35;
+  document.getElementById('timer-ring').style.strokeDashoffset=circ*(1-pct);
+}
 
-        function flipCard() {
-            document.getElementById('flashcardElement').classList.toggle('flipped');
-        }
-
-        function nextFlashcard() {
-            if(currentCardIndex < activeFlashcards.length - 1) {
-                currentCardIndex++;
-            } else {
-                currentCardIndex = 0; // wrap round loop step
-            }
-            renderFlashcard();
-        }
-
-        function prevFlashcard() {
-            if(currentCardIndex > 0) {
-                currentCardIndex--;
-            } else {
-                currentCardIndex = activeFlashcards.length - 1;
-            }
-            renderFlashcard();
-        }
-
-        function shuffleFlashcards() {
-            for (let i = activeFlashcards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [activeFlashcards[i], activeFlashcards[j]] = [activeFlashcards[j], activeFlashcards[i]];
-            }
-            currentCardIndex = 0;
-            renderFlashcard();
-        }
-
-        // Floating Study Timer Functional Engine
-        let timerDuration = 30 * 60; // 30 mins flat
-        let timerRemaining = timerDuration;
-        let timerInterval = null;
-
-        function updateTimerUI() {
-            const mins
+// Keyboard shortcuts
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight')nextCard();
+  if(e.key==='ArrowLeft')prevCard();
+  if(e.key===' '){e.preventDefault();flipCard();}
+  if(e.key==='d'||e.key==='D'){document.getElementById('themeBtn').click();}
+});
+</script>
+</body>
+</html>
