@@ -1,1 +1,656 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BBA Vocabulary | Tharindu Buddhika</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg-app: #f6f5ff;
+    --bg-sidebar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1eaff;
+    --accent: #7c3aed;
+    --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+    --accent-glow: rgba(124, 58, 237, 0.15);
+    --border: rgba(124, 58, 237, 0.12);
+    --text-main: #1e1145;
+    --text-title: #1e1145;
+    --text-muted: #6b5f8a;
+  }
 
+  body.dark-mode {
+    --bg-app: #0f0b1a;
+    --bg-sidebar: #13101f;
+    --bg-card: #1a1628;
+    --bg-card-hover: #24213a;
+    --border: rgba(168, 85, 247, 0.18);
+    --text-main: #e9d5ff;
+    --text-title: #f3e8ff;
+    --text-muted: #a78bfa;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-app);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -10%; left: -10%;
+    width: 60vw; height: 60vh;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.4s ease;
+  }
+
+  .app-container {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* === SIDEBAR === */
+  aside {
+    width: 320px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+    box-shadow: 10px 0 40px rgba(124, 58, 237, 0.03);
+    overflow-y: auto;
+    transition: all 0.3s ease;
+  }
+
+  .badge {
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 30px;
+    background: rgba(124, 58, 237, 0.06);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .sidebar-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-title);
+    margin-top: 10px;
+  }
+
+  .subject-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .subject-btn {
+    text-align: left;
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+  }
+
+  .subject-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--accent);
+  }
+
+  .subject-btn.active {
+    background: var(--accent-gradient);
+    color: white;
+    font-weight: 700;
+  }
+
+  .back-btn {
+    align-self: flex-start;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px var(--accent-glow);
+    margin-top: auto;
+  }
+
+  .back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+  }
+
+  /* === MAIN CONTENT === */
+  main {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .theme-toggle-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.08);
+    z-index: 99;
+  }
+
+  .theme-toggle-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+    transform: scale(1.08);
+  }
+
+  .theme-toggle-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    box-shadow: 0 8px 24px var(--accent-glow);
+  }
+
+  .content-header {
+    margin-top: 20px;
+    margin-bottom: 35px;
+  }
+
+  .content-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-title);
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+  }
+
+  .content-header p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+  }
+
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .vocab-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.03);
+    cursor: pointer;
+  }
+
+  .vocab-card:hover {
+    transform: translateY(-4px);
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+    box-shadow: 0 20px 38px rgba(124, 58, 237, 0.1);
+  }
+
+  .vocab-english {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+  }
+
+  .vocab-sinhala {
+    font-size: 15px;
+    color: var(--text-title);
+    font-weight: 600;
+    margin-bottom: 12px;
+    transition: color 0.3s ease;
+  }
+
+  .vocab-example {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-style: italic;
+    border-left: 2px solid var(--accent);
+    padding-left: 12px;
+    transition: color 0.3s ease;
+  }
+
+  .search-box {
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .search-box input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+
+  .empty-state h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--text-title);
+  }
+
+  @media (max-width: 1024px) {
+    .app-container { flex-direction: column; }
+    aside { width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 20px; }
+    main { padding: 30px 20px; }
+    .vocab-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  }
+
+  @media (max-width: 640px) {
+    main { padding: 20px; }
+    .content-header h1 { font-size: 1.6rem; }
+    .vocab-grid { grid-template-columns: 1fr; }
+    aside { display: none; }
+    .theme-toggle-btn { top: 20px; right: 20px; width: 40px; height: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <aside>
+    <div class="badge">Vocabulary Module</div>
+    <h2 class="sidebar-title">BBA Subjects</h2>
+    <div class="subject-list" id="subject-list"></div>
+    <a href="index.html" class="back-btn">← Back to Hub</a>
+  </aside>
+
+  <main>
+    <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Dark/Light Mode">🌙</button>
+
+    <div class="content-header">
+      <h1 id="subject-title">Management Fundamentals</h1>
+      <p id="subject-desc">Essential vocabulary for your business studies</p>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Search words... වචන සොයන්න...">
+    </div>
+
+    <div class="vocab-grid" id="vocab-grid"></div>
+  </main>
+</div>
+
+<script>
+  /* === THEME TOGGLE === */
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeToggleBtn.textContent = '☀️';
+    themeToggleBtn.classList.add('active');
+  }
+
+  themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    themeToggleBtn.textContent = isDarkMode ? '☀️' : '🌙';
+    themeToggleBtn.classList.toggle('active');
+  });
+
+  /* === VOCABULARY DATABASE === */
+  const vocabularyData = {
+    'Management Fundamentals': {
+      code: 'MGBM1401',
+      words: [
+        { en: 'Management', si: 'කළමනාකරණය', ex: 'Good management is key to business success.' },
+        { en: 'Organization', si: 'සංවිධාන / ගිණුම් ස්ථාපනය', ex: 'An organization must have clear structure.' },
+        { en: 'Planning', si: 'සැලසුම්කරණය', ex: 'Strategic planning helps achieve goals.' },
+        { en: 'Decision Making', si: 'තීරණ ගැනීම', ex: 'Managers make critical decisions daily.' },
+        { en: 'Control', si: 'පාලනය', ex: 'Quality control ensures product excellence.' },
+        { en: 'Leadership', si: 'නායකත්වය', ex: 'Effective leadership motivates employees.' },
+        { en: 'Resource', si: 'සම්පත්', ex: 'Human resources are vital assets.' },
+        { en: 'Efficiency', si: 'කාර්යක්ષමතා', ex: 'Efficiency reduces operational costs.' },
+        { en: 'Authority', si: 'බලාධිකාරය', ex: 'Management has the authority to make changes.' },
+        { en: 'Responsibility', si: 'দায়িত্ব', ex: 'Each manager has specific responsibilities.' },
+      ]
+    },
+    'Business Mathematics for Decisions': {
+      code: 'MGBM1302',
+      words: [
+        { en: 'Profit', si: 'ලාභ / ගිණුම්', ex: 'Profit is revenue minus expenses.' },
+        { en: 'Loss', si: 'පාඩු', ex: 'The company suffered a loss this quarter.' },
+        { en: 'Revenue', si: 'ආදායම', ex: 'Revenue increased by 20% this year.' },
+        { en: 'Cost', si: 'පිරිවැය', ex: 'Cost management is essential.' },
+        { en: 'Budget', si: 'අයවැයි', ex: 'We must stay within the budget.' },
+        { en: 'Percentage', si: 'ප්‍රතිශතය', ex: 'Calculate the percentage increase.' },
+        { en: 'Interest', si: 'පොලිය', ex: 'Bank interest rates vary monthly.' },
+        { en: 'Calculation', si: 'ගණනය කිරීම', ex: 'Accurate calculations are critical.' },
+        { en: 'Discount', si: 'වට්ටම', ex: 'We offer a 10% discount.' },
+        { en: 'Commission', si: 'කොමිසම', ex: 'Salespeople earn commission on sales.' },
+      ]
+    },
+    'Microeconomics': {
+      code: 'MGBM1306',
+      words: [
+        { en: 'Supply', si: 'සরবරාහ', ex: 'Supply and demand determine prices.' },
+        { en: 'Demand', si: 'ඉල්ලුම', ex: 'Consumer demand is increasing.' },
+        { en: 'Price', si: 'මිල', ex: 'Price sensitivity varies by product.' },
+        { en: 'Market', si: 'වෙළඳ පිටස', ex: 'Market competition is fierce.' },
+        { en: 'Consumer', si: 'පරිභෝගකයා', ex: 'Consumer behavior is unpredictable.' },
+        { en: 'Producer', si: 'නිෂ්පාදකයා', ex: 'Producers aim to maximize profit.' },
+        { en: 'Competition', si: 'තරඟය', ex: 'Healthy competition benefits consumers.' },
+        { en: 'Utility', si: 'ප්‍රයෝජනය', ex: 'Utility measures satisfaction.' },
+        { en: 'Scarcity', si: 'දුර්ලභතාව', ex: 'Resource scarcity drives economics.' },
+        { en: 'Equilibrium', si: 'සමතුલිතობ', ex: 'Market equilibrium occurs when supply equals demand.' },
+      ]
+    },
+    'Marketing Management': {
+      code: 'MGBM1407',
+      words: [
+        { en: 'Marketing', si: 'විපණන', ex: 'Effective marketing increases sales.' },
+        { en: 'Advertising', si: 'বিজ্ঞাপন', ex: 'Advertising builds brand awareness.' },
+        { en: 'Customer', si: 'ගෙවස්කරු', ex: 'Customer satisfaction is paramount.' },
+        { en: 'Product', si: 'භාණ්ඩ', ex: 'Product quality ensures loyalty.' },
+        { en: 'Brand', si: 'ගණ්ඩය / නම්', ex: 'Brand identity is crucial.' },
+        { en: 'Target Market', si: 'ඉලක්ක වෙළඳ පිටස', ex: 'Identify your target market clearly.' },
+        { en: 'Promotion', si: 'ප්‍රවර්ධන', ex: 'Promotions boost sales temporarily.' },
+        { en: 'Distribution', si: 'බෙදාහරණ', ex: 'Distribution channels must be efficient.' },
+        { en: 'Pricing Strategy', si: 'මිල තීරණ පටිපාටිය', ex: 'Pricing strategy affects competitiveness.' },
+        { en: 'Market Research', si: 'වෙළඳ පිටස පර්යේෂණ', ex: 'Market research informs decisions.' },
+      ]
+    },
+    'Financial Accounting': {
+      code: 'MGBM1408',
+      words: [
+        { en: 'Account', si: 'ගිණුම', ex: 'Maintain accurate accounts.' },
+        { en: 'Debit', si: 'ඩෙබිට්', ex: 'Record the debit entry.' },
+        { en: 'Credit', si: 'ක්‍රෙඩිට්', ex: 'Credit the expense account.' },
+        { en: 'Balance Sheet', si: 'ශේෂ පත්‍රය', ex: 'The balance sheet shows assets and liabilities.' },
+        { en: 'Income Statement', si: 'ආදායම ප්‍රකාශන', ex: 'Income statement shows profitability.' },
+        { en: 'Asset', si: 'වත්කම', ex: 'Assets include equipment and property.' },
+        { en: 'Liability', si: 'වගකීම', ex: 'Liabilities are debts owed.' },
+        { en: 'Equity', si: 'ඉතිරි ගිණුම', ex: 'Equity represents ownership.' },
+        { en: 'Ledger', si: 'දිගු ගිණුම් පසුქඩ', ex: 'Post transactions in the ledger.' },
+        { en: 'Journal', si: 'දෛනිකී', ex: 'Record entries in the journal first.' },
+      ]
+    },
+    'Organizational Behaviour': {
+      code: 'MGBM1409',
+      words: [
+        { en: 'Behaviour', si: 'චර්‍යාකාරිත්ව', ex: 'Organizational behaviour affects productivity.' },
+        { en: 'Motivation', si: 'අනුപ්‍රේරණ', ex: 'Motivation drives employee performance.' },
+        { en: 'Culture', si: 'සංස්කෘතිය', ex: 'Company culture shapes values.' },
+        { en: 'Team', si: 'කණ්ඩායම', ex: 'Effective teams achieve goals.' },
+        { en: 'Conflict', si: 'ගැටුම', ex: 'Conflict resolution is important.' },
+        { en: 'Communication', si: 'සන්නිවේදනය', ex: 'Clear communication prevents misunderstandings.' },
+        { en: 'Leadership', si: 'නායකත්වය', ex: 'Leadership style impacts morale.' },
+        { en: 'Stress', si: 'ස්ට්‍රෙස්', ex: 'Workplace stress affects health.' },
+        { en: 'Performance', si: 'කාර්යසාධන', ex: 'Performance reviews are essential.' },
+        { en: 'Perception', si: 'ගැටළු දැකීම', ex: 'Employee perception shapes satisfaction.' },
+      ]
+    },
+    'Business Law': {
+      code: 'MGBM2411',
+      words: [
+        { en: 'Contract', si: 'ගිණුම ගිණුම', ex: 'A contract is legally binding.' },
+        { en: 'Agreement', si: 'එකඟතා', ex: 'Agreement must be mutual.' },
+        { en: 'Liability', si: 'වගකීම', ex: 'Legal liability must be understood.' },
+        { en: 'Patent', si: 'අවිස්කරණ පෙතෙම්', ex: 'Patents protect intellectual property.' },
+        { en: 'Copyright', si: 'කර්තෘ අයිතිය', ex: 'Copyright protects creative works.' },
+        { en: 'Employment', si: 'සේවා ස්ථාපනය', ex: 'Employment laws protect workers.' },
+        { en: 'Regulation', si: 'නිෂ්පාදක / නියමිතකරණය', ex: 'Regulations ensure fair competition.' },
+        { en: 'Compliance', si: 'සම්පාදනය', ex: 'Compliance with laws is mandatory.' },
+        { en: 'Dispute', si: 'විවාද', ex: 'Disputes can be resolved legally.' },
+        { en: 'Legislation', si: 'නීති සම්මතකරණ', ex: 'Legislation governs business practices.' },
+      ]
+    },
+    'Business Statistics': {
+      code: 'MGBM2412',
+      words: [
+        { en: 'Data', si: 'දත්ත', ex: 'Analyze data for insights.' },
+        { en: 'Mean', si: 'සාමාන්‍ය', ex: 'Calculate the mean value.' },
+        { en: 'Median', si: 'මධ්‍යස්ථ', ex: 'Median is the middle value.' },
+        { en: 'Mode', si: 'බහුතරත්වය', ex: 'Mode is the most frequent value.' },
+        { en: 'Standard Deviation', si: 'සම්මත අපචලනය', ex: 'Standard deviation measures dispersion.' },
+        { en: 'Probability', si: 'සම්භාවිතාව', ex: 'Probability predicts outcomes.' },
+        { en: 'Correlation', si: 'සම්බන්ධතාව', ex: 'Correlation shows relationships.' },
+        { en: 'Regression', si: 'පිටතට ගමන්', ex: 'Regression analysis predicts trends.' },
+        { en: 'Sample', si: 'නිරූපණය', ex: 'Survey a representative sample.' },
+        { en: 'Hypothesis', si: 'පූර්ව ধারണ', ex: 'Test the hypothesis scientifically.' },
+      ]
+    },
+    'Management Accounting': {
+      code: 'MGBM2413',
+      words: [
+        { en: 'Cost Analysis', si: 'පිරිවැය විශ්ලේෂණ', ex: 'Cost analysis improves efficiency.' },
+        { en: 'Break-even', si: 'බිඳීමේ අවස්ථාව', ex: 'Calculate the break-even point.' },
+        { en: 'Budget Variance', si: 'අයවැයි වෙනස්කම', ex: 'Analyze budget variance monthly.' },
+        { en: 'Overhead', si: 'පරෝක්ෂ පිරිවැය', ex: 'Overhead costs must be controlled.' },
+        { en: 'Fixed Cost', si: 'ස්ථාවර පිරිවැය', ex: 'Fixed costs remain constant.' },
+        { en: 'Variable Cost', si: 'විචල්‍ය පිරිවැය', ex: 'Variable costs change with output.' },
+        { en: 'Cash Flow', si: 'මුදල් ප්‍රවාහ', ex: 'Monitor cash flow regularly.' },
+        { en: 'Profitability', si: 'ලාබඡතාව', ex: 'Profitability ratios show performance.' },
+        { en: 'Cost Control', si: 'පිරිවැය පාලනය', ex: 'Cost control increases margins.' },
+        { en: 'Forecast', si: 'අපෝහනය / පුරෝකථනය', ex: 'Forecast future expenses.' },
+      ]
+    },
+    'Human Resource Management': {
+      code: 'MGBM2416',
+      words: [
+        { en: 'Recruitment', si: 'නුලුම් කිරීම', ex: 'Recruitment fills job vacancies.' },
+        { en: 'Selection', si: 'තෝරා ගැනීම', ex: 'Selection process identifies best candidates.' },
+        { en: 'Training', si: 'සිසිල් පුහුණුවීම', ex: 'Training develops employee skills.' },
+        { en: 'Development', si: 'විකාශ', ex: 'Career development motivates employees.' },
+        { en: 'Performance Appraisal', si: 'කාර්යසාධන ඇගයීම', ex: 'Appraisals assess employee performance.' },
+        { en: 'Compensation', si: 'ප්‍රතිලාභ', ex: 'Compensation must be competitive.' },
+        { en: 'Benefits', si: 'ප්‍රතිලාභ', ex: 'Benefits package attracts talent.' },
+        { en: 'Employee Relations', si: 'සේවක සම්බන්ධතා', ex: 'Good relations improve morale.' },
+        { en: 'Retention', si: 'රඳවා තබා ගැනීම', ex: 'Retention reduces turnover.' },
+        { en: 'Diversity', si: 'විවිධતාව', ex: 'Diversity strengthens organizations.' },
+      ]
+    },
+    'Finance Management': {
+      code: 'MGBM2417',
+      words: [
+        { en: 'Investment', si: 'ආයෝජනය', ex: 'Investment decisions require analysis.' },
+        { en: 'Risk', si: 'අවදානම', ex: 'Assess financial risk carefully.' },
+        { en: 'Return', si: 'ප්‍රතිලාභ / ලාභ', ex: 'Return on investment is crucial.' },
+        { en: 'Capital', si: 'ප්‍රධාන ගිණුම / මූල්‍යමතුර', ex: 'Capital structure affects financing.' },
+        { en: 'Debt', si: 'ණය', ex: 'Manage debt levels carefully.' },
+        { en: 'Equity', si: 'ඉතිරි ගිණුම', ex: 'Equity financing dilutes ownership.' },
+        { en: 'Dividend', si: 'ලාභාංශ', ex: 'Dividends reward shareholders.' },
+        { en: 'Interest Rate', si: 'පොලි අනුපාතය', ex: 'Interest rates affect borrowing costs.' },
+        { en: 'Valuation', si: 'අගයන්කරණ', ex: 'Valuation determines company worth.' },
+        { en: 'Treasury', si: 'ප්‍රධාන භාණ්ඩ ගිණුම', ex: 'Treasury manages cash.' },
+      ]
+    },
+    'Strategic Marketing Management': {
+      code: 'MGBM3420',
+      words: [
+        { en: 'Strategy', si: 'ක්‍රමවේදය', ex: 'Marketing strategy guides decisions.' },
+        { en: 'Positioning', si: 'පිහිටුම', ex: 'Market positioning differentiates brands.' },
+        { en: 'Segmentation', si: 'කොටස් කිරීම', ex: 'Market segmentation targets niches.' },
+        { en: 'Competitive Advantage', si: 'තරඟ වාසිය', ex: 'Competitive advantage drives success.' },
+        { en: 'Value Proposition', si: 'අගය යෝජනා', ex: 'Value proposition attracts customers.' },
+        { en: 'Brand Equity', si: 'ගණ්ඩ ඉතිරි ගිණුම', ex: 'Brand equity builds customer loyalty.' },
+        { en: 'Customer Loyalty', si: 'ගෙවස්කරු අනුराග', ex: 'Customer loyalty increases lifetime value.' },
+        { en: 'Market Share', si: 'වෙළඳ ප්‍රාස්තිය', ex: 'Increase market share through innovation.' },
+        { en: 'Penetration', si: 'ඝනීකරණය', ex: 'Market penetration expands reach.' },
+        { en: 'Diversification', si: 'බහු ගිණුම් කිරීම', ex: 'Diversification reduces risk.' },
+      ]
+    },
+    'Supply Chain Management': {
+      code: 'MGBM3421',
+      words: [
+        { en: 'Supply Chain', si: 'සරබරා ශ්‍රේණිය', ex: 'Supply chain efficiency cuts costs.' },
+        { en: 'Logistics', si: 'ලඟ තොරතුරු', ex: 'Logistics coordinates transportation.' },
+        { en: 'Inventory', si: 'භාණ්ඩ ගබඩාව', ex: 'Inventory management minimizes waste.' },
+        { en: 'Procurement', si: 'සවා ඉල්ලුම් කිරීම', ex: 'Procurement sources quality materials.' },
+        { en: 'Vendor', si: 'සපයන්නා', ex: 'Vendor relationships are critical.' },
+        { en: 'Demand Forecasting', si: 'ඉල්ලුම් පුරෝකථනය', ex: 'Demand forecasting prevents stockouts.' },
+        { en: 'Distribution', si: 'බෙදාහරණ', ex: 'Distribution networks ensure delivery.' },
+        { en: 'Warehouse', si: 'භාණ්ඩ ගබඩාව', ex: 'Warehouse management is essential.' },
+        { en: 'Quality Control', si: 'ගුණාත්මක පාලනය', ex: 'Quality control maintains standards.' },
+        { en: 'Just-in-time', si: 'නිවැරදි වේලාවට ගෙන ඒම', ex: 'Just-in-time reduces holding costs.' },
+      ]
+    },
+    'Strategic Management': {
+      code: 'MGBM4429',
+      words: [
+        { en: 'Vision', si: 'දෘශ්‍যය', ex: 'Vision statement guides direction.' },
+        { en: 'Mission', si: 'ලක්ෂ්‍ය', ex: 'Mission defines organizational purpose.' },
+        { en: 'Objective', si: 'ඉලක්ක', ex: 'Objectives must be measurable.' },
+        { en: 'Goal', si: 'අරුණ / ලක්ෂ්‍ය', ex: 'Set realistic goals.' },
+        { en: 'Analysis', si: 'විශ්ලේෂණ', ex: 'SWOT analysis identifies strengths.' },
+        { en: 'Implementation', si: 'ක්‍රියාත්මක කිරීම', ex: 'Implementation requires planning.' },
+        { en: 'Evaluation', si: 'ඇගයීම', ex: 'Evaluate strategy effectiveness.' },
+        { en: 'Change Management', si: 'වෙනස්කම කළමනාකරණ', ex: 'Change management ensures smooth transitions.' },
+        { en: 'Sustainability', si: 'තිරසර බවත්කම', ex: 'Sustainability is increasingly important.' },
+        { en: 'Innovation', si: 'නවෝත්පාදනය', ex: 'Innovation drives competitive advantage.' },
+      ]
+    },
+    'Research Methodology': {
+      code: 'MGBM3424',
+      words: [
+        { en: 'Research', si: 'පර්යේෂණ', ex: 'Research requires systematic methods.' },
+        { en: 'Methodology', si: 'ක්‍රම විද්‍යාව', ex: 'Methodology ensures valid results.' },
+        { en: 'Hypothesis', si: 'පූර්ව ධාරණ', ex: 'Test hypotheses rigorously.' },
+        { en: 'Variable', si: 'විචල්‍යතාව', ex: 'Identify dependent variables.' },
+        { en: 'Qualitative', si: 'ගුණගත', ex: 'Qualitative research explores meanings.' },
+        { en: 'Quantitative', si: 'ප්‍රමාණගත', ex: 'Quantitative research uses numbers.' },
+        { en: 'Sample', si: 'නිරූපණ', ex: 'Sample size affects validity.' },
+        { en: 'Survey', si: 'සර්වේ / සමීක්ෂණ', ex: 'Surveys collect data efficiently.' },
+        { en: 'Analysis', si: 'විශ්ලේෂණ', ex: 'Data analysis reveals patterns.' },
+        { en: 'Validity', si: 'විධිමතතා', ex: 'Validity ensures research credibility.' },
+      ]
+    },
+  };
+
+  let currentSubject = 'Management Fundamentals';
+  let allWords = [];
+
+  /* === BUILD SIDEBAR === */
+  function buildSidebar() {
+    const list = document.getElementById('subject-list');
+    Object.keys(vocabularyData).forEach(subject => {
+      const btn = document.createElement('button');
+      btn.className = 'subject-btn' + (subject === currentSubject ? ' active' : '');
+      btn.textContent = subject;
+      btn.onclick = () => selectSubject(subject);
+      list.appendChild(btn);
+    });
+  }
+
+  /* === SELECT SUBJECT === */
+  function selectSubject(subject) {
+    currentSubject = subject;
+    document.querySelectorAll('.subject-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    document.getElementById('subject-title').textContent = subject;
+    document.getElementById('subject-desc').textContent = `Subject Code: ${vocabularyData[subject].code}`;
+    
+    allWords = vocabularyData[subject].words;
+    displayWords(allWords);
+  }
+
+  /* === DISPLAY WORDS === */
+  function displayWords(words) {
+    const grid = document.getElementById('vocab-grid');
+    grid.innerHTML = '';
+    
+    if (words.length === 0) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column: 1/-1"><h2>No words found</h2><p>Try a different search</p></div>';
+      return;
+    }
+
+    words.forEach(word => {
+      const card = document.createElement('div');
+      card.className = 'vocab-card';
+      card.innerHTML = `
+        <div class="vocab-english">${word.en}</div>
+        <div class="vocab-sinhala">${word.si}</div>
+        <div class="vocab-example">"${word.ex}"</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  /* === SEARCH === */
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    const filtered = allWords.filter(word => 
+      word.en.toLowerCase().includes(query) || 
+      word.si.toLowerCase().includes(query)
+    );
+    displayWords(filtered);
+  });
+
+  /* === INITIALIZE === */
+  buildSidebar();
+  displayWords(allWords || vocabularyData[currentSubject].words);
+</script>
+</body>
+</html>
