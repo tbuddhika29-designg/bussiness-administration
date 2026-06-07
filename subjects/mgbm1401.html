@@ -52,45 +52,57 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--white);min
 .section-hd-line{flex:1;height:1px;background:linear-gradient(90deg,var(--a35),transparent);}
 .section-hd-count{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);white-space:nowrap;}
 .lectures-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:14px;opacity:0;animation:fadeUp 0.8s ease forwards 0.45s;}
-.lec-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:1;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.4s ease;opacity:0;animation:fadeUp 0.5s ease forwards;}
-.lec-card:nth-child(1){animation-delay:0.50s}
-.lec-card:nth-child(2){animation-delay:0.52s}
-.lec-card:nth-child(3){animation-delay:0.54s}
-.lec-card:nth-child(4){animation-delay:0.56s}
-.lec-card:nth-child(5){animation-delay:0.58s}
-.lec-card:nth-child(6){animation-delay:0.60s}
-.lec-card:nth-child(7){animation-delay:0.62s}
-.lec-card:nth-child(8){animation-delay:0.64s}
-.lec-card:nth-child(9){animation-delay:0.66s}
-.lec-card:nth-child(10){animation-delay:0.68s}
-.lec-card:nth-child(11){animation-delay:0.70s}
-.lec-card:nth-child(12){animation-delay:0.72s}
-.lec-card:nth-child(13){animation-delay:0.74s}
-.lec-card:nth-child(14){animation-delay:0.76s}
-.lec-card:nth-child(15){animation-delay:0.78s}
-.lec-card:nth-child(16){animation-delay:0.80s}
-.lec-card:nth-child(17){animation-delay:0.82s}
-.lec-card:nth-child(18){animation-delay:0.84s}
-.lec-card:nth-child(19){animation-delay:0.86s}
-.lec-card:nth-child(20){animation-delay:0.88s}
+.lec-card{position:relative;border-radius:16px;overflow:visible;aspect-ratio:1;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.4s ease;opacity:0;animation:fadeUp 0.5s ease forwards;}
 
-.lec-card:hover{transform:translateY(-8px) scale(1.06);box-shadow:0 24px 60px var(--a45),0 0 40px var(--a22);}
-.lec-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--a15) 0%,rgba(10,12,30,0.7) 100%);border:1px solid var(--a22);border-radius:16px;backdrop-filter:blur(16px);transition:border-color 0.35s ease,background 0.35s ease;}
+/* Dynamic Delays for Cards */
+.lec-card:nth-child(1){animation-delay:0.50s}.lec-card:nth-child(2){animation-delay:0.52s}.lec-card:nth-child(3){animation-delay:0.54s}.lec-card:nth-child(4){animation-delay:0.56s}.lec-card:nth-child(5){animation-delay:0.58s}.lec-card:nth-child(6){animation-delay:0.60s}.lec-card:nth-child(7){animation-delay:0.62s}.lec-card:nth-child(8){animation-delay:0.64s}.lec-card:nth-child(9){animation-delay:0.66s}.lec-card:nth-child(10){animation-delay:0.68s}.lec-card:nth-child(11){animation-delay:0.70s}.lec-card:nth-child(12){animation-delay:0.72s}.lec-card:nth-child(13){animation-delay:0.74s}.lec-card:nth-child(14){animation-delay:0.76s}.lec-card:nth-child(15){animation-delay:0.78s}.lec-card:nth-child(16){animation-delay:0.80s}.lec-card:nth-child(17){animation-delay:0.82s}.lec-card:nth-child(18){animation-delay:0.84s}.lec-card:nth-child(19){animation-delay:0.86s}.lec-card:nth-child(20){animation-delay:0.88s}
+
+.lec-card:hover{transform:translateY(-8px) scale(1.06);box-shadow:0 24px 60px var(--a45),0 0 40px var(--a22);z-index:100;}
+.lec-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--a15) 0%,rgba(10,12,30,0.7) 100%);border:1px solid var(--a22);border-radius:16px;backdrop-filter:blur(16px);transition:border-color 0.35s ease,background 0.35s ease;z-index:1;}
 .lec-card:hover .lec-bg{border-color:var(--a50);background:linear-gradient(135deg,var(--a30) 0%,rgba(10,12,30,0.7) 100%);}
 .lec-card::before{content:'';position:absolute;top:-100%;left:-100%;width:70%;height:200%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.06),transparent);transform:skewX(-20deg);transition:top 0.55s ease,left 0.55s ease;z-index:2;pointer-events:none;}
 .lec-card:hover::before{top:-10%;left:130%;}
-.lec-num{position:relative;z-index:1;font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);line-height:1;}
+.lec-num{position:relative;z-index:3;font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);line-height:1;}
 .lec-card:hover .lec-num{transform:scale(1.15);}
-.lec-accent{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;z-index:3;}
+.lec-accent{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;z-index:4;}
 .lec-card:hover .lec-accent{transform:scaleX(1);}
+
+/* Tooltip Styles for Lecture Topics */
+.lec-card::after {
+  content: attr(data-topic);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(6, 8, 15, 0.95);
+  border: 1px solid var(--accent);
+  color: var(--white);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: center;
+  white-space: normal;
+  width: 160px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px var(--a22);
+  z-index: 999;
+}
+.lec-card:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 .bottom-nav{margin-top:60px;text-align:center;opacity:0;animation:fadeUp 0.8s ease forwards 1s;}
 .bottom-back{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-size:0.9rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:var(--a15);border:1px solid var(--a35);padding:16px 36px;border-radius:14px;backdrop-filter:blur(16px);transition:all 0.35s ease;}
 .bottom-back:hover{background:var(--a30);border-color:var(--a50);transform:translateY(-4px);box-shadow:0 20px 50px var(--a30);}
 .bottom-back .arr{font-size:1.1rem;transition:transform 0.3s ease;}
 .bottom-back:hover .arr{transform:translateX(-4px);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:700px){.page{padding:32px 16px 60px;}.hero{padding:36px 24px 32px;}.lectures-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;}.lec-num{font-size:1.5rem;}}
-@media(max-width:480px){.lectures-grid{grid-template-columns:repeat(5,1fr);gap:8px;}.lec-num{font-size:1.3rem;}}
+@media(max-width:700px){.page{padding:32px 16px 60px;}.hero{padding:36px 24px 32px;}.lectures-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;}.lec-num{font-size:1.5rem;}.lec-card::after{width:130px;font-size:0.7rem;}}
+@media(max-width:480px){.lectures-grid{grid-template-columns:repeat(4,1fr);gap:8px;}.lec-num{font-size:1.3rem;}.lec-card::after{display:none;}} /* Hide tooltips on very small screens to avoid clutter */
 </style>
 </head>
 <body>
@@ -110,7 +122,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--white);min
     <h1>Management Fundamentals</h1>
     <div class="hero-meta">
       <div class="hero-chip">📘 Course Code: <strong>MGBM1401</strong></div>
-      <div class="hero-chip">📅 Year 1 — Semester 1</div>
+      <div class="hero-chip">📅 CINEC Business Admin</div>
       <div class="hero-chip">🎯 20 Lectures</div>
     </div>
   </div>
@@ -121,26 +133,26 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--white);min
     <span class="section-hd-count">1 — 20</span>
   </div>
   <div class="lectures-grid">
-    <a href="../lectures/mgbm1401-lecture01.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">1</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture02.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">2</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture03.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">3</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture04.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">4</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture05.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">5</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture06.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">6</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture07.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">7</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture08.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">8</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture09.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">9</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture10.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">10</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture11.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">11</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture12.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">12</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture13.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">13</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture14.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">14</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture15.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">15</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture16.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">16</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture17.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">17</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture18.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">18</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture19.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">19</div><div class="lec-accent"></div></a>
-    <a href="../lectures/mgbm1401-lecture20.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">20</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture01.html" class="lec-card" data-topic="Introduction to Management & Evolution"><div class="lec-bg"></div><div class="lec-num">1</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture02.html" class="lec-card" data-topic="Classical & Scientific Management (Taylor)"><div class="lec-bg"></div><div class="lec-num">2</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture03.html" class="lec-card" data-topic="Administrative Principles (Henri Fayol)"><div class="lec-bg"></div><div class="lec-num">3</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture04.html" class="lec-card" data-topic="Bureaucratic & Behavioral Theories"><div class="lec-bg"></div><div class="lec-num">4</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture05.html" class="lec-card" data-topic="The Internal & External Environment"><div class="lec-bg"></div><div class="lec-num">5</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture06.html" class="lec-card" data-topic="Macro Environment Analysis (PESTEL)"><div class="lec-bg"></div><div class="lec-num">6</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture07.html" class="lec-card" data-topic="Organizational Culture & Ethics"><div class="lec-bg"></div><div class="lec-num">7</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture08.html" class="lec-card" data-topic="Foundations of Planning & Goal Setting"><div class="lec-bg"></div><div class="lec-num">8</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture09.html" class="lec-card" data-topic="Strategic Management & SWOT Analysis"><div class="lec-bg"></div><div class="lec-num">9</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture10.html" class="lec-card" data-topic="Decision-Making Process & Models"><div class="lec-bg"></div><div class="lec-num">10</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture11.html" class="lec-card" data-topic="Organizational Structure & Design"><div class="lec-bg"></div><div class="lec-num">11</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture12.html" class="lec-card" data-topic="Chain of Command & Span of Control"><div class="lec-bg"></div><div class="lec-num">12</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture13.html" class="lec-card" data-topic="Human Resource Management Basics"><div class="lec-bg"></div><div class="lec-num">13</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture14.html" class="lec-card" data-topic="Motivation Theories (Maslow & Herzberg)"><div class="lec-bg"></div><div class="lec-num">14</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture15.html" class="lec-card" data-topic="Leadership Styles & Approaches"><div class="lec-bg"></div><div class="lec-num">15</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture16.html" class="lec-card" data-topic="Group Dynamics & Team Building"><div class="lec-bg"></div><div class="lec-num">16</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture17.html" class="lec-card" data-topic="Organizational Communication"><div class="lec-bg"></div><div class="lec-num">17</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture18.html" class="lec-card" data-topic="Foundations of Control Systems"><div class="lec-bg"></div><div class="lec-num">18</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture19.html" class="lec-card" data-topic="Operations & Quality Management"><div class="lec-bg"></div><div class="lec-num">19</div><div class="lec-accent"></div></a>
+    <a href="../lectures/mgbm1401-lecture20.html" class="lec-card" data-topic="Innovation & Managing Change"><div class="lec-bg"></div><div class="lec-num">20</div><div class="lec-accent"></div></a>
   </div>
   <div class="bottom-nav">
     <a href="../index.htm" class="bottom-back"><span class="arr">←</span> Back to Portal Home</a>
