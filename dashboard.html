@@ -1,37 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Tharindu Buddhika | Academic Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  /* === LUXURY DEEP PURPLE & NEON VARIABLES === */
-  :root[data-theme="dark"] {
-    --bg-app: #06040d;
-    --bg-sidebar: #0d0a1a;
-    --bg-card: #131024;
-    --bg-card-hover: #1c1836;
-    --accent: #bc6ff1;
-    --accent-glow: rgba(188, 111, 241, 0.3);
-    --border: rgba(188, 111, 241, 0.15);
-    --text-main: #e6e1f3;
-    --text-title: #ffffff;
-    --text-muted: #7e799c;
-    --glass: rgba(19, 16, 36, 0.6);
-  }
-
-  :root[data-theme="light"] {
-    --bg-app: #f4f2fa;
-    --bg-sidebar: #ffffff;
-    --bg-card: #ebe7f5;
-    --bg-card-hover: #dfd9f0;
-    --accent: #8b5cf6;
-    --accent-glow: rgba(139, 92, 246, 0.2);
-    --border: rgba(139, 92, 246, 0.2);
-    --text-main: #2b263d;
-    --text-title: #0f0b1e;
-    --text-muted: #6a6480;
+  /* === PREMIUM LUXURY VIBRANT PURPLE LIGHT THEME === */
+  :root {
+    --bg-app: #f5f3ff;          /* මෘදු ලා දම්/සුදු පසුබිම */
+    --bg-sidebar: #ffffff;      /* පිරිසිදු සුදු සයිඩ්බාර් එක */
+    --bg-card: #ffffff;         /* පිරිසිදු සුදු කාඩ්පත් */
+    --bg-card-hover: #f3e8ff;   /* කාඩ්පත උඩට ගියවිට ලැබෙන Premium ලා දම් පැහැය */
+    --accent: #7c3aed;          /* තද විචිත්‍රවත් දම් පැහැය (Rich Violet) */
+    --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+    --accent-glow: rgba(124, 58, 237, 0.2);
+    --border: rgba(124, 58, 237, 0.15);
+    --text-main: #2d224d;       /* තද දම්/කළු මිශ්‍ර ප්‍රධාන අකුරු */
+    --text-title: #1e1145;      /* ප්‍රධාන මාතෘකා */
+    --text-muted: #6b5f8a;      /* මැකී ගිය අකුරු */
     --glass: rgba(255, 255, 255, 0.7);
   }
 
@@ -44,7 +31,6 @@
     min-height: 100vh;
     display: flex;
     overflow-x: hidden;
-    transition: background 0.4s ease, color 0.4s ease;
   }
 
   /* Decorative Background Glows */
@@ -53,7 +39,7 @@
     position: fixed;
     top: -10%; left: -10%;
     width: 50vw; height: 50vh;
-    background: radial-gradient(circle, rgba(188, 111, 241, 0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -77,7 +63,7 @@
     flex-direction: column;
     justify-content: space-between;
     z-index: 10;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.2);
+    box-shadow: 10px 0 30px rgba(124, 58, 237, 0.04);
     transition: all 0.4s ease;
   }
 
@@ -89,11 +75,12 @@
     border: 1px solid var(--border);
     padding: 6px 14px;
     border-radius: 30px;
-    background: rgba(188, 111, 241, 0.06);
+    background: rgba(124, 58, 237, 0.08);
     backdrop-filter: blur(5px);
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-weight: 600;
   }
 
   .profile-zone h1 {
@@ -105,7 +92,9 @@
   }
 
   .profile-zone h1 span {
-    color: var(--accent);
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-style: italic;
     font-weight: 400;
   }
@@ -118,9 +107,9 @@
   }
 
   .student-meta {
-    margin-top: 35px;
+    margin-top: 30px;
     padding: 20px;
-    background: rgba(255,255,255,0.02);
+    background: rgba(124, 58, 237, 0.03);
     border-left: 3px solid var(--accent);
     border-radius: 0 12px 12px 0;
   }
@@ -130,16 +119,16 @@
   .meta-val.id { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--accent); margin-bottom: 0; }
 
   /* Interactive Filters inside Sidebar */
-  .filter-panel { margin-top: 40px; display: flex; flex-direction: column; gap: 8px; }
+  .filter-panel { margin-top: 35px; display: flex; flex-direction: column; gap: 8px; }
   .filter-btn {
     width: 100%;
     text-align: left;
     background: transparent;
     border: 1px solid transparent;
     padding: 12px 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -149,36 +138,43 @@
   }
   .filter-btn:hover {
     color: var(--accent);
-    background: rgba(188, 111, 241, 0.04);
+    background: rgba(124, 58, 237, 0.05);
     transform: translateX(5px);
   }
   .filter-btn.active {
-    background: var(--bg-card);
+    background: var(--bg-card-hover);
     border-color: var(--border);
-    color: var(--text-title);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    color: var(--accent);
+    font-weight: 700;
   }
   .filter-btn::after { content: '→'; opacity: 0; transition: 0.3s; }
   .filter-btn:hover::after, .filter-btn.active::after { opacity: 1; transform: translateX(3px); }
 
-  /* Sidebar Footer Controls */
+  /* Sidebar Footer Back Button & Brand */
   .sidebar-footer { display: flex; flex-direction: column; gap: 20px; }
-  .theme-toggle-btn {
+  
+  .back-hub-btn {
     align-self: flex-start;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    color: var(--text-title);
-    padding: 10px 20px;
-    font-size: 12px;
+    background: var(--accent-gradient);
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
     border-radius: 50px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px var(--accent-glow);
     transition: all 0.3s;
   }
-  .theme-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--accent-glow); }
-  .theme-toggle-btn:active { transform: translateY(0); }
+  .back-hub-btn:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+  }
+  .back-hub-btn:active { transform: translateY(0); }
 
   .brand { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--text-title); }
 
@@ -201,7 +197,7 @@
   }
   .stat-box { display: flex; align-items: baseline; gap: 8px; }
   .stat-box .num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; color: var(--accent); }
-  .stat-box .lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+  .stat-box .lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; }
 
   /* Horizontal Scroll Timeline Outer Wrapper */
   .timeline-container {
@@ -254,29 +250,29 @@
   .subject-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px;
+    border-radius: 18px;
+    padding: 24px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     gap: 12px;
     position: relative;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.03);
   }
 
   .subject-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     background: var(--bg-card-hover);
     border-color: var(--accent);
-    box-shadow: 0 20px 35px rgba(0,0,0,0.3), 0 0 15px var(--accent-glow);
+    box-shadow: 0 15px 30px rgba(124, 58, 237, 0.1);
   }
   
   .subject-card:active {
     transform: translateY(-2px) scale(0.98);
   }
 
-  .card-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); font-weight: 500; }
+  .card-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); font-weight: 600; }
   .subject-card:hover .card-code { color: var(--accent); }
   
   .card-title {
@@ -302,14 +298,14 @@
   /* Elective Tag Style */
   .elective-tag {
     position: absolute;
-    top: 22px; right: 22px;
+    top: 24px; right: 24px;
     font-size: 9px;
     font-family: 'Fira Code', monospace;
-    color: #ff4a73;
-    background: rgba(255, 74, 115, 0.1);
+    color: #ec4899;
+    background: rgba(236, 72, 153, 0.1);
     padding: 2px 8px;
     border-radius: 4px;
-    border: 1px solid rgba(255, 74, 115, 0.2);
+    border: 1px solid rgba(236, 72, 153, 0.2);
   }
 
   /* === ANIMATIONS === */
@@ -361,9 +357,10 @@
     </div>
 
     <div class="sidebar-footer">
-      <button class="theme-toggle-btn" onclick="toggleTheme()">
-        <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
-      </button>
+      <!-- NEW BACK BUTTON TO INDEX.HTML -->
+      <a href="index.html" class="back-hub-btn">
+        <span>←</span> Back to Hub
+      </a>
       <div>
         <div class="brand">TB Index</div>
         <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Internal Student Portal</p>
@@ -391,7 +388,7 @@
 // Intact Complete Dataset
 const SEMESTERS = [
   {
-    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#bc6ff1',
+    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#7c3aed',
     subjects: [
       { code: 'MGBM1401', title: 'Management Fundamentals' },
       { code: 'MGBM1302', title: 'Business Mathematics for Decisions' },
@@ -401,7 +398,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#bc6ff1',
+    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#7c3aed',
     subjects: [
       { code: 'MGBM1306', title: 'Microeconomics' },
       { code: 'MGBM1407', title: 'Marketing Management' },
@@ -411,7 +408,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#bc6ff1',
+    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#7c3aed',
     subjects: [
       { code: 'MGBM2411', title: 'Business Law' },
       { code: 'MGBM2412', title: 'Business Statistics' },
@@ -420,7 +417,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#bc6ff1',
+    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#7c3aed',
     subjects: [
       { code: 'MGBM2415', title: 'Managerial Economics' },
       { code: 'MGBM2416', title: 'Human Resource Management' },
@@ -429,7 +426,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#bc6ff1',
+    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#7c3aed',
     subjects: [
       { code: 'MGBM3419', title: 'Development Economics' },
       { code: 'MGBM3420', title: 'Strategic Marketing Management' },
@@ -438,7 +435,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#bc6ff1',
+    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#7c3aed',
     subjects: [
       { code: 'MGBM3423', title: 'Strategic Brand Management' },
       { code: 'MGBM3424', title: 'Research Methodology' },
@@ -449,7 +446,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#bc6ff1',
+    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#7c3aed',
     subjects: [
       { code: 'MGBM4429', title: 'Strategic Management' },
       { code: 'MGBM4430', title: 'Strategic Finance' },
@@ -457,7 +454,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#bc6ff1',
+    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#7c3aed',
     subjects: [
       { code: 'MGBM4432', title: 'Academic Writing' },
       { code: 'MGBM4633', title: 'Dissertation' },
@@ -465,26 +462,6 @@ const SEMESTERS = [
     ]
   }
 ];
-
-// Theme Switch Logic
-function toggleTheme() {
-  const root = document.documentElement;
-  const currentTheme = root.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  
-  root.setAttribute('data-theme', newTheme);
-  updateThemeUI(newTheme);
-}
-
-function updateThemeUI(theme) {
-  const icon = document.getElementById('themeIcon');
-  const text = document.getElementById('themeText');
-  if (theme === 'dark') {
-    icon.textContent = '🌙'; text.textContent = 'Dark Mode';
-  } else {
-    icon.textContent = '☀️'; text.textContent = 'Light Mode';
-  }
-}
 
 // Build Timeline Track Flow
 function buildGrid(filter = 'all') {
