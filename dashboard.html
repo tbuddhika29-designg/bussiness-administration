@@ -17,7 +17,7 @@
     --accent-glow: rgba(124, 58, 237, 0.2);
     --border: rgba(124, 58, 237, 0.15);
     --text-main: #2d224d;       /* තද දම්/කළු මිශ්‍ර ප්‍රධාන අකුරු */
-    --text-title: #1e1145;      /* PRදාන මාතෘකා */
+    --text-title: #1e1145;      /* ප්‍රධාන මාතෘකා */
     --text-muted: #6b5f8a;      /* මැකී ගිය අකුරු */
     --glass: rgba(255, 255, 255, 0.7);
   }
@@ -259,7 +259,6 @@
     position: relative;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 8px 25px rgba(124, 58, 237, 0.03);
-    cursor: pointer;
   }
 
   .subject-card:hover {
@@ -309,79 +308,6 @@
     border: 1px solid rgba(236, 72, 153, 0.2);
   }
 
-  /* ========================================================
-     ADDED: SUBJECT LECTURES VIEW (20 LECTURES CARDS INTERFACE)
-     ======================================================== */
-  .subject-view-container {
-    display: none; /* Default Hidden, Opens via JS Click */
-    flex-direction: column;
-    gap: 30px;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding-right: 60px;
-    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .subject-view-container::-webkit-scrollbar { width: 6px; }
-  .subject-view-container::-webkit-scrollbar-track { background: transparent; }
-  .subject-view-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-  .view-header-card {
-    background: var(--bg-card);
-    border-radius: 24px;
-    padding: 45px;
-    border: 1px solid var(--border);
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.03);
-    position: relative;
-    overflow: hidden;
-  }
-  .view-header-card::after {
-    content: '📚';
-    position: absolute; right: 40px; bottom: -10px;
-    font-size: 6rem; opacity: 0.08; pointer-events: none;
-  }
-  .view-sem-tag {
-    font-family: 'Fira Code', monospace; font-size: 11px; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; font-weight: 600;
-  }
-  .view-title { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 800; color: var(--text-title); line-height: 1.2; margin-bottom: 8px; }
-  .view-code { font-family: 'Fira Code', monospace; font-size: 13px; color: var(--text-muted); font-weight: 500; }
-
-  .view-section-title {
-    font-size: 13px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);
-    display: flex; align-items: center; gap: 15px; letter-spacing: 1px; margin-bottom: 5px;
-  }
-  .view-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  /* 20 Lectures Grid Layout inside Main Workspace */
-  .lectures-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding-bottom: 40px;
-  }
-  .lecture-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 24px;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.03);
-  }
-  .lecture-card:hover {
-    transform: translateY(-5px);
-    background: var(--bg-card-hover);
-    border-color: var(--accent);
-    box-shadow: 0 12px 25px rgba(124, 58, 237, 0.08);
-  }
-  .l-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); font-weight: 600; }
-  .lecture-card:hover .l-code { color: var(--accent); }
-  .l-title { font-size: 14px; font-weight: 600; color: var(--text-title); line-height: 1.4; min-height: 40px; }
-
   /* === ANIMATIONS === */
   @keyframes slideIn {
     from { opacity: 0; transform: translateX(40px); }
@@ -396,7 +322,6 @@
     .stats-header { padding-right: 0; gap: 20px; flex-wrap: wrap; }
     .timeline-container { padding-right: 0; overflow-x: auto; white-space: nowrap; display: flex; align-items: flex-start; }
     .timeline-column { min-width: 300px; }
-    .subject-view-container { padding-right: 0; }
   }
 </style>
 </head>
@@ -404,6 +329,7 @@
 
 <div class="app-container">
   
+  <!-- LEFT SIDEBAR: FIXED DASHBOARD PANEL -->
   <aside>
     <div class="sidebar-top">
       <div class="badge">Academic Management</div>
@@ -419,7 +345,8 @@
         <div class="meta-val id">COM/BMgt-558/IFLS26-15/0001</div>
       </div>
 
-      <nav class="filter-panel" id="sidebar-navigation-panel">
+      <!-- Left Interactive Filter Buttons -->
+      <nav class="filter-panel">
         <button class="filter-btn active" onclick="filterSem('all', this)">All Semesters</button>
         <button class="filter-btn" onclick="filterSem('year1', this)">Year 01</button>
         <button class="filter-btn" onclick="filterSem('year2', this)">Year 02</button>
@@ -430,7 +357,8 @@
     </div>
 
     <div class="sidebar-footer">
-      <a href="index.html" class="back-hub-btn" id="dynamic-back-btn">
+      <!-- NEW BACK BUTTON TO INDEX.HTML -->
+      <a href="index.html" class="back-hub-btn">
         <span>←</span> Back to Hub
       </a>
       <div>
@@ -440,25 +368,18 @@
     </div>
   </aside>
 
-  <main id="main-workspace-track">
-    <div class="stats-header" id="stats-counter-bar">
+  <!-- RIGHT INTERACTIVE AREA: HORIZONTAL TIMELINE FLOW -->
+  <main>
+    <!-- Live Counter Statistics -->
+    <div class="stats-header">
       <div class="stat-box"><span class="num">33</span><span class="lbl">Modules</span></div>
       <div class="stat-box"><span class="num">04</span><span class="lbl">Years</span></div>
       <div class="stat-box"><span class="num">08</span><span class="lbl">Semesters</span></div>
       <div class="stat-box"><span class="num">03</span><span class="lbl">Electives</span></div>
     </div>
 
+    <!-- The Horizontal Scroll Track -->
     <div class="timeline-container" id="timeline-track"></div>
-
-    <div class="subject-view-container" id="subject-lectures-view">
-      <div class="view-header-card">
-        <span class="view-sem-tag" id="target-view-sem">Year 1 — Semester 1</span>
-        <h1 class="view-title" id="target-view-title">Management Fundamentals</h1>
-        <div class="view-code" id="target-view-code">MGBM1401</div>
-      </div>
-      <div class="view-section-title">Course Modules & Lectures</div>
-      <div class="lectures-grid" id="lectures-cards-wrapper"></div>
-    </div>
   </main>
 
 </div>
@@ -571,18 +492,16 @@ function buildGrid(filter = 'all') {
 
     // Subject Items inside Column
     subjects.forEach((sub, i) => {
-      const card = document.createElement('div'); // Changed from 'a' to 'div' for customized app routing clicks
+      const card = document.createElement('a');
       card.className = 'subject-card';
-      
-      // Dynamic JS Event to open Lectures View Interface safely instead of jumping pages
-      card.onclick = () => openLecturesView(sub.code, sub.title, sem.label);
+      card.href = `subjects/${sub.code.toLowerCase()}.html`;
       
       card.innerHTML = `
         ${sub.elective ? '<span class="elective-tag">Elective</span>' : ''}
         <div class="card-code">${sub.code}</div>
         <div class="card-title">${sub.title}</div>
         <div class="card-footer">
-          <span class="card-action-text">View Lectures</span>
+          <span class="card-action-text">View Syllabus</span>
           <span class="card-arrow">→</span>
         </div>
       `;
@@ -593,76 +512,10 @@ function buildGrid(filter = 'all') {
   });
 }
 
-// Filter Navigation Trigger Click Handler
 function filterSem(f, btn) {
-  // Return to timeline setup dynamically if currently viewing specific lecture screens
-  closeLecturesView();
-  
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   buildGrid(f);
-}
-
-// ========================================================
-// ADDED: JAVASCRIPT APP INTERACTIVE ROUTING FOR LECTURES
-// ========================================================
-function openLecturesView(subCode, subTitle, semLabel) {
-  // Update HTML text zones values instantly
-  document.getElementById('target-view-code').innerText = subCode;
-  document.getElementById('target-view-title').innerText = subTitle;
-  document.getElementById('target-view-sem').innerText = semLabel;
-
-  // Build exactly 20 premium structural cards dynamically inside wrapper view track
-  const wrapper = document.getElementById('lectures-cards-wrapper');
-  wrapper.innerHTML = '';
-  
-  for (let i = 1; i <= 20; i++) {
-    const lectureNum = String(i).padStart(2, '0');
-    const item = document.createElement('a');
-    item.className = 'lecture-card';
-    
-    // Configures the dynamic linking exactly pathing requested relative structure
-    item.href = `lectures/${subCode.toLowerCase()}/l${i}.html`;
-    
-    item.innerHTML = `
-      <div class="l-code">LECTURE ${lectureNum}</div>
-      <div class="l-title">Module Study Pack & Resources</div>
-      <div class="card-footer">
-        <span class="card-action-text" style="opacity: 1; transform: translateX(0);">Open Notes</span>
-        <span class="card-arrow">→</span>
-      </div>
-    `;
-    wrapper.appendChild(item);
-  }
-
-  // Hide the horizontal main index grid scroll views layout timeline smoothly
-  document.getElementById('stats-counter-bar').style.display = 'none';
-  document.getElementById('timeline-track').style.display = 'none';
-
-  // Open up the newly bundled 20 lecture lists content portal layout tracking container blocks
-  document.getElementById('subject-lectures-view').style.display = 'flex';
-
-  // Convert bottom action button back route to acts as close browser simulation safely inside same files
-  const backBtn = document.getElementById('dynamic-back-btn');
-  backBtn.href = "#";
-  backBtn.innerHTML = "<span>←</span> Back to Course";
-  backBtn.onclick = (e) => {
-    e.preventDefault();
-    closeLecturesView();
-  };
-}
-
-function closeLecturesView() {
-  // Restore global layouts block visibility track
-  document.getElementById('subject-lectures-view').style.display = 'none';
-  document.getElementById('stats-counter-bar').style.display = 'flex';
-  document.getElementById('timeline-track').style.display = 'flex';
-
-  // Restore the original dynamic standard sidebar footer tracking point parameters safely
-  const backBtn = document.getElementById('dynamic-back-btn');
-  backBtn.href = "index.html";
-  backBtn.innerHTML = "<span>←</span> Back to Hub";
-  backBtn.onclick = null;
 }
 
 // Init Render
