@@ -8,16 +8,16 @@
 <style>
   /* === PREMIUM LUXURY VIBRANT PURPLE LIGHT THEME === */
   :root {
-    --bg-app: #f5f3ff;          /* මෘදු ලා දම්/සුදු පසුබිම */
-    --bg-card: #ffffff;         /* පිරිසිදු සුදු කාඩ්පත් */
-    --bg-card-hover: #f3e8ff;   /* කාඩ්පත උඩට ගියවිට ලැබෙන Premium ලා දම් පැහැය */
-    --accent: #7c3aed;          /* තද විචිත්‍රවත් දම් පැහැය (Rich Violet) */
+    --bg-app: #f5f3ff;          
+    --bg-card: #ffffff;         
+    --bg-card-hover: #f3e8ff;   
+    --accent: #7c3aed;          
     --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
     --accent-glow: rgba(124, 58, 237, 0.2);
     --border: rgba(124, 58, 237, 0.15);
-    --text-main: #2d224d;       /* තද දම්/කළු මිශ්‍ර ප්‍රධාන අකුරු */
-    --text-title: #1e1145;      /* ප්‍රධාන මාතෘකා */
-    --text-muted: #6b5f8a;      /* මැකී ගිය අකුරු */
+    --text-main: #2d224d;       
+    --text-title: #1e1145;      
+    --text-muted: #6b5f8a;      
     --glass: rgba(255, 255, 255, 0.8);
   }
 
@@ -31,7 +31,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Laptop තිරවල උඩ කොටස කැපීම වැළැක්වීමට */
+    justify-content: flex-start; 
     overflow-x: hidden;
     position: relative;
     padding: 40px 20px 60px 20px;
@@ -147,6 +147,7 @@
     position: relative;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 10px 30px rgba(124, 58, 237, 0.04);
+    cursor: pointer;
   }
 
   .hub-card:hover {
@@ -303,6 +304,51 @@
     font-family: 'Fira Code', monospace;
   }
 
+  /* === PREMIUM GEMINI MODAL SYSTEM === */
+  .ai-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(30, 17, 69, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: all 0.4s ease;
+  }
+  .ai-overlay.active { opacity: 1; pointer-events: auto; }
+
+  .ai-modal {
+    background: var(--bg-card);
+    width: 90%; max-width: 950px; height: 85vh;
+    border-radius: 28px;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    box-shadow: 0 25px 60px rgba(124, 58, 237, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ai-overlay.active .ai-modal { transform: scale(1) translateY(0); }
+
+  .ai-modal-header {
+    padding: 16px 24px;
+    background: #faf9ff;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ai-modal-title { display: flex; align-items: center; gap: 10px; font-weight: 700; color: #6d28d9; }
+  .ai-close-btn {
+    background: #fee2e2; color: #ef4444; border: none; padding: 6px 14px; 
+    border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 13px; transition: 0.2s;
+  }
+  .ai-close-btn:hover { background: #fca5a5; }
+
+  .ai-frame-container { width: 100%; flex: 1; position: relative; background: #ffffff; }
+  .ai-iframe { width: 100%; height: 100%; border: none; }
+
   /* Footer */
   .portal-footer {
     margin-top: 60px;
@@ -327,6 +373,7 @@
     .hub-grid { grid-template-columns: 1fr; }
     .gpa-row { grid-template-columns: 1fr 1fr; }
     .gpa-row .gpa-input:first-child { grid-column: span 2; }
+    .ai-modal { height: 90vh; width: 95%; }
   }
 </style>
 </head>
@@ -354,12 +401,12 @@
         <div class="card-footer-link">Open Dashboard</div>
       </a>
 
-      <a href="https://gemini.google.com" target="_blank" class="hub-card" style="border: 1px solid rgba(168, 85, 247, 0.4);">
+      <div onclick="openAiModal()" class="hub-card" style="border: 1px solid rgba(168, 85, 247, 0.4);">
         <div class="icon-wrapper" style="background: rgba(168, 85, 247, 0.15);">✨</div>
         <div class="card-name" style="color: #6d28d9;">Gemini AI</div>
         <div class="card-desc">Ask doubts, generate study notes, and get instant guidance powered directly by Google Gemini AI.</div>
-        <div class="card-footer-link">Open Gemini AI</div>
-      </a>
+        <div class="card-footer-link">Launch Gemini Workspace</div>
+      </div>
 
       <a href="vocabulary.html" class="hub-card">
         <div class="icon-wrapper">📖</div>
@@ -405,11 +452,42 @@
 
   </div>
 
+  <div class="ai-overlay" id="ai-modal-overlay" onclick="closeAiModalExternally(event)">
+    <div class="ai-modal">
+      <div class="ai-modal-header">
+        <div class="ai-modal-title">✨ <span>Gemini AI Workspace</span></div>
+        <button class="ai-close-btn" onclick="closeAiModal()">Close Workspace ×</button>
+      </div>
+      <div class="ai-frame-container">
+        <iframe src="https://gemini.google.com" class="ai-iframe" id="ai-portal-frame"></iframe>
+      </div>
+    </div>
+  </div>
+
   <footer class="portal-footer">
     Internal Student Environment — CINEC Campus
   </footer>
 
 <script>
+  // === GEMINI INTEGRATED MODAL CONTROLLER ===
+  function openAiModal() {
+    const overlay = document.getElementById('ai-modal-overlay');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Main page scroll එක නවත්තන්න
+  }
+
+  function closeAiModal() {
+    const overlay = document.getElementById('ai-modal-overlay');
+    overlay.classList.remove('active');
+    document.body.style.overflow = 'auto'; // Main page scroll එක ආපහු On කරන්න
+  }
+
+  function closeAiModalExternally(event) {
+    if(event.target.id === 'ai-modal-overlay') {
+      closeAiModal();
+    }
+  }
+
   // Dynamic Premium Clock Engine
   function updatePortalClock() {
     const now = new Date();
@@ -419,7 +497,7 @@
     const ampm = hours >= 12 ? 'PM' : 'AM';
     
     hours = hours % 12;
-    hours = hours ? hours : 12; // 0 should be 12
+    hours = hours ? hours : 12;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
     hours = hours < 10 ? '0' + hours : hours;
