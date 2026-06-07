@@ -1,389 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MGBM1401 — Management Fundamentals</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tharindu Buddhika | Academic Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c96e;
+    --dark: #0d0d0d;
+    --dark2: #141414;
+    --dark3: #1c1c1c;
+    --card: #181818;
+    --border: rgba(201,168,76,0.18);
+    --text: #e8e2d6;
+    --muted: #888;
+    --accent: #c9a84c;
+    --sem1: #b5651d;
+    --sem2: #2e7d7d;
+    --sem3: #6a3d8f;
+    --sem4: #2d6a2d;
+    --sem5: #8b3a3a;
+    --sem6: #1a5276;
+    --sem7: #7d6608;
+    --sem8: #1b4f72;
+  }
 
-:root{
-  --p1:#7c3aed;--p2:#9333ea;--p3:#a855f7;--p4:#c084fc;
-  --g1:#ec4899;--g2:#f43f5e;
-  --bg:#05020f;
-  --glass:rgba(124,58,237,0.08);
-  --border:rgba(168,85,247,0.25);
-  --border2:rgba(196,132,252,0.4);
-  --gold:#f9c74f;--gold2:#f8961e;
-  --white:rgba(255,255,255,0.95);
-  --muted:rgba(255,255,255,0.5);
-  --dim:rgba(255,255,255,0.25);
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html{scroll-behavior:smooth}
-body{
-  font-family:'Outfit',sans-serif;
-  background:var(--bg);
-  color:var(--white);
-  min-height:100vh;
-  overflow-x:hidden;
-}
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-/* ── BG ── */
-.bg-scene{
-  position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -20%,rgba(124,58,237,0.35) 0%,transparent 70%),
-    radial-gradient(ellipse 60% 50% at 100% 80%,rgba(147,51,234,0.2) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 40% at 0% 60%,rgba(236,72,153,0.12) 0%,transparent 60%),
-    var(--bg);
-}
-.blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;mix-blend-mode:screen;}
-.blob-1{width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,0.35) 0%,transparent 65%);top:-180px;left:-120px;animation:b1 20s ease-in-out infinite;}
-.blob-2{width:450px;height:450px;background:radial-gradient(circle,rgba(236,72,153,0.25) 0%,transparent 65%);bottom:-80px;right:-80px;animation:b2 25s ease-in-out infinite;}
-.blob-3{width:350px;height:350px;background:radial-gradient(circle,rgba(168,85,247,0.2) 0%,transparent 65%);top:45%;left:55%;animation:b3 18s ease-in-out infinite;}
-@keyframes b1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,80px)}}
-@keyframes b2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-60px)}}
-@keyframes b3{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,50px)}}
-.grid-overlay{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(168,85,247,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
-.stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.star{position:absolute;border-radius:50%;background:white;animation:twinkle var(--dur,3s) ease-in-out infinite;animation-delay:var(--del,0s);}
-@keyframes twinkle{0%,100%{opacity:0.1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.5)}}
+  /* === BACKGROUND === */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 85% 80%, rgba(201,168,76,0.05) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-/* ── WRAPPER ── */
-.page{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:50px 36px 80px;}
+  /* === HEADER === */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 60px 40px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    background: linear-gradient(180deg, rgba(201,168,76,0.04) 0%, transparent 100%);
+  }
 
-/* ── BACK BTN (top) ── */
-.top-nav{
-  margin-bottom:44px;
-  opacity:0;animation:fadeUp 0.6s ease forwards 0.05s;
-}
-.back-link{
-  display:inline-flex;align-items:center;gap:10px;
-  text-decoration:none;
-  font-size:0.82rem;font-weight:600;
-  letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--p4);
-  background:rgba(124,58,237,0.12);
-  border:1px solid rgba(168,85,247,0.25);
-  padding:10px 20px;border-radius:100px;
-  transition:all 0.3s ease;
-}
-.back-link:hover{
-  background:rgba(124,58,237,0.25);
-  border-color:var(--border2);
-  color:#fff;
-  transform:translateX(-3px);
-  box-shadow:0 8px 30px rgba(124,58,237,0.3);
-}
-.back-arrow{font-size:1rem;transition:transform 0.3s ease;}
-.back-link:hover .back-arrow{transform:translateX(-4px);}
+  .header-left {}
 
-/* ── HERO CARD ── */
-.hero{
-  padding:56px 50px 48px;
-  border-radius:28px;
-  background:linear-gradient(135deg,rgba(124,58,237,0.18) 0%,rgba(30,10,60,0.5) 100%);
-  border:1px solid var(--border2);
-  backdrop-filter:blur(24px);
-  position:relative;overflow:hidden;
-  margin-bottom:50px;
-  text-align:center;
-  box-shadow:0 0 80px rgba(124,58,237,0.2),inset 0 1px 0 rgba(255,255,255,0.08);
-  opacity:0;animation:fadeUp 0.8s ease forwards 0.15s;
-}
-.hero::before{
-  content:'';position:absolute;inset:-1px;border-radius:28px;
-  background:linear-gradient(135deg,rgba(196,132,252,0.45),transparent 50%,rgba(236,72,153,0.2));
-  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;
-  padding:1px;pointer-events:none;
-}
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+    background: rgba(201,168,76,0.06);
+  }
 
-/* big decorative code watermark */
-.hero-watermark{
-  position:absolute;
-  right:-10px;bottom:-20px;
-  font-family:'Playfair Display',serif;
-  font-size:8rem;font-weight:700;
-  color:rgba(168,85,247,0.05);
-  pointer-events:none;user-select:none;
-  line-height:1;
-}
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
 
-.hero-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(168,85,247,0.15);
-  border:1px solid rgba(168,85,247,0.35);
-  border-radius:100px;padding:6px 18px;
-  font-size:0.72rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--p4);margin-bottom:22px;
-  animation:tagPulse 4s ease-in-out infinite;
-}
-.tag-dot{width:6px;height:6px;border-radius:50%;background:var(--p3);animation:dotPulse 2s ease-in-out infinite;}
-@keyframes tagPulse{0%,100%{border-color:rgba(168,85,247,0.3)}50%{border-color:rgba(168,85,247,0.7)}}
-@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,0.7)}50%{box-shadow:0 0 0 6px rgba(168,85,247,0)}}
+  h1 span {
+    color: var(--gold);
+    display: block;
+  }
 
-.hero h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(2rem,4.5vw,3.8rem);
-  font-weight:700;line-height:1.1;
-  background:linear-gradient(135deg,#fff 0%,#e9d5ff 40%,#c084fc 70%,#f9c74f 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  background-size:200% 200%;
-  animation:titleShimmer 8s ease-in-out infinite;
-  position:relative;z-index:1;
-  margin-bottom:14px;
-}
-@keyframes titleShimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .subtitle {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
 
-.hero-meta{
-  display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
-  margin-top:26px;position:relative;z-index:1;
-}
-.hero-chip{
-  display:flex;align-items:center;gap:8px;
-  background:rgba(168,85,247,0.1);
-  border:1px solid rgba(168,85,247,0.2);
-  border-radius:10px;padding:8px 16px;
-  font-size:0.8rem;font-weight:500;color:var(--muted);
-}
-.hero-chip strong{color:var(--p4);font-weight:700;}
+  .student-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 28px;
+    text-align: right;
+    position: relative;
+    overflow: hidden;
+  }
 
-/* ── SECTION HEADER ── */
-.section-hd{
-  display:flex;align-items:center;gap:18px;
-  margin-bottom:28px;
-  opacity:0;animation:fadeUp 0.8s ease forwards 0.35s;
-}
-.section-hd-badge{
-  padding:6px 16px;border-radius:100px;
-  background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(168,85,247,0.2));
-  border:1px solid rgba(168,85,247,0.4);
-  font-size:0.7rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--p4);white-space:nowrap;
-}
-.section-hd-title{
-  font-family:'Playfair Display',serif;
-  font-size:1.5rem;font-weight:700;font-style:italic;
-  background:linear-gradient(90deg,#fff,#c084fc);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.section-hd-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(168,85,247,0.4),transparent);}
-.section-hd-count{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);white-space:nowrap;}
+  .student-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(20px,-20px);
+  }
 
-/* ── LECTURE GRID ── */
-.lectures-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(100px,1fr));
-  gap:14px;
-  opacity:0;animation:fadeUp 0.8s ease forwards 0.45s;
-}
+  .student-card .label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+    font-family: 'DM Mono', monospace;
+  }
 
-/* ── LECTURE CARD ── */
-.lec-card{
-  position:relative;
-  border-radius:16px;overflow:hidden;
-  aspect-ratio:1;
-  cursor:pointer;
-  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.4s ease;
-  text-decoration:none;
-  display:flex;align-items:center;justify-content:center;
-}
-.lec-card:hover{
-  transform:translateY(-8px) scale(1.06);
-  box-shadow:0 24px 60px rgba(124,58,237,0.45),0 0 40px rgba(168,85,247,0.25);
-}
+  .student-card .value {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--gold);
+    font-weight: 500;
+  }
 
-.lec-bg{
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(124,58,237,0.14) 0%,rgba(20,8,50,0.65) 100%);
-  border:1px solid rgba(168,85,247,0.22);
-  border-radius:16px;
-  backdrop-filter:blur(16px);
-  transition:border-color 0.35s ease,background 0.35s ease;
-}
-.lec-card:hover .lec-bg{
-  border-color:rgba(196,132,252,0.55);
-  background:linear-gradient(135deg,rgba(124,58,237,0.28) 0%,rgba(20,8,50,0.7) 100%);
-}
+  .student-card .name-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
 
-/* shimmer sweep */
-.lec-card::before{
-  content:'';position:absolute;
-  top:-100%;left:-100%;width:70%;height:200%;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,0.07),transparent);
-  transform:skewX(-20deg);
-  transition:top 0.55s ease,left 0.55s ease;
-  z-index:2;pointer-events:none;
-}
-.lec-card:hover::before{top:-10%;left:130%;}
+  /* === STATS BAR === */
+  .stats-bar {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
 
-.lec-num{
-  position:relative;z-index:1;
-  font-family:'Playfair Display',serif;
-  font-size:1.9rem;font-weight:700;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  text-shadow:none;
-  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  line-height:1;
-}
-.lec-card:hover .lec-num{transform:scale(1.15);}
+  .stat-item {
+    flex: 1;
+    padding: 20px 28px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
 
-/* glow accent bottom line */
-.lec-accent{
-  position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--p1),var(--p3),var(--gold));
-  transform:scaleX(0);transform-origin:left;
-  transition:transform 0.4s ease;z-index:3;
-}
-.lec-card:hover .lec-accent{transform:scaleX(1);}
+  .stat-item:last-child { border-right: none; }
 
-/* stagger animation */
-.lec-card{opacity:0;animation:fadeUp 0.5s ease forwards;}
-.lec-card:nth-child(1){animation-delay:0.5s}
-.lec-card:nth-child(2){animation-delay:0.52s}
-.lec-card:nth-child(3){animation-delay:0.54s}
-.lec-card:nth-child(4){animation-delay:0.56s}
-.lec-card:nth-child(5){animation-delay:0.58s}
-.lec-card:nth-child(6){animation-delay:0.6s}
-.lec-card:nth-child(7){animation-delay:0.62s}
-.lec-card:nth-child(8){animation-delay:0.64s}
-.lec-card:nth-child(9){animation-delay:0.66s}
-.lec-card:nth-child(10){animation-delay:0.68s}
-.lec-card:nth-child(11){animation-delay:0.7s}
-.lec-card:nth-child(12){animation-delay:0.72s}
-.lec-card:nth-child(13){animation-delay:0.74s}
-.lec-card:nth-child(14){animation-delay:0.76s}
-.lec-card:nth-child(15){animation-delay:0.78s}
-.lec-card:nth-child(16){animation-delay:0.8s}
-.lec-card:nth-child(17){animation-delay:0.82s}
-.lec-card:nth-child(18){animation-delay:0.84s}
-.lec-card:nth-child(19){animation-delay:0.86s}
-.lec-card:nth-child(20){animation-delay:0.88s}
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
 
-/* ── BOTTOM BACK ── */
-.bottom-nav{
-  margin-top:60px;text-align:center;
-  opacity:0;animation:fadeUp 0.8s ease forwards 1s;
-}
-.bottom-back{
-  display:inline-flex;align-items:center;gap:12px;
-  text-decoration:none;
-  font-size:0.9rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
-  color:#fff;
-  background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(168,85,247,0.2));
-  border:1px solid var(--border2);
-  padding:16px 36px;border-radius:14px;
-  backdrop-filter:blur(16px);
-  transition:all 0.35s ease;
-  box-shadow:0 0 0 rgba(124,58,237,0);
-}
-.bottom-back:hover{
-  background:linear-gradient(135deg,rgba(124,58,237,0.55),rgba(168,85,247,0.35));
-  border-color:rgba(196,132,252,0.7);
-  transform:translateY(-4px);
-  box-shadow:0 20px 50px rgba(124,58,237,0.4);
-}
-.bottom-back .arr{font-size:1.1rem;transition:transform 0.3s ease;}
-.bottom-back:hover .arr{transform:translateX(-4px);}
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
 
-/* ── KEYFRAMES ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  /* === FILTER BAR === */
+  .filter-bar {
+    position: relative;
+    z-index: 10;
+    padding: 24px 40px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
 
-/* ── RESPONSIVE ── */
-@media(max-width:700px){
-  .page{padding:32px 16px 60px;}
-  .hero{padding:36px 24px 32px;}
-  .lectures-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;}
-  .lec-num{font-size:1.5rem;}
-}
-@media(max-width:480px){
-  .lectures-grid{grid-template-columns:repeat(5,1fr);gap:8px;}
-  .lec-num{font-size:1.3rem;}
-}
+  .filter-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-right: 6px;
+  }
+
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 6px 16px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,168,76,0.07);
+  }
+
+  /* === MAIN GRID === */
+  main {
+    position: relative;
+    z-index: 10;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  /* === SEMESTER GROUP === */
+  .sem-group {
+    grid-column: 1 / -1;
+    display: contents;
+  }
+
+  .sem-header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+
+  .sem-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sem-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .sem-title small {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-left: 10px;
+  }
+
+  .sem-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* === SUBJECT CARD === */
+  .subject-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 22px 18px;
+    cursor: pointer;
+    transition: transform 0.22s cubic-bezier(.22,.68,0,1.2), box-shadow 0.22s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .subject-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .subject-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+    border-color: rgba(201,168,76,0.35);
+  }
+
+  .subject-card:hover::before { opacity: 1; }
+
+  .card-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  .card-tag {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .card-arrow {
+    font-size: 16px;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all 0.2s;
+  }
+
+  .subject-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .elective-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  /* === FOOTER === */
+  footer {
+    position: relative;
+    z-index: 10;
+    padding: 30px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .footer-note {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  header { animation: fadeUp 0.6s ease both; }
+  .stats-bar { animation: fadeUp 0.6s 0.1s ease both; }
+  .filter-bar { animation: fadeUp 0.6s 0.15s ease both; }
+  .subject-card { animation: fadeUp 0.5s ease both; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header { padding: 36px 20px 28px; }
+    main { padding: 20px; gap: 14px; }
+    .filter-bar { padding: 16px 20px; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat-item { min-width: 50%; }
+    footer { padding: 20px; flex-direction: column; text-align: center; }
+  }
 </style>
 </head>
 <body>
 
-<div class="bg-scene"></div>
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
-<div class="blob blob-3"></div>
-<div class="grid-overlay"></div>
-<div class="stars" id="stars"></div>
-
-<div class="page">
-
-  <!-- TOP BACK -->
-  <div class="top-nav">
-    <a href="../index.html" class="back-link">
-      <span class="back-arrow">←</span>
-      Back to Portal
-    </a>
+<header>
+  <div class="header-left">
+    <div class="badge">Personal Academic Portal</div>
+    <h1>Tharindu <span>Buddhika</span></h1>
+    <p class="subtitle">Bachelor of Business Administration &nbsp;·&nbsp; Module Index</p>
   </div>
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-watermark">MF</div>
-    <div class="hero-tag"><span class="tag-dot"></span>Management Studies</div>
-    <h1>Management Fundamentals</h1>
-    <div class="hero-meta">
-      <div class="hero-chip">📘 Course Code: <strong>MGBM1401</strong></div>
-      <div class="hero-chip">📅 Year 1 — Semester 1</div>
-      <div class="hero-chip">🎯 20 Lectures</div>
-    </div>
+  <div class="student-card">
+    <div class="label">Full Name</div>
+    <div class="name-val">Tharindu Buddhika</div>
+    <div class="label" style="margin-top:10px;">Student ID</div>
+    <div class="value">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
+</header>
 
-  <!-- SECTION HEADER -->
-  <div class="section-hd">
-    <span class="section-hd-badge">Lectures</span>
-    <span class="section-hd-title">Select a Lecture</span>
-    <div class="section-hd-line"></div>
-    <span class="section-hd-count">1 — 20</span>
-  </div>
-
-  <!-- LECTURE GRID -->
-  <div class="lectures-grid">
-    <a href="../lectures/mgbm1401-lecture01.html" class="lec-card"><div class="lec-bg"></div><div class="lec-num">1</div><div class="lec-accent"></div></a>
-  </div>
-
-  <!-- BOTTOM BACK -->
-  <div class="bottom-nav">
-    <a href="../index.html" class="bottom-back">
-      <span class="arr">←</span>
-      Back to Portal Home
-    </a>
-  </div>
-
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">33</div><div class="stat-label">Total Modules</div></div>
+  <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Years</div></div>
+  <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Semesters</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Electives</div></div>
 </div>
 
-<script>
-// Stars
-(function(){
-  const c=document.getElementById('stars');
-  for(let i=0;i<100;i++){
-    const s=document.createElement('div');
-    const sz=Math.random()*2+0.5;
-    s.className='star';
-    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--del:${Math.random()*5}s;opacity:${Math.random()*0.3+0.05};`;
-    c.appendChild(s);
-  }
-})();
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterSem('all', this)">All</button>
+  <button class="filter-btn" onclick="filterSem('year1', this)">Year 1</button>
+  <button class="filter-btn" onclick="filterSem('year2', this)">Year 2</button>
+  <button class="filter-btn" onclick="filterSem('year3', this)">Year 3</button>
+  <button class="filter-btn" onclick="filterSem('year4', this)">Year 4</button>
+  <button class="filter-btn" onclick="filterSem('elective', this)">Electives</button>
+</div>
 
-// 3D tilt on lecture cards
-document.querySelectorAll('.lec-card').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=((e.clientX-r.left)/r.width-0.5)*18;
-    const y=((e.clientY-r.top)/r.height-0.5)*-18;
-    card.style.transform=`translateY(-8px) scale(1.06) rotateX(${y}deg) rotateY(${x}deg)`;
+<main id="main-grid"></main>
+
+<footer>
+  <div class="footer-brand">TB Academic Index</div>
+  <div class="footer-note">Personal Use Only &nbsp;·&nbsp; COM/BMgt-558/IFLS26-15/0001</div>
+</footer>
+
+<script>
+const SEMESTERS = [
+  {
+    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#c9a84c',
+    subjects: [
+      { code: 'MGBM1401', title: 'Management Fundamentals' },
+      { code: 'MGBM1302', title: 'Business Mathematics for Decisions' },
+      { code: 'MGBM1403', title: 'Introduction to Information & Communication Technology' },
+      { code: 'MGBM1404', title: 'Soft Skills in Business Communication' },
+      { code: 'MGBM1005', title: 'English Language for Business 1' },
+    ]
+  },
+  {
+    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#4caf8c',
+    subjects: [
+      { code: 'MGBM1306', title: 'Microeconomics' },
+      { code: 'MGBM1407', title: 'Marketing Management' },
+      { code: 'MGBM1408', title: 'Financial Accounting' },
+      { code: 'MGBM1409', title: 'Organizational Behaviour' },
+      { code: 'MGBM1010', title: 'English Language for Business 2' },
+    ]
+  },
+  {
+    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#9c6fe0',
+    subjects: [
+      { code: 'MGBM2411', title: 'Business Law' },
+      { code: 'MGBM2412', title: 'Business Statistics' },
+      { code: 'MGBM2413', title: 'Management Accounting' },
+      { code: 'MGBM2314', title: 'Business Information Systems' },
+    ]
+  },
+  {
+    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#5aad6e',
+    subjects: [
+      { code: 'MGBM2415', title: 'Managerial Economics' },
+      { code: 'MGBM2416', title: 'Human Resource Management' },
+      { code: 'MGBM2417', title: 'Finance Management' },
+      { code: 'MGBM2318', title: 'Managerial Soft Skills' },
+    ]
+  },
+  {
+    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#d46060',
+    subjects: [
+      { code: 'MGBM3419', title: 'Development Economics' },
+      { code: 'MGBM3420', title: 'Strategic Marketing Management' },
+      { code: 'MGBM3421', title: 'Supply Chain Management' },
+      { code: 'MGBM3422', title: 'International Business Strategy' },
+    ]
+  },
+  {
+    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#4a8ec2',
+    subjects: [
+      { code: 'MGBM3423', title: 'Strategic Brand Management' },
+      { code: 'MGBM3424', title: 'Research Methodology' },
+      { code: 'MGBM3325', title: 'Operations Management' },
+      { code: 'MGBM3326', title: 'Corporate Social Responsibility & Ethics', elective: true },
+      { code: 'MGBM337',  title: 'Entrepreneurship', elective: true },
+      { code: 'MGBM3328', title: 'E-Commerce', elective: true },
+    ]
+  },
+  {
+    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#c9a84c',
+    subjects: [
+      { code: 'MGBM4429', title: 'Strategic Management' },
+      { code: 'MGBM4430', title: 'Strategic Finance' },
+      { code: 'MGBM4631', title: 'Project Management' },
+    ]
+  },
+  {
+    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#3eb8d0',
+    subjects: [
+      { code: 'MGBM4432', title: 'Academic Writing' },
+      { code: 'MGBM4633', title: 'Dissertation' },
+      { code: 'MGBM4634', title: 'Internship in Business Administration' },
+    ]
+  },
+];
+
+function buildGrid(filter = 'all') {
+  const grid = document.getElementById('main-grid');
+  grid.innerHTML = '';
+
+  SEMESTERS.forEach((sem, si) => {
+    const subjects = filter === 'elective'
+      ? sem.subjects.filter(s => s.elective)
+      : sem.subjects;
+
+    const yearMatch = filter === 'all' || filter === sem.year || filter === 'elective';
+    if (!yearMatch || subjects.length === 0) return;
+
+    // Semester header
+    const hdr = document.createElement('div');
+    hdr.className = 'sem-header';
+    hdr.innerHTML = `
+      <div class="sem-dot" style="background:${sem.color};box-shadow:0 0 8px ${sem.color}66;"></div>
+      <div class="sem-title">${sem.label} <small>${sem.id.toUpperCase()}</small></div>
+      <div class="sem-line"></div>
+    `;
+    grid.appendChild(hdr);
+
+    // Subject cards
+    subjects.forEach((sub, i) => {
+      const card = document.createElement('a');
+      card.className = 'subject-card';
+      card.href = `subjects/${sub.code.toLowerCase()}.html`;
+      card.dataset.year = sem.year;
+      card.dataset.elective = sub.elective ? 'true' : 'false';
+      card.style.animationDelay = `${(si * 0.05) + (i * 0.04)}s`;
+      card.style.borderTopColor = sem.color + '55';
+      card.innerHTML = `
+        <style>.subject-card[data-sem="${sem.id}"]::before { background: linear-gradient(90deg, ${sem.color}, transparent); }</style>
+        ${sub.elective ? '<span class="elective-badge">Elective</span>' : ''}
+        <div class="card-code">${sub.code}</div>
+        <div class="card-title">${sub.title}</div>
+        <div class="card-footer">
+          <span class="card-tag" style="border-color:${sem.color}44;color:${sem.color}aa;">${sem.id.replace('sem','Sem ')}</span>
+          <span class="card-arrow">→</span>
+        </div>
+      `;
+      card.querySelector('style').remove(); // clean up inline style tag
+      card.style.setProperty('--sem-color', sem.color);
+      // Top accent on hover via pseudo not possible inline; use border-top tint
+      card.style.borderTopWidth = '2px';
+      grid.appendChild(card);
+    });
   });
-  card.addEventListener('mouseleave',()=>{card.style.transform='';});
-});
+}
+
+function filterSem(f, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildGrid(f);
+}
+
+buildGrid('all');
 </script>
 </body>
 </html>
