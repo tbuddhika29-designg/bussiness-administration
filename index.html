@@ -1,56 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Tharindu Buddhika | Academic Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  :root {
+  /* === THEME VARIABLES === */
+  :root[data-theme="dark"] {
     --gold: #c9a84c;
     --gold-light: #e8c96e;
-    --dark: #0d0d0d;
-    --dark2: #141414;
-    --dark3: #1c1c1c;
-    --card: #181818;
+    --bg-main: #0d0d0d;
+    --bg-gradient: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 80%, rgba(201,168,76,0.05) 0%, transparent 55%);
+    --card: #141414;
+    --card-hover: #1c1c1c;
     --border: rgba(201,168,76,0.18);
     --text: #e8e2d6;
-    --muted: #888;
-    --accent: #c9a84c;
-    --sem1: #b5651d;
-    --sem2: #2e7d7d;
-    --sem3: #6a3d8f;
-    --sem4: #2d6a2d;
-    --sem5: #8b3a3a;
-    --sem6: #1a5276;
-    --sem7: #7d6608;
-    --sem8: #1b4f72;
+    --text-white: #ffffff;
+    --muted: #888888;
+    --shadow: rgba(0,0,0,0.5);
+  }
+
+  :root[data-theme="light"] {
+    --gold: #aa862c;
+    --gold-light: #c9a84c;
+    --bg-main: #fcfbfa;
+    --bg-gradient: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.05) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 80%, rgba(201,168,76,0.03) 0%, transparent 55%);
+    --card: #ffffff;
+    --card-hover: #f7f5f0;
+    --border: rgba(201,168,76,0.25);
+    --text: #2c2a27;
+    --text-white: #111111;
+    --muted: #6e6a64;
+    --shadow: rgba(201,168,76,0.08);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--dark);
+    background: var(--bg-main);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     min-height: 100vh;
     overflow-x: hidden;
+    transition: background 0.4s ease, color 0.4s ease;
   }
 
-  /* === BACKGROUND === */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 85% 80%, rgba(201,168,76,0.05) 0%, transparent 55%);
+    background: var(--bg-gradient);
     pointer-events: none;
     z-index: 0;
   }
 
-  /* === HEADER === */
+  /* === HEADER & CONTROLS === */
   header {
     position: relative;
     z-index: 10;
@@ -61,10 +67,8 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 24px;
-    background: linear-gradient(180deg, rgba(201,168,76,0.04) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(201,168,76,0.03) 0%, transparent 100%);
   }
-
-  .header-left {}
 
   .badge {
     display: inline-block;
@@ -75,9 +79,9 @@
     color: var(--gold);
     border: 1px solid var(--border);
     padding: 5px 14px;
-    border-radius: 2px;
+    border-radius: 4px;
     margin-bottom: 18px;
-    background: rgba(201,168,76,0.06);
+    background: rgba(201,168,76,0.05);
   }
 
   h1 {
@@ -85,20 +89,43 @@
     font-size: clamp(2.2rem, 5vw, 3.8rem);
     font-weight: 900;
     line-height: 1.05;
-    color: #fff;
+    color: var(--text-white);
     letter-spacing: -0.5px;
   }
 
-  h1 span {
-    color: var(--gold);
-    display: block;
+  h1 span { color: var(--gold); display: block; }
+  .subtitle { margin-top: 10px; font-size: 13px; color: var(--muted); letter-spacing: 0.5px; }
+
+  /* === THEME TOGGLE BUTTON === */
+  .theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
   }
 
-  .subtitle {
-    margin-top: 10px;
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
+  .theme-toggle-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    padding: 8px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px var(--shadow);
+    transition: all 0.3s ease;
+  }
+
+  .theme-toggle-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold-light);
+    background: var(--card-hover);
   }
 
   .student-card {
@@ -109,171 +136,34 @@
     text-align: right;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 30px var(--shadow);
+    transition: background 0.4s ease, border 0.4s ease;
   }
 
-  .student-card::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 80px; height: 80px;
-    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(20px,-20px);
-  }
-
-  .student-card .label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 4px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .student-card .value {
-    font-family: 'DM Mono', monospace;
-    font-size: 14px;
-    color: var(--gold);
-    font-weight: 500;
-  }
-
-  .student-card .name-val {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    color: #fff;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
+  .student-card .label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; font-family: 'DM Mono', monospace; }
+  .student-card .value { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--gold); font-weight: 500; }
+  .student-card .name-val { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text-white); font-weight: 700; margin-bottom: 6px; }
 
   /* === STATS BAR === */
-  .stats-bar {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .stat-item {
-    flex: 1;
-    padding: 20px 28px;
-    border-right: 1px solid var(--border);
-    text-align: center;
-  }
-
+  .stats-bar { position: relative; z-index: 10; display: flex; border-bottom: 1px solid var(--border); background: var(--bg-main); transition: background 0.4s ease; }
+  .stat-item { flex: 1; padding: 20px 28px; border-right: 1px solid var(--border); text-align: center; }
   .stat-item:last-child { border-right: none; }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--gold);
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 4px;
-    font-family: 'DM Mono', monospace;
-  }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold); line-height: 1; }
+  .stat-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-top: 4px; font-family: 'DM Mono', monospace; }
 
   /* === FILTER BAR === */
-  .filter-bar {
-    position: relative;
-    z-index: 10;
-    padding: 24px 40px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .filter-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    margin-right: 6px;
-  }
-
-  .filter-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
-    padding: 6px 16px;
-    border-radius: 2px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    text-transform: uppercase;
-  }
-
-  .filter-btn:hover, .filter-btn.active {
-    border-color: var(--gold);
-    color: var(--gold);
-    background: rgba(201,168,76,0.07);
-  }
+  .filter-bar { position: relative; z-index: 10; padding: 24px 40px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
+  .filter-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: 'DM Mono', monospace; margin-right: 6px; }
+  .filter-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 6px 16px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+  .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.07); }
 
   /* === MAIN GRID === */
-  main {
-    position: relative;
-    z-index: 10;
-    padding: 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
-  /* === SEMESTER GROUP === */
-  .sem-group {
-    grid-column: 1 / -1;
-    display: contents;
-  }
-
-  .sem-header {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 16px;
-    margin-bottom: 4px;
-  }
-
-  .sem-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .sem-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #fff;
-  }
-
-  .sem-title small {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 400;
-    color: var(--muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-left: 10px;
-  }
-
-  .sem-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  main { position: relative; z-index: 10; padding: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .sem-header { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; margin-top: 16px; margin-bottom: 4px; }
+  .sem-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .sem-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text-white); }
+  .sem-title small { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-left: 10px; }
+  .sem-line { flex: 1; height: 1px; background: var(--border); }
 
   /* === SUBJECT CARD === */
   .subject-card {
@@ -282,79 +172,29 @@
     border-radius: 10px;
     padding: 22px 22px 18px;
     cursor: pointer;
-    transition: transform 0.22s cubic-bezier(.22,.68,0,1.2), box-shadow 0.22s, border-color 0.2s;
+    transition: transform 0.25s cubic-bezier(.22,.68,0,1.2), box-shadow 0.25s, border-color 0.2s, background 0.4s ease;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 10px;
     text-decoration: none;
-  }
-
-  .subject-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    opacity: 0;
-    transition: opacity 0.2s;
+    box-shadow: 0 4px 12px var(--shadow);
   }
 
   .subject-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
-    border-color: rgba(201,168,76,0.35);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 35px var(--shadow);
+    border-color: var(--gold);
+    background: var(--card-hover);
   }
 
-  .subject-card:hover::before { opacity: 1; }
-
-  .card-code {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.3;
-    flex: 1;
-  }
-
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 4px;
-  }
-
-  .card-tag {
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
-    padding: 3px 10px;
-    border-radius: 2px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
-  .card-arrow {
-    font-size: 16px;
-    color: var(--gold);
-    opacity: 0;
-    transform: translateX(-6px);
-    transition: all 0.2s;
-  }
-
-  .subject-card:hover .card-arrow {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  .card-code { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text-white); line-height: 1.3; flex: 1; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+  .card-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Mono', monospace; padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); color: var(--muted); }
+  .card-arrow { font-size: 16px; color: var(--gold); opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
+  .subject-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
 
   .elective-badge {
     position: absolute;
@@ -365,49 +205,16 @@
     text-transform: uppercase;
     color: var(--gold);
     background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.2);
+    border: 1px solid var(--border);
     padding: 2px 8px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
   /* === FOOTER === */
-  footer {
-    position: relative;
-    z-index: 10;
-    padding: 30px 40px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
+  footer { position: relative; z-index: 10; padding: 30px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: var(--bg-main); transition: background 0.4s ease; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); }
+  .footer-note { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
 
-  .footer-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--gold);
-  }
-
-  .footer-note {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* === ANIMATIONS === */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  header { animation: fadeUp 0.6s ease both; }
-  .stats-bar { animation: fadeUp 0.6s 0.1s ease both; }
-  .filter-bar { animation: fadeUp 0.6s 0.15s ease both; }
-  .subject-card { animation: fadeUp 0.5s ease both; }
-
-  /* Responsive */
   @media (max-width: 600px) {
     header { padding: 36px 20px 28px; }
     main { padding: 20px; gap: 14px; }
@@ -422,7 +229,13 @@
 
 <header>
   <div class="header-left">
-    <div class="badge">Personal Academic Portal</div>
+    <div class="theme-switch-wrapper">
+      <div class="badge">Personal Academic Portal</div>
+      <!-- THEME TOGGLE BUTTON -->
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+        <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+      </button>
+    </div>
     <h1>Tharindu <span>Buddhika</span></h1>
     <p class="subtitle">Bachelor of Business Administration &nbsp;·&nbsp; Module Index</p>
   </div>
@@ -459,6 +272,7 @@
 </footer>
 
 <script>
+// Data Set
 const SEMESTERS = [
   {
     id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#c9a84c',
@@ -514,12 +328,12 @@ const SEMESTERS = [
       { code: 'MGBM3424', title: 'Research Methodology' },
       { code: 'MGBM3325', title: 'Operations Management' },
       { code: 'MGBM3326', title: 'Corporate Social Responsibility & Ethics', elective: true },
-      { code: 'MGBM337',  title: 'Entrepreneurship', elective: true },
+      { code: 'MGBM3327', title: 'Entrepreneurship', elective: true },
       { code: 'MGBM3328', title: 'E-Commerce', elective: true },
     ]
   },
   {
-    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#c9a84c',
+    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#e0a96d',
     subjects: [
       { code: 'MGBM4429', title: 'Strategic Management' },
       { code: 'MGBM4430', title: 'Strategic Finance' },
@@ -533,9 +347,33 @@ const SEMESTERS = [
       { code: 'MGBM4633', title: 'Dissertation' },
       { code: 'MGBM4634', title: 'Internship in Business Administration' },
     ]
-  },
+  }
 ];
 
+// Theme Switch Logic
+function toggleTheme() {
+  const root = document.documentElement;
+  const currentTheme = root.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  root.setAttribute('data-theme', newTheme);
+  updateThemeUI(newTheme);
+}
+
+function updateThemeUI(theme) {
+  const icon = document.getElementById('themeIcon');
+  const text = document.getElementById('themeText');
+  
+  if (theme === 'dark') {
+    icon.textContent = '🌙';
+    text.textContent = 'Dark Mode';
+  } else {
+    icon.textContent = '☀️';
+    text.textContent = 'Light Mode';
+  }
+}
+
+// Build Grid Function
 function buildGrid(filter = 'all') {
   const grid = document.getElementById('main-grid');
   grid.innerHTML = '';
@@ -563,24 +401,17 @@ function buildGrid(filter = 'all') {
       const card = document.createElement('a');
       card.className = 'subject-card';
       card.href = `subjects/${sub.code.toLowerCase()}.html`;
-      card.dataset.year = sem.year;
-      card.dataset.elective = sub.elective ? 'true' : 'false';
-      card.style.animationDelay = `${(si * 0.05) + (i * 0.04)}s`;
-      card.style.borderTopColor = sem.color + '55';
+      card.style.borderTop = `2px solid ${sem.color}`;
+      
       card.innerHTML = `
-        <style>.subject-card[data-sem="${sem.id}"]::before { background: linear-gradient(90deg, ${sem.color}, transparent); }</style>
         ${sub.elective ? '<span class="elective-badge">Elective</span>' : ''}
         <div class="card-code">${sub.code}</div>
         <div class="card-title">${sub.title}</div>
         <div class="card-footer">
-          <span class="card-tag" style="border-color:${sem.color}44;color:${sem.color}aa;">${sem.id.replace('sem','Sem ')}</span>
+          <span class="card-tag" style="border-color:${sem.color}44;color:${sem.color};">${sem.id.replace('sem','Sem ')}</span>
           <span class="card-arrow">→</span>
         </div>
       `;
-      card.querySelector('style').remove(); // clean up inline style tag
-      card.style.setProperty('--sem-color', sem.color);
-      // Top accent on hover via pseudo not possible inline; use border-top tint
-      card.style.borderTopWidth = '2px';
       grid.appendChild(card);
     });
   });
@@ -592,6 +423,7 @@ function filterSem(f, btn) {
   buildGrid(f);
 }
 
+// Initialize
 buildGrid('all');
 </script>
 </body>
