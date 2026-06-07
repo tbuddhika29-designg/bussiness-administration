@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tharindu Buddhika | Premium Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  /* === PREMIUM LUXURY VIBRANT PURPLE LIGHT THEME === */
+  :root {
+    --bg-app: #f5f3ff;          /* මෘදු ලා දම්/සුදු පසුබිම */
+    --bg-card: #ffffff;         /* පිරිසිදු සුදු කාඩ්පත් */
+    --bg-card-hover: #f3e8ff;   /* කාඩ්පත උඩට ගියවිට ලැබෙන Premium ලා දම් පැහැය */
+    --accent: #7c3aed;          /* තද විචිත්‍රවත් දම් පැහැය (Rich Violet) */
+    --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+    --accent-glow: rgba(124, 58, 237, 0.2);
+    --border: rgba(124, 58, 237, 0.15);
+    --text-main: #2d224d;       /* තද දම්/කළු මිශ්‍ර ප්‍රධාන අකුරු */
+    --text-title: #1e1145;      /* ප්‍රධාන මාතෘකා */
+    --text-muted: #6b5f8a;      /* මැකී ගිය අකුරු */
+    --glass: rgba(255, 255, 255, 0.8);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-app);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 60px 20px;
+  }
+
+  /* Premium Background Decorative Glows */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -20%; left: -10%;
+    width: 70vw; height: 70vh;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -20%; right: -10%;
+    width: 60vw; height: 60vh;
+    background: radial-gradient(circle, rgba(168, 85, 243, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Main Container */
+  .home-wrapper {
+    max-width: 1100px;
+    width: 100%;
+    text-align: center;
+    z-index: 5;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .portal-badge {
+    display: inline-block;
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    padding: 6px 18px;
+    border-radius: 30px;
+    background: rgba(124, 58, 237, 0.08);
+    backdrop-filter: blur(5px);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 800;
+    color: var(--text-title);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero-title span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(14px, 2vw, 17px);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 50px;
+    line-height: 1.6;
+  }
+
+  /* Grid Options Container */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    margin-bottom: 40px;
+  }
+
+  /* Premium Navigation Card */
+  .hub-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.04);
+  }
+
+  .hub-card:hover {
+    transform: translateY(-8px);
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+    box-shadow: 0 20px 40px rgba(124, 58, 237, 0.12);
+  }
+
+  .icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: var(--accent);
+    transition: 0.3s;
+  }
+  .hub-card:hover .icon-wrapper {
+    background: var(--accent-gradient);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    transform: scale(1.05);
+  }
+
+  .card-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-title);
+    margin-top: 8px;
+  }
+
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    min-height: 60px;
+  }
+
+  .card-footer-link {
+    font-size: 12px;
+    font-family: 'Fira Code', monospace;
+    color: var(--accent);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .card-footer-link::after {
+    content: '→';
+    transition: transform 0.3s;
+  }
+  .hub-card:hover .card-footer-link::after {
+    transform: translateX(5px);
+  }
+
+  /* === WIDGET SECTION: GPA CALCULATOR === */
+  .gpa-section {
+    background: var(--bg-card);
+    border: 2px solid rgba(124, 58, 237, 0.25);
+    border-radius: 28px;
+    padding: 35px;
+    max-width: 650px;
+    margin: 40px auto 0;
+    box-shadow: 0 15px 40px rgba(124, 58, 237, 0.06);
+    text-align: left;
+  }
+
+  .gpa-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-title);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .gpa-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+
+  .gpa-input, .gpa-select {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #faf9ff;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+  }
+  .gpa-input:focus, .gpa-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .btn-add {
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--accent);
+    border: 1px dashed var(--accent);
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    transition: 0.3s;
+  }
+  .btn-add:hover {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-remove {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gpa-result-box {
+    margin-top: 25px;
+    padding: 20px;
+    background: var(--accent-gradient);
+    color: white;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.2);
+  }
+  .gpa-val {
+    font-size: 32px;
+    font-weight: 800;
+    font-family: 'Fira Code', monospace;
+  }
+
+  /* Footer */
+  .portal-footer {
+    margin-top: 60px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'Fira Code', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 900px) {
+    .hub-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 650px) {
+    body { padding: 40px 16px; }
+    .hub-grid { grid-template-columns: 1fr; }
+    .gpa-row { grid-template-columns: 1fr 1fr; }
+    .gpa-row .gpa-input:first-child { grid-column: span 2; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- MAIN CENTRAL APP WRAPPER -->
+  <div class="home-wrapper">
+    <div class="portal-badge">Premium Student Workspace</div>
+    
+    <h1 class="hero-title">Tharindu<br><span>Buddhika</span></h1>
+    <p class="hero-subtitle">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහතින් පහසුවෙන් කළමනාකරණය කරන්න.</p>
+
+    <!-- NAVIGATION HUB SELECTION GRID -->
+    <div class="hub-grid">
+      
+      <!-- CARD 01: ACADEMIC PORTAL -->
+      <a href="dashboard.html" class="hub-card">
+        <div class="icon-wrapper">🎓</div>
+        <div class="card-name">Academic Portal</div>
+        <div class="card-desc">Track modular progression, credit counts, and view syllabus criteria structured by semesters.</div>
+        <div class="card-footer-link">Open Dashboard</div>
+      </a>
+
+      <!-- CARD 02: AI ASSISTANT (DIRECT TO GEMINI) -->
+      <a href="https://gemini.google.com" target="_blank" class="hub-card" style="border: 1px solid rgba(168, 85, 247, 0.4);">
+        <div class="icon-wrapper" style="background: rgba(168, 85, 247, 0.15);">✨</div>
+        <div class="card-name" style="color: #6d28d9;">Gemini AI</div>
+        <div class="card-desc">Ask doubts, generate study notes, and get instant guidance powered directly by Google Gemini AI.</div>
+        <div class="card-footer-link">Open Gemini AI</div>
+      </a>
+
+      <!-- CARD 03: VOCABULARY ENGINE -->
+      <a href="vocabulary.html" class="hub-card">
+        <div class="icon-wrapper">📖</div>
+        <div class="card-name">Vocabulary</div>
+        <div class="card-desc">Master professional business definitions, management terms, and essential academic vocabulary.</div>
+        <div class="card-footer-link">Launch Module</div>
+      </a>
+
+    </div>
+
+    <!-- === GPA CALCULATOR WIDGET === -->
+    <div class="gpa-section">
+      <div class="gpa-title">📊 CINEC GPA Calculator</div>
+      <div id="gpa-container">
+        <!-- Initial Row 1 -->
+        <div class="gpa-row">
+          <input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
+          <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
+          <select class="gpa-select grade-val">
+            <option value="4.00">A / A+</option>
+            <option value="3.70">A-</option>
+            <option value="3.30">B+</option>
+            <option value="3.00">B</option>
+            <option value="2.70">B-</option>
+            <option value="2.30">C+</option>
+            <option value="2.00">C</option>
+            <option value="1.70">C-</option>
+            <option value="1.00">D</option>
+            <option value="0.00">F</option>
+          </select>
+          <button class="btn-remove" onclick="removeRow(this)">×</button>
+        </div>
+      </div>
+      
+      <button class="btn-add" onclick="addRow()">+ Add New Subject</button>
+
+      <div class="gpa-result-box">
+        <div>
+          <h4 style="font-size: 16px; font-weight: 500; opacity: 0.9;">Your Current GPA</h4>
+          <p style="font-size: 12px; opacity: 0.7; margin-top: 2px;">Based on entered modular values</p>
+        </div>
+        <div class="gpa-val" id="gpa-display">4.00</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="portal-footer">
+    Internal Student Environment — CINEC Campus
+  </footer>
+
+<script>
+  // Dynamic GPA Calculation Engine
+  function calculateGPA() {
+    const rows = document.querySelectorAll('.gpa-row');
+    let totalCredits = 0;
+    let totalPoints = 0;
+
+    rows.forEach(row => {
+      const creditInput = row.querySelector('.credit-val');
+      const gradeSelect = row.querySelector('.grade-val');
+      
+      const credits = parseFloat(creditInput.value) || 0;
+      const gradePoint = parseFloat(gradeSelect.value) || 0;
+
+      if (credits > 0) {
+        totalCredits += credits;
+        totalPoints += (credits * gradePoint);
+      }
+    });
+
+    const finalGPA = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
+    document.getElementById('gpa-display').textContent = finalGPA;
+  }
+
+  function addRow() {
+    const container = document.getElementById('gpa-container');
+    const newRow = document.createElement('div');
+    newRow.className = 'gpa-row';
+    newRow.innerHTML = `
+      <input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
+      <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
+      <select class="gpa-select grade-val">
+        <option value="4.00">A / A+</option>
+        <option value="3.70">A-</option>
+        <option value="3.30">B+</option>
+        <option value="3.00">B</option>
+        <option value="2.70">B-</option>
+        <option value="2.30">C+</option>
+        <option value="2.00">C</option>
+        <option value="1.70">C-</option>
+        <option value="1.00">D</option>
+        <option value="0.00">F</option>
+      </select>
+      <button class="btn-remove" onclick="removeRow(this)">×</button>
+    `;
+    container.appendChild(newRow);
+    
+    newRow.querySelector('.credit-val').addEventListener('input', calculateGPA);
+    newRow.querySelector('.grade-val').addEventListener('change', calculateGPA);
+    calculateGPA();
+  }
+
+  function removeRow(btn) {
+    const rows = document.querySelectorAll('.gpa-row');
+    if(rows.length > 1) {
+      btn.parentElement.remove();
+      calculateGPA();
+    } else {
+      alert("At least one subject is required for calculation!");
+    }
+  }
+
+  document.querySelector('.credit-val').addEventListener('input', calculateGPA);
+  document.querySelector('.grade-val').addEventListener('change', calculateGPA);
+</script>
+</body>
+</html>
