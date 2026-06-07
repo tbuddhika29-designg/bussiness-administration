@@ -361,7 +361,9 @@
     </div>
 
     <div class="sidebar-footer">
-     
+      <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+      </button>
       <div>
         <div class="brand">TB Index</div>
         <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Internal Student Portal</p>
@@ -539,6 +541,8 @@ function filterSem(f, btn) {
   buildGrid(f);
 }
 
+// Init Render
+buildGrid('all');
 </script>
 </body>
 </html>
