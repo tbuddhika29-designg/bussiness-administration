@@ -4,20 +4,20 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Tharindu Buddhika | Premium Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
   /* === PREMIUM LUXURY VIBRANT PURPLE LIGHT THEME === */
   :root {
-    --bg-app: #f5f3ff;          /* මෘදු ලා දම්/සුදු පසුබිම */
-    --bg-card: #ffffff;         /* පිරිසිදු සුදු කාඩ්පත් */
-    --bg-card-hover: #f3e8ff;   /* කාඩ්පත උඩට ගියවිට ලැබෙන Premium ලා දම් පැහැය */
-    --accent: #7c3aed;          /* තද විචිත්‍රවත් දම් පැහැය (Rich Violet) */
+    --bg-app: #f5f3ff;          
+    --bg-card: #ffffff;         
+    --bg-card-hover: #f3e8ff;   
+    --accent: #7c3aed;          
     --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
     --accent-glow: rgba(124, 58, 237, 0.2);
     --border: rgba(124, 58, 237, 0.15);
-    --text-main: #2d224d;       /* තද දම්/කළු මිශ්‍ර ප්‍රධාන අකුරු */
-    --text-title: #1e1145;      /* ප්‍රධාන මාතෘකා */
-    --text-muted: #6b5f8a;      /* මැකී ගිය අකුරු */
+    --text-main: #2d224d;       
+    --text-title: #1e1145;      
+    --text-muted: #6b5f8a;      
     --glass: rgba(255, 255, 255, 0.8);
   }
 
@@ -34,7 +34,7 @@
     justify-content: center;
     overflow-x: hidden;
     position: relative;
-    padding: 60px 20px;
+    padding: 80px 20px;
   }
 
   /* Premium Background Decorative Glows */
@@ -55,6 +55,38 @@
     background: radial-gradient(circle, rgba(168, 85, 243, 0.1) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
+  }
+
+  /* === GLOBAL PREMIUM LIVE CLOCK === */
+  .global-clock {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.05);
+    z-index: 100;
+  }
+  .clock-time {
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .clock-date {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-left: 1px solid var(--border);
+    padding-left: 12px;
   }
 
   /* Main Container */
@@ -82,28 +114,31 @@
     font-weight: 600;
   }
 
+  /* === LAPTOP OPTIMIZED FONT FOR NAME === */
   .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
     font-weight: 800;
     color: var(--text-title);
-    line-height: 1.1;
+    line-height: 1.15;
     margin-bottom: 16px;
+    letter-spacing: -1px;
   }
   .hero-title span {
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-style: italic;
-    font-weight: 400;
+    font-style: normal;
+    font-weight: 800;
   }
 
   .hero-subtitle {
-    font-size: clamp(14px, 2vw, 17px);
+    font-size: clamp(14px, 2vw, 16px);
     color: var(--text-muted);
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto 50px;
     line-height: 1.6;
+    font-weight: 500;
   }
 
   /* Grid Options Container */
@@ -159,7 +194,7 @@
   }
 
   .card-name {
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 700;
     color: var(--text-title);
     margin-top: 8px;
@@ -190,20 +225,31 @@
     transform: translateX(5px);
   }
 
-  /* === WIDGET SECTION: GPA CALCULATOR === */
-  .gpa-section {
-    background: var(--bg-card);
-    border: 2px solid rgba(124, 58, 237, 0.25);
-    border-radius: 28px;
-    padding: 35px;
-    max-width: 650px;
-    margin: 40px auto 0;
-    box-shadow: 0 15px 40px rgba(124, 58, 237, 0.06);
+  /* === WIDGET ROW (GPA + TRANSLATOR SIDE BY SIDE ON DESKTOP) === */
+  .widget-container {
+    display: flex;
+    gap: 24px;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 20px;
     text-align: left;
   }
 
-  .gpa-title {
-    font-size: 22px;
+  .gpa-section, .translator-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 30px;
+    flex: 1;
+    box-shadow: 0 15px 40px rgba(124, 58, 237, 0.04);
+  }
+
+  .translator-section {
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
+
+  .widget-title {
+    font-size: 20px;
     font-weight: 700;
     color: var(--text-title);
     margin-bottom: 20px;
@@ -214,30 +260,30 @@
 
   .gpa-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr auto;
-    gap: 12px;
+    grid-template-columns: 1.8fr 1fr 1.2fr auto;
+    gap: 10px;
     margin-bottom: 12px;
     align-items: center;
   }
 
-  .gpa-input, .gpa-select {
+  .gpa-input, .gpa-select, .trans-textarea {
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: 12px;
     background: #faf9ff;
     color: var(--text-main);
     font-family: inherit;
-    font-size: 14px;
+    font-size: 13.5px;
     outline: none;
     transition: 0.3s;
   }
-  .gpa-input:focus, .gpa-select:focus {
+  .gpa-input:focus, .gpa-select:focus, .trans-textarea:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-glow);
   }
 
   .btn-add {
-    background: rgba(124, 58, 237, 0.1);
+    background: rgba(124, 58, 237, 0.05);
     color: var(--accent);
     border: 1px dashed var(--accent);
     padding: 12px;
@@ -249,17 +295,14 @@
     margin-top: 10px;
     transition: 0.3s;
   }
-  .btn-add:hover {
-    background: var(--accent);
-    color: white;
-  }
+  .btn-add:hover { background: var(--accent); color: white; border-style: solid; }
 
   .btn-remove {
     background: #fee2e2;
     color: #ef4444;
     border: none;
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
@@ -269,20 +312,48 @@
   }
 
   .gpa-result-box {
-    margin-top: 25px;
-    padding: 20px;
+    margin-top: 20px;
+    padding: 18px;
     background: var(--accent-gradient);
     color: white;
     border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.2);
   }
-  .gpa-val {
-    font-size: 32px;
-    font-weight: 800;
-    font-family: 'Fira Code', monospace;
+  .gpa-val { font-size: 30px; font-weight: 800; font-family: 'Fira Code', monospace; }
+
+  /* === SINHALA TRANSLATOR STYLES === */
+  .trans-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .trans-textarea {
+    width: 100%;
+    height: 90px;
+    resize: none;
+  }
+  .trans-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .btn-trans {
+    flex: 1;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+    font-size: 13px;
+  }
+  .btn-trans:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
   }
 
   /* Footer */
@@ -294,37 +365,42 @@
     letter-spacing: 1px;
   }
 
-  /* Animations */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   /* Responsive Design */
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     .hub-grid { grid-template-columns: repeat(2, 1fr); }
+    .widget-container { flex-direction: column; }
+    .global-clock { position: static; margin-bottom: 20px; display: inline-flex; }
+    body { padding-top: 40px; }
   }
   @media (max-width: 650px) {
-    body { padding: 40px 16px; }
+    body { padding: 30px 16px; }
     .hub-grid { grid-template-columns: 1fr; }
     .gpa-row { grid-template-columns: 1fr 1fr; }
     .gpa-row .gpa-input:first-child { grid-column: span 2; }
+    .trans-actions { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
-  <!-- MAIN CENTRAL APP WRAPPER -->
+  <div class="global-clock">
+    <div class="clock-time" id="live-time">00:00:00 AM</div>
+    <div class="clock-date" id="live-date">Loading Date...</div>
+  </div>
+
   <div class="home-wrapper">
     <div class="portal-badge">Premium Student Workspace</div>
-    
+     
     <h1 class="hero-title">Tharindu<br><span>Buddhika</span></h1>
     <p class="hero-subtitle">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහතින් පහසුවෙන් කළමනාකරණය කරන්න.</p>
 
-    <!-- NAVIGATION HUB SELECTION GRID (3 Cards Now) -->
     <div class="hub-grid">
-      
-      <!-- CARD 01: ACADEMIC PORTAL -->
+       
       <a href="dashboard.html" class="hub-card">
         <div class="icon-wrapper">🎓</div>
         <div class="card-name">Academic Portal</div>
@@ -332,7 +408,6 @@
         <div class="card-footer-link">Open Dashboard</div>
       </a>
 
-      <!-- CARD 02: AI ASSISTANT (NEW) -->
       <a href="ai.html" class="hub-card" style="border: 1px solid rgba(168, 85, 247, 0.4);">
         <div class="icon-wrapper" style="background: rgba(168, 85, 247, 0.15);">✨</div>
         <div class="card-name" style="color: #6d28d9;">AI Assistant</div>
@@ -340,7 +415,6 @@
         <div class="card-footer-link">Launch AI Hub</div>
       </a>
 
-      <!-- CARD 03: VOCABULARY ENGINE -->
       <a href="vocabulary.html" class="hub-card">
         <div class="icon-wrapper">📖</div>
         <div class="card-name">Vocabulary</div>
@@ -350,39 +424,55 @@
 
     </div>
 
-    <!-- === GPA CALCULATOR WIDGET === -->
-    <div class="gpa-section">
-      <div class="gpa-title">📊 CINEC GPA Calculator</div>
-      <div id="gpa-container">
-        <!-- Initial Row 1 -->
-        <div class="gpa-row">
-          <input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
-          <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
-          <select class="gpa-select grade-val">
-            <option value="4.00">A / A+</option>
-            <option value="3.70">A-</option>
-            <option value="3.30">B+</option>
-            <option value="3.00">B</option>
-            <option value="2.70">B-</option>
-            <option value="2.30">C+</option>
-            <option value="2.00">C</option>
-            <option value="1.70">C-</option>
-            <option value="1.00">D</option>
-            <option value="0.00">F</option>
-          </select>
-          <button class="btn-remove" onclick="removeRow(this)">×</button>
-        </div>
-      </div>
+    <div class="widget-container">
       
-      <button class="btn-add" onclick="addRow()">+ Add New Subject</button>
-
-      <div class="gpa-result-box">
-        <div>
-          <h4 style="font-size: 16px; font-weight: 500; opacity: 0.9;">Your Current GPA</h4>
-          <p style="font-size: 12px; opacity: 0.7; margin-top: 2px;">Based on entered modular values</p>
+      <div class="gpa-section">
+        <div class="widget-title">📊 CINEC GPA Calculator</div>
+        <div id="gpa-container">
+          <div class="gpa-row">
+            <input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
+            <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
+            <select class="gpa-select grade-val">
+              <option value="4.00">A / A+</option>
+              <option value="3.70">A-</option>
+              <option value="3.30">B+</option>
+              <option value="3.00">B</option>
+              <option value="2.70">B-</option>
+              <option value="2.30">C+</option>
+              <option value="2.00">C</option>
+              <option value="1.70">C-</option>
+              <option value="1.00">D</option>
+              <option value="0.00">F</option>
+            </select>
+            <button class="btn-remove" onclick="removeRow(this)">×</button>
+          </div>
         </div>
-        <div class="gpa-val" id="gpa-display">4.00</div>
+        
+        <button class="btn-add" onclick="addRow()">+ Add New Subject</button>
+
+        <div class="gpa-result-box">
+          <div>
+            <h4 style="font-size: 15px; font-weight: 500; opacity: 0.9;">Your Current GPA</h4>
+            <p style="font-size: 11px; opacity: 0.7; margin-top: 2px;">Based on entered modular values</p>
+          </div>
+          <div class="gpa-val" id="gpa-display">4.00</div>
+        </div>
       </div>
+
+      <div class="translator-section">
+        <div class="widget-title">🔤 Quick Translator</div>
+        <div class="trans-wrapper">
+          <textarea id="text-to-translate" class="trans-textarea" placeholder="මෙතන ටයිප් කරන්න / Type text here..."></textarea>
+          <div class="trans-actions">
+            <button class="btn-trans" onclick="translateText('si', 'en')">Sinhala → English</button>
+            <button class="btn-trans" onclick="translateText('en', 'si')">English → Sinhala</button>
+          </div>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 5px; text-align: center;">
+            *Clicks will securely route queries via Google Translate external tab.
+          </p>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -392,7 +482,43 @@
   </footer>
 
 <script>
-  // Dynamic GPA Calculation Engine
+  // === REALTIME PREMIUM CLOCK ENGINE ===
+  function updateClock() {
+    const now = new Date();
+    
+    // Time Setup
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle 0 as 12
+    
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    hours = hours < 10 ? '0' + hours : hours;
+
+    document.getElementById('live-time').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+    
+    // Date Setup
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    document.getElementById('live-date').textContent = now.toLocaleDateString('en-US', options);
+  }
+  setInterval(updateClock, 1000);
+  updateClock(); // Initial run
+
+  // === TRANSLATION ROUTER ENGINE ===
+  function translateText(fromLang, toLang) {
+    const text = document.getElementById('text-to-translate').value.trim();
+    if (!text) {
+      alert("Please enter some text to translate!");
+      return;
+    }
+    const googleTranslateUrl = `https://translate.google.com/?sl=${fromLang}&tl=${toLang}&text=${encodeURIComponent(text)}&op=translate`;
+    window.open(googleTranslateUrl, '_blank');
+  }
+
+  // === DYNAMIC GPA CALCULATION ENGINE ===
   function calculateGPA() {
     const rows = document.querySelectorAll('.gpa-row');
     let totalCredits = 0;
@@ -438,7 +564,6 @@
     `;
     container.appendChild(newRow);
     
-    // Attach input listeners to new elements
     newRow.querySelector('.credit-val').addEventListener('input', calculateGPA);
     newRow.querySelector('.grade-val').addEventListener('change', calculateGPA);
     calculateGPA();
@@ -454,7 +579,6 @@
     }
   }
 
-  // Event Listeners for Initial Row
   document.querySelector('.credit-val').addEventListener('input', calculateGPA);
   document.querySelector('.grade-val').addEventListener('change', calculateGPA);
 </script>
