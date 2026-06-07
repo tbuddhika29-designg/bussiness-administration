@@ -21,12 +21,24 @@
     --glass: rgba(255, 255, 255, 0.8);
   }
 
+  /* === DARK MODE === */
+  body.dark-mode {
+    --bg-app: #0f0b1a;
+    --bg-card: #1a1628;
+    --bg-card-hover: #24213a;
+    --border: rgba(168, 85, 247, 0.18);
+    --text-main: #e9d5ff;
+    --text-title: #f3e8ff;
+    --text-muted: #a78bfa;
+    --glass: rgba(26, 22, 40, 0.9);
+  }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     background: var(--bg-app);
     color: var(--text-main);
-    font-family: 'Plus Jakarta Sans', sans-serif; /* මුළු පිටුවටම එකම ෆොන්ට් ශෛලිය */
+    font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -35,6 +47,7 @@
     overflow-x: hidden;
     position: relative;
     padding: 40px 20px 60px 20px;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   /* Decorative Glows */
@@ -46,6 +59,7 @@
     background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
+    transition: background 0.4s ease;
   }
 
   .home-wrapper {
@@ -54,12 +68,45 @@
     text-align: center;
     z-index: 5;
     animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+  }
+
+  /* === THEME TOGGLE BUTTON === */
+  .theme-toggle-btn {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.08);
+    z-index: 100;
+  }
+
+  .theme-toggle-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+    transform: scale(1.08);
+  }
+
+  .theme-toggle-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    box-shadow: 0 8px 24px var(--accent-glow);
   }
 
   /* === LIVE PREMIUM CLOCK === */
   .portal-clock {
     align-self: center;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--glass);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     padding: 8px 18px;
@@ -69,9 +116,10 @@
     gap: 10px;
     box-shadow: 0 10px 30px rgba(124, 58, 237, 0.04);
     margin-bottom: 25px;
+    transition: all 0.3s ease;
   }
   .clock-time { font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600; color: var(--accent); }
-  .clock-date { font-size: 11px; font-weight: 600; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 10px; }
+  .clock-date { font-size: 11px; font-weight: 600; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 10px; transition: color 0.3s ease; }
 
   .portal-badge {
     display: inline-block;
@@ -86,17 +134,19 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 600;
+    transition: all 0.3s ease;
   }
 
   /* Screenshot එකේ ආකාරයටම සකසන ලද ප්‍රධාන මාතෘකාව */
   .hero-title {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(2.8rem, 5.5vw, 4.2rem);
-    font-weight: 800; /* Extra Bold ශෛලිය */
+    font-weight: 800;
     color: var(--text-title);
     line-height: 1.1;
     margin-bottom: 16px;
     letter-spacing: -1.5px;
+    transition: color 0.3s ease;
   }
   .hero-title span {
     background: var(--accent-gradient);
@@ -112,6 +162,7 @@
     margin: 0 auto 50px;
     line-height: 1.6;
     font-weight: 500;
+    transition: color 0.3s ease;
   }
 
   /* Grid Container */
@@ -138,6 +189,7 @@
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 8px 24px rgba(124, 58, 237, 0.03);
     cursor: pointer;
+    color: inherit;
   }
 
   .hub-card:hover {
@@ -158,7 +210,7 @@
     justify-content: center;
     font-size: 28px;
     color: var(--accent);
-    transition: 0.3s;
+    transition: all 0.3s ease;
   }
   .hub-card:hover .icon-wrapper {
     background: var(--accent-gradient);
@@ -170,6 +222,7 @@
     font-size: 19px;
     font-weight: 700;
     color: var(--text-title);
+    transition: color 0.3s ease;
   }
 
   .card-desc {
@@ -178,6 +231,7 @@
     line-height: 1.6;
     min-height: 60px;
     font-weight: 500;
+    transition: color 0.3s ease;
   }
 
   .card-footer-link {
@@ -189,6 +243,7 @@
     align-items: center;
     gap: 6px;
     margin-top: auto;
+    transition: color 0.3s ease;
   }
 
   /* === GPA CALCULATOR WIDGET === */
@@ -201,6 +256,7 @@
     margin: 40px auto 0;
     box-shadow: 0 12px 35px rgba(124, 58, 237, 0.04);
     text-align: left;
+    transition: all 0.3s ease;
   }
 
   .gpa-title {
@@ -211,6 +267,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: color 0.3s ease;
   }
 
   .gpa-row {
@@ -225,12 +282,12 @@
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: #faf9ff;
+    background: var(--bg-app);
     color: var(--text-main);
     font-family: inherit;
     font-size: 14px;
     outline: none;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     font-weight: 500;
   }
   .gpa-input:focus, .gpa-select:focus {
@@ -249,23 +306,40 @@
     text-align: center;
     width: 100%;
     margin-top: 10px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     font-family: inherit;
   }
   .btn-add:hover { background: var(--accent); color: white; border-style: solid; }
 
   .btn-remove {
-    background: #fee2e2; color: #ef4444; border: none;
-    width: 38px; height: 38px; border-radius: 10px;
-    cursor: pointer; font-weight: bold;
-    display: flex; align-items: center; justify-content: center;
+    background: #fee2e2; 
+    color: #ef4444; 
+    border: none;
+    width: 38px; 
+    height: 38px; 
+    border-radius: 10px;
+    cursor: pointer; 
+    font-weight: bold;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  body.dark-mode .btn-remove {
+    background: rgba(239, 68, 68, 0.15);
   }
 
   .gpa-result-box {
-    margin-top: 25px; padding: 20px;
-    background: var(--accent-gradient); color: white;
-    border-radius: 16px; display: flex;
-    justify-content: space-between; align-items: center;
+    margin-top: 25px; 
+    padding: 20px;
+    background: var(--accent-gradient); 
+    color: white;
+    border-radius: 16px; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    transition: all 0.3s ease;
   }
   .gpa-val { font-size: 32px; font-weight: 800; font-family: 'Fira Code', monospace; }
 
@@ -290,30 +364,56 @@
     box-shadow: 0 25px 60px rgba(124, 58, 237, 0.15);
     padding: 30px;
     text-align: center;
-    transform: scale(0.95); transition: 0.3s ease;
+    transform: scale(0.95); 
+    transition: all 0.3s ease;
   }
   .ai-overlay.active .ai-modal { transform: scale(1); }
 
   .ai-icon-big { font-size: 48px; margin-bottom: 15px; }
-  .ai-m-title { font-size: 22px; font-weight: 800; color: var(--text-title); margin-bottom: 10px; }
-  .ai-m-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-weight: 500; }
+  .ai-m-title { font-size: 22px; font-weight: 800; color: var(--text-title); margin-bottom: 10px; transition: color 0.3s ease; }
+  .ai-m-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-weight: 500; transition: color 0.3s ease; }
   
   .ai-action-btn {
-    background: var(--accent-gradient); color: white; border: none;
-    padding: 14px 28px; border-radius: 14px; font-weight: 700;
-    font-size: 15px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
-    text-decoration: none; transition: 0.3s;
+    background: var(--accent-gradient); 
+    color: white; 
+    border: none;
+    padding: 14px 28px; 
+    border-radius: 14px; 
+    font-weight: 700;
+    font-size: 15px; 
+    cursor: pointer; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 10px;
+    text-decoration: none; 
+    transition: all 0.3s ease;
     box-shadow: 0 8px 20px var(--accent-glow);
   }
   .ai-action-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(124, 58, 237, 0.3); }
 
   .ai-close-x {
-    background: none; border: none; color: var(--text-muted);
-    font-weight: 600; cursor: pointer; margin-top: 15px; font-size: 13px;
+    background: none; 
+    border: none; 
+    color: var(--text-muted);
+    font-weight: 600; 
+    cursor: pointer; 
+    margin-top: 15px; 
+    font-size: 13px;
     text-decoration: underline;
+    transition: color 0.3s ease;
   }
 
-  .portal-footer { margin-top: 60px; font-size: 11px; color: var(--text-muted); font-family: 'Fira Code', monospace; }
+  .ai-close-x:hover {
+    color: var(--accent);
+  }
+
+  .portal-footer { 
+    margin-top: 60px; 
+    font-size: 11px; 
+    color: var(--text-muted); 
+    font-family: 'Fira Code', monospace;
+    transition: color 0.3s ease;
+  }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -322,10 +422,13 @@
     .hub-grid { grid-template-columns: 1fr; }
     .gpa-row { grid-template-columns: 1fr 1fr; }
     .gpa-row .gpa-input:first-child { grid-column: span 2; }
+    .theme-toggle-btn { width: 40px; height: 40px; font-size: 1.1rem; }
   }
 </style>
 </head>
 <body>
+
+  <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Dark/Light Mode">🌙</button>
 
   <div class="home-wrapper">
 
@@ -420,6 +523,34 @@
   </footer>
 
 <script>
+  /* === THEME TOGGLE SYSTEM === */
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+  // Load saved theme preference
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeToggleBtn.textContent = '☀️';
+    themeToggleBtn.classList.add('active');
+  } else {
+    themeToggleBtn.textContent = '🌙';
+    themeToggleBtn.classList.remove('active');
+  }
+
+  themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    
+    if (isDarkMode) {
+      themeToggleBtn.textContent = '☀️';
+      themeToggleBtn.classList.add('active');
+    } else {
+      themeToggleBtn.textContent = '🌙';
+      themeToggleBtn.classList.remove('active');
+    }
+  });
+
   // Popup Controls
   function openAiPopup() {
     document.getElementById('ai-popup-overlay').classList.add('active');
