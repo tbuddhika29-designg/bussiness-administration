@@ -6,33 +6,35 @@
 <title>Tharindu Buddhika | Academic Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  /* === THEME VARIABLES === */
+  /* === THEME VARIABLES (PURPLE LUXE EDITION) === */
   :root[data-theme="dark"] {
-    --gold: #c9a84c;
-    --gold-light: #e8c96e;
-    --bg-main: #0d0d0d;
-    --bg-gradient: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 80%, rgba(201,168,76,0.05) 0%, transparent 55%);
-    --card: #141414;
-    --card-hover: #1c1c1c;
-    --border: rgba(201,168,76,0.18);
-    --text: #e8e2d6;
+    --purple: #a855f7;
+    --purple-light: #c084fc;
+    --purple-glow: rgba(168, 85, 247, 0.4);
+    --bg-main: #090514;
+    --bg-gradient: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168, 85, 247, 0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 80%, rgba(192, 132, 252, 0.08) 0%, transparent 55%);
+    --card: #120d24;
+    --card-hover: #1a1433;
+    --border: rgba(168, 85, 247, 0.2);
+    --text: #e2daf0;
     --text-white: #ffffff;
-    --muted: #888888;
-    --shadow: rgba(0,0,0,0.5);
+    --muted: #948fad;
+    --shadow: rgba(0, 0, 0, 0.6);
   }
 
   :root[data-theme="light"] {
-    --gold: #aa862c;
-    --gold-light: #c9a84c;
-    --bg-main: #fcfbfa;
-    --bg-gradient: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.05) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 80%, rgba(201,168,76,0.03) 0%, transparent 55%);
+    --purple: #7e22ce;
+    --purple-light: #9333ea;
+    --purple-glow: rgba(126, 34, 206, 0.2);
+    --bg-main: #f8f6fc;
+    --bg-gradient: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(126, 34, 206, 0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 85% 80%, rgba(147, 51, 234, 0.04) 0%, transparent 55%);
     --card: #ffffff;
-    --card-hover: #f7f5f0;
-    --border: rgba(201,168,76,0.25);
-    --text: #2c2a27;
-    --text-white: #111111;
-    --muted: #6e6a64;
-    --shadow: rgba(201,168,76,0.08);
+    --card-hover: #f3effa;
+    --border: rgba(126, 34, 206, 0.25);
+    --text: #2d263b;
+    --text-white: #120d1e;
+    --muted: #726980;
+    --shadow: rgba(126, 34, 206, 0.08);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,7 +46,7 @@
     font-weight: 300;
     min-height: 100vh;
     overflow-x: hidden;
-    transition: background 0.4s ease, color 0.4s ease;
+    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
   }
 
   body::before {
@@ -67,7 +69,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 24px;
-    background: linear-gradient(180deg, rgba(201,168,76,0.03) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(168, 85, 247, 0.04) 0%, transparent 100%);
   }
 
   .badge {
@@ -76,12 +78,14 @@
     font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--purple-light);
     border: 1px solid var(--border);
     padding: 5px 14px;
     border-radius: 4px;
     margin-bottom: 18px;
-    background: rgba(201,168,76,0.05);
+    background: rgba(168, 85, 247, 0.08);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.05);
   }
 
   h1 {
@@ -93,7 +97,12 @@
     letter-spacing: -0.5px;
   }
 
-  h1 span { color: var(--gold); display: block; }
+  h1 span { 
+    color: var(--purple); 
+    display: block;
+    text-shadow: 0 0 20px var(--purple-glow);
+  }
+  
   .subtitle { margin-top: 10px; font-size: 13px; color: var(--muted); letter-spacing: 0.5px; }
 
   /* === THEME TOGGLE BUTTON === */
@@ -107,7 +116,7 @@
   .theme-toggle-btn {
     background: var(--card);
     border: 1px solid var(--border);
-    color: var(--gold);
+    color: var(--purple-light);
     padding: 8px 16px;
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -119,108 +128,200 @@
     align-items: center;
     gap: 8px;
     box-shadow: 0 4px 12px var(--shadow);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .theme-toggle-btn:hover {
-    transform: translateY(-2px);
-    border-color: var(--gold-light);
+    transform: translateY(-3px) scale(1.02);
+    border-color: var(--purple-light);
+    box-shadow: 0 6px 20px var(--purple-glow);
     background: var(--card-hover);
   }
+  
+  .theme-toggle-btn:active {
+    transform: translateY(-1px) scale(0.98);
+  }
 
+  /* === STUDENT CARD === */
   .student-card {
-    background: var(--card);
+    background: rgba(18, 13, 36, 0.6);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 28px;
+    border-radius: 16px;
+    padding: 24px 32px;
     text-align: right;
     position: relative;
     overflow: hidden;
     box-shadow: 0 10px 30px var(--shadow);
-    transition: background 0.4s ease, border 0.4s ease;
+    transition: all 0.4s ease;
+  }
+  
+  .student-card:hover {
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 15px 35px rgba(168, 85, 247, 0.1);
+    transform: translateY(-2px);
   }
 
   .student-card .label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; font-family: 'DM Mono', monospace; }
-  .student-card .value { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--gold); font-weight: 500; }
-  .student-card .name-val { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text-white); font-weight: 700; margin-bottom: 6px; }
+  .student-card .value { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--purple-light); font-weight: 500; }
+  .student-card .name-val { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text-white); font-weight: 700; margin-bottom: 6px; }
 
   /* === STATS BAR === */
-  .stats-bar { position: relative; z-index: 10; display: flex; border-bottom: 1px solid var(--border); background: var(--bg-main); transition: background 0.4s ease; }
-  .stat-item { flex: 1; padding: 20px 28px; border-right: 1px solid var(--border); text-align: center; }
+  .stats-bar { 
+    position: relative; 
+    z-index: 10; 
+    display: flex; 
+    border-bottom: 1px solid var(--border); 
+    background: rgba(9, 5, 20, 0.5);
+    backdrop-filter: blur(8px);
+    transition: background 0.4s ease; 
+  }
+  
+  .stat-item { 
+    flex: 1; 
+    padding: 24px 28px; 
+    border-right: 1px solid var(--border); 
+    text-align: center; 
+    transition: all 0.3s ease;
+  }
+  
+  .stat-item:hover {
+    background: rgba(168, 85, 247, 0.04);
+  }
+  
   .stat-item:last-child { border-right: none; }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold); line-height: 1; }
-  .stat-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-top: 4px; font-family: 'DM Mono', monospace; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; color: var(--purple-light); line-height: 1; transition: transform 0.3s ease; }
+  .stat-item:hover .stat-num { transform: scale(1.08); color: var(--purple); }
+  .stat-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-top: 6px; font-family: 'DM Mono', monospace; }
 
   /* === FILTER BAR === */
-  .filter-bar { position: relative; z-index: 10; padding: 24px 40px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
+  .filter-bar { position: relative; z-index: 10; padding: 24px 40px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
   .filter-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: 'DM Mono', monospace; margin-right: 6px; }
-  .filter-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; padding: 6px 16px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
-  .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.07); }
+  
+  .filter-btn { 
+    font-family: 'DM Mono', monospace; 
+    font-size: 11px; 
+    letter-spacing: 1px; 
+    padding: 8px 18px; 
+    border-radius: 6px; 
+    border: 1px solid var(--border); 
+    background: transparent; 
+    color: var(--muted); 
+    cursor: pointer; 
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    text-transform: uppercase; 
+  }
+  
+  .filter-btn:hover { 
+    border-color: var(--purple-light); 
+    color: var(--purple-light); 
+    background: rgba(168, 85, 247, 0.08);
+    transform: translateY(-2px);
+  }
+  
+  .filter-btn.active {
+    border-color: var(--purple);
+    color: var(--text-white);
+    background: var(--purple);
+    box-shadow: 0 4px 15px var(--purple-glow);
+    transform: translateY(-2px);
+  }
+  
+  .filter-btn:active {
+    transform: translateY(0);
+  }
 
   /* === MAIN GRID === */
-  main { position: relative; z-index: 10; padding: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-  .sem-header { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; margin-top: 16px; margin-bottom: 4px; }
-  .sem-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .sem-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text-white); }
-  .sem-title small { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-left: 10px; }
+  main { position: relative; z-index: 10; padding: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  .sem-header { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; margin-top: 24px; margin-bottom: 8px; animation: fadeIn 0.6s ease-in-out both; }
+  .sem-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; transition: transform 0.3s ease; }
+  .sem-header:hover .sem-dot { transform: scale(1.3); }
+  .sem-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text-white); }
+  .sem-title small { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-left: 10px; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
   .sem-line { flex: 1; height: 1px; background: var(--border); }
 
   /* === SUBJECT CARD === */
   .subject-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 22px 22px 18px;
+    border-radius: 14px;
+    padding: 24px;
     cursor: pointer;
-    transition: transform 0.25s cubic-bezier(.22,.68,0,1.2), box-shadow 0.25s, border-color 0.2s, background 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.16. 1, 0.3, 1), box-shadow 0.4s, border-color 0.3s, background 0.4s ease;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     text-decoration: none;
-    box-shadow: 0 4px 12px var(--shadow);
+    box-shadow: 0 4px 16px var(--shadow);
+    animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   .subject-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 35px var(--shadow);
-    border-color: var(--gold);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 40px var(--shadow), 0 0 25px rgba(168, 85, 247, 0.15);
     background: var(--card-hover);
   }
+  
+  .subject-card:active {
+    transform: translateY(-2px) scale(0.99);
+  }
 
-  .card-code { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-  .card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text-white); line-height: 1.3; flex: 1; }
-  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
-  .card-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Mono', monospace; padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); color: var(--muted); }
-  .card-arrow { font-size: 16px; color: var(--gold); opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
-  .subject-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+  .card-code { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); transition: color 0.3s ease; }
+  .subject-card:hover .card-code { color: var(--purple-light); }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text-white); line-height: 1.35; flex: 1; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .card-tag { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Mono', monospace; padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border); color: var(--muted); background: rgba(0,0,0,0.1); transition: all 0.3s ease; }
+  
+  .subject-card:hover .card-tag {
+    color: var(--text-white);
+    background: rgba(168, 85, 247, 0.1);
+  }
+  
+  .card-arrow { font-size: 18px; color: var(--purple-light); opacity: 0; transform: translateX(-10px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .subject-card:hover .card-arrow { opacity: 1; transform: translateX(0); text-shadow: 0 0 8px var(--purple); }
 
   .elective-badge {
     position: absolute;
-    top: 12px; right: 12px;
+    top: 14px; right: 14px;
     font-size: 9px;
     font-family: 'DM Mono', monospace;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--gold);
-    background: rgba(201,168,76,0.1);
-    border: 1px solid var(--border);
-    padding: 2px 8px;
-    border-radius: 4px;
+    color: #f43f5e;
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.1);
   }
 
   /* === FOOTER === */
-  footer { position: relative; z-index: 10; padding: 30px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: var(--bg-main); transition: background 0.4s ease; }
-  .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); }
+  footer { position: relative; z-index: 10; padding: 30px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: rgba(9, 5, 20, 0.8); backdrop-filter: blur(8px); transition: background 0.4s ease; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--purple-light); letter-spacing: 0.5px; }
   .footer-note { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.96) translateY(15px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
 
   @media (max-width: 600px) {
     header { padding: 36px 20px 28px; }
-    main { padding: 20px; gap: 14px; }
-    .filter-bar { padding: 16px 20px; }
+    main { padding: 20px; gap: 16px; grid-template-columns: 1fr; }
+    .filter-bar { padding: 16px 20px; gap: 8px; }
     .stats-bar { flex-wrap: wrap; }
-    .stat-item { min-width: 50%; }
+    .stat-item { min-width: 50%; padding: 16px; border-bottom: 1px solid var(--border); }
+    .stat-item:nth-child(2n) { border-right: none; }
+    .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
     footer { padding: 20px; flex-direction: column; text-align: center; }
   }
 </style>
@@ -272,10 +373,10 @@
 </footer>
 
 <script>
-// Data Set
+// Data Set (Varying purple hue tones for different semesters)
 const SEMESTERS = [
   {
-    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#c9a84c',
+    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#a855f7',
     subjects: [
       { code: 'MGBM1401', title: 'Management Fundamentals' },
       { code: 'MGBM1302', title: 'Business Mathematics for Decisions' },
@@ -285,7 +386,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#4caf8c',
+    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#bc6ff1',
     subjects: [
       { code: 'MGBM1306', title: 'Microeconomics' },
       { code: 'MGBM1407', title: 'Marketing Management' },
@@ -295,7 +396,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#9c6fe0',
+    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#8b5cf6',
     subjects: [
       { code: 'MGBM2411', title: 'Business Law' },
       { code: 'MGBM2412', title: 'Business Statistics' },
@@ -304,7 +405,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#5aad6e',
+    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#7c3aed',
     subjects: [
       { code: 'MGBM2415', title: 'Managerial Economics' },
       { code: 'MGBM2416', title: 'Human Resource Management' },
@@ -313,7 +414,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#d46060',
+    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#d946ef',
     subjects: [
       { code: 'MGBM3419', title: 'Development Economics' },
       { code: 'MGBM3420', title: 'Strategic Marketing Management' },
@@ -322,7 +423,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#4a8ec2',
+    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#c084fc',
     subjects: [
       { code: 'MGBM3423', title: 'Strategic Brand Management' },
       { code: 'MGBM3424', title: 'Research Methodology' },
@@ -333,7 +434,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#e0a96d',
+    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#6366f1',
     subjects: [
       { code: 'MGBM4429', title: 'Strategic Management' },
       { code: 'MGBM4430', title: 'Strategic Finance' },
@@ -341,7 +442,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#3eb8d0',
+    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#4f46e5',
     subjects: [
       { code: 'MGBM4432', title: 'Academic Writing' },
       { code: 'MGBM4633', title: 'Dissertation' },
@@ -390,7 +491,7 @@ function buildGrid(filter = 'all') {
     const hdr = document.createElement('div');
     hdr.className = 'sem-header';
     hdr.innerHTML = `
-      <div class="sem-dot" style="background:${sem.color};box-shadow:0 0 8px ${sem.color}66;"></div>
+      <div class="sem-dot" style="background:${sem.color};box-shadow:0 0 12px ${sem.color}aa;"></div>
       <div class="sem-title">${sem.label} <small>${sem.id.toUpperCase()}</small></div>
       <div class="sem-line"></div>
     `;
@@ -401,7 +502,9 @@ function buildGrid(filter = 'all') {
       const card = document.createElement('a');
       card.className = 'subject-card';
       card.href = `subjects/${sub.code.toLowerCase()}.html`;
-      card.style.borderTop = `2px solid ${sem.color}`;
+      card.style.borderTop = `3px solid ${sem.color}`;
+      // Staggered delay animation for dynamic look
+      card.style.animationDelay = `${i * 0.05}s`;
       
       card.innerHTML = `
         ${sub.elective ? '<span class="elective-badge">Elective</span>' : ''}
