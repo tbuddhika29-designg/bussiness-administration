@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tharindu Buddhika | Academic Portal</title>
+<title>Tharindu Buddhika | Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  /* === LUXURY DEEP PURPLE & NEON VARIABLES === */
+  /* === MATCHING LUXURY DEEP PURPLE & NEON VARIABLES === */
   :root[data-theme="dark"] {
     --bg-app: #06040d;
-    --bg-sidebar: #0d0a1a;
     --bg-card: #131024;
     --bg-card-hover: #1c1836;
     --accent: #bc6ff1;
@@ -23,7 +22,6 @@
 
   :root[data-theme="light"] {
     --bg-app: #f4f2fa;
-    --bg-sidebar: #ffffff;
     --bg-card: #ebe7f5;
     --bg-card-hover: #dfd9f0;
     --accent: #8b5cf6;
@@ -43,524 +41,303 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     overflow-x: hidden;
     transition: background 0.4s ease, color 0.4s ease;
+    position: relative;
   }
 
-  /* Decorative Background Glows */
+  /* Decorative Background Glows to match dashboard */
   body::before {
     content: '';
     position: fixed;
     top: -10%; left: -10%;
+    width: 60vw; height: 60vh;
+    background: radial-gradient(circle, rgba(188, 111, 241, 0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -10%; right: -10%;
     width: 50vw; height: 50vh;
-    background: radial-gradient(circle, rgba(188, 111, 241, 0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
 
-  /* === MAIN SPLIT LAYOUT === */
-  .app-container {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* === SIDEBAR (DASHBOARD PANEL) === */
-  aside {
-    width: 380px;
-    background: var(--bg-sidebar);
-    border-right: 1px solid var(--border);
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  /* Top Utilities Header */
+  .header-nav {
+    position: absolute;
+    top: 40px;
+    right: 40px;
     z-index: 10;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.2);
-    transition: all 0.4s ease;
   }
 
-  .badge {
-    align-self: flex-start;
-    font-family: 'Fira Code', monospace;
-    font-size: 10px;
-    color: var(--accent);
+  .theme-toggle-btn {
+    background: var(--bg-card);
     border: 1px solid var(--border);
-    padding: 6px 14px;
-    border-radius: 30px;
-    background: rgba(188, 111, 241, 0.06);
-    backdrop-filter: blur(5px);
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .profile-zone h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.8rem;
-    font-weight: 800;
     color: var(--text-title);
-    line-height: 1.1;
-  }
-
-  .profile-zone h1 span {
-    color: var(--accent);
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .subtitle {
-    margin-top: 12px;
-    font-size: 14px;
-    color: var(--text-muted);
-    font-weight: 400;
-  }
-
-  .student-meta {
-    margin-top: 35px;
-    padding: 20px;
-    background: rgba(255,255,255,0.02);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 12px 12px 0;
-  }
-
-  .meta-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-family: 'Fira Code', monospace; }
-  .meta-val { font-size: 15px; color: var(--text-title); font-weight: 600; margin-bottom: 14px; margin-top: 2px; }
-  .meta-val.id { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--accent); margin-bottom: 0; }
-
-  /* Interactive Filters inside Sidebar */
-  .filter-panel { margin-top: 40px; display: flex; flex-direction: column; gap: 8px; }
-  .filter-btn {
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: 1px solid transparent;
-    padding: 12px 20px;
-    border-radius: 10px;
-    color: var(--text-muted);
+    padding: 12px 24px;
     font-size: 13px;
     font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .filter-btn:hover {
-    color: var(--accent);
-    background: rgba(188, 111, 241, 0.04);
-    transform: translateX(5px);
-  }
-  .filter-btn.active {
-    background: var(--bg-card);
-    border-color: var(--border);
-    color: var(--text-title);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  }
-  .filter-btn::after { content: '→'; opacity: 0; transition: 0.3s; }
-  .filter-btn:hover::after, .filter-btn.active::after { opacity: 1; transform: translateX(3px); }
-
-  /* Sidebar Footer Controls */
-  .sidebar-footer { display: flex; flex-direction: column; gap: 20px; }
-  .theme-toggle-btn {
-    align-self: flex-start;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    color: var(--text-title);
-    padding: 10px 20px;
-    font-size: 12px;
     border-radius: 50px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
-  .theme-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--accent-glow); }
+  .theme-toggle-btn:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 25px var(--accent-glow);
+    border-color: var(--accent);
+  }
   .theme-toggle-btn:active { transform: translateY(0); }
 
-  .brand { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--text-title); }
-
-  /* === TIMELINE CONTENT AREA (RIGHT SPLIT) === */
-  main {
-    flex: 1;
-    padding: 60px 0 60px 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+  /* Main Container */
+  .home-wrapper {
+    max-width: 900px;
+    width: 100%;
+    padding: 40px 24px;
+    text-align: center;
+    z-index: 5;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  /* Stats Top Bar */
-  .stats-header {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 40px;
-    padding-right: 60px;
-  }
-  .stat-box { display: flex; align-items: baseline; gap: 8px; }
-  .stat-box .num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; color: var(--accent); }
-  .stat-box .lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
-
-  /* Horizontal Scroll Timeline Outer Wrapper */
-  .timeline-container {
-    flex: 1;
-    overflow-x: auto;
-    display: flex;
-    align-items: flex-start;
-    gap: 40px;
-    padding-bottom: 30px;
-    padding-right: 60px;
-    scroll-behavior: smooth;
+  .portal-badge {
+    display: inline-block;
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+    border-radius: 30px;
+    background: rgba(188, 111, 241, 0.06);
+    backdrop-filter: blur(5px);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
   }
 
-  /* Custom Modern Scrollbar */
-  .timeline-container::-webkit-scrollbar { height: 6px; }
-  .timeline-container::-webkit-scrollbar-track { background: transparent; }
-  .timeline-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-  .timeline-container::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-  /* Semester Column Section */
-  .timeline-column {
-    min-width: 360px;
-    max-width: 360px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.2rem);
+    font-weight: 800;
+    color: var(--text-title);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero-title span {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
   }
 
-  .column-header {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    position: relative;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--border);
+  .hero-subtitle {
+    font-size: clamp(14px, 2vw, 17px);
+    color: var(--text-muted);
+    max-width: 540px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
   }
-  .column-header::before {
-    content: '';
-    position: absolute;
-    bottom: -2px; left: 0;
-    width: 60px; height: 2px;
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
-  }
-  .column-title { font-size: 16px; font-weight: 700; color: var(--text-title); }
-  .column-subtitle { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
 
-  /* Subject Cards in Timeline */
-  .subject-card {
+  /* Grid Options Container */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* Premium Feature Navigation Card */
+  .hub-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px;
+    border-radius: 20px;
+    padding: 40px 30px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    gap: 16px;
     position: relative;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
   }
 
-  .subject-card:hover {
-    transform: translateY(-8px);
+  .hub-card:hover {
+    transform: translateY(-10px);
     background: var(--bg-card-hover);
     border-color: var(--accent);
-    box-shadow: 0 20px 35px rgba(0,0,0,0.3), 0 0 15px var(--accent-glow);
-  }
-  
-  .subject-card:active {
-    transform: translateY(-2px) scale(0.98);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.3), 0 0 20px var(--accent-glow);
   }
 
-  .card-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); font-weight: 500; }
-  .subject-card:hover .card-code { color: var(--accent); }
-  
-  .card-title {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-title);
-    line-height: 1.4;
-    min-height: 42px;
+  /* Tactile Press Effect */
+  .hub-card:active {
+    transform: translateY(-2px) scale(0.97);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.1s ease;
   }
 
-  .card-footer {
+  .icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(188, 111, 241, 0.08);
+    border: 1px solid var(--border);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 5px;
+    justify-content: center;
+    font-size: 28px;
+    color: var(--accent);
+    transition: 0.3s;
   }
-  .card-action-text { font-size: 11px; font-weight: 600; color: var(--accent); opacity: 0; transform: translateX(-5px); transition: 0.3s; }
-  .subject-card:hover .card-action-text { opacity: 1; transform: translateX(0); }
-  .card-arrow { font-size: 14px; color: var(--accent); transition: 0.3s; }
-  .subject-card:hover .card-arrow { transform: translateX(4px); }
+  .hub-card:hover .icon-wrapper {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 0 15px var(--accent);
+    transform: scale(1.05);
+  }
 
-  /* Elective Tag Style */
-  .elective-tag {
-    position: absolute;
-    top: 22px; right: 22px;
-    font-size: 9px;
+  .card-name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-title);
+    margin-top: 8px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    min-height: 40px;
+  }
+
+  .card-footer-link {
+    font-size: 12px;
     font-family: 'Fira Code', monospace;
-    color: #ff4a73;
-    background: rgba(255, 74, 115, 0.1);
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 74, 115, 0.2);
+    color: var(--accent);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .card-footer-link::after {
+    content: '→';
+    transition: transform 0.3s;
+  }
+  .hub-card:hover .card-footer-link::after {
+    transform: translateX(5px);
+  }
+
+  /* Footer Info */
+  .portal-footer {
+    position: absolute;
+    bottom: 40px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'Fira Code', monospace;
+    letter-spacing: 0.5px;
   }
 
   /* === ANIMATIONS === */
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(40px); }
-    to { opacity: 1; transform: translateX(0); }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* === RESPONSIVE LAYOUT === */
-  @media (max-width: 1024px) {
-    .app-container { flex-direction: column; height: auto; overflow-y: auto; }
-    aside { width: 100%; height: auto; padding: 30px; border-right: none; border-bottom: 1px solid var(--border); }
-    main { padding: 40px 20px; }
-    .stats-header { padding-right: 0; gap: 20px; flex-wrap: wrap; }
-    .timeline-container { padding-right: 0; overflow-x: auto; white-space: nowrap; display: flex; align-items: flex-start; }
-    .timeline-column { min-width: 300px; }
+  /* === RESPONSIVE === */
+  @media (max-width: 680px) {
+    .header-nav { position: static; margin-bottom: 40px; }
+    body { justify-content: flex-start; padding: 40px 20px; }
+    .hub-grid { grid-template-columns: 1fr; width: 100%; gap: 16px; }
+    .hub-card { padding: 30px 20px; }
+    .portal-footer { position: static; margin-top: 60px; }
   }
 </style>
 </head>
 <body>
 
-<div class="app-container">
-  
-  <!-- LEFT SIDEBAR: FIXED DASHBOARD PANEL -->
-  <aside>
-    <div class="sidebar-top">
-      <div class="badge">Academic Management</div>
-      <div class="profile-zone">
-        <h1>Tharindu<br><span>Buddhika</span></h1>
-        <p class="subtitle">Bachelor of Business Administration</p>
-      </div>
+  <!-- LIGHT / DARK THEME CONTROL HEADER -->
+  <header class="header-nav">
+    <button class="theme-toggle-btn" onclick="toggleTheme()">
+      <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+    </button>
+  </header>
+
+  <!-- MAIN CENTRAL APP WRAPPER -->
+  <div class="home-wrapper">
+    <div class="portal-badge">Student Environment Hub</div>
+    
+    <h1 class="hero-title">Tharindu<br><span>Buddhika</span></h1>
+    <p class="hero-subtitle">Welcome to your central workspace. Access your academic timeline or track professional business vocabulary below.</p>
+
+    <!-- NAVIGATION HUB SELECTION GRID -->
+    <div class="hub-grid">
       
-      <div class="student-meta">
-        <div class="meta-label">Assigned Profile</div>
-        <div class="meta-val">Tharindu Buddhika</div>
-        <div class="meta-label">Student Reference ID</div>
-        <div class="meta-val id">COM/BMgt-558/IFLS26-15/0001</div>
-      </div>
+      <!-- CARD 01: ACADEMIC PORTAL -->
+      <a href="dashboard.html" class="hub-card">
+        <div class="icon-wrapper">🎓</div>
+        <div class="card-name">Academic Portal</div>
+        <div class="card-desc">Track modular progression, credit counts, and view syllabus criteria structured by semesters.</div>
+        <div class="card-footer-link">Open Dashboard</div>
+      </a>
 
-      <!-- Left Interactive Filter Buttons -->
-      <nav class="filter-panel">
-        <button class="filter-btn active" onclick="filterSem('all', this)">All Semesters</button>
-        <button class="filter-btn" onclick="filterSem('year1', this)">Year 01</button>
-        <button class="filter-btn" onclick="filterSem('year2', this)">Year 02</button>
-        <button class="filter-btn" onclick="filterSem('year3', this)">Year 03</button>
-        <button class="filter-btn" onclick="filterSem('year4', this)">Year 04</button>
-        <button class="filter-btn" onclick="filterSem('elective', this)">Electives Only</button>
-      </nav>
+      <!-- CARD 02: VOCABULARY ENGINE -->
+      <a href="vocabulary.html" class="hub-card">
+        <div class="icon-wrapper">📖</div>
+        <div class="card-name">Vocabulary</div>
+        <div class="card-desc">Master professional business definitions, management terms, and essential academic vocabulary.</div>
+        <div class="card-footer-link">Launch Module</div>
+      </a>
+
     </div>
+  </div>
 
-    <div class="sidebar-footer">
-      <button class="theme-toggle-btn" onclick="toggleTheme()">
-        <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
-      </button>
-      <div>
-        <div class="brand">TB Index</div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Internal Student Portal</p>
-      </div>
-    </div>
-  </aside>
-
-  <!-- RIGHT INTERACTIVE AREA: HORIZONTAL TIMELINE FLOW -->
-  <main>
-    <!-- Live Counter Statistics -->
-    <div class="stats-header">
-      <div class="stat-box"><span class="num">33</span><span class="lbl">Modules</span></div>
-      <div class="stat-box"><span class="num">04</span><span class="lbl">Years</span></div>
-      <div class="stat-box"><span class="num">08</span><span class="lbl">Semesters</span></div>
-      <div class="stat-box"><span class="num">03</span><span class="lbl">Electives</span></div>
-    </div>
-
-    <!-- The Horizontal Scroll Track -->
-    <div class="timeline-container" id="timeline-track"></div>
-  </main>
-
-</div>
+  <footer class="portal-footer">
+    Internal Student Environment — CINEC Campus
+  </footer>
 
 <script>
-// Intact Complete Dataset
-const SEMESTERS = [
-  {
-    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM1401', title: 'Management Fundamentals' },
-      { code: 'MGBM1302', title: 'Business Mathematics for Decisions' },
-      { code: 'MGBM1403', title: 'Introduction to Information & Communication Technology' },
-      { code: 'MGBM1404', title: 'Soft Skills in Business Communication' },
-      { code: 'MGBM1005', title: 'English Language for Business 1' },
-    ]
-  },
-  {
-    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM1306', title: 'Microeconomics' },
-      { code: 'MGBM1407', title: 'Marketing Management' },
-      { code: 'MGBM1408', title: 'Financial Accounting' },
-      { code: 'MGBM1409', title: 'Organizational Behaviour' },
-      { code: 'MGBM1010', title: 'English Language for Business 2' },
-    ]
-  },
-  {
-    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM2411', title: 'Business Law' },
-      { code: 'MGBM2412', title: 'Business Statistics' },
-      { code: 'MGBM2413', title: 'Management Accounting' },
-      { code: 'MGBM2314', title: 'Business Information Systems' },
-    ]
-  },
-  {
-    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM2415', title: 'Managerial Economics' },
-      { code: 'MGBM2416', title: 'Human Resource Management' },
-      { code: 'MGBM2417', title: 'Finance Management' },
-      { code: 'MGBM2318', title: 'Managerial Soft Skills' },
-    ]
-  },
-  {
-    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM3419', title: 'Development Economics' },
-      { code: 'MGBM3420', title: 'Strategic Marketing Management' },
-      { code: 'MGBM3421', title: 'Supply Chain Management' },
-      { code: 'MGBM3422', title: 'International Business Strategy' },
-    ]
-  },
-  {
-    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM3423', title: 'Strategic Brand Management' },
-      { code: 'MGBM3424', title: 'Research Methodology' },
-      { code: 'MGBM3325', title: 'Operations Management' },
-      { code: 'MGBM3326', title: 'Corporate Social Responsibility & Ethics', elective: true },
-      { code: 'MGBM3327', title: 'Entrepreneurship', elective: true },
-      { code: 'MGBM3328', title: 'E-Commerce', elective: true },
-    ]
-  },
-  {
-    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM4429', title: 'Strategic Management' },
-      { code: 'MGBM4430', title: 'Strategic Finance' },
-      { code: 'MGBM4631', title: 'Project Management' },
-    ]
-  },
-  {
-    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#bc6ff1',
-    subjects: [
-      { code: 'MGBM4432', title: 'Academic Writing' },
-      { code: 'MGBM4633', title: 'Dissertation' },
-      { code: 'MGBM4634', title: 'Internship in Business Administration' },
-    ]
-  }
-];
-
-// Theme Switch Logic
+// --- PERSISTENT LIGHT/DARK SYSTEM MANAGEMENT ---
 function toggleTheme() {
   const root = document.documentElement;
-  const currentTheme = root.getAttribute('data-theme');
+  const currentTheme = root.getAttribute('data-theme') || 'dark';
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
   
   root.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
   updateThemeUI(newTheme);
 }
 
 function updateThemeUI(theme) {
   const icon = document.getElementById('themeIcon');
   const text = document.getElementById('themeText');
+  if (!icon || !text) return;
+  
   if (theme === 'dark') {
-    icon.textContent = '🌙'; text.textContent = 'Dark Mode';
+    icon.textContent = '🌙'; 
+    text.textContent = 'Dark Mode';
   } else {
-    icon.textContent = '☀️'; text.textContent = 'Light Mode';
+    icon.textContent = '☀️'; 
+    text.textContent = 'Light Mode';
   }
 }
 
-// Build Timeline Track Flow
-function buildGrid(filter = 'all') {
-  const track = document.getElementById('timeline-track');
-  track.innerHTML = '';
-
-  SEMESTERS.forEach((sem, si) => {
-    const subjects = filter === 'elective'
-      ? sem.subjects.filter(s => s.elective)
-      : sem.subjects;
-
-    const yearMatch = filter === 'all' || filter === sem.year || filter === 'elective';
-    if (!yearMatch || subjects.length === 0) return;
-
-    // Timeline Column Group
-    const col = document.createElement('div');
-    col.className = 'timeline-column';
-    col.style.animationDelay = `${si * 0.08}s`;
-
-    // Column Header
-    const colHeader = document.createElement('div');
-    colHeader.className = 'column-header';
-    colHeader.innerHTML = `
-      <div class="column-title">${sem.label}</div>
-      <div class="column-subtitle">${sem.id.toUpperCase()} · MODULES</div>
-    `;
-    col.appendChild(colHeader);
-
-    // Subject Items inside Column
-    subjects.forEach((sub, i) => {
-      const card = document.createElement('a');
-      card.className = 'subject-card';
-      card.href = `subjects/${sub.code.toLowerCase()}.html`;
-      
-      card.innerHTML = `
-        ${sub.elective ? '<span class="elective-tag">Elective</span>' : ''}
-        <div class="card-code">${sub.code}</div>
-        <div class="card-title">${sub.title}</div>
-        <div class="card-footer">
-          <span class="card-action-text">View Syllabus</span>
-          <span class="card-arrow">→</span>
-        </div>
-      `;
-      col.appendChild(card);
-    });
-
-    track.appendChild(col);
-  });
-}
-
-function filterSem(f, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  buildGrid(f);
-}
-
-// Init Render
-buildGrid('all');
-// Persistent Light/Dark Mode Logic
-const themeToggle = document.getElementById('themeToggle');
-const currentTheme = localStorage.getItem('theme') || 'dark';
-
-if (currentTheme === 'light') {
-  document.documentElement.setAttribute('data-theme', 'light');
-}
-
-themeToggle.addEventListener('click', () => {
-  let theme = 'dark';
-  if (document.documentElement.getAttribute('data-theme') !== 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-    theme = 'light';
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
-  localStorage.setItem('theme', theme);
-});
+// Initialization and synchronisation across pages via localStorage
+(function initTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeUI(savedTheme);
+})();
 </script>
 </body>
 </html>
