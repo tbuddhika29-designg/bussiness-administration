@@ -361,9 +361,7 @@
     </div>
 
     <div class="sidebar-footer">
-      <button class="theme-toggle-btn" onclick="toggleTheme()">
-        <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
-      </button>
+     
       <div>
         <div class="brand">TB Index</div>
         <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Internal Student Portal</p>
@@ -541,26 +539,6 @@ function filterSem(f, btn) {
   buildGrid(f);
 }
 
-// Init Render
-buildGrid('all');
-// Persistent Light/Dark Mode Logic
-const themeToggle = document.getElementById('themeToggle');
-const currentTheme = localStorage.getItem('theme') || 'dark';
-
-if (currentTheme === 'light') {
-  document.documentElement.setAttribute('data-theme', 'light');
-}
-
-themeToggle.addEventListener('click', () => {
-  let theme = 'dark';
-  if (document.documentElement.getAttribute('data-theme') !== 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-    theme = 'light';
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
-  localStorage.setItem('theme', theme);
-});
 </script>
 </body>
 </html>
