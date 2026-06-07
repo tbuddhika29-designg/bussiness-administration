@@ -8,7 +8,7 @@
 <style>
   /* === PREMIUM LUXURY VIBRANT PURPLE LIGHT THEME === */
   :root {
-    --bg-app: #f8f6ff;          
+    --bg-app: #f8f6ff;      
     --bg-sidebar: #ffffff;      
     --bg-card: #ffffff;         
     --bg-card-hover: #f3e8ff;   
@@ -85,11 +85,11 @@
     font-weight: 600;
   }
 
-  /* === LAPTOP READABILITY RE-DESIGN FOR PROFILES === */
+  /* === LAPTOP READABILITY PROFILE === */
   .profile-zone h1 {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 2.4rem;
-    font-weight: 800; /* Ultra-bold for high resolution laptop displays */
+    font-weight: 800;
     color: var(--text-title);
     line-height: 1.15;
     letter-spacing: -0.5px;
@@ -99,8 +99,8 @@
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 600;
-    font-style: normal; /* Removed cursive italic distortion for digital clarity */
+    font-weight: 800;
+    font-style: normal;
   }
 
   .subtitle {
@@ -182,17 +182,38 @@
   /* === MAIN WORKSPACE CONTENT AREA === */
   main {
     flex: 1;
-    padding: 50px 0 50px 50px;
+    padding: 40px 40px 40px 40px; /* Adjust left margin padding */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Aligns content from top to prevent cutting off */
     overflow: hidden;
+    position: relative;
   }
+
+  /* === GLOBAL LIVE CLOCK FOR SIDEBAR/PORTAL === */
+  .portal-clock {
+    position: absolute;
+    top: 35px;
+    right: 40px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow-sm);
+    z-index: 99;
+  }
+  .clock-time { font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600; color: var(--accent); }
+  .clock-date { font-size: 11px; font-weight: 600; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 10px; }
 
   /* Stats Top Bar */
   .stats-header {
     display: flex;
     gap: 40px;
+    margin-top: 20px;
     margin-bottom: 35px;
     padding-right: 50px;
   }
@@ -200,15 +221,14 @@
   .stat-box .num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); }
   .stat-box .lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; }
 
-  /* Horizontal Scroll Timeline Outer Wrapper */
+  /* Horizontal Scroll Timeline Outer Wrapper (FIXED CUT-OFF ISSUE) */
   .timeline-container {
     flex: 1;
     overflow-x: auto;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* Fixed center alignments bug */
     gap: 30px;
-    padding-bottom: 25px;
-    padding-right: 50px;
+    padding: 10px 20px 25px 5px;
     scroll-behavior: smooth;
   }
 
@@ -285,7 +305,7 @@
     color: #ec4899; background: rgba(236, 72, 153, 0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(236, 72, 153, 0.15);
   }
 
-  /* === LECTURES LIST VIEW CONTAINER === */
+  /* === LECTURES LIST VIEW CONTAINER (FIXED HEADER CLIP BUG) === */
   .subject-view-container {
     display: none;
     flex-direction: column;
@@ -293,7 +313,8 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    padding-right: 50px;
+    padding-top: 60px; /* Fixed the header clip-off issue from top bar */
+    padding-right: 20px;
     animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   .subject-view-container::-webkit-scrollbar { width: 6px; }
@@ -308,6 +329,7 @@
     box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
+    margin-top: 10px;
   }
   .view-sem-tag {
     font-family: 'Fira Code', monospace; font-size: 11px; color: var(--accent);
@@ -326,7 +348,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 40px;
   }
 
   /* === ANIMATIONS === */
@@ -363,7 +385,8 @@
     .sidebar-footer { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
 
     main { padding: 35px 20px; height: auto; overflow: visible; }
-    .stats-header { padding-right: 0; gap: 20px 30px; flex-wrap: wrap; margin-bottom: 25px; }
+    .portal-clock { position: static; margin-bottom: 25px; align-self: flex-start; }
+    .stats-header { padding-right: 0; gap: 20px 30px; flex-wrap: wrap; margin-bottom: 25px; margin-top: 0; }
     .stat-box .num { font-size: 1.6rem; }
 
     .timeline-container { 
@@ -372,7 +395,7 @@
     }
     .timeline-column { min-width: 290px; max-width: 290px; }
 
-    .subject-view-container { padding-right: 0; }
+    .subject-view-container { padding-right: 0; padding-top: 10px; }
     .view-header-card { padding: 25px; }
     .view-title { font-size: 1.5rem; }
     .lectures-grid { grid-template-columns: 1fr; gap: 15px; }
@@ -420,6 +443,11 @@
   </aside>
 
   <main>
+    <div class="portal-clock">
+      <div class="clock-time" id="portal-time">00:00:00 AM</div>
+      <div class="clock-date" id="portal-date">Loading...</div>
+    </div>
+
     <div class="stats-header" id="stats-counter-bar">
       <div class="stat-box"><span class="num">33</span><span class="lbl">Modules</span></div>
       <div class="stat-box"><span class="num">04</span><span class="lbl">Years</span></div>
@@ -443,6 +471,27 @@
 </div>
 
 <script>
+// === REALTIME PORTAL CLOCK ENGINE ===
+function updatePortalClock() {
+  const now = new Date();
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  let seconds = now.getSeconds();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+  hours = hours < 10 ? '0' + hours : hours;
+
+  document.getElementById('portal-time').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+  const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+  document.getElementById('portal-date').textContent = now.toLocaleDateString('en-US', options);
+}
+setInterval(updatePortalClock, 1000);
+updatePortalClock();
+
 const SEMESTERS = [
   {
     id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#7c3aed',
@@ -606,9 +655,7 @@ function openLecturesView(subCode, subTitle, semLabel) {
     closeLecturesView();
   };
   
-  if(window.innerWidth <= 1024) {
-     document.getElementById('subject-lectures-view').scrollIntoView({ behavior: 'smooth' });
-  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function closeLecturesView() {
