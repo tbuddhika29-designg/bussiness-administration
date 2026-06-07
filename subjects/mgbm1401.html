@@ -8,34 +8,35 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --accent:#c9a84c;
-  --a06:rgba(201,168,76,0.06);--a08:rgba(201,168,76,0.08);--a14:rgba(201,168,76,0.14);--a15:rgba(201,168,76,0.15);
-  --a22:rgba(201,168,76,0.22);--a28:rgba(201,168,76,0.28);--a30:rgba(201,168,76,0.3);--a35:rgba(201,168,76,0.35);
-  --a45:rgba(201,168,76,0.45);--a50:rgba(201,168,76,0.5);
-  --gold:#f9c74f;--gold2:#f8961e;
-  --bg:#06080f;
-  --white:rgba(255,255,255,0.95);--muted:rgba(255,255,255,0.5);--dim:rgba(255,255,255,0.25);
-  --card-bg:linear-gradient(135deg,var(--a15) 0%,rgba(10,12,30,0.7) 100%);
-  --hero-bg:linear-gradient(135deg,var(--a15) 0%,rgba(10,12,25,0.55) 100%);
+  --accent:#b19ffb; /* Radiant Purple Accent */
+  --a06:rgba(147,112,219,0.06);--a08:rgba(147,112,219,0.08);--a14:rgba(147,112,219,0.14);--a15:rgba(147,112,219,0.15);
+  --a22:rgba(147,112,219,0.22);--a28:rgba(147,112,219,0.28);--a30:rgba(147,112,219,0.3);--a35:rgba(147,112,219,0.35);
+  --a45:rgba(147,112,219,0.45);--a50:rgba(147,112,219,0.5);
+  --gold:#d8b4fe;--gold2:#8b5cf6; /* Purple Gradient Shades */
+  --bg:#070512; /* Deep Dark Violet/Black Background */
+  --white:rgba(255,255,255,0.95);--muted:rgba(230,225,255,0.6);--dim:rgba(230,225,255,0.3);
+  --card-bg:linear-gradient(135deg,var(--a15) 0%,rgba(15,10,35,0.7) 100%);
+  --hero-bg:linear-gradient(135deg,var(--a15) 0%,rgba(12,8,28,0.6) 100%);
 }
 
-/* Light Mode Colors */
+/* Light Mode Colors (Soft Lavender Theme) */
 [data-theme="light"] {
-  --bg:#f5f7fa;
-  --white:#0e1118;
-  --muted:#4a5568;
-  --dim:#a0aec0;
-  --a06:rgba(201,168,76,0.1);--a08:rgba(201,168,76,0.12);--a14:rgba(201,168,76,0.2);--a15:rgba(201,168,76,0.22);
-  --a22:rgba(201,168,76,0.3);--a28:rgba(201,168,76,0.35);--a30:rgba(201,168,76,0.4);--a35:rgba(201,168,76,0.45);
-  --card-bg:linear-gradient(135deg,rgba(255,255,255,0.9) 0%,rgba(240,244,248,0.9) 100%);
-  --hero-bg:linear-gradient(135deg,rgba(255,255,255,0.85) 0%,rgba(230,235,245,0.85) 100%);
+  --bg:#f3f0ff;
+  --white:#120e2e;
+  --muted:#5c5470;
+  --dim:#9f9aa4;
+  --accent:#6c5ce7;
+  --a06:rgba(108,92,231,0.08);--a08:rgba(108,92,231,0.12);--a14:rgba(108,92,231,0.18);--a15:rgba(108,92,231,0.22);
+  --a22:rgba(108,92,231,0.28);--a28:rgba(108,92,231,0.33);--a30:rgba(108,92,231,0.38);--a35:rgba(108,92,231,0.42);
+  --card-bg:linear-gradient(135deg,rgba(255,255,255,0.95) 0%,rgba(243,239,255,0.9) 100%);
+  --hero-bg:linear-gradient(135deg,rgba(255,255,255,0.9) 0%,rgba(235,228,255,0.85) 100%);
 }
 
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden;transition:background 0.5s ease, color 0.5s ease;}
 .bg-scene{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 50% -20%,var(--a28) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 100% 80%,var(--a14) 0%,transparent 60%),var(--bg);transition:background 0.5s ease;}
 .blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;mix-blend-mode:screen;}
-[data-theme="light"] .blob { mix-blend-mode: multiply; opacity: 0.15; }
+[data-theme="light"] .blob { mix-blend-mode: multiply; opacity: 0.2; }
 .blob-1{width:550px;height:550px;background:radial-gradient(circle,var(--a30) 0%,transparent 65%);top:-160px;left:-100px;animation:b1 20s ease-in-out infinite;}
 .blob-2{width:400px;height:400px;background:radial-gradient(circle,var(--a14) 0%,transparent 65%);bottom:-80px;right:-80px;animation:b2 25s ease-in-out infinite;}
 .blob-3{width:300px;height:300px;background:radial-gradient(circle,var(--a14) 0%,transparent 65%);top:45%;left:60%;animation:b3 18s ease-in-out infinite;}
@@ -78,7 +79,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--white);min
 .section-hd-count{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);white-space:nowrap;}
 .lectures-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:14px;opacity:0;animation:fadeUp 0.8s ease forwards 0.45s;}
 
-/* Lecture Cards Styles & Premium Click Animation */
+/* Lecture Cards Styles & Click Animation */
 .lec-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:1;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease, background 0.5s ease;opacity:0;animation:fadeUp 0.5s ease forwards;}
 
 /* Dynamic Delays */
@@ -86,17 +87,17 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--white);min
 
 .lec-card:hover{transform:translateY(-8px) scale(1.06);box-shadow:0 24px 60px var(--a45),0 0 40px var(--a22);}
 
-/* Premium Click Interaction (Active State) */
+/* Premium Click Interaction */
 .lec-card:active {
-  transform: translateY(-2px) scale(0.95) !important; /* Premium Press-in effect */
+  transform: translateY(-2px) scale(0.95) !important;
   box-shadow: 0 8px 20px var(--a30), 0 0 10px var(--a14) !important;
   transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 .lec-bg{position:absolute;inset:0;background:var(--card-bg);border:1px solid var(--a22);border-radius:16px;backdrop-filter:blur(16px);transition:border-color 0.35s ease,background 0.35s ease;}
-.lec-card:hover .lec-bg{border-color:var(--a50);background:linear-gradient(135deg,var(--a30) 0%,rgba(10,12,30,0.7) 100%);}
-[data-theme="light"] .lec-card:hover .lec-bg{background:linear-gradient(135deg,rgba(255,255,255,1) 0%,rgba(225,232,240,1) 100%);}
-.lec-card::before{content:'';position:absolute;top:-100%;left:-100%;width:70%;height:200%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.06),transparent);transform:skewX(-20deg);transition:top 0.55s ease,left 0.55s ease;z-index:2;pointer-events:none;}
+.lec-card:hover .lec-bg{border-color:var(--a50);background:linear-gradient(135deg,var(--a30) 0%,rgba(20,15,45,0.7) 100%);}
+[data-theme="light"] .lec-card:hover .lec-bg{background:linear-gradient(135deg,rgba(255,255,255,1) 0%,rgba(235,225,255,1) 100%);}
+.lec-card::before{content:'';position:absolute;top:-100%;left:-100%;width:70%;height:200%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.08),transparent);transform:skewX(-20deg);transition:top 0.55s ease,left 0.55s ease;z-index:2;pointer-events:none;}
 .lec-card:hover::before{top:-10%;left:130%;}
 .lec-num{position:relative;z-index:1;font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);line-height:1;}
 .lec-card:hover .lec-num{transform:scale(1.15);}
