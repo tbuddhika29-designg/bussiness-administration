@@ -25,6 +25,20 @@
     --shadow-md: 0 12px 30px rgba(124, 58, 237, 0.06);
   }
 
+  /* === DARK MODE === */
+  body.dark-mode {
+    --bg-app: #0f0b1a;
+    --bg-sidebar: #13101f;
+    --bg-card: #1a1628;
+    --bg-card-hover: #24213a;
+    --border: rgba(168, 85, 247, 0.18);
+    --text-main: #e9d5ff;
+    --text-title: #f3e8ff;
+    --text-muted: #a78bfa;
+    --shadow-sm: 0 4px 20px rgba(124, 58, 237, 0.08);
+    --shadow-md: 0 12px 30px rgba(124, 58, 237, 0.15);
+  }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -35,6 +49,7 @@
     display: flex;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   body::before {
@@ -45,6 +60,7 @@
     background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
+    transition: background 0.4s ease;
   }
 
   /* === MAIN SPLIT LAYOUT === */
@@ -68,6 +84,7 @@
     z-index: 10;
     box-shadow: 10px 0 40px rgba(124, 58, 237, 0.03);
     overflow-y: auto;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
   .badge {
@@ -83,6 +100,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
+    transition: all 0.3s ease;
   }
 
   /* === LAPTOP READABILITY PROFILE === */
@@ -93,6 +111,7 @@
     color: var(--text-title);
     line-height: 1.15;
     letter-spacing: -0.5px;
+    transition: color 0.3s ease;
   }
 
   .profile-zone h1 span {
@@ -108,6 +127,7 @@
     font-size: 13.5px;
     color: var(--text-muted);
     font-weight: 500;
+    transition: color 0.3s ease;
   }
 
   .student-meta {
@@ -116,10 +136,11 @@
     background: rgba(124, 58, 237, 0.02);
     border-left: 3px solid var(--accent);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    transition: all 0.3s ease;
   }
 
-  .meta-label { font-size: 9px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-family: 'Fira Code', monospace; }
-  .meta-val { font-size: 14.5px; color: var(--text-title); font-weight: 600; margin-bottom: 12px; margin-top: 2px; }
+  .meta-label { font-size: 9px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-family: 'Fira Code', monospace; transition: color 0.3s ease; }
+  .meta-val { font-size: 14.5px; color: var(--text-title); font-weight: 600; margin-bottom: 12px; margin-top: 2px; transition: color 0.3s ease; }
   .meta-val.id { font-family: 'Fira Code', monospace; font-size: 11.5px; color: var(--accent); margin-bottom: 0; }
 
   /* Interactive Filters */
@@ -177,24 +198,56 @@
     box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
   }
 
-  .brand { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--text-title); }
+  .brand { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
 
   /* === MAIN WORKSPACE CONTENT AREA === */
   main {
     flex: 1;
-    padding: 40px 40px 40px 40px; /* Adjust left margin padding */
+    padding: 40px 40px 40px 40px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Aligns content from top to prevent cutting off */
+    justify-content: flex-start;
     overflow: hidden;
     position: relative;
+  }
+
+  /* === THEME TOGGLE BUTTON === */
+  .theme-toggle-btn {
+    position: absolute;
+    top: 35px;
+    right: 40px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    z-index: 99;
+  }
+
+  .theme-toggle-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+
+  .theme-toggle-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    box-shadow: 0 0 20px var(--accent-glow);
   }
 
   /* === GLOBAL LIVE CLOCK FOR SIDEBAR/PORTAL === */
   .portal-clock {
     position: absolute;
     top: 35px;
-    right: 40px;
+    right: 100px;
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
@@ -205,9 +258,15 @@
     gap: 10px;
     box-shadow: var(--shadow-sm);
     z-index: 99;
+    transition: all 0.3s ease;
   }
+
+  body.dark-mode .portal-clock {
+    background: rgba(19, 16, 31, 0.85);
+  }
+
   .clock-time { font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600; color: var(--accent); }
-  .clock-date { font-size: 11px; font-weight: 600; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 10px; }
+  .clock-date { font-size: 11px; font-weight: 600; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 10px; transition: all 0.3s ease; }
 
   /* Stats Top Bar */
   .stats-header {
@@ -218,15 +277,15 @@
     padding-right: 50px;
   }
   .stat-box { display: flex; align-items: baseline; gap: 8px; }
-  .stat-box .num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); }
-  .stat-box .lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; }
+  .stat-box .num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); transition: color 0.3s ease; }
+  .stat-box .lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; transition: color 0.3s ease; }
 
   /* Horizontal Scroll Timeline Outer Wrapper (FIXED CUT-OFF ISSUE) */
   .timeline-container {
     flex: 1;
     overflow-x: auto;
     display: flex;
-    align-items: flex-start; /* Fixed center alignments bug */
+    align-items: flex-start;
     gap: 30px;
     padding: 10px 20px 25px 5px;
     scroll-behavior: smooth;
@@ -234,7 +293,7 @@
 
   .timeline-container::-webkit-scrollbar { height: 6px; }
   .timeline-container::-webkit-scrollbar-track { background: transparent; }
-  .timeline-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  .timeline-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; transition: background 0.3s ease; }
   .timeline-container::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
   /* Semester Column Section */
@@ -254,12 +313,13 @@
     position: relative;
     padding-bottom: 12px;
     border-bottom: 2px solid var(--border);
+    transition: border-color 0.3s ease;
   }
   .column-header::before {
     content: ''; position: absolute; bottom: -2px; left: 0; width: 50px; height: 2px; background: var(--accent);
   }
-  .column-title { font-size: 15px; font-weight: 700; color: var(--text-title); }
-  .column-subtitle { font-family: 'Fira Code', monospace; font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; }
+  .column-title { font-size: 15px; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
+  .column-subtitle { font-family: 'Fira Code', monospace; font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; transition: color 0.3s ease; }
 
   /* Cards Style */
   .subject-card, .lecture-card {
@@ -275,6 +335,7 @@
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: var(--shadow-sm);
     cursor: pointer;
+    color: inherit;
   }
 
   .subject-card:hover, .lecture-card:hover {
@@ -284,7 +345,7 @@
     box-shadow: var(--shadow-md);
   }
 
-  .card-code, .l-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); font-weight: 600; }
+  .card-code, .l-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); font-weight: 600; transition: color 0.3s ease; }
   .subject-card:hover .card-code, .lecture-card:hover .l-code { color: var(--accent); }
   
   .card-title, .l-title {
@@ -293,6 +354,7 @@
     color: var(--text-title);
     line-height: 1.45;
     min-height: 40px;
+    transition: color 0.3s ease;
   }
 
   .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
@@ -303,9 +365,10 @@
   .elective-tag {
     position: absolute; top: 22px; right: 22px; font-size: 9px; font-family: 'Fira Code', monospace;
     color: #ec4899; background: rgba(236, 72, 153, 0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(236, 72, 153, 0.15);
+    transition: all 0.3s ease;
   }
 
-  /* === LECTURES LIST VIEW CONTAINER (FIXED HEADER CLIP BUG) === */
+  /* === LECTURES LIST VIEW CONTAINER === */
   .subject-view-container {
     display: none;
     flex-direction: column;
@@ -313,7 +376,7 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    padding-top: 60px; /* Fixed the header clip-off issue from top bar */
+    padding-top: 60px;
     padding-right: 20px;
     animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
@@ -330,19 +393,20 @@
     position: relative;
     overflow: hidden;
     margin-top: 10px;
+    transition: all 0.3s ease;
   }
   .view-sem-tag {
     font-family: 'Fira Code', monospace; font-size: 11px; color: var(--accent);
     text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; font-weight: 600;
   }
-  .view-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text-title); line-height: 1.25; margin-bottom: 6px; }
-  .view-code { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  .view-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text-title); line-height: 1.25; margin-bottom: 6px; transition: color 0.3s ease; }
+  .view-code { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--text-muted); font-weight: 500; transition: color 0.3s ease; }
 
   .view-section-title {
     font-size: 12px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);
-    display: flex; align-items: center; gap: 15px; letter-spacing: 1px;
+    display: flex; align-items: center; gap: 15px; letter-spacing: 1px; transition: color 0.3s ease;
   }
-  .view-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .view-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); transition: background 0.3s ease; }
 
   .lectures-grid {
     display: grid;
@@ -386,6 +450,7 @@
 
     main { padding: 35px 20px; height: auto; overflow: visible; }
     .portal-clock { position: static; margin-bottom: 25px; align-self: flex-start; }
+    .theme-toggle-btn { position: static; margin-left: auto; }
     .stats-header { padding-right: 0; gap: 20px 30px; flex-wrap: wrap; margin-bottom: 25px; margin-top: 0; }
     .stat-box .num { font-size: 1.6rem; }
 
@@ -443,6 +508,8 @@
   </aside>
 
   <main>
+    <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Dark/Light Mode">🌙</button>
+
     <div class="portal-clock">
       <div class="clock-time" id="portal-time">00:00:00 AM</div>
       <div class="clock-date" id="portal-date">Loading...</div>
@@ -471,7 +538,35 @@
 </div>
 
 <script>
-// === REALTIME PORTAL CLOCK ENGINE ===
+/* === THEME TOGGLE SYSTEM === */
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+// Load saved theme preference
+const savedTheme = localStorage.getItem('theme') || 'light';
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark-mode');
+  themeToggleBtn.textContent = '☀️';
+  themeToggleBtn.classList.add('active');
+} else {
+  themeToggleBtn.textContent = '🌙';
+  themeToggleBtn.classList.remove('active');
+}
+
+themeToggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const isDarkMode = document.body.classList.contains('dark-mode');
+  localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  
+  if (isDarkMode) {
+    themeToggleBtn.textContent = '☀️';
+    themeToggleBtn.classList.add('active');
+  } else {
+    themeToggleBtn.textContent = '🌙';
+    themeToggleBtn.classList.remove('active');
+  }
+});
+
+/* === REALTIME PORTAL CLOCK ENGINE === */
 function updatePortalClock() {
   const now = new Date();
   let hours = now.getHours();
@@ -664,7 +759,7 @@ function closeLecturesView() {
   document.getElementById('timeline-track').style.display = 'flex';
 
   const backBtn = document.getElementById('dynamic-back-btn');
-  backBtn.href = "index.html";
+  backBtn.href = "premium-hub.html";
   backBtn.innerHTML = "<span>←</span> Back to Hub";
   backBtn.onclick = null;
 }
