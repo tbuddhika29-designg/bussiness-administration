@@ -173,6 +173,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 </head>
 <body>
 
+
 <div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Portal...</div></div>
 <div id="progress-bar"></div>
 <div class="bubbles" id="bubbles"></div>
@@ -187,15 +188,20 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
   <div class="header-right">
+     
     <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
   </div>
+
 </header>
 
+<!-- STICKY NAV -->
 <nav class="sticky-nav">
   <div class="nav-inner" id="sem-nav"></div>
 </nav>
 
 <main>
+
+  <!-- CLOCK -->
   <div class="clock-wrap reveal">
     <div class="clock-pill">
       <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
@@ -204,6 +210,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
   </div>
 
+  <!-- HERO -->
   <div class="hero reveal">
     <div class="hero-tag"><i class="fas fa-graduation-cap"></i>&nbsp; Academic Portal</div>
     <h1>Tharindu Buddhika<br>— BBA Programme</h1>
@@ -214,6 +221,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
   </div>
 
+  <!-- STATS -->
   <div class="stats-strip reveal">
     <div class="stat-card" style="animation-delay:.05s"><div class="stat-icon"><i class="fas fa-book"></i></div><div><div class="stat-num">33</div><div class="stat-lbl">Modules</div></div></div>
     <div class="stat-card" style="animation-delay:.1s"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="stat-num">04</div><div class="stat-lbl">Years</div></div></div>
@@ -221,6 +229,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     <div class="stat-card" style="animation-delay:.2s"><div class="stat-icon"><i class="fas fa-star"></i></div><div><div class="stat-num">03</div><div class="stat-lbl">Electives</div></div></div>
   </div>
 
+  <!-- SUBJECTS SECTION -->
   <section id="subjects-section">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-table-list"></i></div>
@@ -228,20 +237,21 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
       <div class="section-line"></div>
     </div>
     <div class="filter-bar reveal" id="filter-bar">
-      <button type="button" class="filter-btn active" onclick="filterSem('all',this)"><i class="fas fa-th"></i> All Semesters</button>
-      <button type="button" class="filter-btn" onclick="filterSem('year1',this)">Year 01</button>
-      <button type="button" class="filter-btn" onclick="filterSem('year2',this)">Year 02</button>
-      <button type="button" class="filter-btn" onclick="filterSem('year3',this)">Year 03</button>
-      <button type="button" class="filter-btn" onclick="filterSem('year4',this)">Year 04</button>
-      <button type="button" class="filter-btn" onclick="filterSem('elective',this)"><i class="fas fa-star"></i> Electives</button>
+      <button class="filter-btn active" onclick="filterSem('all',this)"><i class="fas fa-th"></i> All Semesters</button>
+      <button class="filter-btn" onclick="filterSem('year1',this)">Year 01</button>
+      <button class="filter-btn" onclick="filterSem('year2',this)">Year 02</button>
+      <button class="filter-btn" onclick="filterSem('year3',this)">Year 03</button>
+      <button class="filter-btn" onclick="filterSem('year4',this)">Year 04</button>
+      <button class="filter-btn" onclick="filterSem('elective',this)"><i class="fas fa-star"></i> Electives</button>
     </div>
     <div class="timeline-outer reveal">
       <div class="timeline-track" id="timeline-track"></div>
     </div>
   </section>
 
+  <!-- LECTURES VIEW -->
   <section id="lectures-view">
-    <button type="button" class="lectures-back" onclick="closeLecturesView()"><i class="fas fa-arrow-left"></i> Back to Modules</button>
+    <button class="lectures-back" onclick="closeLecturesView()"><i class="fas fa-arrow-left"></i> Back to Modules</button>
     <div class="lec-subject-hero">
       <div class="lec-sem-tag" id="lec-sem-tag">Year 1 — Semester 1</div>
       <div class="lec-subject-title" id="lec-title">Module Title</div>
@@ -254,6 +264,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
     <div class="lectures-grid" id="lectures-grid"></div>
   </section>
+
 </main>
 
 <footer>
@@ -264,44 +275,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
   </div>
 </footer>
 
-<button type="button" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
-
-<!-- Merged and Fixed Firebase Auth Script -->
-<script type="module">
-import { auth, db } from "./firebase-config.js";
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    try {
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        
-        // Checking both isApproved and approved to be safe based on your previous duplicate scripts
-        if (userData.isApproved === true || userData.approved === true) {
-          // අනුමත නම් පමණක් Loader එක සඟවා Dashboard එක පෙන්වන්න
-          document.getElementById('loader').classList.add('hide');
-        } else {
-          // අනුමත නැතිනම් pending-approval පිටුවට යවන්න (කෙලින්ම login පිටුවට යැවීම පරිශීලකයාට ගැටලුවක් විය හැක)
-          window.location.href = 'pending-approval.html'; 
-        }
-      } else {
-        await signOut(auth);
-        window.location.href = 'login.html';
-      }
-    } catch (error) {
-      console.error("Auth check error: ", error);
-      await signOut(auth);
-      window.location.href = 'login.html';
-    }
-  } else {
-    // ලොග් වී නොමැති නම් Login පිටුවට යවන්න
-    window.location.href = 'login.html';
-  }
-});
-</script>
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
 <script>
 const SEMESTERS=[
@@ -421,10 +395,9 @@ function closeLecturesView(){
 function buildNav(){
   const nav=document.getElementById('sem-nav');
   nav.innerHTML='';
+  const items=[{id:'all',label:'All'},...SEMESTERS.map(s=>({id:s.id,label:s.label.replace(' — ','<br>')}) )];
   SEMESTERS.forEach(sem=>{
-    const btn=document.createElement('button');
-    btn.type = 'button';
-    btn.className='nav-btn';
+    const btn=document.createElement('button');btn.className='nav-btn';
     btn.innerHTML=`<i class="fas fa-circle" style="font-size:.4rem"></i> ${sem.label}`;
     btn.onclick=()=>{
       document.querySelectorAll('#sem-nav .nav-btn').forEach(b=>b.classList.remove('active'));
@@ -481,10 +454,35 @@ function initReveal(){
 }
 
 window.addEventListener('load',()=>{
-  // Loader ඉවත් කිරීම Firebase Auth Module එක මගින් සාර්ථකව සිදු කරයි
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000);
   buildGrid('all');
   buildNav();
   initReveal();
+});
+</script>
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Check approval status
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists() || !userSnap.data().approved) {
+      window.location.href = 'pending-approval.html';
+    }
+  } catch (error) {
+    console.error('Auth error:', error);
+    window.location.href = 'login.html';
+  }
 });
 </script>
 </body>
