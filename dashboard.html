@@ -170,6 +170,28 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
   .stat-card{min-width:120px;padding:16px}
 }
 </style>
+<style>
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+</style>
 </head>
 <body>
 
@@ -276,7 +298,9 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 </footer>
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
-
+<button id="logout-btn" class="logout-btn">
+  <i class="fas fa-sign-out-alt"></i> Logout
+</button>
 <script>
 const SEMESTERS=[
   {id:'sem1',year:'year1',label:'Year 1 — Semester 1',subjects:[
@@ -484,6 +508,23 @@ onAuthStateChanged(auth, async (user) => {
     window.location.href = 'login.html';
   }
 });
+</script>
+  <script type="module">
+  import { auth } from "./firebase-config.js";
+  import { signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  const logoutBtn = document.getElementById('logout-btn');
+
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      // ලොග් අවුට් වූ පසු index.html පිටුවට යවන්න
+      window.location.href = 'index.html';
+    } catch (error) {
+      console.error("Logout error:", error);
+      alert("ලොග් අවුට් වීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය.");
+    }
+  });
 </script>
 </body>
 </html>
