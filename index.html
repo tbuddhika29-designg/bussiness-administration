@@ -376,7 +376,7 @@ document.querySelector('.grade-val').addEventListener('change',calcGPA);
   import { auth } from "./firebase-config.js";
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  const ADMIN_UID = "c9zFzQWWF1dVIDtrKNlRvHDJT7s1";
+  const ADMIN_UID = "YxH8AiPQ5dbyUKm85TjJgJDVj1S2";
 
   onAuthStateChanged(auth, (user) => {
     const adminLink = document.getElementById('admin-link');
@@ -387,5 +387,46 @@ document.querySelector('.grade-val').addEventListener('change',calcGPA);
     }
   });
 </script>
+  <script type="module">
+  import { auth } from "./firebase-config.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  const ADMIN_UID = "YOUR_ADMIN_UID_මෙතන_දාන්න"; // ඔබේ UID එක මෙතනට දමන්න
+
+  onAuthStateChanged(auth, (user) => {
+    const adminLink = document.getElementById('admin-link');
+    if (user && user.uid === ADMIN_UID) {
+      adminLink.style.display = 'inline-flex'; // බට්න් එක පෙන්වන්න
+    } else {
+      adminLink.style.display = 'none'; // සඟවන්න
+    }
+  });
+</script>
+  <a href="admin-panel.html" id="admin-link" class="admin-btn" style="display:none;">
+  <i class="fas fa-shield-halved"></i> Admin
+</a>
+
+<style>
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #7c3aed; /* ඔබේ ප්‍රධාන වර්ණය */
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.admin-btn:hover {
+  background: #6d28d9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+}
+</style>
 </body>
 </html>
