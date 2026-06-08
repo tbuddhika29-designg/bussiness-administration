@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -8,23 +8,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
 :root {
-  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff;
-  --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a;
-  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
-  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
-  --shadow:0 4px 24px rgba(124,58,237,0.12);
-  --shadow2:0 8px 40px rgba(124,58,237,0.2);
-  --gold:#f59e0b;--green:#10b981;--red:#ef4444;
-  --glass:rgba(255,255,255,0.7);--glass-border:rgba(124,58,237,0.2);
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff;
+  --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.2);
+  --gold:#f59e0b;--green:#10b981;--red:#ef4444;
+  --glass:rgba(255,255,255,0.7);--glass-border:rgba(124,58,237,0.2);
 }
 [data-theme="dark"]{
-  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38;
-  --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa;
-  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
-  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
-  --shadow:0 4px 24px rgba(0,0,0,0.4);
-  --shadow2:0 8px 40px rgba(124,58,237,0.25);
-  --glass:rgba(26,23,48,0.8);--glass-border:rgba(167,139,250,0.2);
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38;
+  --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.8);--glass-border:rgba(167,139,250,0.2);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -142,9 +142,9 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 @media(max-width:640px){
-  .gpa-row{grid-template-columns:1fr 1fr}
-  .gpa-row .gpa-input:first-child{grid-column:span 2}
-  .hero{padding:40px 24px}
+  .gpa-row{grid-template-columns:1fr 1fr}
+  .gpa-row .gpa-input:first-child{grid-column:span 2}
+  .hero{padding:40px 24px}
 }
 </style>
 </head>
@@ -156,125 +156,125 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 
 <!-- AI MODAL -->
 <div class="ai-overlay" id="ai-overlay" onclick="closeAiOutside(event)">
-  <div class="ai-modal">
-    <div class="ai-icon">✨</div>
-    <div class="ai-m-title">Gemini AI Workspace</div>
-    <div class="ai-m-desc">Google ආරක්ෂක පද්ධති හේතුවෙන් Gemini iframe ලෙස embed කළ නොහැක. නිල Google Gemini AI chat space එක නව tab එකක ආරක්ෂිතව විවෘත කරගන්න.</div>
-    <a href="https://gemini.google.com" target="_blank" class="ai-action-btn" onclick="closeAi()"><i class="fas fa-rocket"></i> Open Official Gemini AI</a>
-    <button class="ai-close" onclick="closeAi()">← Back to Hub</button>
-  </div>
+  <div class="ai-modal">
+    <div class="ai-icon">✨</div>
+    <div class="ai-m-title">Gemini AI Workspace</div>
+    <div class="ai-m-desc">Google ආරක්ෂක පද්ධති හේතුවෙන් Gemini iframe ලෙස embed කළ නොහැක. නිල Google Gemini AI chat space එක නව tab එකක ආරක්ෂිතව විවෘත කරගන්න.</div>
+    <a href="https://gemini.google.com" target="_blank" class="ai-action-btn" onclick="closeAi()"><i class="fas fa-rocket"></i> Open Official Gemini AI</a>
+    <button class="ai-close" onclick="closeAi()">← Back to Hub</button>
+  </div>
 </div>
 
 <header id="top">
-  <div class="header-left">
-    <div>
-      <div class="header-logo">TB Index</div>
-      <div class="header-sub">Premium Student Workspace</div>
-    </div>
-    <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
-  </div>
-  <div class="header-right">
-    <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
-       <a href="admin-panel.html" style="display:none; align-items:center; gap:8px;" id="admin-link">
-  <i class="fas fa-shield-halved"></i> Admin
+  <div class="header-left">
+    <div>
+      <div class="header-logo">TB Index</div>
+      <div class="header-sub">Premium Student Workspace</div>
+    </div>
+    <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
+  </div>
+  <div class="header-right">
+    <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+  <a href="admin-panel.html" style="display:none; align-items:center; gap:8px;" id="admin-link">
+  <i class="fas fa-shield-halved"></i> Admin
 </a>
-  </div>
+  </div>
 </header>
 
 <main>
 
-  <!-- CLOCK -->
-  <div class="clock-wrap reveal">
-    <div class="clock-pill">
-      <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
-      <div class="clock-time" id="clock-time">00:00:00 AM</div>
-      <div class="clock-date" id="clock-date">Loading...</div>
-    </div>
-  </div>
+  <!-- CLOCK -->
+  <div class="clock-wrap reveal">
+    <div class="clock-pill">
+      <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
+      <div class="clock-time" id="clock-time">00:00:00 AM</div>
+      <div class="clock-date" id="clock-date">Loading...</div>
+    </div>
+  </div>
 
-  <!-- HERO -->
-  <div class="hero reveal">
-    <div class="hero-tag"><i class="fas fa-star"></i>&nbsp; Premium Student Workspace</div>
-    <h1>Tharindu<br>Buddhika</h1>
-    <p class="hero-sub">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහසුවෙන් කළමනාකරණය කරන්න.</p>
-    <div class="hero-meta">
-      <div class="hero-chip"><i class="fas fa-id-card"></i> <span>COM/BMgt-558/IFLS26-15/0001</span></div>
-      <div class="hero-chip"><i class="fas fa-university"></i> <span>CINEC Campus</span></div>
-      <div class="hero-chip"><i class="fas fa-graduation-cap"></i> <span>BBA — Business Administration</span></div>
-    </div>
-  </div>
+  <!-- HERO -->
+  <div class="hero reveal">
+    <div class="hero-tag"><i class="fas fa-star"></i>&nbsp; Premium Student Workspace</div>
+    <h1>Tharindu<br>Buddhika</h1>
+    <p class="hero-sub">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහසුවෙන් කළමනාකරණය කරන්න.</p>
+    <div class="hero-meta">
+      <div class="hero-chip"><i class="fas fa-id-card"></i> <span>COM/BMgt-558/IFLS26-15/0001</span></div>
+      <div class="hero-chip"><i class="fas fa-university"></i> <span>CINEC Campus</span></div>
+      <div class="hero-chip"><i class="fas fa-graduation-cap"></i> <span>BBA — Business Administration</span></div>
+    </div>
+  </div>
 
-  <!-- QUICK ACCESS -->
-  <section style="margin-bottom:60px">
-    <div class="section-label reveal">
-      <div class="section-badge"><i class="fas fa-th"></i> 01</div>
-      <div class="section-title">Quick Access</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="hub-grid">
-      <a href="dashboard.html" class="hub-card" style="animation-delay:.05s">
-        <div class="hub-icon"><i class="fas fa-graduation-cap"></i></div>
-        <div class="hub-label">Academic</div>
-        <div class="hub-name">Academic Portal</div>
-        <div class="hub-desc">Track modular progression, credit counts, and view syllabus criteria structured by semesters and years.</div>
-        <div class="hub-link"><i class="fas fa-arrow-right"></i> Open Dashboard</div>
-      </a>
-      <div onclick="openAi()" class="hub-card" style="animation-delay:.1s">
-        <div class="hub-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
-        <div class="hub-label">AI Tools</div>
-        <div class="hub-name">Gemini AI</div>
-        <div class="hub-desc">Ask doubts, generate study notes, and get instant guidance powered directly by Google Gemini AI.</div>
-        <div class="hub-link"><i class="fas fa-arrow-right"></i> Launch Gemini Workspace</div>
-      </div>
-      <a href="vocabulary.html" class="hub-card" style="animation-delay:.15s">
-        <div class="hub-icon"><i class="fas fa-book-open"></i></div>
-        <div class="hub-label">Study Tools</div>
-        <div class="hub-name">Vocabulary</div>
-        <div class="hub-desc">Master professional business definitions, management terms, and essential academic vocabulary.</div>
-        <div class="hub-link"><i class="fas fa-arrow-right"></i> Launch Module</div>
-      </a>
-    </div>
-  </section>
+  <!-- QUICK ACCESS -->
+  <section style="margin-bottom:60px">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-th"></i> 01</div>
+      <div class="section-title">Quick Access</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="hub-grid">
+      <a href="dashboard.html" class="hub-card" style="animation-delay:.05s">
+        <div class="hub-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="hub-label">Academic</div>
+        <div class="hub-name">Academic Portal</div>
+        <div class="hub-desc">Track modular progression, credit counts, and view syllabus criteria structured by semesters and years.</div>
+        <div class="hub-link"><i class="fas fa-arrow-right"></i> Open Dashboard</div>
+      </a>
+      <div onclick="openAi()" class="hub-card" style="animation-delay:.1s">
+        <div class="hub-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+        <div class="hub-label">AI Tools</div>
+        <div class="hub-name">Gemini AI</div>
+        <div class="hub-desc">Ask doubts, generate study notes, and get instant guidance powered directly by Google Gemini AI.</div>
+        <div class="hub-link"><i class="fas fa-arrow-right"></i> Launch Gemini Workspace</div>
+      </div>
+      <a href="vocabulary.html" class="hub-card" style="animation-delay:.15s">
+        <div class="hub-icon"><i class="fas fa-book-open"></i></div>
+        <div class="hub-label">Study Tools</div>
+        <div class="hub-name">Vocabulary</div>
+        <div class="hub-desc">Master professional business definitions, management terms, and essential academic vocabulary.</div>
+        <div class="hub-link"><i class="fas fa-arrow-right"></i> Launch Module</div>
+      </a>
+    </div>
+  </section>
 
-  <!-- GPA CALCULATOR -->
-  <section style="margin-bottom:60px">
-    <div class="section-label reveal">
-      <div class="section-badge"><i class="fas fa-chart-bar"></i> 02</div>
-      <div class="section-title">CINEC GPA Calculator</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="gpa-section reveal">
-      <div class="gpa-title"><i class="fas fa-calculator" style="color:var(--accent)"></i> Calculate Your GPA</div>
-      <div id="gpa-container">
-        <div class="gpa-row">
-          <input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
-          <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
-          <select class="gpa-select grade-val">
-            <option value="4.00">A / A+</option><option value="3.70">A-</option>
-            <option value="3.30">B+</option><option value="3.00">B</option>
-            <option value="2.70">B-</option><option value="2.30">C+</option>
-            <option value="2.00">C</option><option value="1.70">C-</option>
-            <option value="1.00">D</option><option value="0.00">F</option>
-          </select>
-          <button class="btn-remove" onclick="removeRow(this)">×</button>
-        </div>
-      </div>
-      <button class="btn-add" onclick="addRow()"><i class="fas fa-plus"></i> Add New Subject</button>
-      <div class="gpa-result">
-        <div><div class="gpa-result-label">Your Current GPA</div><div class="gpa-result-sub">Based on entered modular values</div></div>
-        <div class="gpa-val" id="gpa-display">4.00</div>
-      </div>
-    </div>
-  </section>
+  <!-- GPA CALCULATOR -->
+  <section style="margin-bottom:60px">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-chart-bar"></i> 02</div>
+      <div class="section-title">CINEC GPA Calculator</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="gpa-section reveal">
+      <div class="gpa-title"><i class="fas fa-calculator" style="color:var(--accent)"></i> Calculate Your GPA</div>
+      <div id="gpa-container">
+        <div class="gpa-row">
+          <input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
+          <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
+          <select class="gpa-select grade-val">
+            <option value="4.00">A / A+</option><option value="3.70">A-</option>
+            <option value="3.30">B+</option><option value="3.00">B</option>
+            <option value="2.70">B-</option><option value="2.30">C+</option>
+            <option value="2.00">C</option><option value="1.70">C-</option>
+            <option value="1.00">D</option><option value="0.00">F</option>
+          </select>
+          <button class="btn-remove" onclick="removeRow(this)">×</button>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addRow()"><i class="fas fa-plus"></i> Add New Subject</button>
+      <div class="gpa-result">
+        <div><div class="gpa-result-label">Your Current GPA</div><div class="gpa-result-sub">Based on entered modular values</div></div>
+        <div class="gpa-val" id="gpa-display">4.00</div>
+      </div>
+    </div>
+  </section>
 
 </main>
 
 <footer>
-  <div class="footer-inner">
-    <p><strong>TB Index</strong> — Premium Student Workspace</p>
-    <p>CINEC Campus &nbsp;·&nbsp; Bachelor of Business Administration</p>
-    <div class="footer-id">COM/BMgt-558/IFLS26-15/0001</div>
-  </div>
+  <div class="footer-inner">
+    <p><strong>TB Index</strong> — Premium Student Workspace</p>
+    <p>CINEC Campus &nbsp;·&nbsp; Bachelor of Business Administration</p>
+    <div class="footer-id">COM/BMgt-558/IFLS26-15/0001</div>
+  </div>
 </footer>
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
@@ -284,52 +284,52 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 const saved=localStorage.getItem('ict-theme')||'light';
 if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>';}
 document.getElementById('themeBtn').addEventListener('click',()=>{
-  const d=document.documentElement.getAttribute('data-theme')==='dark';
-  document.documentElement.setAttribute('data-theme',d?'light':'dark');
-  document.getElementById('themeBtn').innerHTML=d?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
-  localStorage.setItem('ict-theme',d?'light':'dark');
+  const d=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',d?'light':'dark');
+  document.getElementById('themeBtn').innerHTML=d?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme',d?'light':'dark');
 });
 
 // Clock
 function tick(){
-  const n=new Date();
-  let h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
-  const ap=h>=12?'PM':'AM';h=h%12||12;
-  document.getElementById('clock-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ap}`;
-  document.getElementById('clock-date').textContent=n.toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
+  const n=new Date();
+  let h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
+  const ap=h>=12?'PM':'AM';h=h%12||12;
+  document.getElementById('clock-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ap}`;
+  document.getElementById('clock-date').textContent=n.toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
 }
 setInterval(tick,1000);tick();
 
 // Bubbles
 function createBubbles(){
-  const w=document.getElementById('bubbles');
-  const cols=['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
-  for(let i=0;i<18;i++){
-    const b=document.createElement('div');b.className='bubble';
-    const sz=Math.random()*80+30;
-    b.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
-    w.appendChild(b);
-  }
+  const w=document.getElementById('bubbles');
+  const cols=['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
+  for(let i=0;i<18;i++){
+    const b=document.createElement('div');b.className='bubble';
+    const sz=Math.random()*80+30;
+    b.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
+    w.appendChild(b);
+  }
 }
 createBubbles();
 
 // Loader
 window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000);
-  initReveal();
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000);
+  initReveal();
 });
 
 // Reveal
 function initReveal(){
-  const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 }
 
 // Scroll
 window.addEventListener('scroll',()=>{
-  const h=document.documentElement;
-  document.getElementById('progress-bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
-  document.getElementById('back-top').classList.toggle('show',h.scrollTop>300);
+  const h=document.documentElement;
+  document.getElementById('progress-bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  document.getElementById('back-top').classList.toggle('show',h.scrollTop>300);
 });
 
 // AI Modal
@@ -339,54 +339,53 @@ function closeAiOutside(e){if(e.target.id==='ai-overlay')closeAi();}
 
 // GPA
 function calcGPA(){
-  let tc=0,tp=0;
-  document.querySelectorAll('.gpa-row').forEach(r=>{
-    const c=parseFloat(r.querySelector('.credit-val').value)||0;
-    const g=parseFloat(r.querySelector('.grade-val').value)||0;
-    if(c>0){tc+=c;tp+=c*g;}
-  });
-  document.getElementById('gpa-display').textContent=tc>0?(tp/tc).toFixed(2):'0.00';
+  let tc=0,tp=0;
+  document.querySelectorAll('.gpa-row').forEach(r=>{
+    const c=parseFloat(r.querySelector('.credit-val').value)||0;
+    const g=parseFloat(r.querySelector('.grade-val').value)||0;
+    if(c>0){tc+=c;tp+=c*g;}
+  });
+  document.getElementById('gpa-display').textContent=tc>0?(tp/tc).toFixed(2):'0.00';
 }
 function addRow(){
-  const c=document.getElementById('gpa-container');
-  const r=document.createElement('div');r.className='gpa-row';
-  r.innerHTML=`<input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
-    <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
-    <select class="gpa-select grade-val">
-      <option value="4.00">A / A+</option><option value="3.70">A-</option>
-      <option value="3.30">B+</option><option value="3.00">B</option>
-      <option value="2.70">B-</option><option value="2.30">C+</option>
-      <option value="2.00">C</option><option value="1.70">C-</option>
-      <option value="1.00">D</option><option value="0.00">F</option>
-    </select>
-    <button class="btn-remove" onclick="removeRow(this)">×</button>`;
-  c.appendChild(r);
-  r.querySelector('.credit-val').addEventListener('input',calcGPA);
-  r.querySelector('.grade-val').addEventListener('change',calcGPA);
-  calcGPA();
+  const c=document.getElementById('gpa-container');
+  const r=document.createElement('div');r.className='gpa-row';
+  r.innerHTML=`<input type="text" placeholder="Subject Name (Optional)" class="gpa-input">
+    <input type="number" placeholder="Credits" class="gpa-input credit-val" min="1" max="8" value="3">
+    <select class="gpa-select grade-val">
+      <option value="4.00">A / A+</option><option value="3.70">A-</option>
+      <option value="3.30">B+</option><option value="3.00">B</option>
+      <option value="2.70">B-</option><option value="2.30">C+</option>
+      <option value="2.00">C</option><option value="1.70">C-</option>
+      <option value="1.00">D</option><option value="0.00">F</option>
+    </select>
+    <button class="btn-remove" onclick="removeRow(this)">×</button>`;
+  c.appendChild(r);
+  r.querySelector('.credit-val').addEventListener('input',calcGPA);
+  r.querySelector('.grade-val').addEventListener('change',calcGPA);
+  calcGPA();
 }
 function removeRow(b){
-  if(document.querySelectorAll('.gpa-row').length>1){b.parentElement.remove();calcGPA();}
-  else alert('At least one subject is required!');
+  if(document.querySelectorAll('.gpa-row').length>1){b.parentElement.remove();calcGPA();}
+  else alert('At least one subject is required!');
 }
 document.querySelector('.credit-val').addEventListener('input',calcGPA);
 document.querySelector('.grade-val').addEventListener('change',calcGPA);
 </script>
+ <script type="module">
+  import { auth } from "./firebase-config.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  <script type="module">
-  import { auth } from "./firebase-config.js";
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  const ADMIN_UID = "VQO3ENwqo5O4XYakBi2bGC4R8uB3";
 
-  const ADMIN_UID = "YxH8AiPQ5dbyUKm85TjJgJDVj1S2";
-
-  onAuthStateChanged(auth, (user) => {
-    const adminLink = document.getElementById('admin-link');
-    if (user && user.uid === ADMIN_UID) {
-      adminLink.style.display = 'flex'; // ඇඩ්මින් නම් පමණක් පෙන්වන්න
-    } else {
-      adminLink.style.display = 'none'; // අනිත් අයට නොපෙන්වන්න
-    }
-  });
+  onAuthStateChanged(auth, (user) => {
+    const adminLink = document.getElementById('admin-link');
+    if (user && user.uid === ADMIN_UID) {
+      adminLink.style.display = 'flex'; // ඇඩ්මින් නම් පමණක් පෙන්වන්න
+    } else {
+      adminLink.style.display = 'none'; // අනිත් අයට නොපෙන්වන්න
+    }
+  });
 </script>
 </body>
-</html> 
+</html>
