@@ -149,38 +149,11 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 </style>
 </head>
 <body>
-  import { auth, db } from "./firebase-config.js"; // ඔබගේ config එක ඇති ගොනුව සම්බන්ධ කරන්න
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-// පිටුව විවෘත වන විටම පරිශීලකයා පරීක්ෂා කිරීම
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // පරිශීලකයා ලොග් වී සිටී නම් Firestore එකේ Approval එක බලන්න
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      if (userData.isApproved !== true) {
-        // අනුමත නැතිනම් පිටුව බැලීමට නොදී වහාම ලොග් අවුට් කර Login පිටුවට හරවන්න
-        await signOut(auth);
-        window.location.href = 'login.html';
-      }
-      // අනුමත නම් කිසිදු බාධාවකින් තොරව පිටුව ක්‍රියා කරයි.
-    } else {
-      await signOut(auth);
-      window.location.href = 'login.html';
-    }
-  } else {
-    // ලොග් වී නොමැති නම් කෙලින්ම Login පිටුවට හරවා යැවීම
-    window.location.href = 'login.html';
-  }
-});
 
 <div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Hub...</div></div>
 <div id="progress-bar"></div>
 <div class="bubbles" id="bubbles"></div>
 
-<!-- AI MODAL -->
 <div class="ai-overlay" id="ai-overlay" onclick="closeAiOutside(event)">
   <div class="ai-modal">
     <div class="ai-icon">✨</div>
@@ -206,7 +179,6 @@ onAuthStateChanged(auth, async (user) => {
 
 <main>
 
-  <!-- CLOCK -->
   <div class="clock-wrap reveal">
     <div class="clock-pill">
       <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
@@ -215,7 +187,6 @@ onAuthStateChanged(auth, async (user) => {
     </div>
   </div>
 
-  <!-- HERO -->
   <div class="hero reveal">
     <div class="hero-tag"><i class="fas fa-star"></i>&nbsp; Premium Student Workspace</div>
     <h1>Tharindu<br>Buddhika</h1>
@@ -227,7 +198,6 @@ onAuthStateChanged(auth, async (user) => {
     </div>
   </div>
 
-  <!-- QUICK ACCESS -->
   <section style="margin-bottom:60px">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-th"></i> 01</div>
@@ -259,7 +229,6 @@ onAuthStateChanged(auth, async (user) => {
     </div>
   </section>
 
-  <!-- GPA CALCULATOR -->
   <section style="margin-bottom:60px">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-chart-bar"></i> 02</div>
@@ -302,6 +271,42 @@ onAuthStateChanged(auth, async (user) => {
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+// පිටුව විවෘත වන විටම පරිශීලකයා සහ Approval තත්ත්වය පරීක්ෂා කිරීම
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        if (userData.isApproved !== true) {
+          // අනුමත නැතිනම් පිටුව බැලීමට නොදී වහාම ලොග් අවුට් කර Login පිටුවට හරවන්න
+          await signOut(auth);
+          window.location.href = 'login.html';
+        } else {
+          // පරිශීලකයා ලොග් වී ඇති අතර ඇඩ්මින් විසින් අනුමත කර ඇත්නම් පමණක් Loader එක සඟවන්න
+          document.getElementById('loader').classList.add('hide');
+        }
+      } else {
+        await signOut(auth);
+        window.location.href = 'login.html';
+      }
+    } catch (error) {
+      console.error("Auth check error: ", error);
+      await signOut(auth);
+      window.location.href = 'login.html';
+    }
+  } else {
+    // ලොග් වී නොමැති නම් කෙලින්ම Login පිටුවට හරවා යැවීම
+    window.location.href = 'login.html';
+  }
+});
+</script>
+
 <script>
 // Theme
 const saved=localStorage.getItem('ict-theme')||'light';
@@ -338,7 +343,7 @@ createBubbles();
 
 // Loader
 window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000);
+  // Loader එක ඉවත් කිරීම Firebase Auth Check එක මගින් සිදු කරයි
   initReveal();
 });
 
