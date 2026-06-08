@@ -187,10 +187,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 </div>
 
+<!-- FIREBASE -->
 <script type="module">
 import { auth, db } from "./firebase-config.js";
-import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type='error') {
   const box = document.getElementById('alert-box');
@@ -211,51 +212,65 @@ window.login = async () => {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    showAlert('කරුණාකර Email සහ Password ඇතුලත් කරන්න.');
+    showAlert('Email සහ password දෙන්න.');
     return;
   }
 
   setLoading(true);
   try {
-    // 1. සාමාන්‍ය පරිදි Auth එකෙන් ලොග් වීම
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    const user = result.user;
 
-    // 2. Firestore Database එකෙන් මෙම පරිශීලකයාගේ අනුමැති තත්ත්වය (isApproved) පරීක්ෂා කිරීම
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      
-      // 3. ඇඩ්මින් අනුමත කර ඇත්නම් පමණක් ඇතුලට ගැනීම
-      if (userData.isApproved === true) {
-        showAlert('සාර්ථකව ලොග් විය! ප්‍රධාන පිටුවට යොමු කෙරේ...', 'success');
-        setTimeout(() => { 
-          window.location.href = 'dashboard.html'; 
-        }, 1200);
-      } else {
-        // 4. අනුමත කර නොමැති නම් වහාම පද්ධතියෙන් ඉවත් කර (Sign Out) පණිවිඩයක් පෙන්වීම
-        await signOut(auth);
-        showAlert('ඔබගේ ගිණුම තවමත් ඇඩ්මින් (Admin) විසින් අනුමත කර නැත!', 'error');
-      }
-    } else {
-      await signOut(auth);
-      showAlert('පරිශීලක දත්ත හමුනොවීය. කරුණාකර නැවත ලියාපදිංචි වන්න.', 'error');
+    // Firestore එ user දත්ත හදුනා ගන්න
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      // පළමු ලොගිනුවෙන් පස්සේ document එක create කරන්න
+      await setDoc(userRef, {
+        uid: user.uid,
+        displayName: user.displayName || 'User',
+        email: user.email,
+        approved: false,
+        createdAt: new Date(),
+        lastLogin: new Date()
+      });
+      setTimeout(() => { window.location.href = 'pending-approval.html'; }, 900);
+      return;
     }
 
+    // Approval status check කරන්න
+    const userData = userSnap.data();
+    if (!userData.approved) {
+      showAlert('Admin එකෙන් approval බලාගනිමිනිවා. පසුව නැවත උත්සාහ කරන්න.');
+      setLoading(false);
+      setTimeout(() => { window.location.href = 'pending-approval.html'; }, 1500);
+      return;
+    }
+
+    // Last login update කරන්න
+    await updateDoc(userRef, { lastLogin: new Date() });
+
+    showAlert('Login successful! Redirecting…', 'success');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
   } catch (error) {
     const msgs = {
-      'auth/user-not-found':    'No account found with this email.',
-      'auth/wrong-password':    'Incorrect password. Please try again.',
-      'auth/invalid-email':     'Please enter a valid email address.',
-      'auth/too-many-requests': 'Too many attempts. Please try again later.',
-      'auth/invalid-credential':'Invalid email or password.',
+      'auth/user-not-found': 'Email එක පිටින්නෙ නෑ.',
+      'auth/wrong-password': 'Password එක wrong පිටින්නවා.',
+      'auth/invalid-email': 'Valid email දෙන්න.',
+      'auth/too-many-requests': 'ඉතා බොහෝ උත්සාහයි. පසුව නැවත උත්සාහ කරන්න.',
+      'auth/invalid-credential': 'Email හෝ password එක invalid පිටින්නවා.',
     };
-    showAlert(msgs[error.code] || 'ලොග් වීම අසාර්ථකයි: මුරපදය හෝ Email එක වැරදියි.');
+    showAlert(msgs[error.code] || error.message);
   } finally {
     setLoading(false);
   }
 };
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.login();
+});
+</script>
 
 // Enter key support
 document.addEventListener('keydown', e => {
