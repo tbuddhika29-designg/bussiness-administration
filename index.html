@@ -172,13 +172,12 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
     <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
- <a href="admin-panel.html" style="display:none; align-items:center; gap:8px;" id="admin-link">
-  <i class="fas fa-shield-halved"></i> Admin
-</a>
   <div class="header-right">
     <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
   </div>
-
+  <a href="admin-panel.html" id="admin-link" class="admin-btn" style="display:none;">
+  <i class="fas fa-shield-halved"></i> Admin
+</a>
 </header>
 
 <main>
@@ -402,10 +401,7 @@ document.querySelector('.grade-val').addEventListener('change',calcGPA);
     }
   });
 </script>
-  <a href="admin-panel.html" id="admin-link" class="admin-btn" style="display:none;">
-  <i class="fas fa-shield-halved"></i> Admin
-</a>
-
+  
 <style>
 .admin-btn {
   display: inline-flex;
