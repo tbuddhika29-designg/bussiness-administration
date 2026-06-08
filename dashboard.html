@@ -173,55 +173,6 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 </head>
 <body>
 
-  <script type="module">
-
-import { auth } from "./firebase-config.js";
-
-import {
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-onAuthStateChanged(auth,(user)=>{
-
-  if(!user){
-
-    window.location.href="login.html";
-
-  }
-
-});
-
-window.addEventListener("DOMContentLoaded",()=>{
-
-  const logoutBtn=document.getElementById("logoutBtn");
-
-  if(logoutBtn){
-
-    logoutBtn.addEventListener("click",async()=>{
-
-      try{
-
-        await signOut(auth);
-
-        localStorage.clear();
-        sessionStorage.clear();
-
-        window.location.href="login.html";
-
-      }catch(error){
-
-        console.error(error);
-
-      }
-
-    });
-
-  }
-
-});
-
-</script>
 
 <div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Portal...</div></div>
 <div id="progress-bar"></div>
@@ -237,12 +188,11 @@ window.addEventListener("DOMContentLoaded",()=>{
     <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
   <div class="header-right">
-    <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
-  </div>
-
-   <button class="theme-btn" id="logoutBtn" title="Logout">
+       <button class="theme-btn" id="logoutBtn" title="Logout">
     <i class="fas fa-sign-out-alt"></i>
   </button>
+    <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+  </div>
 
 </header>
 
