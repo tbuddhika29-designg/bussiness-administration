@@ -175,7 +175,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
   <div class="header-right">
     <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
   </div>
- <a href="admin-panel.html" style="display:none" id="admin-link">
+<a href="admin-panel.html" style="display:none" id="admin-link">
   <i class="fas fa-shield-halved"></i> Admin
 </a>
 </header>
@@ -383,21 +383,6 @@ document.querySelector('.grade-val').addEventListener('change',calcGPA);
       adminLink.style.display = 'flex'; // ඇඩ්මින් නම් පමණක් පෙන්වන්න
     } else {
       adminLink.style.display = 'none'; // අනිත් අයට නොපෙන්වන්න
-    }
-  });
-</script>
-  <script type="module">
-  import { auth } from "./firebase-config.js";
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-  const ADMIN_UID = "YOUR_ADMIN_UID_මෙතන_දාන්න"; // ඔබේ UID එක මෙතනට දමන්න
-
-  onAuthStateChanged(auth, (user) => {
-    const adminLink = document.getElementById('admin-link');
-    if (user && user.uid === ADMIN_UID) {
-      adminLink.style.display = 'inline-flex'; // බට්න් එක පෙන්වන්න
-    } else {
-      adminLink.style.display = 'none'; // සඟවන්න
     }
   });
 </script>
