@@ -1,38 +1,417 @@
-<script type="module">
-
-import { auth } from "./firebase-config.js";
-
-import {
-createUserWithEmailAndPassword
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Register | TB Index</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root {
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;
+  --text:#1e1b4b;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.22);
+  --red:#ef4444;--green:#10b981;--gold:#f59e0b;
+  --glass:rgba(255,255,255,0.7);
 }
-from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+[data-theme="dark"]{
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;
+  --text:#e9e4ff;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.85);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;overflow-x:hidden;transition:background .3s,color .3s;position:relative;padding:40px 0 60px}
+
+/* BUBBLES */
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+[data-theme="dark"] .bubble{opacity:.07}
+@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* THEME BTN */
+.theme-btn{position:fixed;top:20px;right:20px;z-index:100;width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:var(--shadow)}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+
+/* CARD WRAPPER */
+.reg-wrapper{position:relative;z-index:10;width:100%;max-width:460px;padding:20px;animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* BRAND TOP */
+.brand-top{text-align:center;margin-bottom:28px}
+.brand-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:6px}
+.brand-sub{font-size:.78rem;color:var(--muted);letter-spacing:.05em}
+
+/* CARD */
+.reg-card{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--border2);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
+.reg-card::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;background:radial-gradient(circle,rgba(124,58,237,.2),transparent 70%);border-radius:50%;pointer-events:none}
+.reg-card::after{content:'';position:absolute;bottom:-40px;left:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(168,85,247,.15),transparent 70%);border-radius:50%;pointer-events:none}
+
+.card-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.1);border:1px solid var(--border2);border-radius:100px;padding:5px 14px;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.card-title{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:var(--text);margin-bottom:4px;line-height:1.15}
+.card-sub{font-size:.85rem;color:var(--muted);margin-bottom:28px;line-height:1.5}
+
+/* FORM */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:7px;letter-spacing:.04em}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.input-wrap{position:relative}
+.input-wrap i.icon-left{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.85rem;transition:color .3s;pointer-events:none}
+.form-input{width:100%;padding:13px 14px 13px 40px;border:1px solid var(--border2);border-radius:12px;background:var(--card);color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s,box-shadow .3s;-webkit-appearance:none}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+.input-wrap:focus-within .icon-left{color:var(--accent)}
+.form-input::placeholder{color:var(--muted);opacity:.7}
+.form-input.valid{border-color:var(--green)}
+.form-input.invalid{border-color:var(--red)}
+
+/* PASSWORD TOGGLE */
+.toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:.85rem;padding:4px;transition:color .3s}
+.toggle-pw:hover{color:var(--accent)}
+
+/* PASSWORD STRENGTH */
+.pw-strength{margin-top:8px}
+.pw-bars{display:flex;gap:4px;margin-bottom:5px}
+.pw-bar{flex:1;height:4px;border-radius:2px;background:var(--border2);transition:background .3s}
+.pw-bar.weak{background:var(--red)}
+.pw-bar.fair{background:var(--gold)}
+.pw-bar.strong{background:var(--green)}
+.pw-label{font-size:.72rem;color:var(--muted);font-weight:500}
+
+/* FIELD HINT */
+.field-hint{font-size:.72rem;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:5px}
+.field-hint.error{color:var(--red)}
+.field-hint.ok{color:var(--green)}
+
+/* TERMS */
+.terms-wrap{display:flex;align-items:flex-start;gap:10px;margin:18px 0;cursor:pointer;user-select:none}
+.custom-check{width:20px;height:20px;border:2px solid var(--border2);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0;margin-top:1px;background:var(--card)}
+.terms-wrap.checked .custom-check{background:var(--accent);border-color:var(--accent)}
+.terms-wrap.checked .custom-check::after{content:'✓';color:#fff;font-size:.7rem;font-weight:700}
+.terms-text{font-size:.82rem;color:var(--muted);line-height:1.5}
+.terms-text a{color:var(--accent);font-weight:600;text-decoration:none}
+.terms-text a:hover{opacity:.75}
+
+/* ALERT */
+.alert{padding:12px 16px;border-radius:10px;font-size:.84rem;font-weight:500;display:none;align-items:center;gap:10px;animation:fadeUp .3s ease;margin-bottom:16px}
+.alert.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);display:flex}
+.alert.success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--green);display:flex}
+
+/* SUBMIT BTN */
+.submit-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(124,58,237,.35);display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+.submit-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .3s}
+.submit-btn:hover::before{background:rgba(255,255,255,.08)}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.45)}
+.submit-btn:active{transform:translateY(0)}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top:2px solid #fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.submit-btn.loading .btn-text{display:none}
+.submit-btn.loading .btn-spinner{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* DIVIDER + LOGIN LINK */
+.divider{display:flex;align-items:center;gap:12px;margin:22px 0}
+.divider-line{flex:1;height:1px;background:var(--border2)}
+.divider-text{font-size:.75rem;color:var(--muted);white-space:nowrap}
+.login-row{text-align:center;margin-top:4px;font-size:.84rem;color:var(--muted)}
+.login-row a{color:var(--accent);font-weight:600;text-decoration:none;transition:opacity .2s}
+.login-row a:hover{opacity:.75}
+
+/* ID CHIP */
+.id-chip{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;padding:8px 16px;background:rgba(124,58,237,.06);border:1px solid var(--border);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted)}
+.id-chip span{color:var(--accent);font-weight:600}
+
+@media(max-width:480px){.form-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="bubbles" id="bubbles"></div>
+<button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+
+<div class="reg-wrapper">
+
+  <div class="brand-top">
+    <span class="brand-logo">TB Index</span>
+    <div class="brand-sub">Premium Student Workspace</div>
+  </div>
+
+  <div class="reg-card">
+    <div class="card-tag"><i class="fas fa-user-plus"></i>&nbsp; Create Account</div>
+    <div class="card-title">Join TB Index 🎓</div>
+    <div class="card-sub">Create your account to access the academic portal and all study tools.</div>
+
+    <!-- ALERT -->
+    <div class="alert" id="alert-box">
+      <i class="fas fa-circle-exclamation"></i>
+      <span id="alert-text">Something went wrong.</span>
+    </div>
+
+    <!-- NAME ROW -->
+    <div class="form-group">
+      <label class="form-label">Full Name</label>
+      <div class="input-wrap">
+        <input type="text" id="fullname" class="form-input" placeholder="Tharindu Buddhika" autocomplete="name"/>
+        <i class="fas fa-user icon-left"></i>
+      </div>
+    </div>
+
+    <!-- STUDENT ID + PROGRAMME (2 col) -->
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Student ID</label>
+        <div class="input-wrap">
+          <input type="text" id="studentId" class="form-input" placeholder="COM/BMgt-558/…" autocomplete="off"/>
+          <i class="fas fa-id-card icon-left"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Programme</label>
+        <div class="input-wrap">
+          <input type="text" id="programme" class="form-input" placeholder="BBA" autocomplete="off"/>
+          <i class="fas fa-graduation-cap icon-left"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="form-group">
+      <label class="form-label" for="email">Email Address</label>
+      <div class="input-wrap">
+        <input type="email" id="email" class="form-input" placeholder="you@example.com" autocomplete="email" oninput="validateEmail(this)"/>
+        <i class="fas fa-envelope icon-left"></i>
+      </div>
+      <div class="field-hint" id="email-hint" style="display:none"></div>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="form-group">
+      <label class="form-label" for="password">Password</label>
+      <div class="input-wrap">
+        <input type="password" id="password" class="form-input" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)"/>
+        <i class="fas fa-lock icon-left"></i>
+        <button class="toggle-pw" type="button" id="togglePw1" title="Show/Hide">
+          <i class="fas fa-eye" id="eye1"></i>
+        </button>
+      </div>
+      <div class="pw-strength">
+        <div class="pw-bars">
+          <div class="pw-bar" id="bar1"></div>
+          <div class="pw-bar" id="bar2"></div>
+          <div class="pw-bar" id="bar3"></div>
+          <div class="pw-bar" id="bar4"></div>
+        </div>
+        <div class="pw-label" id="pw-label">Enter a password</div>
+      </div>
+    </div>
+
+    <!-- CONFIRM PASSWORD -->
+    <div class="form-group">
+      <label class="form-label" for="confirmPassword">Confirm Password</label>
+      <div class="input-wrap">
+        <input type="password" id="confirmPassword" class="form-input" placeholder="Re-enter your password" autocomplete="new-password" oninput="checkMatch()"/>
+        <i class="fas fa-lock icon-left"></i>
+        <button class="toggle-pw" type="button" id="togglePw2" title="Show/Hide">
+          <i class="fas fa-eye" id="eye2"></i>
+        </button>
+      </div>
+      <div class="field-hint" id="match-hint" style="display:none"></div>
+    </div>
+
+    <!-- TERMS -->
+    <div class="terms-wrap" id="termsWrap" onclick="toggleTerms()">
+      <div class="custom-check" id="termsCheck"></div>
+      <div class="terms-text">I agree to the <a href="#" onclick="return false">Terms of Service</a> and <a href="#" onclick="return false">Privacy Policy</a> of TB Index.</div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button class="submit-btn" id="regBtn" onclick="register()">
+      <span class="btn-text"><i class="fas fa-user-plus"></i> Create Account</span>
+      <div class="btn-spinner"></div>
+    </button>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">Already have an account?</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="login-row">
+      <a href="login.html">← Sign in instead</a>
+    </div>
+
+    <div class="id-chip">
+      <i class="fas fa-shield-halved"></i>
+      <span>CINEC Campus</span> · Internal Portal · Secure
+    </div>
+  </div>
+
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { auth } from "./firebase-config.js";
+import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+function showAlert(msg, type = 'error') {
+  const box = document.getElementById('alert-box');
+  const txt = document.getElementById('alert-text');
+  box.className = `alert ${type}`;
+  txt.textContent = msg;
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function setLoading(on) {
+  const btn = document.getElementById('regBtn');
+  btn.classList.toggle('loading', on);
+  btn.disabled = on;
+}
 
 window.register = async () => {
+  const fullname  = document.getElementById('fullname').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const password  = document.getElementById('password').value;
+  const confirm   = document.getElementById('confirmPassword').value;
+  const agreed    = document.getElementById('termsWrap').classList.contains('checked');
 
-const email =
-document.getElementById("email").value;
+  if (!fullname)           { showAlert('Please enter your full name.'); return; }
+  if (!email)              { showAlert('Please enter your email address.'); return; }
+  if (password.length < 8) { showAlert('Password must be at least 8 characters.'); return; }
+  if (password !== confirm) { showAlert('Passwords do not match.'); return; }
+  if (!agreed)             { showAlert('Please agree to the Terms of Service to continue.'); return; }
 
-const password =
-document.getElementById("password").value;
-
-try{
-
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-alert("Account Created!");
-
-window.location.href="login.html";
-
-}catch(error){
-
-alert(error.message);
-
-}
-
-}
-
+  setLoading(true);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, { displayName: fullname });
+    showAlert('Account created! Redirecting to your portal…', 'success');
+    setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+  } catch (error) {
+    const msgs = {
+      'auth/email-already-in-use': 'An account with this email already exists.',
+      'auth/invalid-email':        'Please enter a valid email address.',
+      'auth/weak-password':        'Password is too weak. Please choose a stronger password.',
+      'auth/operation-not-allowed':'Account creation is currently disabled.',
+    };
+    showAlert(msgs[error.code] || error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 </script>
+
+<script>
+// Theme
+const saved = localStorage.getItem('ict-theme') || 'light';
+if (saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>'; }
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const d = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = d ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme', d ? 'light' : 'dark');
+});
+
+// Password toggle
+document.getElementById('togglePw1').addEventListener('click', () => {
+  const inp = document.getElementById('password');
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  document.getElementById('eye1').className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
+});
+document.getElementById('togglePw2').addEventListener('click', () => {
+  const inp = document.getElementById('confirmPassword');
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  document.getElementById('eye2').className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
+});
+
+// Terms toggle
+function toggleTerms() {
+  document.getElementById('termsWrap').classList.toggle('checked');
+}
+
+// Email validation
+function validateEmail(input) {
+  const hint = document.getElementById('email-hint');
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+  hint.style.display = input.value ? 'flex' : 'none';
+  if (valid) {
+    hint.className = 'field-hint ok';
+    hint.innerHTML = '<i class="fas fa-check-circle"></i> Valid email address';
+    input.classList.remove('invalid'); input.classList.add('valid');
+  } else {
+    hint.className = 'field-hint error';
+    hint.innerHTML = '<i class="fas fa-times-circle"></i> Enter a valid email address';
+    input.classList.remove('valid'); input.classList.add('invalid');
+  }
+}
+
+// Password strength
+function checkStrength(pw) {
+  const bars = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
+  const label = document.getElementById('pw-label');
+  bars.forEach(b => b.className = 'pw-bar');
+
+  let score = 0;
+  if (pw.length >= 8)  score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  const levels = [
+    { cls: 'weak',   label: 'Weak', n: 1 },
+    { cls: 'fair',   label: 'Fair', n: 2 },
+    { cls: 'fair',   label: 'Good', n: 3 },
+    { cls: 'strong', label: 'Strong', n: 4 },
+  ];
+
+  if (pw.length === 0) { label.textContent = 'Enter a password'; return; }
+  const lvl = levels[score - 1] || levels[0];
+  for (let i = 0; i < lvl.n; i++) bars[i].classList.add(lvl.cls);
+  label.textContent = `Strength: ${lvl.label}`;
+}
+
+// Confirm password match
+function checkMatch() {
+  const pw = document.getElementById('password').value;
+  const cp = document.getElementById('confirmPassword');
+  const hint = document.getElementById('match-hint');
+  hint.style.display = cp.value ? 'flex' : 'none';
+  if (pw === cp.value) {
+    hint.className = 'field-hint ok';
+    hint.innerHTML = '<i class="fas fa-check-circle"></i> Passwords match';
+    cp.classList.remove('invalid'); cp.classList.add('valid');
+  } else {
+    hint.className = 'field-hint error';
+    hint.innerHTML = '<i class="fas fa-times-circle"></i> Passwords do not match';
+    cp.classList.remove('valid'); cp.classList.add('invalid');
+  }
+}
+
+// Expose to module scope
+window.validateEmail  = validateEmail;
+window.checkStrength  = checkStrength;
+window.checkMatch     = checkMatch;
+window.toggleTerms    = toggleTerms;
+
+// Bubbles
+function createBubbles() {
+  const w = document.getElementById('bubbles');
+  const cols = ['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
+  for (let i = 0; i < 14; i++) {
+    const b = document.createElement('div'); b.className = 'bubble';
+    const sz = Math.random() * 80 + 30;
+    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${12+Math.random()*18}s;animation-delay:${Math.random()*10}s;`;
+    w.appendChild(b);
+  }
+}
+createBubbles();
+</script>
+</body>
+</html>
