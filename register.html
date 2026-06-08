@@ -147,13 +147,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class="card-title">Join TB Index 🎓</div>
     <div class="card-sub">Create your account to access the academic portal and all study tools.</div>
 
-    <!-- ALERT -->
     <div class="alert" id="alert-box">
       <i class="fas fa-circle-exclamation"></i>
       <span id="alert-text">Something went wrong.</span>
     </div>
 
-    <!-- NAME ROW -->
     <div class="form-group">
       <label class="form-label">Full Name</label>
       <div class="input-wrap">
@@ -162,7 +160,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
-    <!-- STUDENT ID + PROGRAMME (2 col) -->
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Student ID</label>
@@ -180,7 +177,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
-    <!-- EMAIL -->
     <div class="form-group">
       <label class="form-label" for="email">Email Address</label>
       <div class="input-wrap">
@@ -190,7 +186,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class="field-hint" id="email-hint" style="display:none"></div>
     </div>
 
-    <!-- PASSWORD -->
     <div class="form-group">
       <label class="form-label" for="password">Password</label>
       <div class="input-wrap">
@@ -211,7 +206,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
-    <!-- CONFIRM PASSWORD -->
     <div class="form-group">
       <label class="form-label" for="confirmPassword">Confirm Password</label>
       <div class="input-wrap">
@@ -224,13 +218,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class="field-hint" id="match-hint" style="display:none"></div>
     </div>
 
-    <!-- TERMS -->
     <div class="terms-wrap" id="termsWrap" onclick="toggleTerms()">
       <div class="custom-check" id="termsCheck"></div>
       <div class="terms-text">I agree to the <a href="#" onclick="return false">Terms of Service</a> and <a href="#" onclick="return false">Privacy Policy</a> of TB Index.</div>
     </div>
 
-    <!-- SUBMIT -->
     <button class="submit-btn" id="regBtn" onclick="register()">
       <span class="btn-text"><i class="fas fa-user-plus"></i> Create Account</span>
       <div class="btn-spinner"></div>
@@ -254,10 +246,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
-import { auth } from "./firebase-config.js";
-import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { auth, db } from "./firebase-config.js";
+import { createUserWithEmailAndPassword, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type = 'error') {
   const box = document.getElementById('alert-box');
@@ -275,29 +267,56 @@ function setLoading(on) {
 
 window.register = async () => {
   const fullname  = document.getElementById('fullname').value.trim();
+  const studentId = document.getElementById('studentId').value.trim();
+  const programme = document.getElementById('programme').value.trim();
   const email     = document.getElementById('email').value.trim();
   const password  = document.getElementById('password').value;
   const confirm   = document.getElementById('confirmPassword').value;
   const agreed    = document.getElementById('termsWrap').classList.contains('checked');
 
-  if (!fullname)           { showAlert('Please enter your full name.'); return; }
-  if (!email)              { showAlert('Please enter your email address.'); return; }
-  if (password.length < 8) { showAlert('Password must be at least 8 characters.'); return; }
-  if (password !== confirm) { showAlert('Passwords do not match.'); return; }
-  if (!agreed)             { showAlert('Please agree to the Terms of Service to continue.'); return; }
+  // Input වලංගුකරණය (Validation)
+  if (!fullname)           { showAlert('කරුණාකර ඔබගේ සම්පූර්ණ නම ඇතුලත් කරන්න.'); return; }
+  if (!studentId)          { showAlert('කරුණාකර ඔබගේ Student ID එක ඇතුලත් කරන්න.'); return; }
+  if (!programme)          { showAlert('කරුණාකර ඔබගේ පාඨමාලාව (Programme) ඇතුලත් කරන්න.'); return; }
+  if (!email)              { showAlert('කරුණාකර Email ලිපිනයක් ඇතුලත් කරන්න.'); return; }
+  if (password.length < 8) { showAlert('මුරපදය අවම වශයෙන් අකුරු 8ක්වත් විය යුතුය.'); return; }
+  if (password !== confirm) { showAlert('මුරපද එකිනෙකට නොගැලපේ.'); return; }
+  if (!agreed)             { showAlert('කරුණාකර සේවා කොන්දේසි වලට එකඟ වන්න.'); return; }
 
   setLoading(true);
   try {
+    // 1. Firebase Auth හරහා පරිශීලකයා සෑදීම
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(userCredential.user, { displayName: fullname });
-    showAlert('Account created! Redirecting to your portal…', 'success');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+    const user = userCredential.user;
+    
+    // 2. පරිශීලකයාගේ නම (DisplayName) Update කිරීම
+    await updateProfile(user, { displayName: fullname });
+
+    // 3. Firestore එක තුළ 'users' collection එකෙහි පරිශීලක UID එක නමින් ලේඛනයක් සාදා 'isApproved: false' කිරීම
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      fullname: fullname,
+      studentId: studentId,
+      programme: programme,
+      email: email,
+      isApproved: false, // නව ගිණුම් මුලින්ම අනුමත නොකළ (false) මට්ටමේ පවතී
+      createdAt: new Date()
+    });
+
+    showAlert('ගිණුම සාර්ථකව නිර්මාණය විය! ඇඩ්මින් විසින් අනුමත කළ පසු ඔබට ලොග් විය හැක.', 'success');
+    
+    // 4. ඇඩ්මින් අනුමත කරන තෙක් ඇතුල් විය නොහැකි නිසා වහාම Sign Out කර Login පිටුවට යැවීම
+    await signOut(auth);
+    setTimeout(() => { 
+      window.location.href = 'login.html'; 
+    }, 2500);
+
   } catch (error) {
     const msgs = {
-      'auth/email-already-in-use': 'An account with this email already exists.',
-      'auth/invalid-email':        'Please enter a valid email address.',
-      'auth/weak-password':        'Password is too weak. Please choose a stronger password.',
-      'auth/operation-not-allowed':'Account creation is currently disabled.',
+      'auth/email-already-in-use': 'මෙම Email ලිපිනයෙන් දැනටමත් ගිණුමක් සාදා ඇත.',
+      'auth/invalid-email':        'කරුණාකර වලංගු Email ලිපිනයක් ඇතුලත් කරන්න.',
+      'auth/weak-password':        'මුරපදය ඉතා දුර්වලයි. කරුණාකර වඩාත් ශක්තිමත් මුරපදයක් යොදන්න.',
+      'auth/operation-not-allowed':'ගිණුම් සෑදීම දැනට අක්‍රීය කර ඇත.',
     };
     showAlert(msgs[error.code] || error.message);
   } finally {
@@ -307,7 +326,7 @@ window.register = async () => {
 </script>
 
 <script>
-// Theme
+// Theme Toggle Logic
 const saved = localStorage.getItem('ict-theme') || 'light';
 if (saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>'; }
 document.getElementById('themeBtn').addEventListener('click', () => {
@@ -317,7 +336,7 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   localStorage.setItem('ict-theme', d ? 'light' : 'dark');
 });
 
-// Password toggle
+// Password visibility toggle
 document.getElementById('togglePw1').addEventListener('click', () => {
   const inp = document.getElementById('password');
   const show = inp.type === 'password';
@@ -331,12 +350,12 @@ document.getElementById('togglePw2').addEventListener('click', () => {
   document.getElementById('eye2').className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
 });
 
-// Terms toggle
+// Terms checkbox toggle
 function toggleTerms() {
   document.getElementById('termsWrap').classList.toggle('checked');
 }
 
-// Email validation
+// Live Email validation
 function validateEmail(input) {
   const hint = document.getElementById('email-hint');
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
@@ -352,7 +371,7 @@ function validateEmail(input) {
   }
 }
 
-// Password strength
+// Live Password strength checker
 function checkStrength(pw) {
   const bars = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
   const label = document.getElementById('pw-label');
@@ -377,7 +396,7 @@ function checkStrength(pw) {
   label.textContent = `Strength: ${lvl.label}`;
 }
 
-// Confirm password match
+// Confirm password live match checker
 function checkMatch() {
   const pw = document.getElementById('password').value;
   const cp = document.getElementById('confirmPassword');
@@ -394,13 +413,13 @@ function checkMatch() {
   }
 }
 
-// Expose to module scope
+// Expose functions to module scope
 window.validateEmail  = validateEmail;
 window.checkStrength  = checkStrength;
 window.checkMatch     = checkMatch;
 window.toggleTerms    = toggleTerms;
 
-// Bubbles
+// Background Bubbles Animation Generator
 function createBubbles() {
   const w = document.getElementById('bubbles');
   const cols = ['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
