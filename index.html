@@ -369,5 +369,16 @@ function removeRow(b){
 document.querySelector('.credit-val').addEventListener('input',calcGPA);
 document.querySelector('.grade-val').addEventListener('change',calcGPA);
 </script>
+  <!-- index.html හෝ dashboard.html එකින් -->
+<a href="admin-panel.html" style="display:none" id="admin-link">
+  <i class="fas fa-shield-halved"></i> Admin
+</a>
+
+<script>
+// Admin ක්‍රියා කරනු
+const ADMIN_UID = "YOUR_ADMIN_UID";
+document.getElementById('admin-link').style.display = 
+  (currentUser?.uid === ADMIN_UID) ? 'flex' : 'none';
+</script>
 </body>
 </html>
