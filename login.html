@@ -3,11 +3,11 @@
 import { auth } from "./firebase-config.js";
 
 import {
-createUserWithEmailAndPassword
+signInWithEmailAndPassword
 }
 from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-window.register = async () => {
+window.login = async () => {
 
 const email =
 document.getElementById("email").value;
@@ -17,15 +17,13 @@ document.getElementById("password").value;
 
 try{
 
-await createUserWithEmailAndPassword(
+await signInWithEmailAndPassword(
 auth,
 email,
 password
 );
 
-alert("Account Created!");
-
-window.location.href="login.html";
+window.location.href="dashboard.html";
 
 }catch(error){
 
