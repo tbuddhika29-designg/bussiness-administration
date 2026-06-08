@@ -132,11 +132,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class="card-title">Welcome Back 👋</div>
     <div class="card-sub">Sign in to access your academic portal and study tools.</div>
 
+    <!-- ALERT -->
     <div class="alert" id="alert-box">
       <i class="fas fa-circle-exclamation"></i>
       <span id="alert-text">Something went wrong.</span>
     </div>
 
+    <!-- EMAIL -->
     <div class="form-group">
       <label class="form-label" for="email">Email Address</label>
       <div class="input-wrap">
@@ -145,6 +147,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
+    <!-- PASSWORD -->
     <div class="form-group">
       <label class="form-label" for="password">Password</label>
       <div class="input-wrap">
@@ -156,6 +159,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
+    <!-- REMEMBER + FORGOT -->
     <div class="helper-row">
       <div class="remember-wrap" id="rememberWrap" onclick="toggleRemember()">
         <div class="custom-check" id="checkBox"></div>
@@ -164,6 +168,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
     </div>
 
+    <!-- SUBMIT -->
     <button class="submit-btn" id="loginBtn" onclick="login()">
       <span class="btn-text"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</span>
       <div class="btn-spinner"></div>
@@ -189,9 +194,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 <!-- FIREBASE -->
 <script type="module">
-import { auth, db } from "./firebase-config.js";
+import { auth } from "./firebase-config.js";
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type='error') {
   const box = document.getElementById('alert-box');
@@ -212,54 +216,22 @@ window.login = async () => {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    showAlert('Email සහ password දෙන්න.');
+    showAlert('Please enter your email and password.');
     return;
   }
 
   setLoading(true);
   try {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-    const user = result.user;
-
-    // Firestore එ user දත්ත හදුනා ගන්න
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      // පළමු ලොගිනුවෙන් පස්සේ document එක create කරන්න
-      await setDoc(userRef, {
-        uid: user.uid,
-        displayName: user.displayName || 'User',
-        email: user.email,
-        approved: false,
-        createdAt: new Date(),
-        lastLogin: new Date()
-      });
-      setTimeout(() => { window.location.href = 'pending-approval.html'; }, 900);
-      return;
-    }
-
-    // Approval status check කරන්න
-    const userData = userSnap.data();
-    if (!userData.approved) {
-      showAlert('Admin එකෙන් approval බලාගනිමිනිවා. පසුව නැවත උත්සාහ කරන්න.');
-      setLoading(false);
-      setTimeout(() => { window.location.href = 'pending-approval.html'; }, 1500);
-      return;
-    }
-
-    // Last login update කරන්න
-    await updateDoc(userRef, { lastLogin: new Date() });
-
+    await signInWithEmailAndPassword(auth, email, password);
     showAlert('Login successful! Redirecting…', 'success');
     setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
   } catch (error) {
     const msgs = {
-      'auth/user-not-found': 'Email එක පිටින්නෙ නෑ.',
-      'auth/wrong-password': 'Password එක wrong පිටින්නවා.',
-      'auth/invalid-email': 'Valid email දෙන්න.',
-      'auth/too-many-requests': 'ඉතා බොහෝ උත්සාහයි. පසුව නැවත උත්සාහ කරන්න.',
-      'auth/invalid-credential': 'Email හෝ password එක invalid පිටින්නවා.',
+      'auth/user-not-found':    'No account found with this email.',
+      'auth/wrong-password':    'Incorrect password. Please try again.',
+      'auth/invalid-email':     'Please enter a valid email address.',
+      'auth/too-many-requests': 'Too many attempts. Please try again later.',
+      'auth/invalid-credential':'Invalid email or password.',
     };
     showAlert(msgs[error.code] || error.message);
   } finally {
@@ -267,6 +239,7 @@ window.login = async () => {
   }
 };
 
+// Enter key support
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter') window.login();
 });
