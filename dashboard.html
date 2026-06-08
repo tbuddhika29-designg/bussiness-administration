@@ -173,6 +173,27 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 </head>
 <body>
 
+  <script type="module">
+
+import { auth } from "./firebase-config.js";
+
+import {
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+window.location.href="login.html";
+
+}
+
+});
+
+</script>
+
 <div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Portal...</div></div>
 <div id="progress-bar"></div>
 <div class="bubbles" id="bubbles"></div>
