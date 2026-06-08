@@ -172,32 +172,6 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 </style>
 </head>
 <body>
-  import { auth, db } from "./firebase-config.js"; // ඔබගේ config එක ඇති ගොනුව සම්බන්ධ කරන්න
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-// පිටුව විවෘත වන විටම පරිශීලකයා පරීක්ෂා කිරීම
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // පරිශීලකයා ලොග් වී සිටී නම් Firestore එකේ Approval එක බලන්න
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      if (userData.isApproved !== true) {
-        // අනුමත නැතිනම් පිටුව බැලීමට නොදී වහාම ලොග් අවුට් කර Login පිටුවට හරවන්න
-        await signOut(auth);
-        window.location.href = 'login.html';
-      }
-      // අනුමත නම් කිසිදු බාධාවකින් තොරව පිටුව ක්‍රියා කරයි.
-    } else {
-      await signOut(auth);
-      window.location.href = 'login.html';
-    }
-  } else {
-    // ලොග් වී නොමැති නම් කෙලින්ම Login පිටුවට හරවා යැවීම
-    window.location.href = 'login.html';
-  }
-});
 
 
 <div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Portal...</div></div>
@@ -220,14 +194,12 @@ onAuthStateChanged(auth, async (user) => {
 
 </header>
 
-<!-- STICKY NAV -->
 <nav class="sticky-nav">
   <div class="nav-inner" id="sem-nav"></div>
 </nav>
 
 <main>
 
-  <!-- CLOCK -->
   <div class="clock-wrap reveal">
     <div class="clock-pill">
       <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
@@ -236,7 +208,6 @@ onAuthStateChanged(auth, async (user) => {
     </div>
   </div>
 
-  <!-- HERO -->
   <div class="hero reveal">
     <div class="hero-tag"><i class="fas fa-graduation-cap"></i>&nbsp; Academic Portal</div>
     <h1>Tharindu Buddhika<br>— BBA Programme</h1>
@@ -247,7 +218,6 @@ onAuthStateChanged(auth, async (user) => {
     </div>
   </div>
 
-  <!-- STATS -->
   <div class="stats-strip reveal">
     <div class="stat-card" style="animation-delay:.05s"><div class="stat-icon"><i class="fas fa-book"></i></div><div><div class="stat-num">33</div><div class="stat-lbl">Modules</div></div></div>
     <div class="stat-card" style="animation-delay:.1s"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="stat-num">04</div><div class="stat-lbl">Years</div></div></div>
@@ -255,7 +225,6 @@ onAuthStateChanged(auth, async (user) => {
     <div class="stat-card" style="animation-delay:.2s"><div class="stat-icon"><i class="fas fa-star"></i></div><div><div class="stat-num">03</div><div class="stat-lbl">Electives</div></div></div>
   </div>
 
-  <!-- SUBJECTS SECTION -->
   <section id="subjects-section">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-table-list"></i></div>
@@ -275,7 +244,6 @@ onAuthStateChanged(auth, async (user) => {
     </div>
   </section>
 
-  <!-- LECTURES VIEW -->
   <section id="lectures-view">
     <button class="lectures-back" onclick="closeLecturesView()"><i class="fas fa-arrow-left"></i> Back to Modules</button>
     <div class="lec-subject-hero">
@@ -302,6 +270,42 @@ onAuthStateChanged(auth, async (user) => {
 </footer>
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+// පිටුව විවෘත වන විටම පරිශීලකයා සහ Approval තත්ත්වය පරීක්ෂා කිරීම
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        if (userData.isApproved === true) {
+          // පරිශීලකයා අනුමත නම් පමණක් Loader එක සඟවා Dashboard එක පෙන්වන්න
+          document.getElementById('loader').classList.add('hide');
+        } else {
+          // අනුමත නැතිනම් වහාම ලොග් අවුට් කර Login පිටුවට හරවන්න
+          await signOut(auth);
+          window.location.href = 'login.html';
+        }
+      } else {
+        await signOut(auth);
+        window.location.href = 'login.html';
+      }
+    } catch (error) {
+      console.error("Auth check error: ", error);
+      await signOut(auth);
+      window.location.href = 'login.html';
+    }
+  } else {
+    // ලොග් වී නොමැති නම් කෙලින්ම Login පිටුවට හරවා යැවීම
+    window.location.href = 'login.html';
+  }
+});
+</script>
 
 <script>
 const SEMESTERS=[
@@ -480,7 +484,7 @@ function initReveal(){
 }
 
 window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000);
+  // Loader එක ඉවත් කිරීම Firebase Auth Module එක මගින් සාර්ථකව සිදු කරයි
   buildGrid('all');
   buildNav();
   initReveal();
