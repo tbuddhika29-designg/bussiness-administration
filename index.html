@@ -149,6 +149,32 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 </style>
 </head>
 <body>
+  import { auth, db } from "./firebase-config.js"; // ඔබගේ config එක ඇති ගොනුව සම්බන්ධ කරන්න
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+// පිටුව විවෘත වන විටම පරිශීලකයා පරීක්ෂා කිරීම
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    // පරිශීලකයා ලොග් වී සිටී නම් Firestore එකේ Approval එක බලන්න
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      if (userData.isApproved !== true) {
+        // අනුමත නැතිනම් පිටුව බැලීමට නොදී වහාම ලොග් අවුට් කර Login පිටුවට හරවන්න
+        await signOut(auth);
+        window.location.href = 'login.html';
+      }
+      // අනුමත නම් කිසිදු බාධාවකින් තොරව පිටුව ක්‍රියා කරයි.
+    } else {
+      await signOut(auth);
+      window.location.href = 'login.html';
+    }
+  } else {
+    // ලොග් වී නොමැති නම් කෙලින්ම Login පිටුවට හරවා යැවීම
+    window.location.href = 'login.html';
+  }
+});
 
 <div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Hub...</div></div>
 <div id="progress-bar"></div>
