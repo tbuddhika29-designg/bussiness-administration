@@ -175,7 +175,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
   <div class="header-right">
     <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
   </div>
-  <a href="admin-panel.html" id="admin-link" class="admin-btn" style="display:none;">
+ <a href="admin-panel.html" style="display:none" id="admin-link">
   <i class="fas fa-shield-halved"></i> Admin
 </a>
 </header>
@@ -401,28 +401,5 @@ document.querySelector('.grade-val').addEventListener('change',calcGPA);
     }
   });
 </script>
-  
-<style>
-.admin-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #7c3aed; /* ඔබේ ප්‍රධාන වර්ණය */
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-}
-
-.admin-btn:hover {
-  background: #6d28d9;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
-}
-</style>
 </body>
 </html>
