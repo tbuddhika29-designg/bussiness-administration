@@ -1,3 +1,4 @@
+<!-- FIREBASE -->
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
@@ -26,13 +27,13 @@ window.register = async () => {
   const confirm   = document.getElementById('confirmPassword').value;
   const agreed    = document.getElementById('termsWrap').classList.contains('checked');
 
-  if (!fullname)           { showAlert('කරුණාකර ඔබගේ සම්පූර්ණ නම ඇතුළත් කරන්න.'); return; }
-  if (!studentId)          { showAlert('කරුණාකර ඔබගේ ශිෂ්‍ය අංකය (Student ID) ඇතුළත් කරන්න.'); return; }
-  if (!programme)          { showAlert('කරුණාකර ඔබගේ පාඨමාලාව (Programme) ඇතුළත් කරන්න.'); return; }
-  if (!email)              { showAlert('කරුණාකර ඔබගේ Email ලිපිනය ඇතුළත් කරන්න.'); return; }
-  if (password.length < 8) { showAlert('මුරපදය (Password) අවම වශයෙන් අක්ෂර 8කින් සමන්විත විය යුතුය.'); return; }
-  if (password !== confirm){ showAlert('ඔබ ඇතුළත් කළ මුරපදයන් (Passwords) එකිනෙකට නොගැලපේ.'); return; }
-  if (!agreed)             { showAlert('ඉදිරියට යාම සඳහා කරුණාකර සේවා කොන්දේසි (Terms of Service) වලට එකඟ වන්න.'); return; }
+  if (!fullname)           { showAlert('Please enter your full name.'); return; }
+  if (!studentId)          { showAlert('Please enter your student ID.'); return; }
+  if (!programme)          { showAlert('Please enter your programme.'); return; }
+  if (!email)              { showAlert('Please enter your email address.'); return; }
+  if (password.length < 8) { showAlert('Password must be at least 8 characters.'); return; }
+  if (password !== confirm) { showAlert('Passwords do not match.'); return; }
+  if (!agreed)             { showAlert('Please agree to the Terms of Service to continue.'); return; }
 
   setLoading(true);
   try {
@@ -41,26 +42,26 @@ window.register = async () => {
 
     await updateProfile(user, { displayName: fullname });
 
-    // Firestore හි user document එක create කිරීම
+    // Firestore එ user document එක create කරන්න
     await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       displayName: fullname,
       email: email,
       studentId: studentId,
       programme: programme,
-      approved: false,  // Admin අනුමැතිය සඳහා රැඳී සිටීම
+      approved: false,  // Admin approval බලාගනිමින්
       createdAt: new Date(),
       approvalDate: null,
       lastLogin: new Date()
     });
 
-    showAlert('ගිණුම සාර්ථකව නිර්මාණය කරන ලදී! Admin අනුමැතිය ලැබෙන තෙක් රැඳී සිටින්න.', 'success');
+    showAlert('Account created! Awaiting admin approval.', 'success');
     setTimeout(() => { window.location.href = 'pending-approval.html'; }, 1200);
   } catch (error) {
     const msgs = {
-      'auth/email-already-in-use': 'මෙම Email ලිපිනය භාවිතා කර දැනටමත් ගිණුමක් ලියාපදිංචි කර ඇත.',
-      'auth/invalid-email': 'කරුණාකර නිවැරදි Email ලිපිනයක් ඇතුළත් කරන්න.',
-      'auth/weak-password': 'කරුණාකර වඩාත් ශක්තිමත් මුරපදයක් (Password) ලබා දෙන්න.',
+      'auth/email-already-in-use': 'Email එක දැනටමත් registered පිටින්නවා.',
+      'auth/invalid-email': 'Valid email එක දෙන්න.',
+      'auth/weak-password': 'Password බයිබයින් define කරන්න.',
     };
     showAlert(msgs[error.code] || error.message);
   } finally {
