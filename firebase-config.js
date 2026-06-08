@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-
-import { getAuth } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDIrScoHdI7hg5ZdxiWziicqWU_8eeeGwY",
@@ -12,6 +12,7 @@ const firebaseConfig = {
   measurementId: "G-Z03BSD8C4Y"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);
+export const db = getFirestore(app); // Firestore එක මෙතනින් Export කෙරේ
