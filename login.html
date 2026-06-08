@@ -132,13 +132,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class="card-title">Welcome Back 👋</div>
     <div class="card-sub">Sign in to access your academic portal and study tools.</div>
 
-    <!-- ALERT -->
     <div class="alert" id="alert-box">
       <i class="fas fa-circle-exclamation"></i>
       <span id="alert-text">Something went wrong.</span>
     </div>
 
-    <!-- EMAIL -->
     <div class="form-group">
       <label class="form-label" for="email">Email Address</label>
       <div class="input-wrap">
@@ -147,7 +145,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
-    <!-- PASSWORD -->
     <div class="form-group">
       <label class="form-label" for="password">Password</label>
       <div class="input-wrap">
@@ -159,7 +156,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
-    <!-- REMEMBER + FORGOT -->
     <div class="helper-row">
       <div class="remember-wrap" id="rememberWrap" onclick="toggleRemember()">
         <div class="custom-check" id="checkBox"></div>
@@ -168,7 +164,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
     </div>
 
-    <!-- SUBMIT -->
     <button class="submit-btn" id="loginBtn" onclick="login()">
       <span class="btn-text"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</span>
       <div class="btn-spinner"></div>
@@ -192,10 +187,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
-import { auth } from "./firebase-config.js";
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { auth, db } from "./firebase-config.js";
+import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type='error') {
   const box = document.getElementById('alert-box');
@@ -216,15 +211,38 @@ window.login = async () => {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    showAlert('Please enter your email and password.');
+    showAlert('කරුණාකර Email සහ Password ඇතුලත් කරන්න.');
     return;
   }
 
   setLoading(true);
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-    showAlert('Login successful! Redirecting…', 'success');
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
+    // 1. සාමාන්‍ය පරිදි Auth එකෙන් ලොග් වීම
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // 2. Firestore Database එකෙන් මෙම පරිශීලකයාගේ අනුමැති තත්ත්වය (isApproved) පරීක්ෂා කිරීම
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      
+      // 3. ඇඩ්මින් අනුමත කර ඇත්නම් පමණක් ඇතුලට ගැනීම
+      if (userData.isApproved === true) {
+        showAlert('සාර්ථකව ලොග් විය! ප්‍රධාන පිටුවට යොමු කෙරේ...', 'success');
+        setTimeout(() => { 
+          window.location.href = 'dashboard.html'; 
+        }, 1200);
+      } else {
+        // 4. අනුමත කර නොමැති නම් වහාම පද්ධතියෙන් ඉවත් කර (Sign Out) පණිවිඩයක් පෙන්වීම
+        await signOut(auth);
+        showAlert('ඔබගේ ගිණුම තවමත් ඇඩ්මින් (Admin) විසින් අනුමත කර නැත!', 'error');
+      }
+    } else {
+      await signOut(auth);
+      showAlert('පරිශීලක දත්ත හමුනොවීය. කරුණාකර නැවත ලියාපදිංචි වන්න.', 'error');
+    }
+
   } catch (error) {
     const msgs = {
       'auth/user-not-found':    'No account found with this email.',
@@ -233,7 +251,7 @@ window.login = async () => {
       'auth/too-many-requests': 'Too many attempts. Please try again later.',
       'auth/invalid-credential':'Invalid email or password.',
     };
-    showAlert(msgs[error.code] || error.message);
+    showAlert(msgs[error.code] || 'ලොග් වීම අසාර්ථකයි: මුරපදය හෝ Email එක වැරදියි.');
   } finally {
     setLoading(false);
   }
