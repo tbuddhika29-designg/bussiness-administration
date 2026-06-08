@@ -1,740 +1,461 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Tharindu Buddhika | Academic Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
-  /* === SOFTER, EYE-FRIENDLY COLOR SCHEME === */
-  :root {
-    --bg-app: #f9fafb;      
-    --bg-sidebar: #ffffff;      
-    --bg-card: #ffffff;         
-    --bg-card-hover: #f3f4f6;   
-    --accent: #4f46e5;          
-    --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-    --accent-glow: rgba(79, 70, 229, 0.12);
-    --border: rgba(79, 70, 229, 0.08);
-    --text-main: #1f2937;       
-    --text-title: #111827;      
-    --text-muted: #6b7280;      
-    --radius-lg: 16px;
-    --radius-md: 12px;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.06);
-  }
+:root {
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff;
+  --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.2);
+  --gold:#f59e0b;--green:#10b981;--red:#ef4444;
+  --glass:rgba(255,255,255,0.7);
+}
+[data-theme="dark"]{
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38;
+  --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.8);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
 
-  /* === DARK MODE === */
-  body.dark-mode {
-    --bg-app: #0f172a;
-    --bg-sidebar: #1e293b;
-    --bg-card: #1e293b;
-    --bg-card-hover: #334155;
-    --border: rgba(99, 102, 241, 0.12);
-    --text-main: #e2e8f0;
-    --text-title: #f1f5f9;
-    --text-muted: #94a3b8;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s}
+#loader.hide{opacity:0;pointer-events:none}
+.loader-ring{width:60px;height:60px;border:4px solid var(--border2);border-top:4px solid var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+.loader-text{font-family:'Poppins',sans-serif;font-weight:600;color:var(--accent);letter-spacing:.15em;font-size:.85rem;text-transform:uppercase}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* PROGRESS */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));width:0%;z-index:1100;border-radius:0 2px 2px 0;box-shadow:0 0 10px var(--accent)}
 
-  body {
-    background: var(--bg-app);
-    color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+/* BUBBLES */
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+[data-theme="dark"] .bubble{opacity:.07}
+@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: -10%; left: -10%;
-    width: 60vw; height: 60vh;
-    background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-    transition: background 0.3s ease;
-  }
+/* HEADER */
+header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow)}
+.header-left{display:flex;align-items:center;gap:12px}
+.header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent)}
+.header-sub{font-size:.72rem;color:var(--muted);display:none}
+@media(min-width:640px){.header-sub{display:block}}
+.student-id-badge{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.1);border:1px solid var(--border2);padding:4px 10px;border-radius:100px;white-space:nowrap;display:none}
+@media(min-width:900px){.student-id-badge{display:block}}
+.header-right{display:flex;align-items:center;gap:8px}
+.theme-btn,.back-btn{display:flex;align-items:center;gap:6px}
+.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;justify-content:center;transition:all .3s}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.back-btn{text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
+.back-btn:hover{background:var(--accent);color:#fff}
 
-  /* === MAIN SPLIT LAYOUT === */
-  .app-container {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    z-index: 1;
-  }
+/* STICKY NAV */
+.sticky-nav{position:sticky;top:64px;z-index:999;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.sticky-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:4px;padding:10px 20px;min-width:max-content}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;transition:all .3s;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(124,58,237,.35)}
 
-  /* === SIDEBAR === */
-  aside {
-    width: 360px;
-    background: var(--bg-sidebar);
-    border-right: 1px solid var(--border);
-    padding: 36px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 10;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
-    overflow-y: auto;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-  }
+/* MAIN */
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px 100px}
 
-  .badge {
-    align-self: flex-start;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--accent);
-    border: 1px solid var(--border);
-    padding: 6px 14px;
-    border-radius: 30px;
-    background: rgba(79, 70, 229, 0.05);
-    margin-bottom: 25px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
+/* HERO */
+.hero{border-radius:24px;padding:48px 40px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08));border:1px solid var(--border2);backdrop-filter:blur(24px);text-align:center;margin-bottom:48px;position:relative;overflow:hidden;box-shadow:var(--shadow2)}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.25),transparent 70%);border-radius:50%;pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid var(--border2);border-radius:100px;padding:6px 18px;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,var(--text),var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:20px}
+.hero-chip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:10px;font-size:.8rem;color:var(--muted)}
+.hero-chip span{color:var(--accent);font-weight:600}
 
-  .profile-zone h1 {
-    font-family: 'Inter', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--text-title);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    transition: color 0.3s ease;
-  }
+/* CLOCK */
+.clock-wrap{display:flex;justify-content:center;margin-bottom:36px}
+.clock-pill{display:inline-flex;align-items:center;gap:12px;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border2);padding:10px 24px;border-radius:100px;box-shadow:var(--shadow)}
+.clock-time{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:600;color:var(--accent)}
+.clock-date{font-size:.8rem;color:var(--muted);border-left:1px solid var(--border2);padding-left:12px}
 
-  .profile-zone h1 span {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
-  }
+/* STATS */
+.stats-strip{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:48px}
+.stat-card{flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);animation:fadeUp .5s ease both}
+.stat-icon{width:42px;height:42px;border-radius:12px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--accent);flex-shrink:0}
+.stat-num{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);line-height:1}
+.stat-lbl{font-size:.75rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
 
-  .subtitle {
-    margin-top: 10px;
-    font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 400;
-    transition: color 0.3s ease;
-  }
+/* SECTION LABEL */
+.section-label{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.section-badge{padding:6px 16px;border-radius:100px;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(168,85,247,.1));border:1px solid var(--border2);font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.section-title{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text)}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
 
-  .student-meta {
-    margin-top: 24px;
-    padding: 18px;
-    background: rgba(79, 70, 229, 0.03);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    transition: all 0.3s ease;
-  }
+/* FILTER TABS */
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;transition:all .3s}
+.filter-btn:hover,.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(124,58,237,.3)}
 
-  .meta-label { font-size: 9px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; transition: color 0.3s ease; }
-  .meta-val { font-size: 14px; color: var(--text-title); font-weight: 600; margin-bottom: 12px; margin-top: 3px; transition: color 0.3s ease; }
-  .meta-val.id { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); margin-bottom: 0; }
+/* TIMELINE HORIZONTAL */
+.timeline-outer{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;padding-bottom:16px}
+.timeline-outer::-webkit-scrollbar{height:6px}
+.timeline-outer::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+.timeline-track{display:flex;gap:24px;min-width:max-content;padding:4px 2px 8px}
 
-  /* Interactive Filters */
-  .filter-panel { margin-top: 28px; display: flex; flex-direction: column; gap: 6px; }
-  .filter-btn {
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: 1px solid transparent;
-    padding: 10px 14px;
-    border-radius: var(--radius-md);
-    color: var(--text-muted);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .filter-btn:hover {
-    color: var(--accent);
-    background: rgba(79, 70, 229, 0.05);
-    transform: translateX(3px);
-  }
-  .filter-btn.active {
-    background: var(--bg-card-hover);
-    color: var(--accent);
-    font-weight: 700;
-  }
-  .filter-btn::after { content: '→'; opacity: 0; transition: 0.2s; }
-  .filter-btn:hover::after, .filter-btn.active::after { opacity: 1; transform: translateX(2px); }
+/* SEMESTER COLUMN */
+.sem-col{min-width:300px;max-width:300px;display:flex;flex-direction:column;gap:12px;animation:fadeUp .5s ease both}
+.col-header{padding-bottom:12px;border-bottom:2px solid var(--border);position:relative;margin-bottom:4px}
+.col-header::after{content:'';position:absolute;bottom:-2px;left:0;width:40px;height:2px;background:var(--accent)}
+.col-year{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.col-title{font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;color:var(--text)}
 
-  .sidebar-footer { display: flex; flex-direction: column; gap: 18px; margin-top: 28px; }
-  
-  .back-hub-btn {
-    align-self: flex-start;
-    background: var(--accent-gradient);
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    box-shadow: 0 2px 8px var(--accent-glow);
-    transition: all 0.25s ease;
-  }
-  .back-hub-btn:hover { 
-    transform: translateY(-2px); 
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
-  }
+/* SUBJECT CARD */
+.subject-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.subject-card::before{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;background:var(--accent);opacity:.05;transition:opacity .3s}
+.subject-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--border2)}
+.subject-card:hover::before{opacity:.12}
+.sub-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);font-weight:600;margin-bottom:5px}
+.subject-card:hover .sub-code{color:var(--accent)}
+.sub-title{font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);line-height:1.4;min-height:42px}
+.sub-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.sub-action{font-size:.75rem;font-weight:600;color:var(--accent)}
+.sub-arrow{font-size:.8rem;color:var(--accent);transition:transform .2s}
+.subject-card:hover .sub-arrow{transform:translateX(4px)}
+.elective-tag{position:absolute;top:14px;right:14px;font-size:.65rem;font-family:'JetBrains Mono',monospace;color:var(--gold);background:rgba(245,158,11,.1);padding:2px 8px;border-radius:4px;border:1px solid rgba(245,158,11,.2)}
 
-  .brand { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
+/* LECTURES VIEW */
+#lectures-view{display:none;animation:fadeUp .4s ease both}
+.lectures-back{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .3s;margin-bottom:28px}
+.lectures-back:hover{background:var(--accent);color:#fff}
+.lec-subject-hero{background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(168,85,247,.06));border:1px solid var(--border2);border-radius:20px;padding:28px 32px;margin-bottom:28px}
+.lec-sem-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:6px}
+.lec-subject-title{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:4px}
+.lec-subject-code{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--muted)}
+.lectures-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.lecture-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;display:flex;flex-direction:column;gap:10px;transition:all .3s;animation:fadeUp .4s ease both}
+.lecture-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--border2)}
+.l-num{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(168,85,247,.08));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:var(--accent)}
+.l-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);font-weight:600}
+.l-title{font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);line-height:1.4}
+.l-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.l-action{font-size:.75rem;font-weight:600;color:var(--accent)}
+.l-arrow{font-size:.8rem;color:var(--accent);transition:transform .2s}
+.lecture-card:hover .l-arrow{transform:translateX(4px)}
 
-  /* === MAIN WORKSPACE CONTENT AREA === */
-  main {
-    flex: 1;
-    padding: 36px 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow: hidden;
-    position: relative;
-  }
+/* FOOTER */
+footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
+.footer-inner p{font-size:.82rem;color:var(--muted);line-height:1.7}
+.footer-inner strong{color:var(--accent)}
+.footer-id{display:inline-block;background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:4px 14px;border-radius:100px;font-size:.75rem;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:8px}
 
-  /* === THEME TOGGLE BUTTON === */
-  .theme-toggle-btn {
-    position: absolute;
-    top: 32px;
-    right: 40px;
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-sm);
-    z-index: 99;
-  }
+/* BACK TOP */
+#back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s;z-index:997;box-shadow:var(--shadow)}
+#back-top.show{opacity:1;transform:translateY(0)}
+#back-top:hover{background:var(--accent);color:#fff}
 
-  .theme-toggle-btn:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--accent);
-    transform: scale(1.05);
-  }
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
-  .theme-toggle-btn.active {
-    background: var(--accent-gradient);
-    border-color: transparent;
-    box-shadow: 0 0 12px var(--accent-glow);
-  }
-
-  /* === GLOBAL LIVE CLOCK FOR SIDEBAR/PORTAL === */
-  .portal-clock {
-    position: absolute;
-    top: 32px;
-    right: 120px;
-    background: var(--glass);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: var(--shadow-sm);
-    z-index: 99;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8);
-  }
-
-  body.dark-mode .portal-clock {
-    background: rgba(30, 41, 59, 0.8);
-  }
-
-  .clock-time { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent); }
-  .clock-date { font-size: 11px; font-weight: 500; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 8px; }
-
-  /* Stats Top Bar */
-  .stats-header {
-    display: flex;
-    gap: 36px;
-    margin-top: 18px;
-    margin-bottom: 32px;
-    padding-right: 50px;
-  }
-  .stat-box { display: flex; align-items: baseline; gap: 8px; }
-  .stat-box .num { font-family: 'Inter', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--accent); transition: color 0.3s ease; }
-  .stat-box .lbl { font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; }
-
-  /* Horizontal Scroll Timeline Outer Wrapper */
-  .timeline-container {
-    flex: 1;
-    overflow-x: auto;
-    display: flex;
-    align-items: flex-start;
-    gap: 24px;
-    padding: 10px 20px 20px 5px;
-    scroll-behavior: smooth;
-  }
-
-  .timeline-container::-webkit-scrollbar { height: 6px; }
-  .timeline-container::-webkit-scrollbar-track { background: transparent; }
-  .timeline-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; transition: background 0.3s ease; }
-  .timeline-container::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-  /* Semester Column Section */
-  .timeline-column {
-    min-width: 320px;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  .column-header {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    position: relative;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--border);
-  }
-  .column-header::before {
-    content: ''; position: absolute; bottom: -2px; left: 0; width: 40px; height: 2px; background: var(--accent);
-  }
-  .column-title { font-size: 14px; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
-  .column-subtitle { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-
-  /* Cards Style */
-  .subject-card, .lecture-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 20px;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
-    color: inherit;
-  }
-
-  .subject-card:hover, .lecture-card:hover {
-    transform: translateY(-3px);
-    background: var(--bg-card-hover);
-    border-color: var(--accent);
-    box-shadow: var(--shadow-md);
-  }
-
-  .card-code, .l-code { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); font-weight: 600; }
-  .subject-card:hover .card-code, .lecture-card:hover .l-code { color: var(--accent); }
-  
-  .card-title, .l-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-title);
-    line-height: 1.4;
-    min-height: 38px;
-  }
-
-  .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
-  .card-action-text { font-size: 11px; font-weight: 600; color: var(--accent); }
-  .card-arrow { font-size: 13px; color: var(--accent); transition: 0.2s; }
-  .subject-card:hover .card-arrow, .lecture-card:hover .card-arrow { transform: translateX(3px); }
-
-  .elective-tag {
-    position: absolute; top: 20px; right: 20px; font-size: 9px; font-family: 'JetBrains Mono', monospace;
-    color: #d97706; background: rgba(217, 119, 6, 0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(217, 119, 6, 0.15);
-  }
-
-  /* === LECTURES LIST VIEW CONTAINER === */
-  .subject-view-container {
-    display: none;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding-top: 60px;
-    padding-right: 20px;
-    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .subject-view-container::-webkit-scrollbar { width: 6px; }
-  .subject-view-container::-webkit-scrollbar-track { background: transparent; }
-  .subject-view-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-  .view-header-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    padding: 32px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-  }
-  .view-sem-tag {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; font-weight: 600;
-  }
-  .view-title { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-title); line-height: 1.25; margin-bottom: 6px; }
-  .view-code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
-
-  .view-section-title {
-    font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);
-    display: flex; align-items: center; gap: 12px; letter-spacing: 1px;
-  }
-  .view-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  .lectures-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-    padding-bottom: 40px;
-  }
-
-  /* === ANIMATIONS === */
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  /* === RESPONSIVE STYLES === */
-  @media (max-width: 1024px) {
-    body { overflow-y: auto; }
-    .app-container { flex-direction: column; height: auto; }
-    
-    aside { 
-      width: 100%; height: auto; padding: 28px 20px; 
-      border-right: none; border-bottom: 1px solid var(--border); 
-    }
-
-    .filter-panel { flex-direction: row; overflow-x: auto; gap: 8px; margin-top: 20px; }
-    .filter-btn { width: auto; white-space: nowrap; padding: 8px 12px; }
-
-    main { padding: 32px 20px; height: auto; }
-    .portal-clock { position: static; margin-bottom: 20px; }
-    .theme-toggle-btn { position: static; margin-left: auto; }
-    .stats-header { padding-right: 0; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
-    
-    .timeline-column { min-width: 280px; max-width: 280px; }
-    .subject-view-container { padding-right: 0; padding-top: 10px; }
-    .lectures-grid { grid-template-columns: 1fr; gap: 12px; }
-  }
+@media(max-width:768px){
+  .stats-strip{gap:10px}
+  .stat-card{min-width:120px;padding:16px}
+}
 </style>
 </head>
 <body>
 
-<div class="app-container">
-  
-  <aside>
-    <div class="sidebar-top">
-      <div class="badge">Academic Management</div>
-      <div class="profile-zone">
-        <h1>Tharindu<br><span>Buddhika</span></h1>
-        <p class="subtitle">Bachelor of Business Administration</p>
-      </div>
-      
-      <div class="student-meta">
-        <div class="meta-label">Assigned Profile</div>
-        <div class="meta-val">Tharindu Buddhika</div>
-        <div class="meta-label">Student Reference ID</div>
-        <div class="meta-val id">COM/BMgt-558/IFLS26-15/0001</div>
-      </div>
+<div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Portal...</div></div>
+<div id="progress-bar"></div>
+<div class="bubbles" id="bubbles"></div>
 
-      <nav class="filter-panel">
-        <button class="filter-btn active" onclick="filterSem('all', this)">All Semesters</button>
-        <button class="filter-btn" onclick="filterSem('year1', this)">Year 01</button>
-        <button class="filter-btn" onclick="filterSem('year2', this)">Year 02</button>
-        <button class="filter-btn" onclick="filterSem('year3', this)">Year 03</button>
-        <button class="filter-btn" onclick="filterSem('year4', this)">Year 04</button>
-        <button class="filter-btn" onclick="filterSem('elective', this)">Electives</button>
-      </nav>
+<header id="top">
+  <div class="header-left">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Hub</a>
+    <div>
+      <div class="header-logo">Academic Portal</div>
+      <div class="header-sub">Tharindu Buddhika — BBA</div>
     </div>
+    <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
+  </div>
+  <div class="header-right">
+    <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+  </div>
+</header>
 
-    <div class="sidebar-footer">
-      <a href="index.html" class="back-hub-btn" id="dynamic-back-btn">
-        <span>←</span> Back to Hub
-      </a>
-      <div>
-        <div class="brand">TB Index</div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Internal Student Portal</p>
-      </div>
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <div class="nav-inner" id="sem-nav"></div>
+</nav>
+
+<main>
+
+  <!-- CLOCK -->
+  <div class="clock-wrap reveal">
+    <div class="clock-pill">
+      <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
+      <div class="clock-time" id="clock-time">00:00:00 AM</div>
+      <div class="clock-date" id="clock-date">Loading...</div>
     </div>
-  </aside>
+  </div>
 
-  <main>
-    <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Dark/Light Mode">🌙</button>
-
-    <div class="portal-clock">
-      <div class="clock-time" id="portal-time">00:00:00 AM</div>
-      <div class="clock-date" id="portal-date">Loading...</div>
+  <!-- HERO -->
+  <div class="hero reveal">
+    <div class="hero-tag"><i class="fas fa-graduation-cap"></i>&nbsp; Academic Portal</div>
+    <h1>Tharindu Buddhika<br>— BBA Programme</h1>
+    <div class="hero-meta">
+      <div class="hero-chip"><i class="fas fa-id-card"></i> <span>COM/BMgt-558/IFLS26-15/0001</span></div>
+      <div class="hero-chip"><i class="fas fa-calendar"></i> <span>IFLS26 — Batch 2026</span></div>
+      <div class="hero-chip"><i class="fas fa-university"></i> <span>CINEC Campus</span></div>
     </div>
+  </div>
 
-    <div class="stats-header" id="stats-counter-bar">
-      <div class="stat-box"><span class="num">33</span><span class="lbl">Modules</span></div>
-      <div class="stat-box"><span class="num">04</span><span class="lbl">Years</span></div>
-      <div class="stat-box"><span class="num">08</span><span class="lbl">Semesters</span></div>
-      <div class="stat-box"><span class="num">03</span><span class="lbl">Electives</span></div>
+  <!-- STATS -->
+  <div class="stats-strip reveal">
+    <div class="stat-card" style="animation-delay:.05s"><div class="stat-icon"><i class="fas fa-book"></i></div><div><div class="stat-num">33</div><div class="stat-lbl">Modules</div></div></div>
+    <div class="stat-card" style="animation-delay:.1s"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="stat-num">04</div><div class="stat-lbl">Years</div></div></div>
+    <div class="stat-card" style="animation-delay:.15s"><div class="stat-icon"><i class="fas fa-layer-group"></i></div><div><div class="stat-num">08</div><div class="stat-lbl">Semesters</div></div></div>
+    <div class="stat-card" style="animation-delay:.2s"><div class="stat-icon"><i class="fas fa-star"></i></div><div><div class="stat-num">03</div><div class="stat-lbl">Electives</div></div></div>
+  </div>
+
+  <!-- SUBJECTS SECTION -->
+  <section id="subjects-section">
+    <div class="section-label reveal">
+      <div class="section-badge"><i class="fas fa-table-list"></i></div>
+      <div class="section-title">Course Modules</div>
+      <div class="section-line"></div>
     </div>
-
-    <div class="timeline-container" id="timeline-track"></div>
-
-    <div class="subject-view-container" id="subject-lectures-view">
-      <div class="view-header-card">
-        <span class="view-sem-tag" id="target-view-sem">Year 1 — Semester 1</span>
-        <h1 class="view-title" id="target-view-title">Management Fundamentals</h1>
-        <div class="view-code" id="target-view-code">MGBM1401</div>
-      </div>
-      <div class="view-section-title">Course Modules & Lectures</div>
-      <div class="lectures-grid" id="lectures-cards-wrapper"></div>
+    <div class="filter-bar reveal" id="filter-bar">
+      <button class="filter-btn active" onclick="filterSem('all',this)"><i class="fas fa-th"></i> All Semesters</button>
+      <button class="filter-btn" onclick="filterSem('year1',this)">Year 01</button>
+      <button class="filter-btn" onclick="filterSem('year2',this)">Year 02</button>
+      <button class="filter-btn" onclick="filterSem('year3',this)">Year 03</button>
+      <button class="filter-btn" onclick="filterSem('year4',this)">Year 04</button>
+      <button class="filter-btn" onclick="filterSem('elective',this)"><i class="fas fa-star"></i> Electives</button>
     </div>
-  </main>
+    <div class="timeline-outer reveal">
+      <div class="timeline-track" id="timeline-track"></div>
+    </div>
+  </section>
 
-</div>
+  <!-- LECTURES VIEW -->
+  <section id="lectures-view">
+    <button class="lectures-back" onclick="closeLecturesView()"><i class="fas fa-arrow-left"></i> Back to Modules</button>
+    <div class="lec-subject-hero">
+      <div class="lec-sem-tag" id="lec-sem-tag">Year 1 — Semester 1</div>
+      <div class="lec-subject-title" id="lec-title">Module Title</div>
+      <div class="lec-subject-code" id="lec-code">MGBM0000</div>
+    </div>
+    <div class="section-label">
+      <div class="section-badge"><i class="fas fa-book-open"></i></div>
+      <div class="section-title">Lectures & Resources</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="lectures-grid" id="lectures-grid"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <p><strong>Academic Portal</strong> — Bachelor of Business Administration</p>
+    <p>CINEC Campus &nbsp;·&nbsp; Management Bridging Programme</p>
+    <div class="footer-id">COM/BMgt-558/IFLS26-15/0001</div>
+  </div>
+</footer>
+
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
 <script>
-/* === THEME TOGGLE SYSTEM === */
-const themeToggleBtn = document.getElementById('theme-toggle-btn');
-
-const savedTheme = localStorage.getItem('theme') || 'light';
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-mode');
-  themeToggleBtn.textContent = '☀️';
-  themeToggleBtn.classList.add('active');
-} else {
-  themeToggleBtn.textContent = '🌙';
-  themeToggleBtn.classList.remove('active');
-}
-
-themeToggleBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  const isDarkMode = document.body.classList.contains('dark-mode');
-  localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-  
-  if (isDarkMode) {
-    themeToggleBtn.textContent = '☀️';
-    themeToggleBtn.classList.add('active');
-  } else {
-    themeToggleBtn.textContent = '🌙';
-    themeToggleBtn.classList.remove('active');
-  }
-});
-
-/* === REALTIME PORTAL CLOCK ENGINE === */
-function updatePortalClock() {
-  const now = new Date();
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  let seconds = now.getSeconds();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  seconds = seconds < 10 ? '0' + seconds : seconds;
-  hours = hours < 10 ? '0' + hours : hours;
-
-  document.getElementById('portal-time').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
-  const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-  document.getElementById('portal-date').textContent = now.toLocaleDateString('en-US', options);
-}
-setInterval(updatePortalClock, 1000);
-updatePortalClock();
-
-const SEMESTERS = [
-  {
-    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM1401', title: 'Management Fundamentals' },
-      { code: 'MGBM1302', title: 'Business Mathematics for Decisions' },
-      { code: 'MGBM1403', title: 'Introduction to Information & Communication Technology' },
-      { code: 'MGBM1404', title: 'Soft Skills in Business Communication' },
-      { code: 'MGBM1005', title: 'English Language for Business 1' },
-    ]
-  },
-  {
-    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM1306', title: 'Microeconomics' },
-      { code: 'MGBM1407', title: 'Marketing Management' },
-      { code: 'MGBM1408', title: 'Financial Accounting' },
-      { code: 'MGBM1409', title: 'Organizational Behaviour' },
-      { code: 'MGBM1010', title: 'English Language for Business 2' },
-    ]
-  },
-  {
-    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM2411', title: 'Business Law' },
-      { code: 'MGBM2412', title: 'Business Statistics' },
-      { code: 'MGBM2413', title: 'Management Accounting' },
-      { code: 'MGBM2314', title: 'Business Information Systems' },
-    ]
-  },
-  {
-    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM2415', title: 'Managerial Economics' },
-      { code: 'MGBM2416', title: 'Human Resource Management' },
-      { code: 'MGBM2417', title: 'Finance Management' },
-      { code: 'MGBM2318', title: 'Managerial Soft Skills' },
-    ]
-  },
-  {
-    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM3419', title: 'Development Economics' },
-      { code: 'MGBM3420', title: 'Strategic Marketing Management' },
-      { code: 'MGBM3421', title: 'Supply Chain Management' },
-      { code: 'MGBM3422', title: 'International Business Strategy' },
-    ]
-  },
-  {
-    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM3423', title: 'Strategic Brand Management' },
-      { code: 'MGBM3424', title: 'Research Methodology' },
-      { code: 'MGBM3325', title: 'Operations Management' },
-      { code: 'MGBM3326', title: 'Corporate Social Responsibility & Ethics', elective: true },
-      { code: 'MGBM3327', title: 'Entrepreneurship', elective: true },
-      { code: 'MGBM3328', title: 'E-Commerce', elective: true },
-    ]
-  },
-  {
-    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM4429', title: 'Strategic Management' },
-      { code: 'MGBM4430', title: 'Strategic Finance' },
-      { code: 'MGBM4631', title: 'Project Management' },
-    ]
-  },
-  {
-    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#4f46e5',
-    subjects: [
-      { code: 'MGBM4432', title: 'Academic Writing' },
-      { code: 'MGBM4633', title: 'Dissertation' },
-      { code: 'MGBM4634', title: 'Internship in Business Administration' },
-    ]
-  }
+const SEMESTERS=[
+  {id:'sem1',year:'year1',label:'Year 1 — Semester 1',subjects:[
+    {code:'MGBM1401',title:'Management Fundamentals'},
+    {code:'MGBM1302',title:'Business Mathematics for Decisions'},
+    {code:'MGBM1403',title:'Introduction to Information & Communication Technology'},
+    {code:'MGBM1404',title:'Soft Skills in Business Communication'},
+    {code:'MGBM1005',title:'English Language for Business 1'},
+  ]},
+  {id:'sem2',year:'year1',label:'Year 1 — Semester 2',subjects:[
+    {code:'MGBM1306',title:'Microeconomics'},
+    {code:'MGBM1407',title:'Marketing Management'},
+    {code:'MGBM1408',title:'Financial Accounting'},
+    {code:'MGBM1409',title:'Organizational Behaviour'},
+    {code:'MGBM1010',title:'English Language for Business 2'},
+  ]},
+  {id:'sem3',year:'year2',label:'Year 2 — Semester 3',subjects:[
+    {code:'MGBM2411',title:'Business Law'},
+    {code:'MGBM2412',title:'Business Statistics'},
+    {code:'MGBM2413',title:'Management Accounting'},
+    {code:'MGBM2314',title:'Business Information Systems'},
+  ]},
+  {id:'sem4',year:'year2',label:'Year 2 — Semester 4',subjects:[
+    {code:'MGBM2415',title:'Managerial Economics'},
+    {code:'MGBM2416',title:'Human Resource Management'},
+    {code:'MGBM2417',title:'Finance Management'},
+    {code:'MGBM2318',title:'Managerial Soft Skills'},
+  ]},
+  {id:'sem5',year:'year3',label:'Year 3 — Semester 5',subjects:[
+    {code:'MGBM3419',title:'Development Economics'},
+    {code:'MGBM3420',title:'Strategic Marketing Management'},
+    {code:'MGBM3421',title:'Supply Chain Management'},
+    {code:'MGBM3422',title:'International Business Strategy'},
+  ]},
+  {id:'sem6',year:'year3',label:'Year 3 — Semester 6',subjects:[
+    {code:'MGBM3423',title:'Strategic Brand Management'},
+    {code:'MGBM3424',title:'Research Methodology'},
+    {code:'MGBM3325',title:'Operations Management'},
+    {code:'MGBM3326',title:'Corporate Social Responsibility & Ethics',elective:true},
+    {code:'MGBM3327',title:'Entrepreneurship',elective:true},
+    {code:'MGBM3328',title:'E-Commerce',elective:true},
+  ]},
+  {id:'sem7',year:'year4',label:'Year 4 — Semester 7',subjects:[
+    {code:'MGBM4429',title:'Strategic Management'},
+    {code:'MGBM4430',title:'Strategic Finance'},
+    {code:'MGBM4631',title:'Project Management'},
+  ]},
+  {id:'sem8',year:'year4',label:'Year 4 — Semester 8',subjects:[
+    {code:'MGBM4432',title:'Academic Writing'},
+    {code:'MGBM4633',title:'Dissertation'},
+    {code:'MGBM4634',title:'Internship in Business Administration'},
+  ]},
 ];
 
-function buildGrid(filter = 'all') {
-  const track = document.getElementById('timeline-track');
-  track.innerHTML = '';
+let currentFilter='all';
 
-  SEMESTERS.forEach((sem, si) => {
-    const subjects = filter === 'elective' ? sem.subjects.filter(s => s.elective) : sem.subjects;
-    const yearMatch = filter === 'all' || filter === sem.year || filter === 'elective';
-    if (!yearMatch || subjects.length === 0) return;
-
-    const col = document.createElement('div');
-    col.className = 'timeline-column';
-    col.style.animationDelay = `${si * 0.05}s`;
-
-    const colHeader = document.createElement('div');
-    colHeader.className = 'column-header';
-    colHeader.innerHTML = `
-      <div class="column-title">${sem.label}</div>
-      <div class="column-subtitle">${sem.id.toUpperCase()} · MODULES</div>
-    `;
-    col.appendChild(colHeader);
-
-    subjects.forEach((sub) => {
-      const card = document.createElement('div');
-      card.className = 'subject-card';
-      card.onclick = () => openLecturesView(sub.code, sub.title, sem.label);
-      
-      card.innerHTML = `
-        ${sub.elective ? '<span class="elective-tag">Elective</span>' : ''}
-        <div class="card-code">${sub.code}</div>
-        <div class="card-title">${sub.title}</div>
-        <div class="card-footer">
-          <span class="card-action-text">View Lectures</span>
-          <span class="card-arrow">→</span>
-        </div>
-      `;
+function buildGrid(filter='all'){
+  currentFilter=filter;
+  const track=document.getElementById('timeline-track');
+  track.innerHTML='';
+  SEMESTERS.forEach((sem,si)=>{
+    const subs=filter==='elective'?sem.subjects.filter(s=>s.elective):sem.subjects;
+    const yearMatch=filter==='all'||filter===sem.year||filter==='elective';
+    if(!yearMatch||subs.length===0)return;
+    const col=document.createElement('div');col.className='sem-col';col.style.animationDelay=(si*.04)+'s';
+    col.id='col-'+sem.id;
+    col.innerHTML=`<div class="col-header"><div class="col-year">${sem.id.toUpperCase()}</div><div class="col-title">${sem.label}</div></div>`;
+    subs.forEach(sub=>{
+      const card=document.createElement('div');card.className='subject-card';
+      card.onclick=()=>openLectures(sub.code,sub.title,sem.label);
+      card.innerHTML=`${sub.elective?'<span class="elective-tag">Elective</span>':''}
+        <div class="sub-code">${sub.code}</div>
+        <div class="sub-title">${sub.title}</div>
+        <div class="sub-footer"><span class="sub-action">View Lectures</span><span class="sub-arrow">→</span></div>`;
       col.appendChild(card);
     });
-
     track.appendChild(col);
   });
 }
 
-function filterSem(f, btn) {
-  closeLecturesView();
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+function filterSem(f,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  closeLecturesView();
   buildGrid(f);
 }
 
-function openLecturesView(subCode, subTitle, semLabel) {
-  document.getElementById('target-view-code').innerText = subCode;
-  document.getElementById('target-view-title').innerText = subTitle;
-  document.getElementById('target-view-sem').innerText = semLabel;
-
-  const wrapper = document.getElementById('lectures-cards-wrapper');
-  wrapper.innerHTML = '';
-  
-  for (let i = 1; i <= 20; i++) {
-    const lectureNum = String(i).padStart(2, '0');
-    const item = document.createElement('a');
-    item.className = 'lecture-card';
-    item.href = `lectures/${subCode.toLowerCase()}/l${i}.html`;
-    
-    item.innerHTML = `
-      <div class="l-code">LECTURE ${lectureNum}</div>
+function openLectures(code,title,semLabel){
+  document.getElementById('lec-sem-tag').textContent=semLabel;
+  document.getElementById('lec-title').textContent=title;
+  document.getElementById('lec-code').textContent=code;
+  const grid=document.getElementById('lectures-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=20;i++){
+    const card=document.createElement('a');
+    card.className='lecture-card';
+    card.href=`lectures/${code.toLowerCase()}/l${i}.html`;
+    card.style.animationDelay=(i*.03)+'s';
+    card.innerHTML=`<div class="l-num">${String(i).padStart(2,'0')}</div>
+      <div class="l-code">LECTURE ${String(i).padStart(2,'0')}</div>
       <div class="l-title">Module Study Pack & Resources</div>
-      <div class="card-footer">
-        <span class="card-action-text">Open Notes</span>
-        <span class="card-arrow">→</span>
-      </div>
-    `;
-    wrapper.appendChild(item);
+      <div class="l-footer"><span class="l-action">Open Notes</span><span class="l-arrow">→</span></div>`;
+    grid.appendChild(card);
   }
-
-  document.getElementById('stats-counter-bar').style.display = 'none';
-  document.getElementById('timeline-track').style.display = 'none';
-  document.getElementById('subject-lectures-view').style.display = 'flex';
-
-  const backBtn = document.getElementById('dynamic-back-btn');
-  backBtn.href = "#";
-  backBtn.innerHTML = "<span>←</span> Back to Course";
-  backBtn.onclick = (e) => {
-    e.preventDefault();
-    closeLecturesView();
-  };
-  
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('subjects-section').style.display='none';
+  document.getElementById('lectures-view').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function closeLecturesView() {
-  document.getElementById('subject-lectures-view').style.display = 'none';
-  document.getElementById('stats-counter-bar').style.display = 'flex';
-  document.getElementById('timeline-track').style.display = 'flex';
-
-  const backBtn = document.getElementById('dynamic-back-btn');
-  backBtn.href = "index.html";
-  backBtn.innerHTML = "<span>←</span> Back to Hub";
-  backBtn.onclick = null;
+function closeLecturesView(){
+  document.getElementById('lectures-view').style.display='none';
+  document.getElementById('subjects-section').style.display='block';
 }
 
-buildGrid('all');
+// NAV Buttons
+function buildNav(){
+  const nav=document.getElementById('sem-nav');
+  nav.innerHTML='';
+  const items=[{id:'all',label:'All'},...SEMESTERS.map(s=>({id:s.id,label:s.label.replace(' — ','<br>')}) )];
+  SEMESTERS.forEach(sem=>{
+    const btn=document.createElement('button');btn.className='nav-btn';
+    btn.innerHTML=`<i class="fas fa-circle" style="font-size:.4rem"></i> ${sem.label}`;
+    btn.onclick=()=>{
+      document.querySelectorAll('#sem-nav .nav-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('col-'+sem.id)?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});
+    };
+    nav.appendChild(btn);
+  });
+}
+
+// Theme
+const saved=localStorage.getItem('ict-theme')||'light';
+if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>';}
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const d=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',d?'light':'dark');
+  document.getElementById('themeBtn').innerHTML=d?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme',d?'light':'dark');
+});
+
+// Clock
+function tick(){
+  const n=new Date();let h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
+  const ap=h>=12?'PM':'AM';h=h%12||12;
+  document.getElementById('clock-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ap}`;
+  document.getElementById('clock-date').textContent=n.toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
+}
+setInterval(tick,1000);tick();
+
+// Bubbles
+function createBubbles(){
+  const w=document.getElementById('bubbles');
+  const cols=['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
+  for(let i=0;i<18;i++){
+    const b=document.createElement('div');b.className='bubble';
+    const sz=Math.random()*80+30;
+    b.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
+    w.appendChild(b);
+  }
+}
+createBubbles();
+
+// Scroll
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('progress-bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  document.getElementById('back-top').classList.toggle('show',h.scrollTop>300);
+});
+
+// Reveal
+function initReveal(){
+  const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000);
+  buildGrid('all');
+  buildNav();
+  initReveal();
+});
 </script>
 </body>
 </html>
