@@ -256,9 +256,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 <!-- FIREBASE -->
 <script type="module">
-import { auth, db } from "./firebase-config.js";
+import { auth } from "./firebase-config.js";
 import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type = 'error') {
   const box = document.getElementById('alert-box');
@@ -276,16 +275,12 @@ function setLoading(on) {
 
 window.register = async () => {
   const fullname  = document.getElementById('fullname').value.trim();
-  const studentId = document.getElementById('studentId').value.trim();
-  const programme = document.getElementById('programme').value.trim();
   const email     = document.getElementById('email').value.trim();
   const password  = document.getElementById('password').value;
   const confirm   = document.getElementById('confirmPassword').value;
   const agreed    = document.getElementById('termsWrap').classList.contains('checked');
 
   if (!fullname)           { showAlert('Please enter your full name.'); return; }
-  if (!studentId)          { showAlert('Please enter your student ID.'); return; }
-  if (!programme)          { showAlert('Please enter your programme.'); return; }
   if (!email)              { showAlert('Please enter your email address.'); return; }
   if (password.length < 8) { showAlert('Password must be at least 8 characters.'); return; }
   if (password !== confirm) { showAlert('Passwords do not match.'); return; }
@@ -294,30 +289,15 @@ window.register = async () => {
   setLoading(true);
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    await updateProfile(user, { displayName: fullname });
-
-    // Firestore එ user document එක create කරන්න
-    await setDoc(doc(db, "users", user.uid), {
-      uid: user.uid,
-      displayName: fullname,
-      email: email,
-      studentId: studentId,
-      programme: programme,
-      approved: false,  // Admin approval බලාගනිමින්
-      createdAt: new Date(),
-      approvalDate: null,
-      lastLogin: new Date()
-    });
-
-    showAlert('Account created! Awaiting admin approval.', 'success');
-    setTimeout(() => { window.location.href = 'pending-approval.html'; }, 1200);
+    await updateProfile(userCredential.user, { displayName: fullname });
+    showAlert('Account created! Redirecting to your portal…', 'success');
+    setTimeout(() => { window.location.href = 'index.html'; }, 1200);
   } catch (error) {
     const msgs = {
-      'auth/email-already-in-use': 'Email එක දැනටමත් registered පිටින්නවා.',
-      'auth/invalid-email': 'Valid email එක දෙන්න.',
-      'auth/weak-password': 'Password බයිබයින් define කරන්න.',
+      'auth/email-already-in-use': 'An account with this email already exists.',
+      'auth/invalid-email':        'Please enter a valid email address.',
+      'auth/weak-password':        'Password is too weak. Please choose a stronger password.',
+      'auth/operation-not-allowed':'Account creation is currently disabled.',
     };
     showAlert(msgs[error.code] || error.message);
   } finally {
@@ -325,6 +305,7 @@ window.register = async () => {
   }
 };
 </script>
+
 <script>
 // Theme
 const saved = localStorage.getItem('ict-theme') || 'light';
