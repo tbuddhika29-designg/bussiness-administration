@@ -54,9 +54,10 @@ header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filte
 @media(min-width:640px){.header-sub{display:block}}
 .student-id-badge{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.1);border:1px solid var(--border2);padding:4px 10px;border-radius:100px;white-space:nowrap;display:none}
 @media(min-width:900px){.student-id-badge{display:block}}
-.header-right{display:flex;align-items:center;gap:8px}
-.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s}
-.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.header-right{display:flex;align-items:center;gap:12px}
+.theme-btn, .admin-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s; text-decoration:none;}
+.admin-btn { display: none; } /* Hidden by default */
+.theme-btn:hover, .admin-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
 
 /* MAIN */
 main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:48px 20px 100px}
@@ -173,6 +174,8 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
   <div class="header-right">
+    <!-- Admin Button moved here for better UI. It will be shown if the user is an admin -->
+    <a href="admin-panel.html" class="admin-btn" id="admin-link" title="Admin Panel"><i class="fas fa-shield-halved"></i></a>
     <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
   </div>
 </header>
@@ -271,24 +274,30 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
+<!-- Firebase Authentication Script -->
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-// පිටුව විවෘත වන විටම පරිශීලකයා සහ Approval තත්ත්වය පරීක්ෂා කිරීම
+// ඔබගේ Admin UID එක මෙතනට ඇතුළත් කරන්න
+const ADMIN_UID = "YOUR_ADMIN_UID"; 
+
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+    // Check for Admin status immediately
+    if (user.uid === ADMIN_UID) {
+      document.getElementById('admin-link').style.display = 'flex';
+    }
+
     try {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
         if (userData.isApproved !== true) {
-          // අනුමත නැතිනම් පිටුව බැලීමට නොදී වහාම ලොග් අවුට් කර Login පිටුවට හරවන්න
           await signOut(auth);
           window.location.href = 'login.html';
         } else {
-          // පරිශීලකයා ලොග් වී ඇති අතර ඇඩ්මින් විසින් අනුමත කර ඇත්නම් පමණක් Loader එක සඟවන්න
           document.getElementById('loader').classList.add('hide');
         }
       } else {
@@ -301,22 +310,12 @@ onAuthStateChanged(auth, async (user) => {
       window.location.href = 'login.html';
     }
   } else {
-    // ලොග් වී නොමැති නම් කෙලින්ම Login පිටුවට හරවා යැවීම
     window.location.href = 'login.html';
   }
 });
 </script>
-<!-- index.html හෝ dashboard.html එකින් -->
-<a href="admin-panel.html" style="display:none" id="admin-link">
-  <i class="fas fa-shield-halved"></i> Admin
-</a>
 
-<script>
-// Admin ක්‍රියා කරනු
-const ADMIN_UID = "YOUR_ADMIN_UID";
-document.getElementById('admin-link').style.display = 
-  (currentUser?.uid === ADMIN_UID) ? 'flex' : 'none';
-</script>
+<!-- General Scripts -->
 <script>
 // Theme
 const saved=localStorage.getItem('ict-theme')||'light';
@@ -351,31 +350,29 @@ function createBubbles(){
 }
 createBubbles();
 
-// Loader
+// Loader / Reveal Initialization
 window.addEventListener('load',()=>{
-  // Loader එක ඉවත් කිරීම Firebase Auth Check එක මගින් සිදු කරයි
   initReveal();
 });
 
-// Reveal
 function initReveal(){
   const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 }
 
-// Scroll
+// Scroll Handling
 window.addEventListener('scroll',()=>{
   const h=document.documentElement;
   document.getElementById('progress-bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
   document.getElementById('back-top').classList.toggle('show',h.scrollTop>300);
 });
 
-// AI Modal
+// AI Modal functions
 function openAi(){document.getElementById('ai-overlay').classList.add('active');}
 function closeAi(){document.getElementById('ai-overlay').classList.remove('active');}
 function closeAiOutside(e){if(e.target.id==='ai-overlay')closeAi();}
 
-// GPA
+// GPA Calculator Logic
 function calcGPA(){
   let tc=0,tp=0;
   document.querySelectorAll('.gpa-row').forEach(r=>{
@@ -385,6 +382,7 @@ function calcGPA(){
   });
   document.getElementById('gpa-display').textContent=tc>0?(tp/tc).toFixed(2):'0.00';
 }
+
 function addRow(){
   const c=document.getElementById('gpa-container');
   const r=document.createElement('div');r.className='gpa-row';
@@ -399,14 +397,23 @@ function addRow(){
     </select>
     <button class="btn-remove" onclick="removeRow(this)">×</button>`;
   c.appendChild(r);
+  
+  // Attach event listeners to the new row
   r.querySelector('.credit-val').addEventListener('input',calcGPA);
   r.querySelector('.grade-val').addEventListener('change',calcGPA);
   calcGPA();
 }
+
 function removeRow(b){
-  if(document.querySelectorAll('.gpa-row').length>1){b.parentElement.remove();calcGPA();}
-  else alert('At least one subject is required!');
+  if(document.querySelectorAll('.gpa-row').length>1){
+    b.parentElement.remove();
+    calcGPA();
+  } else {
+    alert('At least one subject is required!');
+  }
 }
+
+// Initial Listeners for the first row
 document.querySelector('.credit-val').addEventListener('input',calcGPA);
 document.querySelector('.grade-val').addEventListener('change',calcGPA);
 </script>
