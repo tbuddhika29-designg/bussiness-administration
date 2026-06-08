@@ -191,8 +191,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-// Added setDoc to imports
-import { doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type='error') {
   const box = document.getElementById('alert-box');
@@ -213,7 +212,7 @@ window.login = async () => {
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
-    showAlert('කරුණාකර Email සහ Password ඇතුළත් කරන්න.');
+    showAlert('Email සහ password දෙන්න.');
     return;
   }
 
@@ -222,12 +221,12 @@ window.login = async () => {
     const result = await signInWithEmailAndPassword(auth, email, password);
     const user = result.user;
 
-    // Firestore එකෙන් user දත්ත ලබා ගැනීම
+    // Firestore එ user දත්ත හදුනා ගන්න
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-      // පළමු පිවිසීමෙන් පසු document එක create කිරීම
+      // පළමු ලොගිනුවෙන් පස්සේ document එක create කරන්න
       await setDoc(userRef, {
         uid: user.uid,
         displayName: user.displayName || 'User',
@@ -240,27 +239,27 @@ window.login = async () => {
       return;
     }
 
-    // Approval status පරීක්ෂා කිරීම
+    // Approval status check කරන්න
     const userData = userSnap.data();
     if (!userData.approved) {
-      showAlert('ඔබගේ ගිණුම තවමත් Admin විසින් අනුමත කර නොමැත. කරුණාකර පසුව නැවත උත්සාහ කරන්න.');
+      showAlert('Admin එකෙන් approval බලාගනිමිනිවා. පසුව නැවත උත්සාහ කරන්න.');
       setLoading(false);
       setTimeout(() => { window.location.href = 'pending-approval.html'; }, 1500);
       return;
     }
 
-    // Last login යාවත්කාලීන කිරීම
+    // Last login update කරන්න
     await updateDoc(userRef, { lastLogin: new Date() });
 
     showAlert('Login successful! Redirecting…', 'success');
     setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
   } catch (error) {
     const msgs = {
-      'auth/user-not-found': 'මෙම Email ලිපිනය සඳහා ගිණුමක් සොයාගත නොහැකි විය.',
-      'auth/wrong-password': 'ඔබ ඇතුළත් කළ මුරපදය වැරදියි.',
-      'auth/invalid-email': 'කරුණාකර නිවැරදි Email ලිපිනයක් ඇතුළත් කරන්න.',
-      'auth/too-many-requests': 'වැඩි වාර ගණනක් උත්සාහ කර ඇත. කරුණාකර සුළු වේලාවකින් නැවත උත්සාහ කරන්න.',
-      'auth/invalid-credential': 'Email හෝ Password එක වැරදියි.',
+      'auth/user-not-found': 'Email එක පිටින්නෙ නෑ.',
+      'auth/wrong-password': 'Password එක wrong පිටින්නවා.',
+      'auth/invalid-email': 'Valid email දෙන්න.',
+      'auth/too-many-requests': 'ඉතා බොහෝ උත්සාහයි. පසුව නැවත උත්සාහ කරන්න.',
+      'auth/invalid-credential': 'Email හෝ password එක invalid පිටින්නවා.',
     };
     showAlert(msgs[error.code] || error.message);
   } finally {
@@ -268,7 +267,6 @@ window.login = async () => {
   }
 };
 
-// Enter key support
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter') window.login();
 });
