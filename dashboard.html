@@ -4,39 +4,39 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Tharindu Buddhika | Academic Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  /* === PREMIUM LUXURY VIBRANT PURPLE LIGHT THEME === */
+  /* === SOFTER, EYE-FRIENDLY COLOR SCHEME === */
   :root {
-    --bg-app: #f8f6ff;      
+    --bg-app: #f9fafb;      
     --bg-sidebar: #ffffff;      
     --bg-card: #ffffff;         
-    --bg-card-hover: #f3e8ff;   
-    --accent: #7c3aed;          
-    --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-    --accent-glow: rgba(124, 58, 237, 0.15);
-    --border: rgba(124, 58, 237, 0.12);
-    --text-main: #2d224d;       
-    --text-title: #1e1145;      
-    --text-muted: #6b5f8a;      
-    --radius-lg: 24px;
-    --radius-md: 16px;
-    --shadow-sm: 0 4px 20px rgba(124, 58, 237, 0.03);
-    --shadow-md: 0 12px 30px rgba(124, 58, 237, 0.06);
+    --bg-card-hover: #f3f4f6;   
+    --accent: #4f46e5;          
+    --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    --accent-glow: rgba(79, 70, 229, 0.12);
+    --border: rgba(79, 70, 229, 0.08);
+    --text-main: #1f2937;       
+    --text-title: #111827;      
+    --text-muted: #6b7280;      
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.06);
   }
 
   /* === DARK MODE === */
   body.dark-mode {
-    --bg-app: #0f0b1a;
-    --bg-sidebar: #13101f;
-    --bg-card: #1a1628;
-    --bg-card-hover: #24213a;
-    --border: rgba(168, 85, 247, 0.18);
-    --text-main: #e9d5ff;
-    --text-title: #f3e8ff;
-    --text-muted: #a78bfa;
-    --shadow-sm: 0 4px 20px rgba(124, 58, 237, 0.08);
-    --shadow-md: 0 12px 30px rgba(124, 58, 237, 0.15);
+    --bg-app: #0f172a;
+    --bg-sidebar: #1e293b;
+    --bg-card: #1e293b;
+    --bg-card-hover: #334155;
+    --border: rgba(99, 102, 241, 0.12);
+    --text-main: #e2e8f0;
+    --text-title: #f1f5f9;
+    --text-muted: #94a3b8;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,12 +44,12 @@
   body {
     background: var(--bg-app);
     color: var(--text-main);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     min-height: 100vh;
     display: flex;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body::before {
@@ -57,10 +57,10 @@
     position: fixed;
     top: -10%; left: -10%;
     width: 60vw; height: 60vh;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
-    transition: background 0.4s ease;
+    transition: background 0.3s ease;
   }
 
   /* === MAIN SPLIT LAYOUT === */
@@ -74,28 +74,28 @@
 
   /* === SIDEBAR === */
   aside {
-    width: 380px;
+    width: 360px;
     background: var(--bg-sidebar);
     border-right: 1px solid var(--border);
-    padding: 40px;
+    padding: 36px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     z-index: 10;
-    box-shadow: 10px 0 40px rgba(124, 58, 237, 0.03);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
     overflow-y: auto;
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
   .badge {
     align-self: flex-start;
-    font-family: 'Fira Code', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
     color: var(--accent);
     border: 1px solid var(--border);
     padding: 6px 14px;
     border-radius: 30px;
-    background: rgba(124, 58, 237, 0.06);
+    background: rgba(79, 70, 229, 0.05);
     margin-bottom: 25px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -103,14 +103,13 @@
     transition: all 0.3s ease;
   }
 
-  /* === LAPTOP READABILITY PROFILE === */
   .profile-zone h1 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 2.4rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 2.2rem;
     font-weight: 800;
     color: var(--text-title);
     line-height: 1.15;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.02em;
     transition: color 0.3s ease;
   }
 
@@ -119,41 +118,40 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
-    font-style: normal;
   }
 
   .subtitle {
     margin-top: 10px;
-    font-size: 13.5px;
+    font-size: 13px;
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: 400;
     transition: color 0.3s ease;
   }
 
   .student-meta {
-    margin-top: 25px;
-    padding: 20px;
-    background: rgba(124, 58, 237, 0.02);
+    margin-top: 24px;
+    padding: 18px;
+    background: rgba(79, 70, 229, 0.03);
     border-left: 3px solid var(--accent);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     transition: all 0.3s ease;
   }
 
-  .meta-label { font-size: 9px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-family: 'Fira Code', monospace; transition: color 0.3s ease; }
-  .meta-val { font-size: 14.5px; color: var(--text-title); font-weight: 600; margin-bottom: 12px; margin-top: 2px; transition: color 0.3s ease; }
-  .meta-val.id { font-family: 'Fira Code', monospace; font-size: 11.5px; color: var(--accent); margin-bottom: 0; }
+  .meta-label { font-size: 9px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; transition: color 0.3s ease; }
+  .meta-val { font-size: 14px; color: var(--text-title); font-weight: 600; margin-bottom: 12px; margin-top: 3px; transition: color 0.3s ease; }
+  .meta-val.id { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); margin-bottom: 0; }
 
   /* Interactive Filters */
-  .filter-panel { margin-top: 30px; display: flex; flex-direction: column; gap: 6px; }
+  .filter-panel { margin-top: 28px; display: flex; flex-direction: column; gap: 6px; }
   .filter-btn {
     width: 100%;
     text-align: left;
     background: transparent;
     border: 1px solid transparent;
-    padding: 12px 18px;
-    border-radius: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
     color: var(--text-muted);
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.25s ease;
@@ -163,8 +161,8 @@
   }
   .filter-btn:hover {
     color: var(--accent);
-    background: rgba(124, 58, 237, 0.04);
-    transform: translateX(4px);
+    background: rgba(79, 70, 229, 0.05);
+    transform: translateX(3px);
   }
   .filter-btn.active {
     background: var(--bg-card-hover);
@@ -174,36 +172,36 @@
   .filter-btn::after { content: '→'; opacity: 0; transition: 0.2s; }
   .filter-btn:hover::after, .filter-btn.active::after { opacity: 1; transform: translateX(2px); }
 
-  .sidebar-footer { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
+  .sidebar-footer { display: flex; flex-direction: column; gap: 18px; margin-top: 28px; }
   
   .back-hub-btn {
     align-self: flex-start;
     background: var(--accent-gradient);
     color: #ffffff;
     border: none;
-    padding: 12px 24px;
+    padding: 10px 20px;
     font-size: 13px;
     font-weight: 600;
-    border-radius: 50px;
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    box-shadow: 0 4px 15px var(--accent-glow);
+    box-shadow: 0 2px 8px var(--accent-glow);
     transition: all 0.25s ease;
   }
   .back-hub-btn:hover { 
     transform: translateY(-2px); 
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
   }
 
-  .brand { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
+  .brand { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
 
   /* === MAIN WORKSPACE CONTENT AREA === */
   main {
     flex: 1;
-    padding: 40px 40px 40px 40px;
+    padding: 36px 40px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -214,11 +212,11 @@
   /* === THEME TOGGLE BUTTON === */
   .theme-toggle-btn {
     position: absolute;
-    top: 35px;
+    top: 32px;
     right: 40px;
     width: 42px;
     height: 42px;
-    border-radius: 12px;
+    border-radius: 10px;
     background: var(--bg-card);
     border: 1px solid var(--border);
     display: flex;
@@ -240,18 +238,18 @@
   .theme-toggle-btn.active {
     background: var(--accent-gradient);
     border-color: transparent;
-    box-shadow: 0 0 20px var(--accent-glow);
+    box-shadow: 0 0 12px var(--accent-glow);
   }
 
   /* === GLOBAL LIVE CLOCK FOR SIDEBAR/PORTAL === */
   .portal-clock {
     position: absolute;
-    top: 35px;
-    right: 100px;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
+    top: 32px;
+    right: 120px;
+    background: var(--glass);
+    backdrop-filter: blur(8px);
     border: 1px solid var(--border);
-    padding: 8px 16px;
+    padding: 8px 14px;
     border-radius: 50px;
     display: flex;
     align-items: center;
@@ -259,35 +257,36 @@
     box-shadow: var(--shadow-sm);
     z-index: 99;
     transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
   }
 
   body.dark-mode .portal-clock {
-    background: rgba(19, 16, 31, 0.85);
+    background: rgba(30, 41, 59, 0.8);
   }
 
-  .clock-time { font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600; color: var(--accent); }
-  .clock-date { font-size: 11px; font-weight: 600; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 10px; transition: all 0.3s ease; }
+  .clock-time { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--accent); }
+  .clock-date { font-size: 11px; font-weight: 500; color: var(--text-muted); border-left: 1px solid var(--border); padding-left: 8px; }
 
   /* Stats Top Bar */
   .stats-header {
     display: flex;
-    gap: 40px;
-    margin-top: 20px;
-    margin-bottom: 35px;
+    gap: 36px;
+    margin-top: 18px;
+    margin-bottom: 32px;
     padding-right: 50px;
   }
   .stat-box { display: flex; align-items: baseline; gap: 8px; }
-  .stat-box .num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); transition: color 0.3s ease; }
-  .stat-box .lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; transition: color 0.3s ease; }
+  .stat-box .num { font-family: 'Inter', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--accent); transition: color 0.3s ease; }
+  .stat-box .lbl { font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; font-weight: 600; }
 
-  /* Horizontal Scroll Timeline Outer Wrapper (FIXED CUT-OFF ISSUE) */
+  /* Horizontal Scroll Timeline Outer Wrapper */
   .timeline-container {
     flex: 1;
     overflow-x: auto;
     display: flex;
     align-items: flex-start;
-    gap: 30px;
-    padding: 10px 20px 25px 5px;
+    gap: 24px;
+    padding: 10px 20px 20px 5px;
     scroll-behavior: smooth;
   }
 
@@ -298,11 +297,11 @@
 
   /* Semester Column Section */
   .timeline-column {
-    min-width: 350px;
-    max-width: 350px;
+    min-width: 320px;
+    max-width: 320px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
@@ -311,68 +310,65 @@
     flex-direction: column;
     gap: 4px;
     position: relative;
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     border-bottom: 2px solid var(--border);
-    transition: border-color 0.3s ease;
   }
   .column-header::before {
-    content: ''; position: absolute; bottom: -2px; left: 0; width: 50px; height: 2px; background: var(--accent);
+    content: ''; position: absolute; bottom: -2px; left: 0; width: 40px; height: 2px; background: var(--accent);
   }
-  .column-title { font-size: 15px; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
-  .column-subtitle { font-family: 'Fira Code', monospace; font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; transition: color 0.3s ease; }
+  .column-title { font-size: 14px; font-weight: 700; color: var(--text-title); transition: color 0.3s ease; }
+  .column-subtitle { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
 
   /* Cards Style */
   .subject-card, .lecture-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: 22px;
+    padding: 20px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     position: relative;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s ease;
     box-shadow: var(--shadow-sm);
     cursor: pointer;
     color: inherit;
   }
 
   .subject-card:hover, .lecture-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
     background: var(--bg-card-hover);
     border-color: var(--accent);
     box-shadow: var(--shadow-md);
   }
 
-  .card-code, .l-code { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-muted); font-weight: 600; transition: color 0.3s ease; }
+  .card-code, .l-code { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); font-weight: 600; }
   .subject-card:hover .card-code, .lecture-card:hover .l-code { color: var(--accent); }
   
   .card-title, .l-title {
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-title);
-    line-height: 1.45;
-    min-height: 40px;
-    transition: color 0.3s ease;
+    line-height: 1.4;
+    min-height: 38px;
   }
 
   .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
-  .card-action-text { font-size: 11px; font-weight: 600; color: var(--accent); transition: 0.2s; }
-  .card-arrow { font-size: 14px; color: var(--accent); transition: 0.2s; }
+  .card-action-text { font-size: 11px; font-weight: 600; color: var(--accent); }
+  .card-arrow { font-size: 13px; color: var(--accent); transition: 0.2s; }
   .subject-card:hover .card-arrow, .lecture-card:hover .card-arrow { transform: translateX(3px); }
 
   .elective-tag {
-    position: absolute; top: 22px; right: 22px; font-size: 9px; font-family: 'Fira Code', monospace;
-    color: #ec4899; background: rgba(236, 72, 153, 0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(236, 72, 153, 0.15);
-    transition: all 0.3s ease;
+    position: absolute; top: 20px; right: 20px; font-size: 9px; font-family: 'JetBrains Mono', monospace;
+    color: #d97706; background: rgba(217, 119, 6, 0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(217, 119, 6, 0.15);
   }
 
   /* === LECTURES LIST VIEW CONTAINER === */
   .subject-view-container {
     display: none;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
     width: 100%;
     height: 100%;
     overflow-y: auto;
@@ -387,31 +383,28 @@
   .view-header-card {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
-    padding: 35px;
+    padding: 32px;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
-    position: relative;
-    overflow: hidden;
-    margin-top: 10px;
     transition: all 0.3s ease;
   }
   .view-sem-tag {
-    font-family: 'Fira Code', monospace; font-size: 11px; color: var(--accent);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent);
     text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; font-weight: 600;
   }
-  .view-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text-title); line-height: 1.25; margin-bottom: 6px; transition: color 0.3s ease; }
-  .view-code { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--text-muted); font-weight: 500; transition: color 0.3s ease; }
+  .view-title { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text-title); line-height: 1.25; margin-bottom: 6px; }
+  .view-code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
 
   .view-section-title {
-    font-size: 12px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);
-    display: flex; align-items: center; gap: 15px; letter-spacing: 1px; transition: color 0.3s ease;
+    font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);
+    display: flex; align-items: center; gap: 12px; letter-spacing: 1px;
   }
-  .view-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); transition: background 0.3s ease; }
+  .view-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
   .lectures-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
     padding-bottom: 40px;
   }
 
@@ -424,46 +417,24 @@
   /* === RESPONSIVE STYLES === */
   @media (max-width: 1024px) {
     body { overflow-y: auto; }
-    .app-container { flex-direction: column; height: auto; overflow-y: visible; }
+    .app-container { flex-direction: column; height: auto; }
     
     aside { 
-      width: 100%; height: auto; padding: 30px 20px; 
+      width: 100%; height: auto; padding: 28px 20px; 
       border-right: none; border-bottom: 1px solid var(--border); 
-      box-shadow: 0 4px 30px rgba(124, 58, 237, 0.02);
     }
 
-    .badge { margin-bottom: 15px; }
-    .profile-zone h1 { font-size: 2rem; }
-    .student-meta { margin-top: 20px; padding: 15px; }
+    .filter-panel { flex-direction: row; overflow-x: auto; gap: 8px; margin-top: 20px; }
+    .filter-btn { width: auto; white-space: nowrap; padding: 8px 12px; }
 
-    .filter-panel { 
-      flex-direction: row; overflow-x: auto; 
-      padding-bottom: 10px; margin-top: 25px; gap: 10px;
-      -webkit-overflow-scrolling: touch;
-    }
-    .filter-panel::-webkit-scrollbar { height: 0px; background: transparent; }
-    .filter-btn { width: auto; white-space: nowrap; padding: 10px 16px; border: 1px solid var(--border); }
-    .filter-btn::after { display: none; }
-    .filter-btn:hover { transform: none; }
-
-    .sidebar-footer { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
-
-    main { padding: 35px 20px; height: auto; overflow: visible; }
-    .portal-clock { position: static; margin-bottom: 25px; align-self: flex-start; }
+    main { padding: 32px 20px; height: auto; }
+    .portal-clock { position: static; margin-bottom: 20px; }
     .theme-toggle-btn { position: static; margin-left: auto; }
-    .stats-header { padding-right: 0; gap: 20px 30px; flex-wrap: wrap; margin-bottom: 25px; margin-top: 0; }
-    .stat-box .num { font-size: 1.6rem; }
-
-    .timeline-container { 
-      padding-right: 0; padding-bottom: 10px; gap: 20px; 
-      overflow-x: auto; display: flex;
-    }
-    .timeline-column { min-width: 290px; max-width: 290px; }
-
+    .stats-header { padding-right: 0; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
+    
+    .timeline-column { min-width: 280px; max-width: 280px; }
     .subject-view-container { padding-right: 0; padding-top: 10px; }
-    .view-header-card { padding: 25px; }
-    .view-title { font-size: 1.5rem; }
-    .lectures-grid { grid-template-columns: 1fr; gap: 15px; }
+    .lectures-grid { grid-template-columns: 1fr; gap: 12px; }
   }
 </style>
 </head>
@@ -492,7 +463,7 @@
         <button class="filter-btn" onclick="filterSem('year2', this)">Year 02</button>
         <button class="filter-btn" onclick="filterSem('year3', this)">Year 03</button>
         <button class="filter-btn" onclick="filterSem('year4', this)">Year 04</button>
-        <button class="filter-btn" onclick="filterSem('elective', this)">Electives Only</button>
+        <button class="filter-btn" onclick="filterSem('elective', this)">Electives</button>
       </nav>
     </div>
 
@@ -541,7 +512,6 @@
 /* === THEME TOGGLE SYSTEM === */
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 
-// Load saved theme preference
 const savedTheme = localStorage.getItem('theme') || 'light';
 if (savedTheme === 'dark') {
   document.body.classList.add('dark-mode');
@@ -589,7 +559,7 @@ updatePortalClock();
 
 const SEMESTERS = [
   {
-    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#7c3aed',
+    id: 'sem1', year: 'year1', label: 'Year 1 — Semester 1', color: '#4f46e5',
     subjects: [
       { code: 'MGBM1401', title: 'Management Fundamentals' },
       { code: 'MGBM1302', title: 'Business Mathematics for Decisions' },
@@ -599,7 +569,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#7c3aed',
+    id: 'sem2', year: 'year1', label: 'Year 1 — Semester 2', color: '#4f46e5',
     subjects: [
       { code: 'MGBM1306', title: 'Microeconomics' },
       { code: 'MGBM1407', title: 'Marketing Management' },
@@ -609,7 +579,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#7c3aed',
+    id: 'sem3', year: 'year2', label: 'Year 2 — Semester 3', color: '#4f46e5',
     subjects: [
       { code: 'MGBM2411', title: 'Business Law' },
       { code: 'MGBM2412', title: 'Business Statistics' },
@@ -618,7 +588,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#7c3aed',
+    id: 'sem4', year: 'year2', label: 'Year 2 — Semester 4', color: '#4f46e5',
     subjects: [
       { code: 'MGBM2415', title: 'Managerial Economics' },
       { code: 'MGBM2416', title: 'Human Resource Management' },
@@ -627,7 +597,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#7c3aed',
+    id: 'sem5', year: 'year3', label: 'Year 3 — Semester 5', color: '#4f46e5',
     subjects: [
       { code: 'MGBM3419', title: 'Development Economics' },
       { code: 'MGBM3420', title: 'Strategic Marketing Management' },
@@ -636,7 +606,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#7c3aed',
+    id: 'sem6', year: 'year3', label: 'Year 3 — Semester 6', color: '#4f46e5',
     subjects: [
       { code: 'MGBM3423', title: 'Strategic Brand Management' },
       { code: 'MGBM3424', title: 'Research Methodology' },
@@ -647,7 +617,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#7c3aed',
+    id: 'sem7', year: 'year4', label: 'Year 4 — Semester 7', color: '#4f46e5',
     subjects: [
       { code: 'MGBM4429', title: 'Strategic Management' },
       { code: 'MGBM4430', title: 'Strategic Finance' },
@@ -655,7 +625,7 @@ const SEMESTERS = [
     ]
   },
   {
-    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#7c3aed',
+    id: 'sem8', year: 'year4', label: 'Year 4 — Semester 8', color: '#4f46e5',
     subjects: [
       { code: 'MGBM4432', title: 'Academic Writing' },
       { code: 'MGBM4633', title: 'Dissertation' },
@@ -759,7 +729,7 @@ function closeLecturesView() {
   document.getElementById('timeline-track').style.display = 'flex';
 
   const backBtn = document.getElementById('dynamic-back-btn');
-  backBtn.href = "premium-hub.html";
+  backBtn.href = "index.html";
   backBtn.innerHTML = "<span>←</span> Back to Hub";
   backBtn.onclick = null;
 }
