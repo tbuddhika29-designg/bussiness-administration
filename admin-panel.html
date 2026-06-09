@@ -11,23 +11,43 @@
   --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff;
   --text:#1e1b4b;--muted:#6d6a8a;
   --accent:#7c3aed;--accent2:#9333ea;--border:rgba(124,58,237,0.15);
+  --border2:rgba(124,58,237,0.3);
   --shadow:0 4px 24px rgba(124,58,237,0.12);--green:#10b981;--red:#ef4444;
+  --glass:rgba(255,255,255,0.7);
 }
 [data-theme="dark"]{
   --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38;
   --text:#e9e4ff;--muted:#8b8aaa;--accent:#a78bfa;--accent2:#c084fc;
-  --border:rgba(167,139,250,0.15);--shadow:0 4px 24px rgba(0,0,0,0.4);
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --glass:rgba(26,23,48,0.8);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
-.header-logo{font-family:'Poppins',sans-serif;font-weight:800;color:var(--accent);font-size:1.2rem}
-.header-right{display:flex;align-items:center;gap:16px}
-.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s}
-.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
-.logout-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;background:var(--red);color:#fff;border:none;cursor:pointer;font-weight:600;font-size:.85rem;transition:all .3s}
-.logout-btn:hover{opacity:.85;transform:translateY(-2px)}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:var(--shadow)}
+.header-left{display:flex;align-items:center;gap:10px;min-width:0}
+.header-logo{font-family:'Poppins',sans-serif;font-weight:800;color:var(--accent);font-size:1.1rem;white-space:nowrap}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+/* HOME BUTTON — academic portal style */
+.home-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
+.home-btn:hover{background:var(--accent);color:#fff;transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.3)}
+.home-btn i{font-size:.85rem}
+@media(max-width:400px){.home-btn .btn-text{display:none}}
+
+/* THEME BUTTON */
+.theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.08)}
+
+/* LOGOUT BUTTON — academic portal style */
+.logout-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--red);border:1px solid rgba(239,68,68,.35);padding:8px 14px;border-radius:100px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap}
+.logout-btn:hover{background:var(--red);color:#fff;border-color:var(--red);transform:translateY(-1px);box-shadow:0 4px 14px rgba(239,68,68,.3)}
+.logout-btn i{font-size:.82rem}
+@media(max-width:500px){.logout-btn .btn-text{display:none}}
+
 main{max-width:1200px;margin:0 auto;padding:40px 20px}
 .admin-title{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:800;color:var(--text);margin-bottom:28px}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px}
@@ -50,14 +70,11 @@ tbody tr:hover{background:var(--card2)}
 .status-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-size:.75rem;font-weight:600}
 .status-pending{background:rgba(245,158,11,.1);color:#f59e0b}
 .status-approved{background:rgba(16,185,129,.1);color:var(--green)}
-.status-rejected{background:rgba(239,68,68,.1);color:var(--red)}
 .action-btns{display:flex;gap:8px}
 .btn-approve{padding:7px 14px;border-radius:8px;background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;cursor:pointer;font-weight:600;font-size:.8rem;transition:all .3s}
 .btn-approve:hover{opacity:.85;transform:translateY(-2px)}
 .btn-reject{padding:7px 14px;border-radius:8px;background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);cursor:pointer;font-weight:600;font-size:.8rem;transition:all .3s}
 .btn-reject:hover{background:var(--red);color:#fff}
-.empty-state{text-align:center;padding:60px 24px;color:var(--muted)}
-.empty-icon{font-size:3.5rem;margin-bottom:16px;opacity:.4}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal.active{opacity:1;pointer-events:auto}
 .modal-content{background:var(--card);border-radius:20px;padding:32px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
@@ -69,43 +86,22 @@ tbody tr:hover{background:var(--card2)}
 .btn-confirm{padding:10px 20px;border-radius:10px;background:var(--red);color:#fff;border:none;cursor:pointer;font-weight:600;transition:all .3s}
 .btn-confirm:hover{opacity:.85}
 </style>
-<style>
-.back-home-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg2);
-  color: var(--text);
-  padding: 10px 18px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-  border: 1px solid var(--border2);
-  margin-bottom: 20px;
-}
-
-.back-home-btn:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: translateX(-5px); /* මවුස් එක උඩින් තිබ්බම වමට එසවේ */
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
-}
-</style>
 </head>
 <body>
 
 <header>
-  <a href="index.html" class="back-home-btn">
-  <i class="fas fa-home"></i> Back to Home
-</a>
-  <div class="header-logo"><i class="fas fa-shield-halved"></i> Admin Panel</div>
+  <div class="header-left">
+    <a href="index.html" class="home-btn">
+      <i class="fas fa-home"></i>
+      <span class="btn-text">Home</span>
+    </a>
+    <div class="header-logo"><i class="fas fa-shield-halved"></i> Admin Panel</div>
+  </div>
   <div class="header-right">
     <button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
     <button class="logout-btn" onclick="adminLogout()">
-      <i class="fas fa-sign-out-alt"></i> Logout
+      <i class="fas fa-sign-out-alt"></i>
+      <span class="btn-text">Logout</span>
     </button>
   </div>
 </header>
@@ -113,7 +109,6 @@ tbody tr:hover{background:var(--card2)}
 <main>
   <h1 class="admin-title">ඉහළ නිලධාරී පැනල්</h1>
 
-  <!-- Stats -->
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-num" id="total-users">0</div>
@@ -129,29 +124,22 @@ tbody tr:hover{background:var(--card2)}
     </div>
   </div>
 
-  <!-- Users Management -->
   <div>
     <div class="section-title">
       <div class="section-icon"><i class="fas fa-users"></i></div>
       User Approvals
     </div>
-
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterUsers('all')">All Users</button>
       <button class="filter-btn" onclick="filterUsers('pending')">Pending</button>
       <button class="filter-btn" onclick="filterUsers('approved')">Approved</button>
     </div>
-
     <div class="users-table">
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Date Joined</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>Name</th><th>Email</th><th>Date Joined</th><th>Status</th><th>Actions</th>
             </tr>
           </thead>
           <tbody id="users-tbody">
@@ -163,7 +151,6 @@ tbody tr:hover{background:var(--card2)}
   </div>
 </main>
 
-<!-- Confirm Modal -->
 <div class="modal" id="confirmModal">
   <div class="modal-content">
     <div class="modal-title">Confirm Action</div>
@@ -178,9 +165,9 @@ tbody tr:hover{background:var(--card2)}
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { collection, query, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-const ADMIN_UID = "VQO3ENwqo5O4XYakBi2bGC4R8uB3"; // ඔබගේ admin UID මෙතනට දෙන්න
+const ADMIN_UID = "VQO3ENwqo5O4XYakBi2bGC4R8uB3";
 
 let currentFilter = 'all';
 let allUsers = [];
@@ -201,13 +188,9 @@ window.filterUsers = (filter) => {
 
 function displayUsers() {
   const tbody = document.getElementById('users-tbody');
-  
   let filtered = allUsers;
-  if (currentFilter === 'pending') {
-    filtered = allUsers.filter(u => !u.approved);
-  } else if (currentFilter === 'approved') {
-    filtered = allUsers.filter(u => u.approved);
-  }
+  if (currentFilter === 'pending') filtered = allUsers.filter(u => !u.approved);
+  else if (currentFilter === 'approved') filtered = allUsers.filter(u => u.approved);
 
   if (filtered.length === 0) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)">No users found</td></tr>';
@@ -227,12 +210,8 @@ function displayUsers() {
       </td>
       <td>
         <div class="action-btns">
-          ${!user.approved ? `
-            <button class="btn-approve" onclick="approveUser('${user.uid}', '${user.displayName}')">
-              <i class="fas fa-check"></i> Approve
-            </button>
-          ` : ''}
-          <button class="btn-reject" onclick="rejectUser('${user.uid}', '${user.displayName}')">
+          ${!user.approved ? `<button class="btn-approve" onclick="approveUser('${user.uid}','${user.displayName}')"><i class="fas fa-check"></i> Approve</button>` : ''}
+          <button class="btn-reject" onclick="rejectUser('${user.uid}','${user.displayName}')">
             <i class="fas fa-times"></i> ${user.approved ? 'Revoke' : 'Reject'}
           </button>
         </div>
@@ -240,82 +219,51 @@ function displayUsers() {
     </tr>
   `).join('');
 
-  updateStats();
-}
-
-function updateStats() {
   document.getElementById('total-users').textContent = allUsers.length;
   document.getElementById('pending-count').textContent = allUsers.filter(u => !u.approved).length;
   document.getElementById('approved-count').textContent = allUsers.filter(u => u.approved).length;
 }
 
 window.approveUser = (uid, name) => {
-  currentUserUid = uid;
-  currentAction = 'approve';
+  currentUserUid = uid; currentAction = 'approve';
   document.getElementById('modalMessage').textContent = `${name} සිට අනුමැතිය ලබා දෙන්න?`;
   document.getElementById('confirmModal').classList.add('active');
 };
 
 window.rejectUser = (uid, name) => {
-  currentUserUid = uid;
-  currentAction = 'reject';
+  currentUserUid = uid; currentAction = 'reject';
   document.getElementById('modalMessage').textContent = `${name} සිට අනුමැතිය ඉවතට දෙන්න?`;
   document.getElementById('confirmModal').classList.add('active');
 };
 
 window.confirmAction = async () => {
   if (!currentUserUid) return;
-
   try {
     const userRef = doc(db, "users", currentUserUid);
-    if (currentAction === 'approve') {
-      await updateDoc(userRef, { approved: true, approvalDate: new Date() });
-    } else {
-      await updateDoc(userRef, { approved: false });
-    }
+    if (currentAction === 'approve') await updateDoc(userRef, { approved: true, approvalDate: new Date() });
+    else await updateDoc(userRef, { approved: false });
     closeModal();
-  } catch (error) {
-    alert('Error: ' + error.message);
-  }
+  } catch (error) { alert('Error: ' + error.message); }
 };
 
-window.closeModal = () => {
-  document.getElementById('confirmModal').classList.remove('active');
-};
+window.closeModal = () => document.getElementById('confirmModal').classList.remove('active');
 
-// Check if admin
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
-
-  // ඔබගේ admin status එක බිම්බ කරන්න
-  // හෝ සරලයෙන් admin UID එක check කරන්න
-  if (user.uid !== ADMIN_UID) {
-    alert('Admin access only');
-    window.location.href = 'dashboard.html';
-    return;
-  }
-
-  // Load all users
+  if (!user) { window.location.href = 'login.html'; return; }
+  if (user.uid !== ADMIN_UID) { alert('Admin access only'); window.location.href = 'dashboard.html'; return; }
   const usersRef = collection(db, "users");
   onSnapshot(usersRef, (snapshot) => {
     allUsers = [];
-    snapshot.forEach((doc) => {
-      allUsers.push({ uid: doc.id, ...doc.data() });
-    });
+    snapshot.forEach((doc) => allUsers.push({ uid: doc.id, ...doc.data() }));
     displayUsers();
   });
 });
 
-// Theme
 const saved = localStorage.getItem('ict-theme') || 'light';
 if (saved === 'dark') {
   document.documentElement.setAttribute('data-theme', 'dark');
   document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>';
 }
-
 document.getElementById('themeBtn').addEventListener('click', () => {
   const d = document.documentElement.getAttribute('data-theme') === 'dark';
   document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
