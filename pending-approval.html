@@ -56,45 +56,45 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <i class="fas fa-hourglass-half"></i>
     </div>
     <div class="title">Pending Approval</div>
-    <div class="subtitle">ඔබගේ ගිණුම පරීක්ෂා කිරීමට බලාපොරොත්තු වෙයි. කරුණාකර ඉදිරි ඉතා කාලයක් බලාගෙන සිටින්න...</div>
+    <div class="subtitle">ඔබගේ ගිණුම පරීක්ෂා වෙමින් පවතී. කරුණාකර සුළු මොහොතක් රැඳී සිටින්න...</div>
 
     <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:16px;margin:24px 0">
       <div style="display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--muted)">
         <i class="fas fa-info-circle" style="color:var(--gold);margin-top:2px;flex-shrink:0"></i>
         <div>
-          <strong style="color:var(--text)">දැනුම්</strong><br/>
-          Admin ඔබගේ ගිණුම අනුමোදනය කරන තුරු, ඔබට හරිවරම් අ‍ඩ්ටාස් වෙත ප්‍රවේශාধිකාර ඉඩ ඔඩු.
+          <strong style="color:var(--text)">දැනුම්දීම</strong><br/>
+          ප්‍රධාන පරිපාලක (Admin) ඔබගේ ගිණුම අනුමත කරන තෙක්, ඔබට පද්ධතිය වෙත පිවිසීමට අවසර නොලැබේ.
         </div>
       </div>
     </div>
 
     <div class="loading-indicator">
       <div class="spinner"></div>
-      <span class="status-text">අනුමැතිය බලාගනිමින් සිටින්න...</span>
+      <span class="status-text">අනුමැතිය ලැබෙන තෙක් රැඳී සිටින්න...</span>
     </div>
 
     <div class="step-box">
       <div><span class="step-num">1</span></div>
-      <div class="step-text">Admin ඔබගේ ගිණුම පරීක්ෂා කරයි</div>
+      <div class="step-text">පරිපාලක (Admin) විසින් ඔබගේ ගිණුම පරීක්ෂා කරයි</div>
     </div>
 
     <div class="step-box">
       <div><span class="step-num">2</span></div>
-      <div class="step-text">ඔබගේ විස්තර සත්‍යතා කරයි</div>
+      <div class="step-text">ඔබගේ තොරතුරුවල සත්‍යතාව තහවුරු කරයි</div>
     </div>
 
     <div class="step-box">
       <div><span class="step-num">3</span></div>
-      <div class="step-text">අනුමැතිය දුන් විට, ඔබ ස්වයංක්‍රීයව portal එ ගිහින්න</div>
+      <div class="step-text">අනුමැතිය දුන් පසු, ඔබ ස්වයංක්‍රීයව පාලක පුවරුව (Dashboard) වෙත යොමු කෙරේ</div>
     </div>
 
     <div class="refresh-hint">
       <i class="fas fa-rotate-right"></i>
-      පිටුව සෑම කිහිපයක් විනාඩියකට ස්වයංක්‍රීයව ප්‍රතිනිර්මාණ කරයි
+      පිටුව සෑම විනාඩි කිහිපයකට වරක්ම ස්වයංක්‍රීයව යාවත්කාලීන වේ
     </div>
 
     <button class="logout-btn" onclick="logout()">
-      <i class="fas fa-sign-out-alt"></i> ගිණුම සිට ඉවතට
+      <i class="fas fa-sign-out-alt"></i> ගිණුමෙන් ඉවත් වන්න
     </button>
   </div>
 </div>
@@ -109,7 +109,7 @@ window.logout = async () => {
   window.location.href = 'login.html';
 };
 
-// Approve වුණුද බැරි ඉතා හරි ගිණුම දිගට ෙකරදවා බලා ගිගිතයි
+// Approve වී ඇත්දැයි දිගින් දිගටම පරීක්ෂා කර බැලීම
 let checkInterval;
 
 onAuthStateChanged(auth, (user) => {
@@ -118,7 +118,7 @@ onAuthStateChanged(auth, (user) => {
     return;
   }
 
-  // සෑම 3 තත ස්ටිකෙන් බලනු
+  // සෑම තත්පර 3කට වරක්ම බලන්න
   checkInterval = setInterval(() => {
     const userRef = doc(db, "users", user.uid);
     onSnapshot(userRef, (snapshot) => {
