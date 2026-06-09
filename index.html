@@ -186,7 +186,6 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 <div id="progress-bar"></div>
 <div class="bubbles" id="bubbles"></div>
 
-<!-- AI MODAL -->
 <div class="ai-overlay" id="ai-overlay" onclick="closeAiOutside(event)">
   <div class="ai-modal">
     <div class="ai-icon">✨</div>
@@ -200,7 +199,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 <header id="top">
   <div class="header-left">
     <div>
-      <div class="header-logo">TB Index</div>
+      <div class="header-logo">MY Index</div>
       <div class="header-sub">Premium Student Workspace</div>
     </div>
     <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
@@ -215,7 +214,6 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 
 <main>
 
-  <!-- CLOCK -->
   <div class="clock-wrap reveal">
     <div class="clock-pill">
       <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
@@ -224,10 +222,9 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
   </div>
 
-  <!-- HERO -->
   <div class="hero reveal">
     <div class="hero-tag"><i class="fas fa-star"></i>&nbsp; Premium Student Workspace</div>
-    <h1>Tharindu<br>Buddhika</h1>
+    <h1>MY<br>INDEX</h1>
     <p class="hero-sub">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහසුවෙන් කළමනාකරණය කරන්න.</p>
     <div class="hero-meta">
       <div class="hero-chip"><i class="fas fa-id-card"></i> <span>COM/BMgt-558/IFLS26-15/0001</span></div>
@@ -235,7 +232,6 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
   </div>
 
-  <!-- QUICK ACCESS -->
   <section style="margin-bottom:60px">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-th"></i> 01</div>
@@ -267,11 +263,10 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
   </section>
 
-  <!-- GPA CALCULATOR -->
   <section style="margin-bottom:60px">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-chart-bar"></i> 02</div>
-      <div class="section-title">CINEC GPA Calculator</div>
+      <div class="section-title">GPA Calculator</div>
       <div class="section-line"></div>
     </div>
     <div class="gpa-section reveal">
@@ -302,7 +297,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 
 <footer>
   <div class="footer-inner">
-    <p><strong>TB Index</strong> — Premium Student Workspace</p>
+    <p><strong>MY Index</strong> — Premium Student Workspace</p>
     <p>Bachelor of Business Administration</p>
     <div class="footer-id">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
@@ -404,7 +399,6 @@ document.querySelector('.credit-val').addEventListener('input',calcGPA);
 document.querySelector('.grade-val').addEventListener('change',calcGPA);
 </script>
 
-<!-- FIREBASE - Admin Check -->
 <script type="module">
 import { auth } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
