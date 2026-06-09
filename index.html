@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tharindu Buddhika | Premium Hub</title>
+<title>MY Index | Premium Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
@@ -52,8 +52,6 @@ header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filte
 .header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent)}
 .header-sub{font-size:.72rem;color:var(--muted);display:none}
 @media(min-width:640px){.header-sub{display:block}}
-.student-id-badge{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.1);border:1px solid var(--border2);padding:4px 10px;border-radius:100px;white-space:nowrap;display:none}
-@media(min-width:900px){.student-id-badge{display:block}}
 .header-right{display:flex;align-items:center;gap:8px}
 .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s}
 .theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
@@ -99,15 +97,6 @@ main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:48px 20p
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid var(--border2);border-radius:100px;padding:6px 18px;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
 .hero h1{font-family:'Poppins',sans-serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,var(--text),var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{font-size:.95rem;color:var(--muted);max-width:560px;margin:0 auto 24px;line-height:1.7}
-.hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
-.hero-chip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:10px;font-size:.8rem;color:var(--muted)}
-.hero-chip span{color:var(--accent);font-weight:600}
-
-/* CLOCK */
-.clock-wrap{display:flex;justify-content:center;margin-bottom:40px}
-.clock-pill{display:inline-flex;align-items:center;gap:12px;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border2);padding:10px 24px;border-radius:100px;box-shadow:var(--shadow)}
-.clock-time{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:600;color:var(--accent)}
-.clock-date{font-size:.8rem;color:var(--muted);border-left:1px solid var(--border2);padding-left:12px}
 
 /* SECTION LABEL */
 .section-label{display:flex;align-items:center;gap:14px;margin-bottom:28px}
@@ -161,7 +150,6 @@ main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:48px 20p
 footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
 .footer-inner p{font-size:.82rem;color:var(--muted);line-height:1.7}
 .footer-inner strong{color:var(--accent)}
-.footer-id{display:inline-block;background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:4px 14px;border-radius:100px;font-size:.75rem;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:8px}
 
 /* BACK TOP */
 #back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s;z-index:997;box-shadow:var(--shadow)}
@@ -200,10 +188,9 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 <header id="top">
   <div class="header-left">
     <div>
-      <div class="header-logo">TB Index</div>
+      <div class="header-logo">MY Index</div>
       <div class="header-sub">Premium Student Workspace</div>
     </div>
-    <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
   <div class="header-right">
     <a href="admin-panel.html" id="admin-link">
@@ -215,24 +202,11 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 
 <main>
 
-  <!-- CLOCK -->
-  <div class="clock-wrap reveal">
-    <div class="clock-pill">
-      <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
-      <div class="clock-time" id="clock-time">00:00:00 AM</div>
-      <div class="clock-date" id="clock-date">Loading...</div>
-    </div>
-  </div>
-
   <!-- HERO -->
   <div class="hero reveal">
     <div class="hero-tag"><i class="fas fa-star"></i>&nbsp; Premium Student Workspace</div>
-    <h1>Tharindu<br>Buddhika</h1>
+    <h1>MY Index</h1>
     <p class="hero-sub">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහසුවෙන් කළමනාකරණය කරන්න.</p>
-    <div class="hero-meta">
-      <div class="hero-chip"><i class="fas fa-id-card"></i> <span>COM/BMgt-558/IFLS26-15/0001</span></div>
-      <div class="hero-chip"><i class="fas fa-graduation-cap"></i> <span>BBA — Business Administration</span></div>
-    </div>
   </div>
 
   <!-- QUICK ACCESS -->
@@ -271,7 +245,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
   <section style="margin-bottom:60px">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-chart-bar"></i> 02</div>
-      <div class="section-title">CINEC GPA Calculator</div>
+      <div class="section-title">GPA Calculator</div>
       <div class="section-line"></div>
     </div>
     <div class="gpa-section reveal">
@@ -302,9 +276,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 
 <footer>
   <div class="footer-inner">
-    <p><strong>TB Index</strong> — Premium Student Workspace</p>
-    <p>Bachelor of Business Administration</p>
-    <div class="footer-id">COM/BMgt-558/IFLS26-15/0001</div>
+    <p><strong>MY Index</strong> — Premium Student Workspace</p>
   </div>
 </footer>
 
@@ -320,16 +292,6 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   document.getElementById('themeBtn').innerHTML=d?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
   localStorage.setItem('ict-theme',d?'light':'dark');
 });
-
-// Clock
-function tick(){
-  const n=new Date();
-  let h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
-  const ap=h>=12?'PM':'AM';h=h%12||12;
-  document.getElementById('clock-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ap}`;
-  document.getElementById('clock-date').textContent=n.toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
-}
-setInterval(tick,1000);tick();
 
 // Bubbles
 function createBubbles(){
