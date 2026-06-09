@@ -47,19 +47,30 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 @keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
 
 /* HEADER */
-header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow)}
-.header-left{display:flex;align-items:center;gap:12px}
-.header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent)}
-.header-sub{font-size:.72rem;color:var(--muted);display:none}
+header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:var(--shadow)}
+.header-left{display:flex;align-items:center;gap:10px;min-width:0}
+.header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1rem;color:var(--accent);white-space:nowrap}
+.header-sub{font-size:.7rem;color:var(--muted);display:none;white-space:nowrap}
 @media(min-width:640px){.header-sub{display:block}}
-.student-id-badge{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.1);border:1px solid var(--border2);padding:4px 10px;border-radius:100px;white-space:nowrap;display:none}
+.student-id-badge{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.1);border:1px solid var(--border2);padding:4px 10px;border-radius:100px;white-space:nowrap;display:none}
 @media(min-width:900px){.student-id-badge{display:block}}
-.header-right{display:flex;align-items:center;gap:8px}
-.theme-btn,.back-btn{display:flex;align-items:center;gap:6px}
-.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;justify-content:center;transition:all .3s}
-.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
-.back-btn{text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
-.back-btn:hover{background:var(--accent);color:#fff}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+/* HOME BUTTON */
+.home-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
+.home-btn:hover{background:var(--accent);color:#fff;transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.3)}
+.home-btn i{font-size:.85rem}
+
+/* THEME BUTTON */
+.theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.08)}
+
+/* LOGOUT BUTTON */
+.logout-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--red);border:1px solid rgba(239,68,68,.35);padding:8px 14px;border-radius:100px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap}
+.logout-btn:hover{background:var(--red);color:#fff;border-color:var(--red);transform:translateY(-1px);box-shadow:0 4px 14px rgba(239,68,68,.3)}
+.logout-btn i{font-size:.82rem}
+/* hide logout text on small screens, keep icon */
+@media(max-width:500px){.logout-btn .btn-text{display:none}}
 
 /* STICKY NAV */
 .sticky-nav{position:sticky;top:64px;z-index:999;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
@@ -80,11 +91,21 @@ main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20p
 .hero-chip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:10px;font-size:.8rem;color:var(--muted)}
 .hero-chip span{color:var(--accent);font-weight:600}
 
-/* CLOCK */
+/* CLOCK — enhanced */
 .clock-wrap{display:flex;justify-content:center;margin-bottom:36px}
-.clock-pill{display:inline-flex;align-items:center;gap:12px;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border2);padding:10px 24px;border-radius:100px;box-shadow:var(--shadow)}
-.clock-time{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:600;color:var(--accent)}
-.clock-date{font-size:.8rem;color:var(--muted);border-left:1px solid var(--border2);padding-left:12px}
+.clock-pill{display:inline-flex;align-items:center;gap:0;background:var(--card);border:1px solid var(--border2);border-radius:20px;box-shadow:var(--shadow2);overflow:hidden;min-width:280px}
+.clock-left{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 24px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08));gap:4px;border-right:1px solid var(--border2)}
+.clock-icon-ring{width:44px;height:44px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.clock-icon-ring i{color:var(--accent);font-size:1.1rem}
+.clock-time{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--accent);letter-spacing:.04em;line-height:1}
+.clock-ampm{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+.clock-right{display:flex;flex-direction:column;justify-content:center;padding:18px 22px;gap:6px}
+.clock-date-row{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--text);font-weight:500}
+.clock-date-row i{color:var(--accent);font-size:.85rem;width:16px;text-align:center}
+.clock-day-row{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted)}
+.clock-day-row i{font-size:.85rem;width:16px;text-align:center;color:var(--muted)}
+.clock-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
 
 /* STATS */
 .stats-strip{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:48px}
@@ -168,41 +189,30 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 @media(max-width:768px){
   .stats-strip{gap:10px}
   .stat-card{min-width:120px;padding:16px}
+  .hero{padding:32px 20px}
+  .clock-pill{min-width:unset;flex-direction:column;border-radius:16px}
+  .clock-left{border-right:none;border-bottom:1px solid var(--border2);width:100%;flex-direction:row;gap:14px;padding:14px 20px}
+  .clock-icon-ring{margin-bottom:0;width:36px;height:36px}
+  .clock-right{padding:14px 20px;width:100%}
 }
-</style>
-<style>
-.logout-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.logout-btn:hover {
-  background: #dc2626;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+@media(max-width:400px){
+  .home-btn span{display:none}
 }
 </style>
 </head>
 <body>
 
-
 <div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Portal...</div></div>
 <div id="progress-bar"></div>
 <div class="bubbles" id="bubbles"></div>
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
 <header id="top">
   <div class="header-left">
-    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Hub</a>
+    <a href="index.html" class="home-btn">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
     <div>
       <div class="header-logo">Academic Portal</div>
       <div class="header-sub">Tharindu Buddhika — BBA</div>
@@ -210,13 +220,12 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
   <div class="header-right">
-     
     <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
     <button id="logout-btn" class="logout-btn">
-  <i class="fas fa-sign-out-alt"></i> Logout
-</button>
+      <i class="fas fa-sign-out-alt"></i>
+      <span class="btn-text">Logout</span>
+    </button>
   </div>
-
 </header>
 
 <!-- STICKY NAV -->
@@ -227,13 +236,7 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 <main>
 
   <!-- CLOCK -->
-  <div class="clock-wrap reveal">
-    <div class="clock-pill">
-      <i class="fas fa-clock" style="color:var(--accent);font-size:.85rem"></i>
-      <div class="clock-time" id="clock-time">00:00:00 AM</div>
-      <div class="clock-date" id="clock-date">Loading...</div>
-    </div>
-  </div>
+ 
 
   <!-- HERO -->
   <div class="hero reveal">
@@ -295,10 +298,11 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 <footer>
   <div class="footer-inner">
     <p><strong>Academic Portal</strong> — Bachelor of Business Administration</p>
-    <p>CINEC Campus &nbsp;·&nbsp; Management Bridging Programme</p>
+    <p>CINEC Campus &nbsp;·&nbsp; BBA Programme</p>
     <div class="footer-id">COM/BMgt-558/IFLS26-15/0001</div>
   </div>
 </footer>
+
 <script>
 const SEMESTERS=[
   {id:'sem1',year:'year1',label:'Year 1 — Semester 1',subjects:[
@@ -413,11 +417,9 @@ function closeLecturesView(){
   document.getElementById('subjects-section').style.display='block';
 }
 
-// NAV Buttons
 function buildNav(){
   const nav=document.getElementById('sem-nav');
   nav.innerHTML='';
-  const items=[{id:'all',label:'All'},...SEMESTERS.map(s=>({id:s.id,label:s.label.replace(' — ','<br>')}) )];
   SEMESTERS.forEach(sem=>{
     const btn=document.createElement('button');btn.className='nav-btn';
     btn.innerHTML=`<i class="fas fa-circle" style="font-size:.4rem"></i> ${sem.label}`;
@@ -440,12 +442,16 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   localStorage.setItem('ict-theme',d?'light':'dark');
 });
 
-// Clock
+// Clock — enhanced
 function tick(){
-  const n=new Date();let h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
-  const ap=h>=12?'PM':'AM';h=h%12||12;
-  document.getElementById('clock-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ap}`;
-  document.getElementById('clock-date').textContent=n.toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
+  const n=new Date();
+  let h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
+  const ap=h>=12?'PM':'AM';
+  h=h%12||12;
+  document.getElementById('clock-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  document.getElementById('clock-ampm').textContent=ap;
+  document.getElementById('clock-date').textContent=n.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+  document.getElementById('clock-weekday').textContent=n.toLocaleDateString('en-US',{weekday:'long'});
 }
 setInterval(tick,1000);tick();
 
@@ -482,22 +488,17 @@ window.addEventListener('load',()=>{
   initReveal();
 });
 </script>
-  <script type="module">
+
+<script type="module">
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
-
-  // Check approval status
+  if (!user) { window.location.href = 'login.html'; return; }
   try {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
-
     if (!userSnap.exists() || !userSnap.data().approved) {
       window.location.href = 'pending-approval.html';
     }
@@ -507,22 +508,21 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 </script>
-  <script type="module">
-  import { auth } from "./firebase-config.js";
-  import { signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  const logoutBtn = document.getElementById('logout-btn');
+<script type="module">
+import { auth } from "./firebase-config.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  logoutBtn.addEventListener('click', async () => {
-    try {
-      await signOut(auth);
-      // ලොග් අවුට් වූ පසු index.html පිටුවට යවන්න
-      window.location.href = 'index.html';
-    } catch (error) {
-      console.error("Logout error:", error);
-      alert("ලොග් අවුට් වීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය.");
-    }
-  });
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  try {
+    await signOut(auth);
+    window.location.href = 'index.html';
+  } catch (error) {
+    console.error("Logout error:", error);
+    alert("ලොග් අවුට් වීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය.");
+  }
+});
 </script>
+
 </body>
 </html>
