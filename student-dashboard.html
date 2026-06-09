@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard | BBA Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f0f23; color: #e0e0e0; }
+
+    /* ── Login Screen ── */
+    #login-screen {
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; background: linear-gradient(135deg, #1a1a3e, #0f0f23);
+    }
+    .login-card {
+      background: #1e1e3f; border: 1px solid #333; border-radius: 16px;
+      padding: 40px; width: 360px; text-align: center;
+    }
+    .login-card h2 { color: #a78bfa; margin-bottom: 8px; font-size: 1.5rem; }
+    .login-card p { color: #888; font-size: 0.85rem; margin-bottom: 28px; }
+    .login-card input {
+      width: 100%; padding: 12px 16px; margin-bottom: 14px;
+      background: #2a2a50; border: 1px solid #444; border-radius: 8px;
+      color: #fff; font-size: 0.95rem; outline: none;
+    }
+    .login-card input:focus { border-color: #a78bfa; }
+    .btn-primary {
+      width: 100%; padding: 13px; background: #7c3aed; color: #fff;
+      border: none; border-radius: 8px; font-size: 1rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #6d28d9; }
+    #login-error { color: #f87171; font-size: 0.85rem; margin-top: 10px; }
+
+    /* ── Dashboard ── */
+    #dashboard { display: none; }
+    .top-bar {
+      background: #1e1e3f; padding: 16px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid #333;
+    }
+    .top-bar h1 { font-size: 1.1rem; color: #a78bfa; }
+    .user-info { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; }
+    .btn-logout {
+      padding: 7px 16px; background: transparent; color: #f87171;
+      border: 1px solid #f87171; border-radius: 6px; cursor: pointer;
+      font-size: 0.8rem; transition: all 0.2s;
+    }
+    .btn-logout:hover { background: #f87171; color: #fff; }
+
+    .main-content { padding: 28px; max-width: 1100px; margin: 0 auto; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; margin-bottom: 28px;
+    }
+    .stat-card {
+      background: #1e1e3f; border: 1px solid #333; border-radius: 12px;
+      padding: 20px; text-align: center;
+    }
+    .stat-card .value { font-size: 2rem; font-weight: 700; color: #a78bfa; }
+    .stat-card .label { font-size: 0.8rem; color: #888; margin-top: 4px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+    .tab-btn {
+      padding: 9px 20px; background: transparent; color: #888;
+      border: 1px solid #333; border-radius: 8px; cursor: pointer;
+      font-size: 0.85rem; transition: all 0.2s;
+    }
+    .tab-btn.active { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Payment status */
+    .payment-card {
+      background: #1e1e3f; border: 1px solid #333; border-radius: 12px;
+      padding: 24px; margin-bottom: 16px;
+    }
+    .payment-card h3 { margin-bottom: 16px; color: #e0e0e0; }
+    .fee-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid #2a2a50;
+    }
+    .fee-row:last-child { border-bottom: none; }
+    .badge {
+      padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+    }
+    .badge.paid { background: #14532d; color: #4ade80; }
+    .badge.pending { background: #451a03; color: #fb923c; }
+    .badge.overdue { background: #450a0a; color: #f87171; }
+
+    .btn-pay {
+      padding: 8px 20px; background: #059669; color: #fff;
+      border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .btn-pay:hover { background: #047857; }
+
+    /* History table */
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 11px 14px; text-align: left; font-size: 0.85rem; }
+    th { background: #2a2a50; color: #a78bfa; }
+    tr:nth-child(even) td { background: #1a1a35; }
+    td { border-bottom: 1px solid #2a2a50; color: #ccc; }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOGIN SCREEN ══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <h2>BBA Student Portal</h2>
+    <p>ඔබේ student credentials ඇතුළත් කරන්න</p>
+    <input type="email" id="email" placeholder="Email address">
+    <input type="password" id="password" placeholder="Password">
+    <button class="btn-primary" onclick="login()">Login</button>
+    <div id="login-error"></div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="dashboard">
+  <div class="top-bar">
+    <h1>BBA Academic Portal</h1>
+    <div class="user-info">
+      <span id="student-name">Loading...</span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card"><div class="value">33</div><div class="label">Modules</div></div>
+      <div class="stat-card"><div class="value">04</div><div class="label">Years</div></div>
+      <div class="stat-card"><div class="value" id="paid-count">-</div><div class="label">Paid Instalments</div></div>
+      <div class="stat-card"><div class="value" id="pending-amount">-</div><div class="label">Due Amount (LKR)</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('modules')">Modules</button>
+      <button class="tab-btn" onclick="switchTab('payments')">Payments</button>
+      <button class="tab-btn" onclick="switchTab('history')">Payment History</button>
+    </div>
+
+    <!-- Modules Tab -->
+    <div class="tab-content active" id="tab-modules">
+      <div class="payment-card">
+        <h3>Course Modules</h3>
+        <p style="color:#888; font-size:0.9rem;">ඔබගේ main dashboard.html එකේ modules section access කරන්න:</p>
+        <br>
+        <a href="dashboard.html" style="color:#a78bfa; text-decoration:none;">
+          → Main Academic Portal open කරන්න
+        </a>
+      </div>
+    </div>
+
+    <!-- Payments Tab -->
+    <div class="tab-content" id="tab-payments">
+      <div class="payment-card">
+        <h3>Fee Instalments</h3>
+        <div id="fee-list">Loading...</div>
+      </div>
+    </div>
+
+    <!-- History Tab -->
+    <div class="tab-content" id="tab-history">
+      <div class="payment-card">
+        <h3>Payment History</h3>
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th><th>Ref</th></tr>
+          </thead>
+          <tbody id="history-body">
+            <tr><td colspan="5" style="color:#888; text-align:center;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div id="payment-modal" style="display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.8); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:#1e1e3f; border:1px solid #444; border-radius:16px;
+    padding:32px; width:360px; text-align:center;">
+    <h3 style="color:#a78bfa; margin-bottom:8px;">Payment Gateway</h3>
+    <p id="modal-amount" style="color:#4ade80; font-size:1.5rem; font-weight:700; margin:16px 0;"></p>
+    <p style="color:#888; font-size:0.85rem; margin-bottom:20px;">Payment method select කරන්න:</p>
+    <button onclick="payWithStripe()" style="width:100%; padding:13px; margin-bottom:10px;
+      background:#635bff; color:#fff; border:none; border-radius:8px;
+      font-size:0.95rem; cursor:pointer;">
+      💳 Card Payment (Stripe)
+    </button>
+    <button onclick="payWithPayhere()" style="width:100%; padding:13px; margin-bottom:10px;
+      background:#0d6efd; color:#fff; border:none; border-radius:8px;
+      font-size:0.95rem; cursor:pointer;">
+      🏦 PayHere (Bank / eZCash)
+    </button>
+    <button onclick="closeModal()" style="width:100%; padding:10px;
+      background:transparent; color:#888; border:1px solid #444;
+      border-radius:8px; cursor:pointer; font-size:0.85rem;">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  🔥 FIREBASE CONFIG — ඔබේ config paste කරන්න
+// ══════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// ── Auth state
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    await loadStudentData(user.uid, user.email);
+  } else {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+  }
+});
+
+// ── Login
+async function login() {
+  const email = document.getElementById('email').value;
+  const pass  = document.getElementById('password').value;
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+  } catch(e) {
+    document.getElementById('login-error').textContent = 'Login failed: ' + e.message;
+  }
+}
+
+// ── Logout
+function logout() { auth.signOut(); }
+
+// ── Load student data from Firestore
+async function loadStudentData(uid, email) {
+  document.getElementById('student-name').textContent = email;
+
+  // Students collection থেকে data load
+  const studentDoc = await db.collection('students').doc(uid).get();
+  if (studentDoc.exists) {
+    const data = studentDoc.data();
+    document.getElementById('student-name').textContent = data.name || email;
+  }
+
+  // Fees load
+  const feesSnap = await db.collection('students').doc(uid)
+    .collection('fees').orderBy('dueDate').get();
+
+  let paidCount = 0;
+  let pendingTotal = 0;
+  let feeHTML = '';
+
+  feesSnap.forEach(doc => {
+    const fee = doc.data();
+    let badgeClass = 'pending';
+    let badgeText = 'Pending';
+    if (fee.status === 'paid') { badgeClass = 'paid'; badgeText = 'Paid'; paidCount++; }
+    else if (fee.status === 'overdue') { badgeClass = 'overdue'; badgeText = 'Overdue'; pendingTotal += fee.amount; }
+    else { pendingTotal += fee.amount; }
+
+    const payBtn = fee.status !== 'paid'
+      ? `<button class="btn-pay" onclick="openPayment('${doc.id}', ${fee.amount})">Pay Now</button>`
+      : '';
+
+    feeHTML += `
+      <div class="fee-row">
+        <div>
+          <div style="font-size:0.9rem; color:#e0e0e0;">${fee.label || 'Instalment'}</div>
+          <div style="font-size:0.75rem; color:#888;">Due: ${fee.dueDate || '-'}</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="color:#4ade80; font-weight:600;">LKR ${fee.amount?.toLocaleString()}</span>
+          <span class="badge ${badgeClass}">${badgeText}</span>
+          ${payBtn}
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('fee-list').innerHTML = feeHTML || '<p style="color:#888">No fees found.</p>';
+  document.getElementById('paid-count').textContent = paidCount;
+  document.getElementById('pending-amount').textContent = pendingTotal.toLocaleString();
+
+  // Payment history load
+  const histSnap = await db.collection('students').doc(uid)
+    .collection('payments').orderBy('timestamp', 'desc').limit(20).get();
+
+  let histHTML = '';
+  histSnap.forEach(doc => {
+    const p = doc.data();
+    const date = p.timestamp?.toDate?.()?.toLocaleDateString('en-LK') || '-';
+    histHTML += `<tr>
+      <td>${date}</td>
+      <td>LKR ${p.amount?.toLocaleString()}</td>
+      <td>${p.method || '-'}</td>
+      <td><span class="badge paid">${p.status || 'paid'}</span></td>
+      <td style="font-size:0.75rem; color:#666;">${doc.id.slice(0,8)}</td>
+    </tr>`;
+  });
+
+  document.getElementById('history-body').innerHTML =
+    histHTML || '<tr><td colspan="5" style="color:#888; text-align:center;">No payments yet</td></tr>';
+}
+
+// ── Tab switch
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['modules','payments','history'][i] === name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── Payment Modal
+let currentFeeId = null;
+let currentAmount = 0;
+
+function openPayment(feeId, amount) {
+  currentFeeId = feeId;
+  currentAmount = amount;
+  document.getElementById('modal-amount').textContent = 'LKR ' + amount.toLocaleString();
+  document.getElementById('payment-modal').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('payment-modal').style.display = 'none';
+}
+
+// ══════════════════════════════════════════
+//  💳 STRIPE PAYMENT
+// ══════════════════════════════════════════
+async function payWithStripe() {
+  // Stripe Checkout redirect (Stripe Payment Links use කරන්න - simplest)
+  // payment-page.html redirect කරනවා
+  const url = `payment-stripe.html?fee=${currentFeeId}&amount=${currentAmount}`;
+  window.location.href = url;
+}
+
+// ══════════════════════════════════════════
+//  🏦 PAYHERE PAYMENT
+// ══════════════════════════════════════════
+async function payWithPayhere() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  // PayHere checkout object
+  var payment = {
+    "sandbox": true, // ← live කරද්දී false
+    "merchant_id": "YOUR_PAYHERE_MERCHANT_ID",
+    "return_url": "https://tbuddhika29-designg.github.io/bussiness-administration/student-dashboard.html",
+    "cancel_url": "https://tbuddhika29-designg.github.io/bussiness-administration/student-dashboard.html",
+    "notify_url": "https://your-backend.com/payhere-notify", // backend URL
+    "order_id": currentFeeId,
+    "items": "BBA Fee Instalment",
+    "amount": currentAmount,
+    "currency": "LKR",
+    "first_name": user.displayName || "Student",
+    "last_name": "",
+    "email": user.email,
+    "phone": "0771234567",
+    "address": "Colombo",
+    "city": "Colombo",
+    "country": "Sri Lanka"
+  };
+
+  payhere.startPayment(payment);
+
+  // PayHere callbacks
+  payhere.onCompleted = async function(orderId) {
+    await savePaymentRecord(orderId, currentAmount, 'PayHere');
+    alert('Payment successful! ✅');
+    closeModal();
+    auth.currentUser && loadStudentData(auth.currentUser.uid, auth.currentUser.email);
+  };
+  payhere.onDismissed = function() { console.log("Payment dismissed"); };
+  payhere.onError = function(error) { alert("Error: " + error); };
+}
+
+// ── Save payment record to Firestore
+async function savePaymentRecord(orderId, amount, method) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  // Payment record add
+  await db.collection('students').doc(user.uid)
+    .collection('payments').add({
+      feeId: currentFeeId,
+      orderId: orderId,
+      amount: amount,
+      method: method,
+      status: 'paid',
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+  // Fee status update
+  await db.collection('students').doc(user.uid)
+    .collection('fees').doc(currentFeeId).update({ status: 'pa
