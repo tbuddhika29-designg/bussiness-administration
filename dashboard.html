@@ -1,550 +1,548 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tharindu Buddhika | Academic Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-<style>
-:root {
-  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff;
-  --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a;
-  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
-  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
-  --shadow:0 4px 24px rgba(124,58,237,0.12);
-  --shadow2:0 8px 40px rgba(124,58,237,0.2);
-  --gold:#f59e0b;--green:#10b981;--red:#ef4444;
-  --glass:rgba(255,255,255,0.7);
-}
-[data-theme="dark"]{
-  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38;
-  --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa;
-  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
-  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
-  --shadow:0 4px 24px rgba(0,0,0,0.4);
-  --shadow2:0 8px 40px rgba(124,58,237,0.25);
-  --glass:rgba(26,23,48,0.8);
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY INDEX | Academic Portal</title>
+    <!-- FontAwesome Font for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@600;700&viewport=width=device-width,initial-scale=1.0" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff; 
+            --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a; 
+            --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7; 
+            --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3); 
+            --shadow:0 4px 24px rgba(124,58,237,0.12); --shadow2:0 8px 40px rgba(124,58,237,0.2); 
+            --gold:#f59e0b;--green:#10b981;--red:#ef4444; --glass:rgba(255,255,255,0.7); 
+        } 
+        [data-theme="dark"]{ 
+            --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38; 
+            --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa; 
+            --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe; 
+            --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3); 
+            --shadow:0 4px 24px rgba(0,0,0,0.4); --shadow2:0 8px 40px rgba(124,58,237,0.25); 
+            --glass:rgba(26,23,48,0.8); 
+        } 
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box} 
+        html{scroll-behavior:smooth} 
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s} 
 
-/* LOADER */
-#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s}
-#loader.hide{opacity:0;pointer-events:none}
-.loader-ring{width:60px;height:60px;border:4px solid var(--border2);border-top:4px solid var(--accent);border-radius:50%;animation:spin 1s linear infinite}
-.loader-text{font-family:'Poppins',sans-serif;font-weight:600;color:var(--accent);letter-spacing:.15em;font-size:.85rem;text-transform:uppercase}
-@keyframes spin{to{transform:rotate(360deg)}}
+        /* LOADER */
+        #loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s}
+        #loader.hide{opacity:0;pointer-events:none}
+        .loader-ring{width:60px;height:60px;border:4px solid var(--border2);border-top:4px solid var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+        .loader-text{font-family:'Poppins',sans-serif;font-weight:600;color:var(--accent);letter-spacing:.15em;font-size:.85rem;text-transform:uppercase}
+        @keyframes spin{to{transform:rotate(360deg)}}
 
-/* PROGRESS */
-#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));width:0%;z-index:1100;border-radius:0 2px 2px 0;box-shadow:0 0 10px var(--accent)}
+        /* PROGRESS */
+        #progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));width:0%;z-index:1100;border-radius:0 2px 2px 0;box-shadow:0 0 10px var(--accent)}
 
-/* BUBBLES */
-.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
-[data-theme="dark"] .bubble{opacity:.07}
-@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+        /* BUBBLES */
+        .bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+        .bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+        [data-theme="dark"] .bubble{opacity:.07}
+        @keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
 
-/* HEADER */
-header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:var(--shadow)}
-.header-left{display:flex;align-items:center;gap:10px;min-width:0}
-.header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1rem;color:var(--accent);white-space:nowrap}
-.header-sub{font-size:.7rem;color:var(--muted);display:none;white-space:nowrap}
-@media(min-width:640px){.header-sub{display:block}}
-.student-id-badge{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.1);border:1px solid var(--border2);padding:4px 10px;border-radius:100px;white-space:nowrap;display:none}
-@media(min-width:900px){.student-id-badge{display:block}}
-.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+        /* HEADER */
+        header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow)}
+        .header-left{display:flex;align-items:center;gap:12px}
+        .header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent)}
+        .header-sub{font-size:.72rem;color:var(--muted);display:none}
+        @media(min-width:640px){.header-sub{display:block}}
+        
+        .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .theme-btn,.back-btn,.logout-btn{display:flex;align-items:center;gap:6px}
+        .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;justify-content:center;transition:all .3s}
+        .theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+        .back-btn{text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
+        .back-btn:hover{background:var(--accent);color:#fff}
+        .logout-btn{font-size:.78rem;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--red),#dc2626);border:none;padding:8px 14px;border-radius:100px;cursor:pointer;transition:all .3s;white-space:nowrap;border:1px solid rgba(239,68,68,.3)}
+        .logout-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(239,68,68,.3);background:linear-gradient(135deg,#dc2626,#991b1b)}
+        .logout-btn i{font-size:.85rem}
 
-/* HOME BUTTON */
-.home-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
-.home-btn:hover{background:var(--accent);color:#fff;transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.3)}
-.home-btn i{font-size:.85rem}
+        @media(max-width:640px){
+            .back-btn span{display:none}
+            .logout-btn span{display:none}
+            .back-btn{padding:8px 12px}
+            .logout-btn{padding:8px 12px}
+            .header-right{gap:6px}
+        }
 
-/* THEME BUTTON */
-.theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
-.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.08)}
+        /* STICKY NAV */
+        .sticky-nav{position:sticky;top:64px;z-index:999;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+        .sticky-nav::-webkit-scrollbar{display:none}
+        .nav-inner{display:flex;gap:4px;padding:10px 20px;min-width:max-content}
+        .nav-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;transition:all .3s;white-space:nowrap}
+        .nav-btn:hover,.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(124,58,237,.35)}
 
-/* LOGOUT BUTTON */
-.logout-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--red);border:1px solid rgba(239,68,68,.35);padding:8px 14px;border-radius:100px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap}
-.logout-btn:hover{background:var(--red);color:#fff;border-color:var(--red);transform:translateY(-1px);box-shadow:0 4px 14px rgba(239,68,68,.3)}
-.logout-btn i{font-size:.82rem}
-/* hide logout text on small screens, keep icon */
-@media(max-width:500px){.logout-btn .btn-text{display:none}}
+        /* MAIN */
+        main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px 100px}
 
-/* STICKY NAV */
-.sticky-nav{position:sticky;top:64px;z-index:999;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
-.sticky-nav::-webkit-scrollbar{display:none}
-.nav-inner{display:flex;gap:4px;padding:10px 20px;min-width:max-content}
-.nav-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;transition:all .3s;white-space:nowrap}
-.nav-btn:hover,.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(124,58,237,.35)}
+        /* HERO */
+        .hero{border-radius:24px;padding:48px 40px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08));border:1px solid var(--border2);backdrop-filter:blur(24px);text-align:center;margin-bottom:48px;position:relative;overflow:hidden;box-shadow:var(--shadow2)}
+        .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.25),transparent 70%);border-radius:50%;pointer-events:none}
+        .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid var(--border2);border-radius:100px;padding:6px 18px;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+        .hero h1{font-family:'Poppins',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,var(--text),var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:20px}
+        .hero-chip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:10px;font-size:.8rem;color:var(--muted)}
+        .hero-chip span{color:var(--accent);font-weight:600}
 
-/* MAIN */
-main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px 100px}
+        /* STATS */
+        .stats-strip{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:48px}
+        .stat-card{flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);animation:fadeUp .5s ease both}
+        .stat-icon{width:42px;height:42px;border-radius:12px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--accent);flex-shrink:0}
+        .stat-num{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);line-height:1}
+        .stat-lbl{font-size:.75rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
 
-/* HERO */
-.hero{border-radius:24px;padding:48px 40px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08));border:1px solid var(--border2);backdrop-filter:blur(24px);text-align:center;margin-bottom:48px;position:relative;overflow:hidden;box-shadow:var(--shadow2)}
-.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.25),transparent 70%);border-radius:50%;pointer-events:none}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid var(--border2);border-radius:100px;padding:6px 18px;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
-.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,var(--text),var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:20px}
-.hero-chip{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:10px;font-size:.8rem;color:var(--muted)}
-.hero-chip span{color:var(--accent);font-weight:600}
+        /* SECTION LABEL */
+        .section-label{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+        .section-badge{padding:6px 16px;border-radius:100px;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(168,85,247,.1));border:1px solid var(--border2);font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+        .section-title{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text)}
+        .section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
 
-/* CLOCK — enhanced */
-.clock-wrap{display:flex;justify-content:center;margin-bottom:36px}
-.clock-pill{display:inline-flex;align-items:center;gap:0;background:var(--card);border:1px solid var(--border2);border-radius:20px;box-shadow:var(--shadow2);overflow:hidden;min-width:280px}
-.clock-left{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 24px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.08));gap:4px;border-right:1px solid var(--border2)}
-.clock-icon-ring{width:44px;height:44px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
-.clock-icon-ring i{color:var(--accent);font-size:1.1rem}
-.clock-time{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--accent);letter-spacing:.04em;line-height:1}
-.clock-ampm{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
-.clock-right{display:flex;flex-direction:column;justify-content:center;padding:18px 22px;gap:6px}
-.clock-date-row{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--text);font-weight:500}
-.clock-date-row i{color:var(--accent);font-size:.85rem;width:16px;text-align:center}
-.clock-day-row{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted)}
-.clock-day-row i{font-size:.85rem;width:16px;text-align:center;color:var(--muted)}
-.clock-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse-dot 2s ease-in-out infinite}
-@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+        /* FILTER TABS */
+        .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+        .filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;transition:all .3s}
+        .filter-btn:hover,.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(124,58,237,.3)}
 
-/* STATS */
-.stats-strip{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:48px}
-.stat-card{flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);animation:fadeUp .5s ease both}
-.stat-icon{width:42px;height:42px;border-radius:12px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--accent);flex-shrink:0}
-.stat-num{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);line-height:1}
-.stat-lbl{font-size:.75rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+        /* TIMELINE HORIZONTAL */
+        .timeline-outer{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;padding-bottom:16px}
+        .timeline-outer::-webkit-scrollbar{height:6px}
+        .timeline-outer::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+        .timeline-track{display:flex;gap:24px;min-width:max-content;padding:4px 2px 8px}
 
-/* SECTION LABEL */
-.section-label{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.section-badge{padding:6px 16px;border-radius:100px;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(168,85,247,.1));border:1px solid var(--border2);font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
-.section-title{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text)}
-.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+        /* SEMESTER COLUMN */
+        .sem-col{min-width:300px;max-width:300px;display:flex;flex-direction:column;gap:12px;animation:fadeUp .5s ease both}
+        .col-header{padding-bottom:12px;border-bottom:2px solid var(--border);position:relative;margin-bottom:4px}
+        .col-header::after{content:'';position:absolute;bottom:-2px;left:0;width:40px;height:2px;background:var(--accent)}
+        .col-year{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+        .col-title{font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;color:var(--text)}
 
-/* FILTER TABS */
-.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
-.filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:500;transition:all .3s}
-.filter-btn:hover,.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(124,58,237,.3)}
+        /* SUBJECT CARD */
+        .subject-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+        .subject-card::before{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;background:var(--accent);opacity:.05;transition:opacity .3s}
+        .subject-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--border2)}
+        .subject-card:hover::before{opacity:.12}
+        .sub-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);font-weight:600;margin-bottom:5px}
+        .subject-card:hover .sub-code{color:var(--accent)}
+        .sub-title{font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);line-height:1.4;min-height:42px}
+        .sub-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+        .sub-action{font-size:.75rem;font-weight:600;color:var(--accent)}
+        .sub-arrow{font-size:.8rem;color:var(--accent);transition:transform .2s}
+        .subject-card:hover .sub-arrow{transform:translateX(4px)}
+        .elective-tag{position:absolute;top:14px;right:14px;font-size:.65rem;font-family:'JetBrains Mono',monospace;color:var(--gold);background:rgba(245,158,11,.1);padding:2px 8px;border-radius:4px;border:1px solid rgba(245,158,11,.2)}
 
-/* TIMELINE HORIZONTAL */
-.timeline-outer{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;padding-bottom:16px}
-.timeline-outer::-webkit-scrollbar{height:6px}
-.timeline-outer::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
-.timeline-track{display:flex;gap:24px;min-width:max-content;padding:4px 2px 8px}
+        /* LECTURES VIEW */
+        #lectures-view{display:none;animation:fadeUp .4s ease both}
+        .lectures-back{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .3s;margin-bottom:28px}
+        .lectures-back:hover{background:var(--accent);color:#fff}
+        .lec-subject-hero{background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(168,85,247,.06));border:1px solid var(--border2);border-radius:20px;padding:28px 32px;margin-bottom:28px}
+        .lec-sem-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:6px}
+        .lec-subject-title{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:4px}
+        .lec-subject-code{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--muted)}
+        .lectures-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+        .lecture-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;display:flex;flex-direction:column;gap:10px;transition:all .3s;animation:fadeUp .4s ease both}
+        .lecture-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--border2)}
+        .l-num{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(168,85,247,.08));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:var(--accent)}
+        .l-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);font-weight:600}
+        .l-title{font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);line-height:1.4}
+        .l-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+        .l-action{font-size:.75rem;font-weight:600;color:var(--accent)}
+        .l-arrow{font-size:.8rem;color:var(--accent);transition:transform .2s}
+        .lecture-card:hover .l-arrow{transform:translateX(4px)}
 
-/* SEMESTER COLUMN */
-.sem-col{min-width:300px;max-width:300px;display:flex;flex-direction:column;gap:12px;animation:fadeUp .5s ease both}
-.col-header{padding-bottom:12px;border-bottom:2px solid var(--border);position:relative;margin-bottom:4px}
-.col-header::after{content:'';position:absolute;bottom:-2px;left:0;width:40px;height:2px;background:var(--accent)}
-.col-year{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
-.col-title{font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;color:var(--text)}
+        /* FOOTER */
+        footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
+        .footer-inner p{font-size:.82rem;color:var(--muted);line-height:1.7}
+        .footer-inner strong{color:var(--accent)}
+        .footer-id{display:inline-block;background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:4px 14px;border-radius:100px;font-size:.75rem;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:8px}
 
-/* SUBJECT CARD */
-.subject-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
-.subject-card::before{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;background:var(--accent);opacity:.05;transition:opacity .3s}
-.subject-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--border2)}
-.subject-card:hover::before{opacity:.12}
-.sub-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);font-weight:600;margin-bottom:5px}
-.subject-card:hover .sub-code{color:var(--accent)}
-.sub-title{font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);line-height:1.4;min-height:42px}
-.sub-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-.sub-action{font-size:.75rem;font-weight:600;color:var(--accent)}
-.sub-arrow{font-size:.8rem;color:var(--accent);transition:transform .2s}
-.subject-card:hover .sub-arrow{transform:translateX(4px)}
-.elective-tag{position:absolute;top:14px;right:14px;font-size:.65rem;font-family:'JetBrains Mono',monospace;color:var(--gold);background:rgba(245,158,11,.1);padding:2px 8px;border-radius:4px;border:1px solid rgba(245,158,11,.2)}
+        /* BACK TOP */
+        #back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s;z-index:997;box-shadow:var(--shadow)}
+        #back-top.show{opacity:1;transform:translateY(0)}
+        #back-top:hover{background:var(--accent);color:#fff}
 
-/* LECTURES VIEW */
-#lectures-view{display:none;animation:fadeUp .4s ease both}
-.lectures-back{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .3s;margin-bottom:28px}
-.lectures-back:hover{background:var(--accent);color:#fff}
-.lec-subject-hero{background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(168,85,247,.06));border:1px solid var(--border2);border-radius:20px;padding:28px 32px;margin-bottom:28px}
-.lec-sem-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:6px}
-.lec-subject-title{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:4px}
-.lec-subject-code{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--muted)}
-.lectures-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
-.lecture-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;display:flex;flex-direction:column;gap:10px;transition:all .3s;animation:fadeUp .4s ease both}
-.lecture-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);border-color:var(--border2)}
-.l-num{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(168,85,247,.08));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;color:var(--accent)}
-.l-code{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);font-weight:600}
-.l-title{font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);line-height:1.4}
-.l-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
-.l-action{font-size:.75rem;font-weight:600;color:var(--accent)}
-.l-arrow{font-size:.8rem;color:var(--accent);transition:transform .2s}
-.lecture-card:hover .l-arrow{transform:translateX(4px)}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+        .reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
+        .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* FOOTER */
-footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 24px;text-align:center}
-.footer-inner p{font-size:.82rem;color:var(--muted);line-height:1.7}
-.footer-inner strong{color:var(--accent)}
-.footer-id{display:inline-block;background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:4px 14px;border-radius:100px;font-size:.75rem;color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:8px}
-
-/* BACK TOP */
-#back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s;z-index:997;box-shadow:var(--shadow)}
-#back-top.show{opacity:1;transform:translateY(0)}
-#back-top:hover{background:var(--accent);color:#fff}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-@media(max-width:768px){
-  .stats-strip{gap:10px}
-  .stat-card{min-width:120px;padding:16px}
-  .hero{padding:32px 20px}
-  .clock-pill{min-width:unset;flex-direction:column;border-radius:16px}
-  .clock-left{border-right:none;border-bottom:1px solid var(--border2);width:100%;flex-direction:row;gap:14px;padding:14px 20px}
-  .clock-icon-ring{margin-bottom:0;width:36px;height:36px}
-  .clock-right{padding:14px 20px;width:100%}
-}
-@media(max-width:400px){
-  .home-btn span{display:none}
-}
-</style>
+        @media(max-width:768px){
+            .stats-strip{gap:10px}
+            .stat-card{min-width:120px;padding:16px}
+            main{padding:32px 16px 80px}
+        }
+    </style>
 </head>
 <body>
 
-<div id="loader"><div class="loader-ring"></div><div class="loader-text">Loading Portal...</div></div>
-<div id="progress-bar"></div>
-<div class="bubbles" id="bubbles"></div>
-<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
-
-<header id="top">
-  <div class="header-left">
-    <a href="index.html" class="home-btn">
-      <i class="fas fa-home"></i>
-      <span>Home</span>
-    </a>
-    <div>
-      <div class="header-logo">Academic Portal</div>
-      <div class="header-sub">Tharindu Buddhika — BBA</div>
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">Loading Portal...</div>
     </div>
-    <div class="student-id-badge">COM/BMgt-558/IFLS26-15/0001</div>
-  </div>
-  <div class="header-right">
-    <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
-    <button id="logout-btn" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i>
-      <span class="btn-text">Logout</span>
-    </button>
-  </div>
-</header>
 
-<!-- STICKY NAV -->
-<nav class="sticky-nav">
-  <div class="nav-inner" id="sem-nav"></div>
-</nav>
+    <!-- PROGRESS BAR -->
+    <div id="progress-bar"></div>
 
-<main>
+    <!-- BUBBLES BACKGROUND -->
+    <div class="bubbles" id="bubbles"></div>
 
-  <!-- CLOCK -->
-  <div class="clock-wrap reveal">
-    <div class="clock-pill">
-      <div class="clock-left">
-        <div class="clock-icon-ring">
-          <i class="fas fa-clock"></i>
+    <!-- HEADER -->
+    <header>
+        <div class="header-left">
+            <div class="header-logo"><i class="fas fa-graduation-cap"></i> Academic Portal</div>
+            <div class="header-sub">MY INDEX — BBA</div>
         </div>
-        <div>
-          <div class="clock-time" id="clock-time">00:00:00</div>
-          <div class="clock-ampm" id="clock-ampm">AM</div>
+        <div class="header-right">
+            <button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
+            <button class="logout-btn" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button>
         </div>
-      </div>
-      <div class="clock-right">
-        <div class="clock-date-row">
-          <i class="fas fa-calendar-day"></i>
-          <span id="clock-date">Loading...</span>
+    </header>
+
+    <!-- STICKY NAVIGATION -->
+    <div class="sticky-nav">
+        <div class="nav-inner" id="sem-nav"></div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main>
+        
+        <!-- SUBJECTS CONTENT SECTION -->
+        <div id="subjects-section">
+            
+            <!-- HERO SECTION -->
+            <div class="hero reveal">
+                <div class="hero-tag"><i class="fas fa-bookmark"></i> Academic Portal</div>
+                <h1>Bachelor of Business Administration</h1>
+                <div class="hero-meta">
+                    <div class="hero-chip"><i class="fas fa-user-graduate"></i> Student: <span>MY INDEX</span></div>
+                    <div class="hero-chip"><i class="fas fa-users"></i> Batch: <span>IFLS26 - Batch 2026</span></div>
+                </div>
+            </div>
+
+            <!-- STATS STRIP -->
+            <div class="stats-strip">
+                <div class="stat-card" style="animation-delay:0.1s">
+                    <div class="stat-icon"><i class="fas fa-book"></i></div>
+                    <div>
+                        <div class="stat-num">33</div>
+                        <div class="stat-lbl">Modules</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="animation-delay:0.2s">
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div>
+                        <div class="stat-num">04</div>
+                        <div class="stat-lbl">Years</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="animation-delay:0.3s">
+                    <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div>
+                        <div class="stat-num">08</div>
+                        <div class="stat-lbl">Semesters</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="animation-delay:0.4s">
+                    <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
+                    <div>
+                        <div class="stat-num">03</div>
+                        <div class="stat-lbl">Electives</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION LABEL -->
+            <div class="section-label reveal">
+                <div class="section-badge">Course Modules</div>
+                <div class="section-title">Academic Structure</div>
+                <div class="section-line"></div>
+            </div>
+
+            <!-- FILTER TABS -->
+            <div class="filter-bar reveal">
+                <button class="filter-btn active" onclick="filterSem('all', this)">All Semesters</button>
+                <button class="filter-btn" onclick="filterSem('year1', this)">Year 01</button>
+                <button class="filter-btn" onclick="filterSem('year2', this)">Year 02</button>
+                <button class="filter-btn" onclick="filterSem('year3', this)">Year 03</button>
+                <button class="filter-btn" onclick="filterSem('year4', this)">Year 04</button>
+                <button class="filter-btn" onclick="filterSem('elective', this)">Electives</button>
+            </div>
+
+            <!-- MODULES TIMELINE GRID -->
+            <div class="timeline-outer reveal">
+                <div class="timeline-track" id="timeline-track">
+                    <!-- Dynamic Columns Inserted via JavaScript -->
+                </div>
+            </div>
+
         </div>
-        <div class="clock-day-row">
-          <i class="fas fa-circle clock-dot"></i>
-          <span id="clock-weekday">Loading...</span>
+
+        <!-- LECTURES & PACKS EXPANDED VIEW -->
+        <div id="lectures-view">
+            <button class="lectures-back" onclick="closeLecturesView()"><i class="fas fa-arrow-left"></i> Back to Modules</button>
+            
+            <div class="lec-subject-hero">
+                <div class="lec-sem-tag" id="lec-sem-tag">Year 1 — Semester 1</div>
+                <div class="lec-subject-title" id="lec-title">Module Title</div>
+                <div class="lec-subject-code" id="lec-code">MGBM0000</div>
+            </div>
+
+            <div class="section-label" style="margin-bottom: 30px;">
+                <div class="section-badge">Lectures & Resources</div>
+                <div class="section-title">Available Study Packs (30 Lessons)</div>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="lectures-grid" id="lectures-grid">
+                <!-- 30 Dynamic Lecture Cards Inserted via JavaScript -->
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- HERO -->
-  <div class="hero reveal">
-    <div class="hero-tag"><i class="fas fa-graduation-cap"></i>&nbsp; Academic Portal</div>
-    <h1>Tharindu Buddhika<br>— BBA Programme</h1>
-    <div class="hero-meta">
-      <div class="hero-chip"><i class="fas fa-id-card"></i> <span>COM/BMgt-558/IFLS26-15/0001</span></div>
-      <div class="hero-chip"><i class="fas fa-calendar"></i> <span>IFLS26 — Batch 2026</span></div>
-      <div class="hero-chip"><i class="fas fa-university"></i> <span>CINEC Campus</span></div>
-    </div>
-  </div>
+    </main>
 
-  <!-- STATS -->
-  <div class="stats-strip reveal">
-    <div class="stat-card" style="animation-delay:.05s"><div class="stat-icon"><i class="fas fa-book"></i></div><div><div class="stat-num">33</div><div class="stat-lbl">Modules</div></div></div>
-    <div class="stat-card" style="animation-delay:.1s"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="stat-num">04</div><div class="stat-lbl">Years</div></div></div>
-    <div class="stat-card" style="animation-delay:.15s"><div class="stat-icon"><i class="fas fa-layer-group"></i></div><div><div class="stat-num">08</div><div class="stat-lbl">Semesters</div></div></div>
-    <div class="stat-card" style="animation-delay:.2s"><div class="stat-icon"><i class="fas fa-star"></i></div><div><div class="stat-num">03</div><div class="stat-lbl">Electives</div></div></div>
-  </div>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <p>Academic Portal — Bachelor of Business Administration</p>
+            <div class="footer-id">MY INDEX</div>
+        </div>
+    </footer>
 
-  <!-- SUBJECTS SECTION -->
-  <section id="subjects-section">
-    <div class="section-label reveal">
-      <div class="section-badge"><i class="fas fa-table-list"></i></div>
-      <div class="section-title">Course Modules</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="filter-bar reveal" id="filter-bar">
-      <button class="filter-btn active" onclick="filterSem('all',this)"><i class="fas fa-th"></i> All Semesters</button>
-      <button class="filter-btn" onclick="filterSem('year1',this)">Year 01</button>
-      <button class="filter-btn" onclick="filterSem('year2',this)">Year 02</button>
-      <button class="filter-btn" onclick="filterSem('year3',this)">Year 03</button>
-      <button class="filter-btn" onclick="filterSem('year4',this)">Year 04</button>
-      <button class="filter-btn" onclick="filterSem('elective',this)"><i class="fas fa-star"></i> Electives</button>
-    </div>
-    <div class="timeline-outer reveal">
-      <div class="timeline-track" id="timeline-track"></div>
-    </div>
-  </section>
+    <!-- SCROLL BACK TO TOP -->
+    <button id="back-top"><i class="fas fa-chevron-up"></i></button>
 
-  <!-- LECTURES VIEW -->
-  <section id="lectures-view">
-    <button class="lectures-back" onclick="closeLecturesView()"><i class="fas fa-arrow-left"></i> Back to Modules</button>
-    <div class="lec-subject-hero">
-      <div class="lec-sem-tag" id="lec-sem-tag">Year 1 — Semester 1</div>
-      <div class="lec-subject-title" id="lec-title">Module Title</div>
-      <div class="lec-subject-code" id="lec-code">MGBM0000</div>
-    </div>
-    <div class="section-label">
-      <div class="section-badge"><i class="fas fa-book-open"></i></div>
-      <div class="section-title">Lectures & Resources</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="lectures-grid" id="lectures-grid"></div>
-  </section>
 
-</main>
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const SEMESTERS=[ 
+            {id:'sem1',year:'year1',label:'Year 1 — Semester 1',subjects:[ 
+                {code:'MGBM1401',title:'Management Fundamentals'}, 
+                {code:'MGBM1302',title:'Business Mathematics for Decisions'}, 
+                {code:'MGBM1403',title:'Introduction to Information & Communication Technology'}, 
+                {code:'MGBM1404',title:'Soft Skills in Business Communication'}, 
+                {code:'MGBM1005',title:'English Language for Business 1'}, 
+            ]}, 
+            {id:'sem2',year:'year1',label:'Year 1 — Semester 2',subjects:[ 
+                {code:'MGBM1306',title:'Microeconomics'}, 
+                {code:'MGBM1407',title:'Marketing Management'}, 
+                {code:'MGBM1408',title:'Financial Accounting'}, 
+                {code:'MGBM1409',title:'Organizational Behaviour'}, 
+                {code:'MGBM1010',title:'English Language for Business 2'}, 
+            ]}, 
+            {id:'sem3',year:'year2',label:'Year 2 — Semester 3',subjects:[ 
+                {code:'MGBM2411',title:'Business Law'}, 
+                {code:'MGBM2412',title:'Business Statistics'}, 
+                {code:'MGBM2413',title:'Management Accounting'}, 
+                {code:'MGBM2314',title:'Business Information Systems'}, 
+            ]}, 
+            {id:'sem4',year:'year2',label:'Year 2 — Semester 4',subjects:[ 
+                {code:'MGBM2415',title:'Managerial Economics'}, 
+                {code:'MGBM2416',title:'Human Resource Management'}, 
+                {code:'MGBM2417',title:'Finance Management'}, 
+                {code:'MGBM2318',title:'Managerial Soft Skills'}, 
+            ]}, 
+            {id:'sem5',year:'year3',label:'Year 3 — Semester 5',subjects:[ 
+                {code:'MGBM3419',title:'Development Economics'}, 
+                {code:'MGBM3420',title:'Strategic Marketing Management'}, 
+                {code:'MGBM3421',title:'Supply Chain Management'}, 
+                {code:'MGBM3422',title:'International Business Strategy'}, 
+            ]}, 
+            {id:'sem6',year:'year3',label:'Year 3 — Semester 6',subjects:[ 
+                {code:'MGBM3423',title:'Strategic Brand Management'}, 
+                {code:'MGBM3424',title:'Research Methodology'}, 
+                {code:'MGBM3325',title:'Operations Management'}, 
+                {code:'MGBM3326',title:'Corporate Social Responsibility & Ethics',elective:true}, 
+                {code:'MGBM3327',title:'Entrepreneurship',elective:true}, 
+                {code:'MGBM3328',title:'E-Commerce',elective:true}, 
+            ]}, 
+            {id:'sem7',year:'year4',label:'Year 4 — Semester 7',subjects:[ 
+                {code:'MGBM4429',title:'Strategic Management'}, 
+                {code:'MGBM4430',title:'Strategic Finance'}, 
+                {code:'MGBM4631',title:'Project Management'}, 
+            ]}, 
+            {id:'sem8',year:'year4',label:'Year 4 — Semester 8',subjects:[ 
+                {code:'MGBM4432',title:'Academic Writing'}, 
+                {code:'MGBM4633',title:'Dissertation'}, 
+                {code:'MGBM4634',title:'Internship in Business Administration'}, 
+            ]}, 
+        ]; 
 
-<footer>
-  <div class="footer-inner">
-    <p><strong>Academic Portal</strong> — Bachelor of Business Administration</p>
-    <p>CINEC Campus &nbsp;·&nbsp; BBA Programme</p>
-    <div class="footer-id">COM/BMgt-558/IFLS26-15/0001</div>
-  </div>
-</footer>
+        let currentFilter='all'; 
 
-<script>
-const SEMESTERS=[
-  {id:'sem1',year:'year1',label:'Year 1 — Semester 1',subjects:[
-    {code:'MGBM1401',title:'Management Fundamentals'},
-    {code:'MGBM1302',title:'Business Mathematics for Decisions'},
-    {code:'MGBM1403',title:'Introduction to Information & Communication Technology'},
-    {code:'MGBM1404',title:'Soft Skills in Business Communication'},
-    {code:'MGBM1005',title:'English Language for Business 1'},
-  ]},
-  {id:'sem2',year:'year1',label:'Year 1 — Semester 2',subjects:[
-    {code:'MGBM1306',title:'Microeconomics'},
-    {code:'MGBM1407',title:'Marketing Management'},
-    {code:'MGBM1408',title:'Financial Accounting'},
-    {code:'MGBM1409',title:'Organizational Behaviour'},
-    {code:'MGBM1010',title:'English Language for Business 2'},
-  ]},
-  {id:'sem3',year:'year2',label:'Year 2 — Semester 3',subjects:[
-    {code:'MGBM2411',title:'Business Law'},
-    {code:'MGBM2412',title:'Business Statistics'},
-    {code:'MGBM2413',title:'Management Accounting'},
-    {code:'MGBM2314',title:'Business Information Systems'},
-  ]},
-  {id:'sem4',year:'year2',label:'Year 2 — Semester 4',subjects:[
-    {code:'MGBM2415',title:'Managerial Economics'},
-    {code:'MGBM2416',title:'Human Resource Management'},
-    {code:'MGBM2417',title:'Finance Management'},
-    {code:'MGBM2318',title:'Managerial Soft Skills'},
-  ]},
-  {id:'sem5',year:'year3',label:'Year 3 — Semester 5',subjects:[
-    {code:'MGBM3419',title:'Development Economics'},
-    {code:'MGBM3420',title:'Strategic Marketing Management'},
-    {code:'MGBM3421',title:'Supply Chain Management'},
-    {code:'MGBM3422',title:'International Business Strategy'},
-  ]},
-  {id:'sem6',year:'year3',label:'Year 3 — Semester 6',subjects:[
-    {code:'MGBM3423',title:'Strategic Brand Management'},
-    {code:'MGBM3424',title:'Research Methodology'},
-    {code:'MGBM3325',title:'Operations Management'},
-    {code:'MGBM3326',title:'Corporate Social Responsibility & Ethics',elective:true},
-    {code:'MGBM3327',title:'Entrepreneurship',elective:true},
-    {code:'MGBM3328',title:'E-Commerce',elective:true},
-  ]},
-  {id:'sem7',year:'year4',label:'Year 4 — Semester 7',subjects:[
-    {code:'MGBM4429',title:'Strategic Management'},
-    {code:'MGBM4430',title:'Strategic Finance'},
-    {code:'MGBM4631',title:'Project Management'},
-  ]},
-  {id:'sem8',year:'year4',label:'Year 4 — Semester 8',subjects:[
-    {code:'MGBM4432',title:'Academic Writing'},
-    {code:'MGBM4633',title:'Dissertation'},
-    {code:'MGBM4634',title:'Internship in Business Administration'},
-  ]},
-];
+        function buildGrid(filter='all'){ 
+            currentFilter=filter; 
+            const track=document.getElementById('timeline-track'); 
+            track.innerHTML=''; 
+            SEMESTERS.forEach((sem,si)=>{ 
+                const subs=filter==='elective'?sem.subjects.filter(s=>s.elective):sem.subjects; 
+                const yearMatch=filter==='all'||filter===sem.year||filter==='elective'; 
+                if(!yearMatch||subs.length===0)return; 
+                
+                const col=document.createElement('div');
+                col.className='sem-col';
+                col.style.animationDelay=(si*.04)+'s'; 
+                col.id='col-'+sem.id; 
+                col.innerHTML=`<div class="col-header"><div class="col-year">${sem.id.toUpperCase()}</div><div class="col-title">${sem.label}</div></div>`; 
+                
+                subs.forEach(sub=>{ 
+                    const card=document.createElement('div');
+                    card.className='subject-card'; 
+                    card.onclick=()=>openLectures(sub.code,sub.title,sem.label); 
+                    card.innerHTML=`${sub.elective?'<span class="elective-tag">Elective</span>':''} 
+                        <div class="sub-code">${sub.code}</div> 
+                        <div class="sub-title">${sub.title}</div> 
+                        <div class="sub-footer"><span class="sub-action">View Lectures</span><span class="sub-arrow">→</span></div>`; 
+                    col.appendChild(card); 
+                }); 
+                track.appendChild(col); 
+            }); 
+        } 
 
-let currentFilter='all';
+        function filterSem(f,btn){ 
+            document.querySelectorAll('.filter-bar_btn, .filter-btn').forEach(b=>b.classList.remove('active')); 
+            btn.classList.add('active'); 
+            closeLecturesView(); 
+            buildGrid(f); 
+        } 
 
-function buildGrid(filter='all'){
-  currentFilter=filter;
-  const track=document.getElementById('timeline-track');
-  track.innerHTML='';
-  SEMESTERS.forEach((sem,si)=>{
-    const subs=filter==='elective'?sem.subjects.filter(s=>s.elective):sem.subjects;
-    const yearMatch=filter==='all'||filter===sem.year||filter==='elective';
-    if(!yearMatch||subs.length===0)return;
-    const col=document.createElement('div');col.className='sem-col';col.style.animationDelay=(si*.04)+'s';
-    col.id='col-'+sem.id;
-    col.innerHTML=`<div class="col-header"><div class="col-year">${sem.id.toUpperCase()}</div><div class="col-title">${sem.label}</div></div>`;
-    subs.forEach(sub=>{
-      const card=document.createElement('div');card.className='subject-card';
-      card.onclick=()=>openLectures(sub.code,sub.title,sem.label);
-      card.innerHTML=`${sub.elective?'<span class="elective-tag">Elective</span>':''}
-        <div class="sub-code">${sub.code}</div>
-        <div class="sub-title">${sub.title}</div>
-        <div class="sub-footer"><span class="sub-action">View Lectures</span><span class="sub-arrow">→</span></div>`;
-      col.appendChild(card);
-    });
-    track.appendChild(col);
-  });
-}
+        // OPENS EXTENDED LECTURE VIEW WITH EXACTLY 30 BUTTONS
+        function openLectures(code,title,semLabel){ 
+            document.getElementById('lec-sem-tag').textContent=semLabel; 
+            document.getElementById('lec-title').textContent=title; 
+            document.getElementById('lec-code').textContent=code; 
+            
+            const grid=document.getElementById('lectures-grid'); 
+            grid.innerHTML=''; 
+            
+            // Generate exactly 30 lecture links pointing to correct paths
+            for(let i=1;i<=30;i++){ 
+                const card=document.createElement('a'); 
+                card.className='lecture-card'; 
+                card.href=`lectures/${code.toLowerCase()}/l${i}.html`; 
+                card.style.animationDelay=(i*.02)+'s'; 
+                card.innerHTML=`<div class="l-num">${String(i).padStart(2,'0')}</div> 
+                    <div class="l-code">LECTURE ${String(i).padStart(2,'0')}</div> 
+                    <div class="l-title">Module Study Pack & Resources</div> 
+                    <div class="l-footer"><span class="l-action">Open Notes</span><span class="l-arrow">→</span></div>`; 
+                grid.appendChild(card); 
+            } 
+            
+            document.getElementById('subjects-section').style.display='none'; 
+            document.getElementById('lectures-view').style.display='block'; 
+            window.scrollTo({top:0,behavior:'smooth'}); 
+        } 
 
-function filterSem(f,btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  closeLecturesView();
-  buildGrid(f);
-}
+        function closeLecturesView(){ 
+            document.getElementById('lectures-view').style.display='none'; 
+            document.getElementById('subjects-section').style.display='block'; 
+        } 
 
-function openLectures(code,title,semLabel){
-  document.getElementById('lec-sem-tag').textContent=semLabel;
-  document.getElementById('lec-title').textContent=title;
-  document.getElementById('lec-code').textContent=code;
-  const grid=document.getElementById('lectures-grid');
-  grid.innerHTML='';
-  for(let i=1;i<=20;i++){
-    const card=document.createElement('a');
-    card.className='lecture-card';
-    card.href=`lectures/${code.toLowerCase()}/l${i}.html`;
-    card.style.animationDelay=(i*.03)+'s';
-    card.innerHTML=`<div class="l-num">${String(i).padStart(2,'0')}</div>
-      <div class="l-code">LECTURE ${String(i).padStart(2,'0')}</div>
-      <div class="l-title">Module Study Pack & Resources</div>
-      <div class="l-footer"><span class="l-action">Open Notes</span><span class="l-arrow">→</span></div>`;
-    grid.appendChild(card);
-  }
-  document.getElementById('subjects-section').style.display='none';
-  document.getElementById('lectures-view').style.display='block';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+        function buildNav(){ 
+            const nav=document.getElementById('sem-nav'); 
+            nav.innerHTML=''; 
+            SEMESTERS.forEach(sem=>{ 
+                const btn=document.createElement('button');
+                btn.className='nav-btn'; 
+                btn.innerHTML=`<i class="fas fa-circle" style="font-size:.4rem"></i> ${sem.label}`; 
+                btn.onclick=()=>{ 
+                    document.querySelectorAll('#sem-nav .nav-btn').forEach(b=>b.classList.remove('active')); 
+                    btn.classList.add('active'); 
+                    document.getElementById('col-'+sem.id)?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'}); 
+                }; 
+                nav.appendChild(btn); 
+            }); 
+        } 
 
-function closeLecturesView(){
-  document.getElementById('lectures-view').style.display='none';
-  document.getElementById('subjects-section').style.display='block';
-}
+        // Theme Setup
+        const saved=localStorage.getItem('ict-theme')||'light'; 
+        if(saved==='dark'){
+            document.documentElement.setAttribute('data-theme','dark');
+            document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>';
+        } 
+        document.getElementById('themeBtn').addEventListener('click',()=>{ 
+            const d=document.documentElement.getAttribute('data-theme')==='dark'; 
+            document.documentElement.setAttribute('data-theme',d?'light':'dark'); 
+            document.getElementById('themeBtn').innerHTML=d?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>'; 
+            localStorage.setItem('ict-theme',d?'light':'dark'); 
+        }); 
 
-function buildNav(){
-  const nav=document.getElementById('sem-nav');
-  nav.innerHTML='';
-  SEMESTERS.forEach(sem=>{
-    const btn=document.createElement('button');btn.className='nav-btn';
-    btn.innerHTML=`<i class="fas fa-circle" style="font-size:.4rem"></i> ${sem.label}`;
-    btn.onclick=()=>{
-      document.querySelectorAll('#sem-nav .nav-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('col-'+sem.id)?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});
-    };
-    nav.appendChild(btn);
-  });
-}
+        // Ambient Background Bubbles
+        function createBubbles(){ 
+            const w=document.getElementById('bubbles'); 
+            const cols=['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9']; 
+            for(let i=0;i<18;i++){ 
+                const b=document.createElement('div');
+                b.className='bubble'; 
+                const sz=Math.random()*80+30; 
+                b.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`; 
+                w.appendChild(b); 
+            } 
+        } 
+        createBubbles(); 
 
-// Theme
-const saved=localStorage.getItem('ict-theme')||'light';
-if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>';}
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  const d=document.documentElement.getAttribute('data-theme')==='dark';
-  document.documentElement.setAttribute('data-theme',d?'light':'dark');
-  document.getElementById('themeBtn').innerHTML=d?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';
-  localStorage.setItem('ict-theme',d?'light':'dark');
-});
+        // Scroll Interactions
+        window.addEventListener('scroll',()=>{ 
+            const h=document.documentElement; 
+            document.getElementById('progress-bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'; 
+            document.getElementById('back-top').classList.toggle('show',h.scrollTop>300); 
+        }); 
 
-// Clock — enhanced
-function tick(){
-  const n=new Date();
-  let h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
-  const ap=h>=12?'PM':'AM';
-  h=h%12||12;
-  document.getElementById('clock-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  document.getElementById('clock-ampm').textContent=ap;
-  document.getElementById('clock-date').textContent=n.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
-  document.getElementById('clock-weekday').textContent=n.toLocaleDateString('en-US',{weekday:'long'});
-}
-setInterval(tick,1000);tick();
+        document.getElementById('back-top').addEventListener('click', () => {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
 
-// Bubbles
-function createBubbles(){
-  const w=document.getElementById('bubbles');
-  const cols=['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
-  for(let i=0;i<18;i++){
-    const b=document.createElement('div');b.className='bubble';
-    const sz=Math.random()*80+30;
-    b.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
-    w.appendChild(b);
-  }
-}
-createBubbles();
+        function initReveal(){ 
+            const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1}); 
+            document.querySelectorAll('.reveal').forEach(el=>obs.observe(el)); 
+        } 
 
-// Scroll
-window.addEventListener('scroll',()=>{
-  const h=document.documentElement;
-  document.getElementById('progress-bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
-  document.getElementById('back-top').classList.toggle('show',h.scrollTop>300);
-});
+        window.addEventListener('load',()=>{ 
+            setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000); 
+            buildGrid('all'); 
+            buildNav(); 
+            initReveal(); 
+        }); 
+    </script>
 
-// Reveal
-function initReveal(){
-  const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-}
+    <!-- FIREBASE INTEGRATION MODULE -->
+    <script type="module">
+        import { auth, db } from "./firebase-config.js"; 
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js"; 
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js"; 
 
-window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('hide'),1000);
-  buildGrid('all');
-  buildNav();
-  initReveal();
-});
-</script>
+        // Check user authorization and verification state
+        onAuthStateChanged(auth, async (user) => { 
+            if (!user) { 
+                window.location.href = 'login.html'; 
+                return; 
+            } 
+            try { 
+                const userRef = doc(db, "users", user.uid); 
+                const userSnap = await getDoc(userRef); 
+                if (!userSnap.exists() || !userSnap.data().approved) { 
+                    window.location.href = 'pending-approval.html'; 
+                } 
+            } catch (error) { 
+                console.error('Auth error:', error); 
+                window.location.href = 'login.html'; 
+            } 
+        }); 
 
-<script type="module">
-import { auth, db } from "./firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = 'login.html'; return; }
-  try {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-    if (!userSnap.exists() || !userSnap.data().approved) {
-      window.location.href = 'pending-approval.html';
-    }
-  } catch (error) {
-    console.error('Auth error:', error);
-    window.location.href = 'login.html';
-  }
-});
-</script>
-
-<script type="module">
-import { auth } from "./firebase-config.js";
-import { signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-document.getElementById('logout-btn').addEventListener('click', async () => {
-  try {
-    await signOut(auth);
-    window.location.href = 'index.html';
-  } catch (error) {
-    console.error("Logout error:", error);
-    alert("ලොග් අවුට් වීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය.");
-  }
-});
-</script>
-
+        // Handle app logout action
+        const logoutBtn = document.getElementById('logout-btn'); 
+        logoutBtn.addEventListener('click', async () => { 
+            try { 
+                await signOut(auth); 
+                window.location.href = 'index.html'; 
+            } catch (error) { 
+                console.error("Logout error:", error); 
+                alert("Logout failed. Please try again."); 
+            } 
+        }); 
+    </script>
 </body>
 </html>
