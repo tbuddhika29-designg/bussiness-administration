@@ -236,7 +236,29 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 <main>
 
   <!-- CLOCK -->
- 
+  <div class="clock-wrap reveal">
+    <div class="clock-pill">
+      <div class="clock-left">
+        <div class="clock-icon-ring">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div>
+          <div class="clock-time" id="clock-time">00:00:00</div>
+          <div class="clock-ampm" id="clock-ampm">AM</div>
+        </div>
+      </div>
+      <div class="clock-right">
+        <div class="clock-date-row">
+          <i class="fas fa-calendar-day"></i>
+          <span id="clock-date">Loading...</span>
+        </div>
+        <div class="clock-day-row">
+          <i class="fas fa-circle clock-dot"></i>
+          <span id="clock-weekday">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- HERO -->
   <div class="hero reveal">
