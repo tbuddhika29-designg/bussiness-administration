@@ -193,10 +193,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </div>
 
 <!-- FIREBASE -->
-<script type="module">
+<script type="module">// login.html හි ස්කින්දම් script tag එකට මෙම code පුරවන්න
 import { auth, db } from "./firebase-config.js";
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type='error') {
   const box = document.getElementById('alert-box');
@@ -213,7 +213,7 @@ function setLoading(on) {
 }
 
 window.login = async () => {
-  const email    = document.getElementById('email').value.trim();
+  const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
 
   if (!email || !password) {
@@ -237,6 +237,7 @@ window.login = async () => {
         displayName: user.displayName || 'User',
         email: user.email,
         approved: false,
+        subscriptionActive: false,
         createdAt: new Date(),
         lastLogin: new Date()
       });
@@ -253,11 +254,10 @@ window.login = async () => {
       return;
     }
 
-    // Last login update කරන්න
-    await updateDoc(userRef, { lastLogin: new Date() });
-
+    // ✅ තරණ කරන්න: ඩැශ්බෝඩ් නොවෙයි, student-profile.html වෙත යන්න
     showAlert('Login successful! Redirecting…', 'success');
     setTimeout(() => { window.location.href = 'student-profile.html'; }, 900);
+
   } catch (error) {
     const msgs = {
       'auth/user-not-found': 'Email එක පිටින්නෙ නෑ.',
