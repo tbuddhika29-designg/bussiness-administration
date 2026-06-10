@@ -510,64 +510,39 @@
 
     <!-- FIREBASE INTEGRATION MODULE -->
     <script type="module">
-       // dashboard.html හි Firebase module එකට මෙම modified code භාවිතා කරන්න
+        import { auth, db } from "./firebase-config.js"; 
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js"; 
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js"; 
 
-import { auth, db } from "./firebase-config.js";
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        // Check user authorization and verification state
+        onAuthStateChanged(auth, async (user) => { 
+            if (!user) { 
+                window.location.href = 'login.html'; 
+                return; 
+            } 
+            try { 
+                const userRef = doc(db, "users", user.uid); 
+                const userSnap = await getDoc(userRef); 
+                if (!userSnap.exists() || !userSnap.data().approved) { 
+                    window.location.href = 'pending-approval.html'; 
+                } 
+            } catch (error) { 
+                console.error('Auth error:', error); 
+                window.location.href = 'login.html'; 
+            } 
+        }); 
 
-// Check user authorization and verification state
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
-  
-  try {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-    
-    if (!userSnap.exists()) {
-      window.location.href = 'login.html';
-      return;
-    }
-
-    const userData = userSnap.data();
-
-    // ✅ 1. Approval check කරන්න
-    if (!userData.approved) {
-      window.location.href = 'pending-approval.html';
-      return;
-    }
-
-    // ✅ 2. Subscription/Payment check කරන්න
-    if (!userData.subscriptionActive) {
-      window.location.href = 'subscription.html';
-      return;
-    }
-
-    // දැන් උපසිටුවිය හැකි - ඔබගේ dashboard logic තිබේ
-    console.log('✓ User fully authenticated and subscribed');
-
-  } catch (error) {
-    console.error('Auth error:', error);
-    window.location.href = 'login.html';
-  }
-});
-
-// Handle logout action
-const logoutBtn = document.getElementById('logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', async () => {
-    try {
-      await signOut(auth);
-      window.location.href = 'index.html';
-    } catch (error) {
-      console.error("Logout error:", error);
-      alert("Logout failed. Please try again.");
-    }
-  });
-}
+        // Handle app logout action
+        const logoutBtn = document.getElementById('logout-btn'); 
+        logoutBtn.addEventListener('click', async () => { 
+            try { 
+                await signOut(auth); 
+                window.location.href = 'index.html'; 
+            } catch (error) { 
+                console.error("Logout error:", error); 
+                alert("Logout failed. Please try again."); 
+            } 
+        }); 
     </script>
 </body>
 </html>
