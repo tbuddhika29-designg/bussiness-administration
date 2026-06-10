@@ -531,6 +531,12 @@
                 window.location.href = 'login.html'; 
             } 
         }); 
+       
+        // Check subscription status
+    if (!userData.subscriptionActive) {
+      window.location.href = 'subscription.html';
+      return;
+    }
 
         // Handle app logout action
         const logoutBtn = document.getElementById('logout-btn'); 
