@@ -257,7 +257,7 @@ window.login = async () => {
     await updateDoc(userRef, { lastLogin: new Date() });
 
     showAlert('Login successful! Redirecting…', 'success');
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
+    setTimeout(() => { window.location.href = 'student-profile.html'; }, 900);
   } catch (error) {
     const msgs = {
       'auth/user-not-found': 'Email එක පිටින්නෙ නෑ.',
