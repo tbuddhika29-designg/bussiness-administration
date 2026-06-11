@@ -210,7 +210,11 @@ import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { collection, query, where, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-const ADMIN_UID = "VQO3ENwqo5O4XYakBi2bGC4R8uB3";
+const ADMIN_UID = "VQO3ENwqo5O4XYakBi2bGC4R8uB3"
+(string)
+
+
+";
 
 // Admin authorization check
 onAuthStateChanged(auth, async (user) => {
