@@ -412,6 +412,14 @@ onAuthStateChanged(auth, async (user) => {
     console.error(err);
     window.location.href = 'login.html';
   }
+  // HTML එකේ ඇති onclick බටන්ස් වලට Module එක ඇතුළේ ඇති Functions පෙනීම සඳහා window scope එකට ලබා දීම
+window.approveUser = approveUser;
+window.rejectUser = rejectUser;
+
+// පිටුව refresh කිරීමට හෝ බටන්ස් වල loadUsers තිබේ නම්:
+if (typeof loadUsers !== 'undefined') {
+  window.loadUsers = loadUsers;
+}
 });
 </script>
 </body>
