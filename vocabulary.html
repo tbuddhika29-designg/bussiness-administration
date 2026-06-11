@@ -652,5 +652,43 @@
   buildSidebar();
   displayWords(allWords || vocabularyData[currentSubject].words);
 </script>
+  <script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+// පිටුව Load වීමට පෙර පරිශීලකයා සුදුසුකම් ලබා ඇත්දැයි බැලීම
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { 
+    window.location.href = 'login.html'; 
+    return; 
+  }
+  
+  const userSnap = await getDoc(doc(db, "users", user.uid));
+  if (userSnap.exists()) {
+    const data = userSnap.data();
+    
+    // 1. Admin විසින් Approve කර නැත්නම්
+    if (!data.approved) {
+      window.location.href = 'pending-approval.html';
+      return;
+    }
+    // 2. සල්ලි ගෙවා සක්‍රීය මට්ටමක (Active Subscription) නැත්නම්
+    if (!data.subscriptionActive) {
+      window.location.href = 'subscription.html';
+      return;
+    }
+    
+    // සියල්ල හරි නම් පමණක් වොකැබියුලරි ලිස්ට් එක පෙන්වන්න (Load Data)
+    initVocabularyApp(); 
+  } else {
+    window.location.href = 'login.html';
+  }
+});
+
+function initVocabularyApp() {
+  // ඔබ දැනටමත් ලියා ඇති සාමාන්‍ය වොකැබියුලරි කේතයන් (displayWords, search ආදිය) මෙතැන් සිට ක්‍රියාත්මක කරන්න...
+}
+</script>
 </body>
 </html>
