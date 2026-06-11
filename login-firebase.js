@@ -1,10 +1,9 @@
 // මෙම code login page එකින් firebase section එකට දුන්න script tag එක තුනින් replace කරන්න
 
-<!-- FIREBASE -->
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 function showAlert(msg, type='error') {
   const box = document.getElementById('alert-box');
@@ -41,11 +40,18 @@ window.login = async () => {
 
     if (!userSnap.exists()) {
       // පළමු ලොගිනුවෙන් පස්සේ user document එක create කරන්න
+      // FIX: Admin panels සමඟ ගැළපෙන ලෙස default fields මෙතනටද එකතු කර ඇත
       await setDoc(userRef, {
         uid: user.uid,
         displayName: user.displayName || 'User',
+        name: user.displayName || 'User', // FIX: Admin panel සඳහා u.name එකතු කිරීම
         email: user.email,
+        phone: "",
+        role: "student",
         approved: false,
+        paymentStatus: "none",
+        subscriptionActive: false,
+        plan: "Free",
         createdAt: new Date(),
         lastLogin: new Date()
       });
@@ -67,6 +73,8 @@ window.login = async () => {
     await updateDoc(userRef, { lastLogin: new Date() });
 
     showAlert('Login successful! Redirecting…', 'success');
+    
+    // OPTIONAL NOTE: ඔබේ dashboard.html එක ඇතුළත Admin කෙනෙක් ආවොත් admin පිටුවකට redirect කරන කේතයක් තිබිය යුතුය.
     setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
   } catch (error) {
     const msgs = {
