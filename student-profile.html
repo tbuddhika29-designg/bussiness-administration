@@ -83,6 +83,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .secondary-btn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px}
 .secondary-btn:hover{background:var(--accent);color:#fff}
 
+/* NAV GRID FOR HOME & DASHBOARD */
+.nav-grid {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.nav-grid .secondary-btn {margin-top:0}
+
 /* ALERT */
 .alert{padding:12px 16px;border-radius:10px;font-size:.84rem;font-weight:500;display:none;align-items:center;gap:10px;animation:fadeUp .3s ease;margin-bottom:16px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--green)}
 .alert.show{display:flex}
@@ -144,6 +148,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <i class="fas fa-spinner fa-spin"></i> Loading...
     </button>
 
+    <div class="nav-grid">
+      <button class="secondary-btn" onclick="goHome()">
+        <i class="fas fa-home"></i> Home
+      </button>
+      <button class="secondary-btn" onclick="goToDashboard()">
+        <i class="fas fa-chart-line"></i> Dashboard
+      </button>
+    </div>
+
     <button class="secondary-btn" id="logout-btn" onclick="logout()">
       <i class="fas fa-sign-out-alt"></i> Logout
     </button>
@@ -166,7 +179,6 @@ onAuthStateChanged(auth, async (user) => {
     if (snap.exists()) {
       const data = snap.data();
 
-      // UI එකට Firestore දත්ත නිවැරදිව ඇතුළත් කිරීම
       document.getElementById('prof-name').textContent = data.displayName || data.fullname || 'Student';
       document.getElementById('prof-email').textContent = data.email || '—';
       document.getElementById('prof-id').textContent = data.studentId || '—';
@@ -175,19 +187,16 @@ onAuthStateChanged(auth, async (user) => {
       const statusValue = document.getElementById('prof-status');
       const actionBtn = document.getElementById('action-btn');
 
-      // Subscription එක සක්‍රීයද කියා පරික්ෂා කිරීම
       if (data.subscriptionActive) {
         statusValue.textContent = `Active (${data.plan || 'Premium'})`;
-        statusValue.style.color = "#10b981"; // කොළ පාටින් පෙන්වීමට
+        statusValue.style.color = "#10b981";
         
-        // Premium සිසුන්ට කෙළින්ම Vocabulary යන්න බටන් එක සැකසීම
         actionBtn.innerHTML = '<i class="fas fa-book-reader"></i> Go to Vocabulary Portal';
         actionBtn.setAttribute('onclick', 'goToVocabulary()');
       } else {
         statusValue.textContent = "Free / Expired";
-        statusValue.style.color = "#ef4444"; // රතු පාටින් පෙන්වීමට
+        statusValue.style.color = "#ef4444";
         
-        // Premium නොමැති අයට සක්‍රීය කරගැනීමට ලින්ක් එක සැකසීම
         actionBtn.innerHTML = '<i class="fas fa-credit-card"></i> Continue to Subscription';
         actionBtn.setAttribute('onclick', 'proceedToSubscription()');
       }
@@ -197,13 +206,21 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// Navigation Functions (Module Scope එකෙන් පිටතට ලබාදීම)
+// Navigation සහ Button Functions
 window.proceedToSubscription = () => {
   window.location.href = 'subscription.html';
 };
 
 window.goToVocabulary = () => {
   window.location.href = 'vocabulary.html';
+};
+
+window.goHome = () => {
+  window.location.href = 'index.html';
+};
+
+window.goToDashboard = () => {
+  window.location.href = 'dashboard.html';
 };
 
 window.logout = async () => {
@@ -220,11 +237,10 @@ window.logout = async () => {
 </script>
 
 <script>
-// UI Theme (Dark/Light Mode) Control
 const saved = localStorage.getItem('ict-theme') || 'light';
 if (saved === 'dark') { 
-  document.documentElement.setAttribute('data-theme','dark'); 
-  document.getElementById('themeBtn').innerHTML='<i class="fas fa-sun"></i>'; 
+  document.documentElement.setAttribute('data-theme', 'dark'); 
+  document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>'; 
 }
 document.getElementById('themeBtn').addEventListener('click', () => {
   const d = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -233,7 +249,6 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   localStorage.setItem('ict-theme', d ? 'light' : 'dark');
 });
 
-// Floating Bubbles Creation
 function createBubbles() {
   const w = document.getElementById('bubbles');
   const cols = ['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
