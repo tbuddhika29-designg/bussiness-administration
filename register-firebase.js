@@ -1,6 +1,5 @@
 // මෙම code ගිණුම registration page එකින් firebase section එකට දුන්න script tag එක තුනින් replace කරන්න
 
-<!-- FIREBASE -->
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
@@ -47,13 +46,20 @@ window.register = async () => {
     await updateProfile(user, { displayName: fullname });
 
     // Firestore සිට user document එක create කරන්න (pending approval)
+    // FIX: Admin panels සමඟ ගැළපෙන ලෙස default fields එකතු කර ඇත
     await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       displayName: fullname,
+      name: fullname,               // FIX: Admin panel එකේ u.name ලෙස පෙන්වීමට
       email: email,
       studentId: studentId,
       programme: programme,
-      approved: false,  // Admin approval බලා තිබෙනවා
+      phone: "",                    // FIX: හිස් phone field එකක් තැබීම
+      role: "student",              // FIX: Default role එක student කිරීම
+      approved: false,              // Admin approval බලා තිබෙනවා
+      paymentStatus: "none",        // FIX: මුල් ගෙවීම් තත්ත්වය none කිරීම
+      subscriptionActive: false,    // FIX: Subscription එක active නැත
+      plan: "Free",                 // FIX: Default plan එක Free කිරීම
       createdAt: new Date(),
       approvalDate: null,
       lastLogin: new Date()
