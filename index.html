@@ -382,6 +382,41 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 </script>
+  // මෙම කේතය index.html හි අවසානයට ඇති කොටසට ආදේශ කරන්න
+
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+onAuthStateChanged(auth, async (user) => {
+  const loginNavBtn = document.getElementById('loginNavBtn'); // ඔබේ Navbar එකේ ඇති Login බටන් එකේ ID එක දෙන්න
+  const adminLinkDiv = document.getElementById('adminLinkDiv'); // Admin පැනලයට යාමට තබන රහස් දිවියේ ID එක
+
+  if (user) {
+    // 1. Login බටන් එක "Profile" බවට පත් කිරීම
+    if(loginNavBtn) {
+      loginNavBtn.textContent = "My Profile";
+      loginNavBtn.onclick = () => { window.location.href = 'student-profile.html'; };
+    }
+
+    // 2. පරිශීලකයා Admin කෙනෙක්දැයි බැලීම
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (snap.exists() && snap.data().role === 'admin') {
+      // Home page එකේ Admin පැනලයට යාමට බටන් එකක් දර්ශනය කිරීම
+      if(adminLinkDiv) {
+        adminLinkDiv.innerHTML = `
+          <div style="background:var(--card); padding:15px; border-radius:12px; text-align:center; margin-top:20px; border:1px dashed var(--accent)">
+            <p style="margin:0 0 10px 0; font-weight:600;">Logged in as Administrator</p>
+            <button onclick="window.location.href='admin-approvals.html'" class="btn-gpa" style="width:auto; padding:8px 20px;">
+              <i class="fas fa-user-shield"></i> Open Admin Panel
+            </button>
+          </div>`;
+      }
+    }
+  }
+});
+</script>
 
 </body>
 </html>
