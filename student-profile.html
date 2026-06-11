@@ -150,69 +150,55 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 </div>
 
+// මෙම කේතය student-profile.html හි ඇති <script type="module"> කොටසට ආදේශ කරන්න
+
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
+  if (!user) { window.location.href = 'login.html'; return; }
 
   try {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (snap.exists()) {
+      const data = snap.data();
 
-    if (!userSnap.exists()) {
-      window.location.href = 'login.html';
-      return;
+      // UI එකට දත්ත ඇතුළත් කිරීම
+      document.getElementById('prof-name').textContent = data.name || data.displayName || 'Student';
+      document.getElementById('prof-email').textContent = data.email || '';
+      document.getElementById('prof-id').textContent = data.studentId || '—';
+      document.getElementById('prof-prog').textContent = data.programme || '—';
+      
+      // Subscription Status එක පෙන්වීම
+      const statusBadge = document.getElementById('prof-status');
+      if (data.subscriptionActive) {
+        statusBadge.textContent = `Active (${data.plan || 'Premium'})`;
+        statusBadge.className = "badge approved"; // කොළ පාට badge එකක්
+        document.getElementById('vocabBtn').disabled = false; // Vocabulary යන්න දීම
+      } else {
+        statusBadge.textContent = "Free / Expired";
+        statusBadge.className = "badge rejected"; // රතු පාට badge එකක්
+      }
     }
-
-    const userData = userSnap.data();
-    
-    // පළමුවෙන් approved check කරන්න
-    if (!userData.approved) {
-      window.location.href = 'pending-approval.html';
-      return;
-    }
-
-    // ස්ටුඩන්ට් විස්තර පෙන්නන්න
-    document.getElementById('student-name').textContent = userData.displayName || 'Student';
-    document.getElementById('student-email').textContent = user.email;
-    
-    // Subscription status check කරන්න
-    if (userData.subscriptionActive) {
-      document.getElementById('subscription-status').textContent = 'Active';
-      document.getElementById('alert-box').classList.add('show');
-      // 3 seconds පස්සෙ dashboard එකට යන්න
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 3000);
-    }
-
-  } catch (error) {
-    console.error('Profile loading error:', error);
-    window.location.href = 'login.html';
+  } catch (err) {
+    console.error("Error loading profile:", err);
   }
 });
 
-window.proceedToSubscription = () => {
-  window.location.href = 'subscription.html';
+// Vocabulary බටන් එක ක්ලික් කළ විට
+window.goToVocabulary = () => {
+  window.location.href = 'vocabulary.html';
 };
 
 window.logout = async () => {
-  try {
+  if(confirm("Are you sure you want to logout?")) {
     await signOut(auth);
     window.location.href = 'index.html';
-  } catch (error) {
-    console.error("Logout error:", error);
-    alert("Logout failed");
   }
 };
 </script>
-
 <script>
 // Theme
 const saved = localStorage.getItem('ict-theme') || 'light';
