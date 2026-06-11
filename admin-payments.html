@@ -536,6 +536,13 @@ onAuthStateChanged(auth, async (user) => {
     console.error(err);
     window.location.href = 'login.html';
   }
+  // Payment Actions, HTML එකට සම්බන්ධ කිරීම
+window.approvePayment = approvePayment;
+window.rejectPayment = rejectPayment;
+
+// Slip එක බැලීමට (Proof Modal එකක් ඇත්නම්)
+if (typeof viewProof !== 'undefined') { window.viewProof = viewProof; }
+if (typeof closeProofModal !== 'undefined') { window.closeProofModal = closeProofModal; }
 });
 </script>
 </body>
