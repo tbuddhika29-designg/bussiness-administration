@@ -428,6 +428,12 @@ onAuthStateChanged(auth, async (user) => {
     console.error(err);
     window.location.href = 'login.html';
   }
+  // Student Table එකේ බටන්ස් ක්‍රියා කරවීමට window scope එකට එක් කිරීම
+window.viewStudent = viewStudent;
+window.deleteStudent = deleteStudent;
+
+if (typeof editStudent !== 'undefined') { window.editStudent = editStudent; }
+if (typeof toggleSubscription !== 'undefined') { window.toggleSubscription = toggleSubscription; }
 });
 </script>
 </body>
