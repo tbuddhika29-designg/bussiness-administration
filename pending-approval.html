@@ -101,62 +101,25 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 <script type="module">
 import { auth, db } from "./firebase-config.js";
-import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-window.logout = async () => {
-  await signOut(auth);
-  window.location.href = 'login.html';
-};
-
-// Approve වී ඇත්දැයි දිගින් දිගටම පරීක්ෂා කර බැලීම
-let checkInterval;
-
 onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
+  if (!user) { window.location.href = 'login.html'; return; }
 
-  // සෑම තත්පර 3කට වරක්ම බලන්න
-  checkInterval = setInterval(() => {
-    const userRef = doc(db, "users", user.uid);
-    onSnapshot(userRef, (snapshot) => {
-      if (snapshot.exists() && snapshot.data().approved) {
-        clearInterval(checkInterval);
-        window.location.href = 'dashboard.html';
+  const userRef = doc(db, "users", user.uid);
+  
+  // නිවැරදි ක්‍රමය: එක් වරක් පමණක් Listener එක ක්‍රියාත්මක කර Admin Approve කළ සැනින් Redirect කිරීම
+  const unsubscribe = onSnapshot(userRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const userData = snapshot.data();
+      if (userData.approved === true) {
+        unsubscribe(); // ලින්ක් එක නවත්වන්න (Stop listening)
+        window.location.href = 'student-profile.html'; // හෝ dashboard.html
       }
-    });
-  }, 3000);
+    }
+  });
 });
-
-// Theme
-const saved = localStorage.getItem('ict-theme') || 'light';
-if (saved === 'dark') {
-  document.documentElement.setAttribute('data-theme', 'dark');
-  document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>';
-}
-
-document.getElementById('themeBtn').addEventListener('click', () => {
-  const d = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
-  document.getElementById('themeBtn').innerHTML = d ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-  localStorage.setItem('ict-theme', d ? 'light' : 'dark');
-});
-
-// Bubbles
-function createBubbles() {
-  const w = document.getElementById('bubbles');
-  const cols = ['#7c3aed','#9333ea','#a855f7','#c084fc'];
-  for (let i = 0; i < 12; i++) {
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    const sz = Math.random() * 80 + 30;
-    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${12+Math.random()*18}s;animation-delay:${Math.random()*10}s;`;
-    w.appendChild(b);
-  }
-}
-createBubbles();
 </script>
 </body>
 </html>
