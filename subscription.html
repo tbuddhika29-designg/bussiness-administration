@@ -226,182 +226,77 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 </div>
 
+// මෙම කේතය subscription.html හි ඇති <script type="module"> කොටසට ආදේශ කරන්න
+
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-// ගෙවීමේ පැකේජ
-const PLANS = [
-  {
-    id: 'monthly',
-    name: 'Monthly',
-    price: 2500,
-    currency: 'LKR',
-    period: 'per month',
-    featured: false,
-    features: [
-      'Full course access',
-      '30 daily downloads',
-      'Support via email',
-      '1 month validity'
-    ]
-  },
-  {
-    id: 'semester',
-    name: 'Semester',
-    price: 6500,
-    currency: 'LKR',
-    period: 'per semester',
-    featured: true,
-    features: [
-      'Full course access',
-      'Unlimited downloads',
-      'Priority support',
-      '6 months validity',
-      'Certificate'
-    ]
-  },
-  {
-    id: 'annual',
-    name: 'Annual',
-    price: 11500,
-    currency: 'LKR',
-    period: 'per year',
-    featured: false,
-    features: [
-      'Full course access',
-      'Unlimited downloads',
-      'Premium support',
-      '12 months validity',
-      'Certificate',
-      'Expert guidance'
-    ]
-  }
-];
+let currentUser = null;
+let selectedPlan = "Premium"; // Default plan
+let base64Slip = "";
 
-let selectedPlan = null;
-let selectedPaymentMethod = null;
-
-// ස්ටුඩන්ට් logged in check කරන්න
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
+  if (!user) { window.location.href = 'login.html'; return; }
+  currentUser = user;
 
-  try {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-    
-    if (!userSnap.exists() || !userSnap.data().approved) {
-      window.location.href = 'login.html';
-      return;
-    }
-
-    // ගෙවීමේ පැකේජ ගොඩනැගීම
-    renderPlans();
-  } catch (error) {
-    console.error('Error:', error);
+  // දැනටමත් පේමන්ට් එකක් දමා ඇත්නම් පරීක්ෂා කිරීම
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (snap.exists() && snap.data().paymentStatus === 'pending') {
+    window.location.href = 'payment-pending.html';
   }
 });
 
-function renderPlans() {
-  const container = document.getElementById('plans-container');
-  container.innerHTML = '';
-
-  PLANS.forEach(plan => {
-    const card = document.createElement('div');
-    card.className = `plan-card ${plan.featured ? 'featured' : ''}`;
-    card.onclick = () => selectPlan(plan.id);
-    
-    card.innerHTML = `
-      ${plan.featured ? '<div class="popular-badge"><i class="fas fa-star"></i> Most Popular</div>' : ''}
-      <div class="plan-icon"><i class="fas fa-${plan.id === 'monthly' ? 'calendar' : plan.id === 'semester' ? 'hourglass-half' : 'calendar-alt'}"></i></div>
-      <div class="plan-name">${plan.name}</div>
-      <div class="plan-desc">Great for ${plan.id === 'monthly' ? 'testing' : plan.id === 'semester' ? 'serious' : 'ultimate'} learners</div>
-      <div class="plan-price">
-        <span class="price-currency">${plan.currency}</span><span class="price-amount">${plan.price}</span>
-        <div class="price-period">${plan.period}</div>
-      </div>
-      <ul class="features">
-        ${plan.features.map(f => `<li><i class="fas fa-check"></i><span>${f}</span></li>`).join('')}
-      </ul>
-      <button class="plan-btn">${selectedPlan === plan.id ? '✓ Selected' : 'Select Plan'}</button>
-    `;
-    
-    container.appendChild(card);
-  });
-}
-
-window.selectPlan = (planId) => {
-  selectedPlan = planId;
-  document.getElementById('payment-section').classList.add('show');
-  renderPlans();
-};
-
-window.selectPaymentMethod = (method, element) => {
-  selectedPaymentMethod = method;
-  document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
-  element.classList.add('selected');
+// Slip එක බ්‍රවුසර් එකෙන් තෝරන විට එය Base64 බවට පත් කිරීම
+document.getElementById('slipInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
   
-  document.getElementById('card-form').style.display = method === 'card' ? 'block' : 'none';
-  document.getElementById('bank-form').style.display = method === 'bank' ? 'block' : 'none';
-  document.getElementById('mobile-form').style.display = method === 'mobile' ? 'block' : 'none';
-};
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    base64Slip = reader.result; // මුළු ඉමේජ් එකම ටෙක්ස්ට් එකක් බවට පත් වේ
+    document.getElementById('slip-preview').src = base64Slip;
+    document.getElementById('slip-preview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+});
 
-window.processPayment = async () => {
-  if (!selectedPlan) {
-    showAlert('Please select a plan', 'error');
-    return;
-  }
+// Form එක Submit කරන විට ක්‍රියාත්මක වන Function එක
+window.submitPayment = async () => {
+  const amount = document.getElementById('amountInput').value.trim();
+  const refNo = document.getElementById('refInput').value.trim();
 
-  if (!selectedPaymentMethod) {
-    showAlert('Please select a payment method', 'error');
-    return;
-  }
-
-  const user = auth.currentUser;
-  if (!user) return;
+  if (!amount) { alert('Please enter the paid amount.'); return; }
+  if (!base64Slip) { alert('Please upload your payment slip.'); return; }
 
   try {
-    // ✅ Payment pending status බවට සකසන්න - ඇඩ්මින්ගේ බලාපොරොත්තුවෙන්
-    const userRef = doc(db, "users", user.uid);
+    const userRef = doc(db, "users", currentUser.uid);
     
+    // FIX: Admin panel එකට අවශ්‍ය සියලුම fields නිවැරදිව යාවත්කාලීන කිරීම
     await updateDoc(userRef, {
-      subscriptionActive: false,                    // ❌ අගම FALSE - පිටින්ඩ ඇපෲ
-      paymentPending: true,                         // ✅ Payment pending status
-      subscriptionPlan: selectedPlan,
-      paymentMethod: selectedPaymentMethod,
-      paymentDate: new Date(),
-      paidAmount: PLANS.find(p => p.id === selectedPlan).price,
-      paymentStatus: 'pending'                      // 'pending' | 'approved' | 'rejected'
+      paymentStatus: 'pending',
+      plan: selectedPlan,
+      paymentAmount: amount,
+      paymentProof: base64Slip, // Base64 string එක මෙතනට වැටේ
+      paymentRef: refNo || '—',
+      paymentSubmittedAt: serverTimestamp()
     });
 
-    showAlert('✓ Payment submitted! Admin will review your payment shortly. Redirecting...', 'success');
-    
-    setTimeout(() => {
-      window.location.href = 'payment-pending.html';  // නව පේජ - pending status පෙන්නන්න
-    }, 2500);
-
-  } catch (error) {
-    console.error('Payment error:', error);
-    showAlert('Payment failed. Please try again.', 'error');
+    alert('Payment details submitted successfully! Awaiting Admin Approval.');
+    window.location.href = 'payment-pending.html';
+  } catch (err) {
+    console.error(err);
+    alert('Error submitting payment: ' + err.message);
   }
 };
 
-function showAlert(msg, type) {
-  const box = document.getElementById('alert-box');
-  const txt = document.getElementById('alert-text');
-  box.className = `alert ${type} show`;
-  txt.textContent = msg;
-}
-
-window.goBack = () => {
-  window.location.href = 'student-profile.html';
+// Plan එක තෝරන විට එය Variable එකට සේව් කරගැනීම
+window.selectPlan = (planName) => {
+  selectedPlan = planName;
+  // (මෙහිදී ඔබ ලියා ඇති UI active class වෙනස් කරන කේතයන් තිබේ නම් ඒවාද තබන්න)
 };
 </script>
-
 <script>
 // Theme
 const saved = localStorage.getItem('ict-theme') || 'light';
