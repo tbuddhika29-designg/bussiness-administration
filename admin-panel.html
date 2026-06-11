@@ -3,262 +3,279 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Admin Panel | TB Index</title>
+<title>Admin Panel | MY Index</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
 :root {
-  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff;
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;
   --text:#1e1b4b;--muted:#6d6a8a;
-  --accent:#7c3aed;--accent2:#9333ea;--border:rgba(124,58,237,0.15);
-  --border2:rgba(124,58,237,0.3);
-  --shadow:0 4px 24px rgba(124,58,237,0.12);--green:#10b981;--red:#ef4444;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.22);
+  --red:#ef4444;--green:#10b981;
   --glass:rgba(255,255,255,0.7);
 }
 [data-theme="dark"]{
-  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38;
-  --text:#e9e4ff;--muted:#8b8aaa;--accent:#a78bfa;--accent2:#c084fc;
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;
+  --text:#e9e4ff;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
   --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
   --shadow:0 4px 24px rgba(0,0,0,0.4);
-  --glass:rgba(26,23,48,0.8);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.85);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;padding:20px}
+
+/* BUBBLES */
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+[data-theme="dark"] .bubble{opacity:.07}
+@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* THEME BTN */
+.theme-btn{position:fixed;top:20px;right:20px;z-index:100;width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:var(--shadow)}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+
+/* CONTAINER */
+.admin-wrapper{position:relative;z-index:10;max-width:1100px;margin:0 auto;animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 
 /* HEADER */
-header{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:var(--shadow)}
-.header-left{display:flex;align-items:center;gap:10px;min-width:0}
-.header-logo{font-family:'Poppins',sans-serif;font-weight:800;color:var(--accent);font-size:1.1rem;white-space:nowrap}
-.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.admin-header{text-align:center;margin-bottom:48px}
+.admin-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:12px}
+.admin-header h1{font-family:'Poppins',sans-serif;font-size:2.2rem;font-weight:800;margin-bottom:8px;line-height:1.2}
+.admin-header p{font-size:.95rem;color:var(--muted);margin-bottom:24px}
 
-/* HOME BUTTON — academic portal style */
-.home-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
-.home-btn:hover{background:var(--accent);color:#fff;transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.3)}
-.home-btn i{font-size:.85rem}
-@media(max-width:400px){.home-btn .btn-text{display:none}}
+/* BACK HOME */
+.back-home{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;font-size:.85rem;font-weight:600;text-decoration:none;margin-bottom:32px;transition:all .3s}
+.back-home:hover{background:var(--accent);color:#fff}
 
-/* THEME BUTTON */
-.theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
-.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.08)}
+/* ADMIN GRID */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:40px}
 
-/* LOGOUT BUTTON — academic portal style */
-.logout-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--red);border:1px solid rgba(239,68,68,.35);padding:8px 14px;border-radius:100px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap}
-.logout-btn:hover{background:var(--red);color:#fff;border-color:var(--red);transform:translateY(-1px);box-shadow:0 4px 14px rgba(239,68,68,.3)}
-.logout-btn i{font-size:.82rem}
-@media(max-width:500px){.logout-btn .btn-text{display:none}}
+/* ADMIN CARD */
+.admin-card{background:var(--glass);backdrop-filter:blur(24px);border:2px solid var(--border);border-radius:20px;padding:32px;position:relative;overflow:hidden;transition:all .3s;cursor:pointer;text-decoration:none;color:inherit;animation:slideIn .4s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.admin-card::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;background:radial-gradient(circle,rgba(124,58,237,.15),transparent 70%);border-radius:50%;pointer-events:none}
+.admin-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:var(--shadow2)}
+.admin-card:hover::before{opacity:.2}
 
-main{max-width:1200px;margin:0 auto;padding:40px 20px}
-.admin-title{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:800;color:var(--text);margin-bottom:28px}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;box-shadow:var(--shadow)}
-.stat-num{font-family:'Poppins',sans-serif;font-size:2.2rem;font-weight:800;color:var(--accent);line-height:1}
-.stat-label{font-size:.85rem;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:.05em}
-.section-title{font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.section-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:flex;align-items:center;justify-content:center}
-.filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:.85rem;font-weight:600;transition:all .3s}
-.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.users-table{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
-.table-wrapper{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-thead{background:var(--card2);border-bottom:1px solid var(--border)}
-th{padding:16px;text-align:left;font-weight:600;font-size:.85rem;color:var(--text);text-transform:uppercase;letter-spacing:.05em}
-td{padding:16px;border-bottom:1px solid var(--border);font-size:.9rem}
-tbody tr:hover{background:var(--card2)}
-.user-email{color:var(--accent);font-weight:500}
-.status-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-size:.75rem;font-weight:600}
-.status-pending{background:rgba(245,158,11,.1);color:#f59e0b}
-.status-approved{background:rgba(16,185,129,.1);color:var(--green)}
-.action-btns{display:flex;gap:8px}
-.btn-approve{padding:7px 14px;border-radius:8px;background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;cursor:pointer;font-weight:600;font-size:.8rem;transition:all .3s}
-.btn-approve:hover{opacity:.85;transform:translateY(-2px)}
-.btn-reject{padding:7px 14px;border-radius:8px;background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);cursor:pointer;font-weight:600;font-size:.8rem;transition:all .3s}
-.btn-reject:hover{background:var(--red);color:#fff}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s}
-.modal.active{opacity:1;pointer-events:auto}
-.modal-content{background:var(--card);border-radius:20px;padding:32px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.modal-title{font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:12px}
-.modal-desc{color:var(--muted);margin-bottom:24px;line-height:1.6}
-.modal-actions{display:flex;gap:12px;justify-content:flex-end}
-.btn-cancel{padding:10px 20px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;font-weight:600;transition:all .3s}
-.btn-cancel:hover{background:var(--card2)}
-.btn-confirm{padding:10px 20px;border-radius:10px;background:var(--red);color:#fff;border:none;cursor:pointer;font-weight:600;transition:all .3s}
-.btn-confirm:hover{opacity:.85}
+/* CARD ICON */
+.card-icon{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(168,85,247,.08));border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:var(--accent);margin-bottom:16px;transition:all .3s}
+.admin-card:hover .card-icon{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.4);transform:scale(1.1)}
+
+/* CARD CONTENT */
+.card-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:6px}
+.card-title{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.card-desc{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.card-action{display:flex;align-items:center;gap:6px;font-size:.85rem;font-weight:600;color:var(--accent);transition:gap .2s}
+.admin-card:hover .card-action{gap:10px}
+
+/* STATUS BADGE */
+.status-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.25);padding:6px 12px;border-radius:100px;font-size:.7rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-top:8px}
+
+/* STATS */
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center}
+.stat-icon{font-size:2rem;margin-bottom:10px;color:var(--accent)}
+.stat-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.stat-value{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:800;color:var(--accent)}
+
+/* LOGOUT */
+.logout-btn{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,var(--red),#dc2626);color:#fff;border:none;padding:12px 20px;border-radius:100px;cursor:pointer;font-size:.85rem;font-weight:700;family:'Poppins',sans-serif;transition:all .3s;box-shadow:0 4px 16px rgba(239,68,68,.3);display:flex;align-items:center;gap:8px;z-index:99}
+.logout-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(239,68,68,.4)}
+
+/* ALERT */
+.alert{padding:12px 16px;border-radius:10px;font-size:.84rem;font-weight:500;display:none;align-items:center;gap:10px;animation:fadeUp .3s ease;margin-bottom:24px}
+.alert.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);display:flex}
+.alert.show{display:flex}
+
+@media(max-width:768px){
+  .admin-grid{grid-template-columns:1fr}
+  .admin-header h1{font-size:1.6rem}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <a href="index.html" class="home-btn">
-      <i class="fas fa-home"></i>
-      <span class="btn-text">Home</span>
+<div class="bubbles" id="bubbles"></div>
+<button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
+
+<div class="admin-wrapper">
+  <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+
+  <div class="admin-header">
+    <span class="admin-logo"><i class="fas fa-shield-halved"></i> MY Index</span>
+    <h1>Admin Control Panel</h1>
+    <p>Manage users, payments, and system settings</p>
+  </div>
+
+  <div class="alert" id="alert-box">
+    <i class="fas fa-circle-exclamation"></i>
+    <span id="alert-text">Alert message</span>
+  </div>
+
+  <!-- STATS -->
+  <div class="admin-stats">
+    <div class="stat-card">
+      <div class="stat-icon"><i class="fas fa-users"></i></div>
+      <div class="stat-label">Total Users</div>
+      <div class="stat-value" id="stat-users">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+      <div class="stat-label">Pending Payments</div>
+      <div class="stat-value" id="stat-pending">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+      <div class="stat-label">Approved Users</div>
+      <div class="stat-value" id="stat-approved">0</div>
+    </div>
+  </div>
+
+  <!-- ADMIN FUNCTIONS -->
+  <div class="admin-grid">
+    
+    <!-- PAYMENTS APPROVAL -->
+    <a href="admin-payments.html" class="admin-card">
+      <div class="card-icon"><i class="fas fa-credit-card"></i></div>
+      <div class="card-label">Payment Management</div>
+      <div class="card-title">Approve Payments</div>
+      <div class="card-desc">Review pending student payments, approve subscriptions, and manage payment records.</div>
+      <div class="card-action"><i class="fas fa-arrow-right"></i> Go to Payments</div>
+      <div class="status-badge" id="payment-badge"><i class="fas fa-clock"></i> 0 Pending</div>
     </a>
-    <div class="header-logo"><i class="fas fa-shield-halved"></i> Admin Panel</div>
-  </div>
-  <div class="header-right">
-    <button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
-    <button class="logout-btn" onclick="adminLogout()">
-      <i class="fas fa-sign-out-alt"></i>
-      <span class="btn-text">Logout</span>
-    </button>
-  </div>
-</header>
 
-<main>
-  <h1 class="admin-title">ඉහළ නිලධාරී පැනල්</h1>
+    <!-- USER APPROVALS -->
+    <a href="admin-approvals.html" class="admin-card">
+      <div class="card-icon"><i class="fas fa-users-slash"></i></div>
+      <div class="card-label">User Management</div>
+      <div class="card-title">Approve Users</div>
+      <div class="card-desc">Review new student registrations, approve accounts, and manage user permissions.</div>
+      <div class="card-action"><i class="fas fa-arrow-right"></i> Go to Approvals</div>
+      <div class="status-badge" id="approval-badge"><i class="fas fa-exclamation-circle"></i> 0 Waiting</div>
+    </a>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-num" id="total-users">0</div>
-      <div class="stat-label">Registered Users</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="pending-count">0</div>
-      <div class="stat-label">Pending Approval</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="approved-count">0</div>
-      <div class="stat-label">Approved</div>
-    </div>
+    <!-- STUDENT MANAGEMENT -->
+    <a href="admin-students.html" class="admin-card">
+      <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="card-label">Student Records</div>
+      <div class="card-title">Manage Students</div>
+      <div class="card-desc">View all student profiles, subscription status, payment history, and academic records.</div>
+      <div class="card-action"><i class="fas fa-arrow-right"></i> View Students</div>
+    </a>
+
+    <!-- SYSTEM SETTINGS -->
+    <a href="admin-settings.html" class="admin-card">
+      <div class="card-icon"><i class="fas fa-cog"></i></div>
+      <div class="card-label">Configuration</div>
+      <div class="card-title">System Settings</div>
+      <div class="card-desc">Configure payment plans, subscription details, email notifications, and system parameters.</div>
+      <div class="card-action"><i class="fas fa-arrow-right"></i> Go to Settings</div>
+    </a>
+
+    <!-- ANALYTICS -->
+    <a href="admin-analytics.html" class="admin-card">
+      <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
+      <div class="card-label">Analytics</div>
+      <div class="card-title">Reports & Insights</div>
+      <div class="card-desc">View revenue analytics, user growth trends, payment statistics, and system performance metrics.</div>
+      <div class="card-action"><i class="fas fa-arrow-right"></i> View Analytics</div>
+    </a>
+
+    <!-- EMAIL LOGS -->
+    <a href="admin-logs.html" class="admin-card">
+      <div class="card-icon"><i class="fas fa-envelope-circle-check"></i></div>
+      <div class="card-label">Communication</div>
+      <div class="card-title">Email & Logs</div>
+      <div class="card-desc">Monitor email notifications, view system logs, and track communication with students.</div>
+      <div class="card-action"><i class="fas fa-arrow-right"></i> View Logs</div>
+    </a>
+
   </div>
 
-  <div>
-    <div class="section-title">
-      <div class="section-icon"><i class="fas fa-users"></i></div>
-      User Approvals
-    </div>
-    <div class="filter-bar">
-      <button class="filter-btn active" onclick="filterUsers('all')">All Users</button>
-      <button class="filter-btn" onclick="filterUsers('pending')">Pending</button>
-      <button class="filter-btn" onclick="filterUsers('approved')">Approved</button>
-    </div>
-    <div class="users-table">
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th><th>Email</th><th>Date Joined</th><th>Status</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="users-tbody">
-            <tr><td colspan="5" style="text-align:center;padding:40px">Loading users...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</main>
-
-<div class="modal" id="confirmModal">
-  <div class="modal-content">
-    <div class="modal-title">Confirm Action</div>
-    <div class="modal-desc" id="modalMessage">Are you sure?</div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-confirm" id="confirmBtn" onclick="confirmAction()">Confirm</button>
-    </div>
-  </div>
 </div>
+
+<button class="logout-btn" onclick="logout()">
+  <i class="fas fa-sign-out-alt"></i> Logout
+</button>
 
 <script type="module">
 import { auth, db } from "./firebase-config.js";
-import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { collection, query, where, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 const ADMIN_UID = "VQO3ENwqo5O4XYakBi2bGC4R8uB3";
 
-let currentFilter = 'all';
-let allUsers = [];
-let currentAction = null;
-let currentUserUid = null;
-
-window.adminLogout = async () => {
-  await signOut(auth);
-  window.location.href = 'login.html';
-};
-
-window.filterUsers = (filter) => {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  displayUsers();
-};
-
-function displayUsers() {
-  const tbody = document.getElementById('users-tbody');
-  let filtered = allUsers;
-  if (currentFilter === 'pending') filtered = allUsers.filter(u => !u.approved);
-  else if (currentFilter === 'approved') filtered = allUsers.filter(u => u.approved);
-
-  if (filtered.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)">No users found</td></tr>';
+// Admin authorization check
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = 'login.html';
     return;
   }
 
-  tbody.innerHTML = filtered.map(user => `
-    <tr>
-      <td style="font-weight:600">${user.displayName || 'Unknown'}</td>
-      <td class="user-email">${user.email}</td>
-      <td>${new Date(user.createdAt).toLocaleDateString()}</td>
-      <td>
-        <span class="status-badge ${user.approved ? 'status-approved' : 'status-pending'}">
-          <i class="fas fa-${user.approved ? 'check-circle' : 'hourglass-half'}"></i>
-          ${user.approved ? 'Approved' : 'Pending'}
-        </span>
-      </td>
-      <td>
-        <div class="action-btns">
-          ${!user.approved ? `<button class="btn-approve" onclick="approveUser('${user.uid}','${user.displayName}')"><i class="fas fa-check"></i> Approve</button>` : ''}
-          <button class="btn-reject" onclick="rejectUser('${user.uid}','${user.displayName}')">
-            <i class="fas fa-times"></i> ${user.approved ? 'Revoke' : 'Reject'}
-          </button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+  // Check if user is admin
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
 
-  document.getElementById('total-users').textContent = allUsers.length;
-  document.getElementById('pending-count').textContent = allUsers.filter(u => !u.approved).length;
-  document.getElementById('approved-count').textContent = allUsers.filter(u => u.approved).length;
-}
+  if (!userSnap.exists() || userSnap.data().role !== 'admin') {
+    window.location.href = 'index.html';
+    return;
+  }
 
-window.approveUser = (uid, name) => {
-  currentUserUid = uid; currentAction = 'approve';
-  document.getElementById('modalMessage').textContent = `${name} සිට අනුමැතිය ලබා දෙන්න?`;
-  document.getElementById('confirmModal').classList.add('active');
-};
-
-window.rejectUser = (uid, name) => {
-  currentUserUid = uid; currentAction = 'reject';
-  document.getElementById('modalMessage').textContent = `${name} සිට අනුමැතිය ඉවතට දෙන්න?`;
-  document.getElementById('confirmModal').classList.add('active');
-};
-
-window.confirmAction = async () => {
-  if (!currentUserUid) return;
-  try {
-    const userRef = doc(db, "users", currentUserUid);
-    if (currentAction === 'approve') await updateDoc(userRef, { approved: true, approvalDate: new Date() });
-    else await updateDoc(userRef, { approved: false });
-    closeModal();
-  } catch (error) { alert('Error: ' + error.message); }
-};
-
-window.closeModal = () => document.getElementById('confirmModal').classList.remove('active');
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = 'login.html'; return; }
-  if (user.uid !== ADMIN_UID) { alert('Admin access only'); window.location.href = 'dashboard.html'; return; }
-  const usersRef = collection(db, "users");
-  onSnapshot(usersRef, (snapshot) => {
-    allUsers = [];
-    snapshot.forEach((doc) => allUsers.push({ uid: doc.id, ...doc.data() }));
-    displayUsers();
-  });
+  // Load statistics
+  loadStats();
 });
 
+async function loadStats() {
+  try {
+    const usersRef = collection(db, "users");
+
+    // Total users
+    const allUsers = await getDocs(usersRef);
+    document.getElementById('stat-users').textContent = allUsers.size;
+
+    // Pending payments
+    const pendingPayments = await getDocs(
+      query(usersRef, where("paymentPending", "==", true))
+    );
+    document.getElementById('stat-pending').textContent = pendingPayments.size;
+    document.getElementById('payment-badge').textContent = `🕐 ${pendingPayments.size} Pending`;
+
+    // Approved users
+    const approvedUsers = await getDocs(
+      query(usersRef, where("approved", "==", true))
+    );
+    document.getElementById('stat-approved').textContent = approvedUsers.size;
+
+    // Waiting approval
+    const waitingApproval = await getDocs(
+      query(usersRef, where("approved", "==", false))
+    );
+    document.getElementById('approval-badge').textContent = `⏳ ${waitingApproval.size} Waiting`;
+
+  } catch (error) {
+    console.error('Error loading stats:', error);
+  }
+}
+
+window.logout = async () => {
+  try {
+    await signOut(auth);
+    window.location.href = 'index.html';
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+};
+</script>
+
+<script>
+// Theme
 const saved = localStorage.getItem('ict-theme') || 'light';
 if (saved === 'dark') {
   document.documentElement.setAttribute('data-theme', 'dark');
@@ -270,6 +287,20 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   document.getElementById('themeBtn').innerHTML = d ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
   localStorage.setItem('ict-theme', d ? 'light' : 'dark');
 });
+
+// Bubbles
+function createBubbles() {
+  const w = document.getElementById('bubbles');
+  const cols = ['#7c3aed', '#9333ea', '#a855f7', '#c084fc', '#6d28d9'];
+  for (let i = 0; i < 18; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = Math.random() * 80 + 30;
+    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
+    w.appendChild(b);
+  }
+}
+createBubbles();
 </script>
 </body>
 </html>
