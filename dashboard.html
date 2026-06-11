@@ -510,23 +510,22 @@
 
     <!-- FIREBASE INTEGRATION MODULE -->
     <script type="module">
-        // dashboard.html හි Firebase module එකට මෙම modified code භාවිතා කරන්න
+    // dashboard.html හි Firebase script tag එක සිතු කරන්න
 
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-// Check user authorization and verification state
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = 'login.html';
     return;
   }
-  
+
   try {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
-    
+
     if (!userSnap.exists()) {
       window.location.href = 'login.html';
       return;
@@ -534,20 +533,27 @@ onAuthStateChanged(auth, async (user) => {
 
     const userData = userSnap.data();
 
-    // ✅ 1. Approval check කරන්න
+    // ✅ Step 1: Admin Approval check කරන්න
     if (!userData.approved) {
       window.location.href = 'pending-approval.html';
       return;
     }
 
-    // ✅ 2. Subscription/Payment check කරන්න
+    // ✅ Step 2: Subscription/Payment check කරන්න
     if (!userData.subscriptionActive) {
-      window.location.href = 'subscription.html';
+      // Payment pending අඩුවිය නම් pending page එකට
+      if (userData.paymentPending) {
+        window.location.href = 'payment-pending.html';
+      } else {
+        // Payment කිරීමට subscription page එකට
+        window.location.href = 'subscription.html';
+      }
       return;
     }
 
-    // දැන් උපසිටුවිය හැකි - ඔබගේ dashboard logic තිබේ
-    console.log('✓ User fully authenticated and subscribed');
+    // ✅ Step 3: සම්පූර්ණ දිගුවට ලබා දෙන්න
+    console.log('✓ User fully authenticated and payment approved');
+    // ඔබගේ dashboard logic එයට පුර්ණය හරි ගලන්න
 
   } catch (error) {
     console.error('Auth error:', error);
@@ -555,7 +561,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// Handle logout action
+// Logout functionality
 const logoutBtn = document.getElementById('logout-btn');
 if (logoutBtn) {
   logoutBtn.addEventListener('click', async () => {
