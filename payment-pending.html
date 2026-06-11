@@ -316,6 +316,35 @@ function createBubbles() {
   }
 }
 createBubbles();
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) { window.location.href = 'login.html'; return; }
+
+  const userRef = doc(db, "users", user.uid);
+  
+  const unsubscribe = onSnapshot(userRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const data = snapshot.data();
+      
+      // Admin විසින් පේමන්ට් එක Approve කළ විට සෘජුවම Vocabulary පිටුවට යැවීම
+      if (data.paymentStatus === 'approved' && data.subscriptionActive === true) {
+        unsubscribe();
+        window.location.href = 'vocabulary.html';
+      }
+      // රිසිට්පත ප්‍රතික්ෂේප කර ඇත්නම් නැවත ගෙවීම් පිටුවට යැවීම
+      else if (data.paymentStatus === 'rejected') {
+        unsubscribe();
+        alert("Your payment proof was rejected. Please upload again.");
+        window.location.href = 'subscription.html';
+      }
+    }
+  });
+});
 </script>
+</script
 </body>
 </html>
