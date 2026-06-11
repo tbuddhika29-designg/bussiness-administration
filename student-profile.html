@@ -102,26 +102,26 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <div class="profile-card">
     <div class="profile-avatar">
       <div class="avatar-ring"><i class="fas fa-user-graduate"></i></div>
-      <h2 style="font-family:'Poppins',sans-serif;font-size:1.3rem;margin-bottom:4px" id="student-name">Loading...</h2>
-      <p style="color:var(--muted);font-size:.85rem" id="student-email">-</p>
+      <h2 style="font-family:'Poppins',sans-serif;font-size:1.3rem;margin-bottom:4px" id="prof-name">Loading...</h2>
+      <p style="color:var(--muted);font-size:.85rem" id="prof-email">-</p>
     </div>
 
     <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">Student ID</div>
+        <div class="info-value" id="prof-id">—</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Program</div>
+        <div class="info-value" id="prof-prog">—</div>
+      </div>
       <div class="info-item">
         <div class="info-label">Batch</div>
         <div class="info-value">IFLS26</div>
       </div>
       <div class="info-item">
-        <div class="info-label">Program</div>
-        <div class="info-value">BBA</div>
-      </div>
-      <div class="info-item">
         <div class="info-label">Year</div>
         <div class="info-value">2026</div>
-      </div>
-      <div class="info-item">
-        <div class="info-label">Status</div>
-        <div class="info-value" id="student-status">Active</div>
       </div>
     </div>
 
@@ -129,7 +129,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class="status-icon"><i class="fas fa-clock"></i></div>
       <div class="status-text">
         <div class="status-label">Subscription Status</div>
-        <div class="status-value" id="subscription-status">Not Subscribed</div>
+        <div class="status-value" id="prof-status">Checking Status...</div>
       </div>
     </div>
 
@@ -140,8 +140,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
     <div class="divider"></div>
 
-    <button class="action-btn" id="proceed-btn" onclick="proceedToSubscription()">
-      <i class="fas fa-arrow-right"></i> Continue to Subscription
+    <button class="action-btn" id="action-btn">
+      <i class="fas fa-spinner fa-spin"></i> Loading...
     </button>
 
     <button class="secondary-btn" id="logout-btn" onclick="logout()">
@@ -150,36 +150,46 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 </div>
 
-// මෙම කේතය student-profile.html හි ඇති <script type="module"> කොටසට ආදේශ කරන්න
-
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = 'login.html'; return; }
+  if (!user) { 
+    window.location.href = 'login.html'; 
+    return; 
+  }
 
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
     if (snap.exists()) {
       const data = snap.data();
 
-      // UI එකට දත්ත ඇතුළත් කිරීම
-      document.getElementById('prof-name').textContent = data.name || data.displayName || 'Student';
-      document.getElementById('prof-email').textContent = data.email || '';
+      // UI එකට Firestore දත්ත නිවැරදිව ඇතුළත් කිරීම
+      document.getElementById('prof-name').textContent = data.displayName || data.fullname || 'Student';
+      document.getElementById('prof-email').textContent = data.email || '—';
       document.getElementById('prof-id').textContent = data.studentId || '—';
       document.getElementById('prof-prog').textContent = data.programme || '—';
       
-      // Subscription Status එක පෙන්වීම
-      const statusBadge = document.getElementById('prof-status');
+      const statusValue = document.getElementById('prof-status');
+      const actionBtn = document.getElementById('action-btn');
+
+      // Subscription එක සක්‍රීයද කියා පරික්ෂා කිරීම
       if (data.subscriptionActive) {
-        statusBadge.textContent = `Active (${data.plan || 'Premium'})`;
-        statusBadge.className = "badge approved"; // කොළ පාට badge එකක්
-        document.getElementById('vocabBtn').disabled = false; // Vocabulary යන්න දීම
+        statusValue.textContent = `Active (${data.plan || 'Premium'})`;
+        statusValue.style.color = "#10b981"; // කොළ පාටින් පෙන්වීමට
+        
+        // Premium සිසුන්ට කෙළින්ම Vocabulary යන්න බටන් එක සැකසීම
+        actionBtn.innerHTML = '<i class="fas fa-book-reader"></i> Go to Vocabulary Portal';
+        actionBtn.setAttribute('onclick', 'goToVocabulary()');
       } else {
-        statusBadge.textContent = "Free / Expired";
-        statusBadge.className = "badge rejected"; // රතු පාට badge එකක්
+        statusValue.textContent = "Free / Expired";
+        statusValue.style.color = "#ef4444"; // රතු පාටින් පෙන්වීමට
+        
+        // Premium නොමැති අයට සක්‍රීය කරගැනීමට ලින්ක් එක සැකසීම
+        actionBtn.innerHTML = '<i class="fas fa-credit-card"></i> Continue to Subscription';
+        actionBtn.setAttribute('onclick', 'proceedToSubscription()');
       }
     }
   } catch (err) {
@@ -187,20 +197,30 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// Vocabulary බටන් එක ක්ලික් කළ විට
+// Navigation Functions (Module Scope එකෙන් පිටතට ලබාදීම)
+window.proceedToSubscription = () => {
+  window.location.href = 'subscription.html';
+};
+
 window.goToVocabulary = () => {
   window.location.href = 'vocabulary.html';
 };
 
 window.logout = async () => {
-  if(confirm("Are you sure you want to logout?")) {
-    await signOut(auth);
-    window.location.href = 'index.html';
+  if (confirm("Are you sure you want to log out?")) {
+    try {
+      await signOut(auth);
+      window.location.href = 'login.html';
+    } catch (error) {
+      console.error("Logout error:", error);
+      alert("Logout failed: " + error.message);
+    }
   }
 };
 </script>
+
 <script>
-// Theme
+// UI Theme (Dark/Light Mode) Control
 const saved = localStorage.getItem('ict-theme') || 'light';
 if (saved === 'dark') { 
   document.documentElement.setAttribute('data-theme','dark'); 
@@ -213,7 +233,7 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   localStorage.setItem('ict-theme', d ? 'light' : 'dark');
 });
 
-// Bubbles
+// Floating Bubbles Creation
 function createBubbles() {
   const w = document.getElementById('bubbles');
   const cols = ['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
