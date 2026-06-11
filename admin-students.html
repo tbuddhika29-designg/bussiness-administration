@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Manage Students | MY Index Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root {
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;
+  --text:#1e1b4b;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.22);
+  --red:#ef4444;--green:#10b981;--yellow:#f59e0b;
+  --glass:rgba(255,255,255,0.7);
+}
+[data-theme="dark"]{
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;
+  --text:#e9e4ff;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.85);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;padding:20px}
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+[data-theme="dark"] .bubble{opacity:.07}
+@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+.theme-btn{position:fixed;top:20px;right:20px;z-index:100;width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:var(--shadow)}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.wrapper{position:relative;z-index:10;max-width:1200px;margin:0 auto;animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.page-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;flex-wrap:wrap}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s}
+.back-btn:hover{background:var(--accent);color:#fff}
+.page-title{font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:800}
+.page-sub{font-size:.9rem;color:var(--muted);margin-top:4px}
+
+.toolbar{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;align-items:center}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:8px 16px;flex:1;min-width:200px;max-width:360px}
+.search-box i{color:var(--muted)}
+.search-box input{border:none;background:transparent;outline:none;color:var(--text);font-size:.85rem;width:100%}
+.search-box input::placeholder{color:var(--muted)}
+.filter-select{padding:9px 16px;border-radius:100px;border:1px solid var(--border2);background:var(--card);color:var(--text);font-size:.82rem;font-weight:600;cursor:pointer;outline:none}
+.refresh-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s;margin-left:auto}
+.refresh-btn:hover{background:var(--accent);color:#fff}
+
+.result-count{font-size:.82rem;color:var(--muted);margin-bottom:16px}
+
+.table-card{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:13px 16px;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--bg2);border-bottom:1px solid var(--border)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .2s}
+tbody tr:hover{background:rgba(124,58,237,.04)}
+tbody tr:last-child{border-bottom:none}
+td{padding:13px 16px;font-size:.83rem;vertical-align:middle}
+.td-name{font-weight:700}
+.td-email{color:var(--muted);font-size:.77rem;margin-top:1px}
+
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:.7rem;font-weight:700;text-transform:uppercase}
+.badge.active{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#10b981}
+.badge.inactive{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:#f59e0b}
+.badge.rejected{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#ef4444}
+.badge.pending{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);color:var(--accent)}
+
+.btn-detail{padding:6px 12px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;font-size:.77rem;font-weight:600;transition:all .3s;display:inline-flex;align-items:center;gap:5px}
+.btn-detail:hover{background:var(--accent);color:#fff}
+.btn-danger{padding:6px 12px;border-radius:100px;border:1px solid rgba(239,68,68,.3);background:transparent;color:#ef4444;cursor:pointer;font-size:.77rem;font-weight:600;transition:all .3s;display:inline-flex;align-items:center;gap:5px}
+.btn-danger:hover{background:#ef4444;color:#fff}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:24px;padding:32px;max-width:560px;width:100%;box-shadow:var(--shadow2);animation:modalIn .3s cubic-bezier(.16,1,.3,1);max-height:90vh;overflow-y:auto}
+@keyframes modalIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.modal-title{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700}
+.modal-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.modal-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.modal-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.8rem;margin:0 auto 20px}
+.modal-section{margin-bottom:20px}
+.modal-section-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.modal-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)}
+.modal-row:last-child{border-bottom:none}
+.modal-label{font-size:.78rem;color:var(--muted);font-weight:600;padding-top:2px}
+.modal-value{font-size:.84rem;font-weight:600;text-align:right;max-width:65%;word-break:break-word}
+.modal-footer{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.modal-footer button{flex:1;padding:11px;border-radius:100px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-mf-approve{border:none;background:var(--green);color:#fff}
+.btn-mf-approve:hover{box-shadow:0 4px 14px rgba(16,185,129,.4)}
+.btn-mf-revoke{border:1px solid rgba(239,68,68,.4);background:transparent;color:var(--red)}
+.btn-mf-revoke:hover{background:var(--red);color:#fff}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state i{font-size:3rem;margin-bottom:16px;opacity:.4;display:block}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:12px 24px;font-size:.85rem;font-weight:600;box-shadow:var(--shadow2);z-index:300;opacity:0;transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:8px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:rgba(16,185,129,.4);color:var(--green)}
+.toast.error{border-color:rgba(239,68,68,.4);color:var(--red)}
+</style>
+</head>
+<body>
+<div class="bubbles" id="bubbles"></div>
+<button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
+
+<div class="wrapper">
+  <div class="page-header">
+    <a href="admin.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Panel</a>
+    <div>
+      <div class="page-title"><i class="fas fa-graduation-cap" style="color:var(--accent);margin-right:10px"></i>Student Records</div>
+      <div class="page-sub">View and manage all registered students</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search by name, email, or phone..."/>
+    </div>
+    <select class="filter-select" id="statusFilter">
+      <option value="all">All Status</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+      <option value="pending">Pending</option>
+      <option value="rejected">Rejected</option>
+    </select>
+    <select class="filter-select" id="planFilter">
+      <option value="all">All Plans</option>
+      <option value="monthly">Monthly</option>
+      <option value="yearly">Yearly</option>
+      <option value="lifetime">Lifetime</option>
+    </select>
+    <button class="refresh-btn" id="refreshBtn"><i class="fas fa-rotate-right"></i> Refresh</button>
+  </div>
+
+  <div class="result-count" id="result-count"></div>
+
+  <div class="table-card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Phone</th>
+            <th>Plan</th>
+            <th>Joined</th>
+            <th>Payment</th>
+            <th>Account</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="students-tbody">
+          <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)"><div class="spinner"></div><br><br>Loading students...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Student Profile</div>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-circle-dot"></i><span id="toast-text"></span></div>
+
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import {
+  collection, getDocs, doc, getDoc, updateDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+let allStudents = [];
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (!snap.exists() || snap.data().role !== 'admin') {
+    window.location.href = 'index.html'; return;
+  }
+  loadStudents();
+});
+
+async function loadStudents() {
+  const tbody = document.getElementById('students-tbody');
+  tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)"><div class="spinner"></div><br><br>Loading...</td></tr>`;
+
+  const snap = await getDocs(collection(db, "users"));
+  allStudents = [];
+  snap.forEach(d => {
+    const data = d.data();
+    if (data.role !== 'admin') allStudents.push({ id: d.id, ...data });
+  });
+  renderTable();
+}
+
+function getAccountStatus(u) {
+  if (u.approved && u.subscriptionActive) return { cls: 'active', label: 'Active', icon: 'fa-circle-check' };
+  if (u.accountStatus === 'rejected') return { cls: 'rejected', label: 'Rejected', icon: 'fa-circle-xmark' };
+  if (u.approved) return { cls: 'inactive', label: 'No Sub', icon: 'fa-circle-minus' };
+  return { cls: 'pending', label: 'Pending', icon: 'fa-clock' };
+}
+
+function getPaymentStatus(u) {
+  if (u.paymentStatus === 'approved') return { cls: 'active', label: 'Paid' };
+  if (u.paymentStatus === 'rejected') return { cls: 'rejected', label: 'Rejected' };
+  if (u.paymentPending) return { cls: 'pending', label: 'Pending' };
+  return { cls: 'inactive', label: 'None' };
+}
+
+function renderTable() {
+  const tbody = document.getElementById('students-tbody');
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const statusF = document.getElementById('statusFilter').value;
+  const planF = document.getElementById('planFilter').value;
+
+  let filtered = allStudents.filter(u => {
+    const matchSearch = !search ||
+      (u.name || '').toLowerCase().includes(search) ||
+      (u.email || '').toLowerCase().includes(search) ||
+      (u.phone || '').toLowerCase().includes(search);
+
+    const acStatus = getAccountStatus(u);
+    const matchStatus = statusF === 'all' || acStatus.cls === statusF;
+    const matchPlan = planF === 'all' || (u.plan || u.subscriptionPlan || '').toLowerCase().includes(planF);
+
+    return matchSearch && matchStatus && matchPlan;
+  });
+
+  document.getElementById('result-count').textContent = `Showing ${filtered.length} of ${allStudents.length} students`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-graduation-cap"></i><p>No students found</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(u => {
+    const init = (u.name || u.email || '?').charAt(0).toUpperCase();
+    const acStatus = getAccountStatus(u);
+    const payStatus = getPaymentStatus(u);
+    const date = u.createdAt
+      ? (u.createdAt.toDate ? u.createdAt.toDate().toLocaleDateString() : new Date(u.createdAt).toLocaleDateString())
+      : '—';
+
+    return `<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar">${init}</div>
+          <div>
+            <div class="td-name">${u.name || 'Unknown'}</div>
+            <div class="td-email">${u.email || ''}</div>
+          </div>
+        </div>
+      </td>
+      <td style="color:var(--muted)">${u.phone || '—'}</td>
+      <td style="font-weight:600">${u.plan || u.subscriptionPlan || '—'}</td>
+      <td style="color:var(--muted)">${date}</td>
+      <td><span class="badge ${payStatus.cls}">${payStatus.label}</span></td>
+      <td><span class="badge ${acStatus.cls}"><i class="fas ${acStatus.icon}"></i> ${acStatus.label}</span></td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn-detail" onclick="window.viewStudent('${u.id}')"><i class="fas fa-eye"></i> View</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.viewStudent = (uid) => {
+  const u = allStudents.find(x => x.id === uid);
+  if (!u) return;
+
+  const init = (u.name || '?').charAt(0).toUpperCase();
+  const acStatus = getAccountStatus(u);
+  const payStatus = getPaymentStatus(u);
+  const regDate = u.createdAt
+    ? (u.createdAt.toDate ? u.createdAt.toDate().toLocaleString() : new Date(u.createdAt).toLocaleString())
+    : '—';
+  const approvedDate = u.approvedAt
+    ? (u.approvedAt.toDate ? u.approvedAt.toDate().toLocaleString() : new Date(u.approvedAt).toLocaleString())
+    : '—';
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-avatar">${init}</div>
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-family:Poppins,sans-serif;font-size:1.1rem;font-weight:800">${u.name || '—'}</div>
+      <div style="color:var(--muted);font-size:.85rem;margin-top:4px">${u.email || '—'}</div>
+      <div style="margin-top:10px;display:flex;justify-content:center;gap:8px">
+        <span class="badge ${acStatus.cls}"><i class="fas ${acStatus.icon}"></i> ${acStatus.label}</span>
+        <span class="badge ${payStatus.cls}">💳 ${payStatus.label}</span>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title"><i class="fas fa-user"></i> Personal Info</div>
+      <div class="modal-row"><span class="modal-label">Phone</span><span class="modal-value">${u.phone || '—'}</span></div>
+      <div class="modal-row"><span class="modal-label">Registered</span><span class="modal-value">${regDate}</span></div>
+      <div class="modal-row"><span class="modal-label">User ID</span><span class="modal-value" style="font-size:.72rem;color:var(--muted)">${uid}</span></div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title"><i class="fas fa-credit-card"></i> Subscription</div>
+      <div class="modal-row"><span class="modal-label">Plan</span><span class="modal-value">${u.plan || u.subscriptionPlan || '—'}</span></div>
+      <div class="modal-row"><span class="modal-label">Amount Paid</span><span class="modal-value" style="color:var(--accent)">${u.paymentAmount ? 'Rs. ' + u.paymentAmount : '—'}</span></div>
+      <div class="modal-row"><span class="modal-label">Payment Ref</span><span class="modal-value">${u.paymentRef || u.transactionId || '—'}</span></div>
+      <div class="modal-row"><span class="modal-label">Approved On</span><span class="modal-value">${approvedDate}</span></div>
+    </div>
+
+    <div class="modal-footer">
+      ${!u.approved ? `<button class="modal-footer button btn-mf-approve" onclick="window.quickApprove('${uid}')"><i class="fas fa-check"></i> Approve Account</button>` : ''}
+      ${u.approved ? `<button class="modal-footer button btn-mf-revoke" onclick="window.revokeAccess('${uid}')"><i class="fas fa-ban"></i> Revoke Access</button>` : ''}
+    </div>
+  `;
+
+  document.querySelectorAll('.modal-footer.button').forEach(b => {
+    b.style.cssText = 'flex:1;padding:11px;border-radius:100px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px';
+    if (b.classList.contains('btn-mf-approve')) { b.style.border = 'none'; b.style.background = 'var(--green)'; b.style.color = '#fff'; }
+    if (b.classList.contains('btn-mf-revoke')) { b.style.border = '1px solid rgba(239,68,68,.4)'; b.style.background = 'transparent'; b.style.color = 'var(--red)'; }
+  });
+
+  document.getElementById('modal').classList.add('show');
+};
+
+window.quickApprove = async (uid) => {
+  try {
+    await updateDoc(doc(db, "users", uid), { approved: true, accountStatus: 'approved', approvedAt: serverTimestamp() });
+    const idx = allStudents.findIndex(x => x.id === uid);
+    if (idx !== -1) { allStudents[idx].approved = true; allStudents[idx].accountStatus = 'approved'; }
+    closeModal();
+    renderTable();
+    showToast('Account approved!', 'success');
+  } catch(e) { showToast('Error', 'error'); }
+};
+
+window.revokeAccess = async (uid) => {
+  if (!confirm('Revoke access for this student?')) return;
+  try {
+    await updateDoc(doc(db, "users", uid), { approved: false, subscriptionActive: false, accountStatus: 'revoked', revokedAt: serverTimestamp() });
+    const idx = allStudents.findIndex(x => x.id === uid);
+    if (idx !== -1) { allStudents[idx].approved = false; allStudents[idx].subscriptionActive = false; }
+    closeModal();
+    renderTable();
+    showToast('Access revoked.', 'error');
+  } catch(e) { showToast('Error', 'error'); }
+};
+
+window.closeModal = () => document.getElementById('modal').classList.remove('show');
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+['searchInput','statusFilter','planFilter'].forEach(id => document.getElementById(id).addEventListener('input', renderTable));
+document.getElementById('refreshBtn').addEventListener('click', loadStudents);
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+
+<script>
+const saved = localStorage.getItem('ict-theme') || 'light';
+if (saved === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>';
+}
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const d = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = d ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme', d ? 'light' : 'dark');
+});
+function createBubbles() {
+  const w = document.getElementById('bubbles');
+  const cols = ['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
+  for (let i = 0; i < 12; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = Math.random() * 80 + 30;
+    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
+    w.appendChild(b);
+  }
+}
+createBubbles();
+</script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Approve Users | MY Index Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root {
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;
+  --text:#1e1b4b;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.22);
+  --red:#ef4444;--green:#10b981;--yellow:#f59e0b;
+  --glass:rgba(255,255,255,0.7);
+}
+[data-theme="dark"]{
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;
+  --text:#e9e4ff;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.85);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;padding:20px}
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+[data-theme="dark"] .bubble{opacity:.07}
+@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+.theme-btn{position:fixed;top:20px;right:20px;z-index:100;width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:var(--shadow)}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.wrapper{position:relative;z-index:10;max-width:1100px;margin:0 auto;animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.page-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;flex-wrap:wrap}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s}
+.back-btn:hover{background:var(--accent);color:#fff}
+.page-title{font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:800}
+.page-sub{font-size:.9rem;color:var(--muted);margin-top:4px}
+
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+.mini-stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px}
+.mini-stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.mini-stat-icon.yellow{background:rgba(245,158,11,.15);color:var(--yellow)}
+.mini-stat-icon.green{background:rgba(16,185,129,.15);color:var(--green)}
+.mini-stat-icon.red{background:rgba(239,68,68,.15);color:var(--red)}
+.mini-stat-icon.purple{background:rgba(124,58,237,.15);color:var(--accent)}
+.mini-stat-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.mini-stat-value{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text)}
+
+/* CARDS GRID */
+.users-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.user-card{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:20px;padding:24px;transition:all .3s;animation:slideIn .4s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.user-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
+.user-card-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.1rem;flex-shrink:0}
+.user-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;margin-bottom:2px}
+.user-email{font-size:.78rem;color:var(--muted)}
+.user-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.meta-row{display:flex;align-items:center;justify-content:space-between}
+.meta-label{font-size:.75rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px}
+.meta-value{font-size:.8rem;font-weight:600;text-align:right;max-width:60%;word-break:break-word}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:.72rem;font-weight:700;text-transform:uppercase}
+.badge.pending{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--yellow)}
+.badge.approved{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.badge.rejected{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+.user-actions{display:flex;gap:8px}
+.btn-approve{flex:1;padding:10px;border-radius:100px;border:none;background:var(--green);color:#fff;cursor:pointer;font-size:.8rem;font-weight:700;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-approve:hover{transform:scale(1.03);box-shadow:0 4px 12px rgba(16,185,129,.4)}
+.btn-reject{flex:1;padding:10px;border-radius:100px;border:1px solid rgba(239,68,68,.4);background:transparent;color:var(--red);cursor:pointer;font-size:.8rem;font-weight:700;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-reject:hover{background:var(--red);color:#fff}
+
+.filters{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;align-items:center}
+.filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-size:.82rem;font-weight:600;transition:all .3s}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:8px 16px;flex:1;min-width:200px;max-width:320px}
+.search-box i{color:var(--muted);font-size:.9rem}
+.search-box input{border:none;background:transparent;outline:none;color:var(--text);font-size:.85rem;width:100%}
+.search-box input::placeholder{color:var(--muted)}
+
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.section-title{font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:700}
+.refresh-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;font-size:.8rem;font-weight:600;transition:all .3s}
+.refresh-btn:hover{background:var(--accent);color:#fff}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
+.empty-state i{font-size:3rem;margin-bottom:16px;opacity:.4;display:block}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border2);border-radius:100px;padding:12px 24px;font-size:.85rem;font-weight:600;box-shadow:var(--shadow2);z-index:300;opacity:0;transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:8px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:rgba(16,185,129,.4);color:var(--green)}
+.toast.error{border-color:rgba(239,68,68,.4);color:var(--red)}
+
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-placeholder{grid-column:1/-1;text-align:center;padding:60px;color:var(--muted)}
+
+.bulk-bar{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bulk-info{font-size:.85rem;font-weight:600;color:var(--accent)}
+.bulk-actions{display:flex;gap:8px}
+.btn-bulk-approve{padding:8px 18px;border-radius:100px;border:none;background:var(--green);color:#fff;cursor:pointer;font-size:.8rem;font-weight:700;transition:all .3s;display:flex;align-items:center;gap:6px}
+.btn-bulk-approve:hover{box-shadow:0 4px 12px rgba(16,185,129,.4)}
+.btn-bulk-reject{padding:8px 18px;border-radius:100px;border:1px solid rgba(239,68,68,.4);background:transparent;color:var(--red);cursor:pointer;font-size:.8rem;font-weight:700;transition:all .3s}
+.btn-bulk-reject:hover{background:var(--red);color:#fff}
+</style>
+</head>
+<body>
+<div class="bubbles" id="bubbles"></div>
+<button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
+
+<div class="wrapper">
+  <div class="page-header">
+    <a href="admin.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Panel</a>
+    <div>
+      <div class="page-title"><i class="fas fa-users-slash" style="color:var(--accent);margin-right:10px"></i>User Approvals</div>
+      <div class="page-sub">Review and approve new student registrations</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="mini-stat">
+      <div class="mini-stat-icon yellow"><i class="fas fa-hourglass-half"></i></div>
+      <div><div class="mini-stat-label">Waiting</div><div class="mini-stat-value" id="s-waiting">—</div></div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-icon green"><i class="fas fa-check-circle"></i></div>
+      <div><div class="mini-stat-label">Approved</div><div class="mini-stat-value" id="s-approved">—</div></div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-icon red"><i class="fas fa-user-slash"></i></div>
+      <div><div class="mini-stat-label">Rejected</div><div class="mini-stat-value" id="s-rejected">—</div></div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-icon purple"><i class="fas fa-users"></i></div>
+      <div><div class="mini-stat-label">Total</div><div class="mini-stat-value" id="s-total">—</div></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="pending">⏳ Pending</button>
+    <button class="filter-btn" data-filter="approved">✅ Approved</button>
+    <button class="filter-btn" data-filter="all">👥 All Users</button>
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search students..."/>
+    </div>
+  </div>
+
+  <div class="bulk-bar" id="bulk-bar" style="display:none">
+    <div class="bulk-info" id="bulk-info"></div>
+    <div class="bulk-actions">
+      <button class="btn-bulk-approve" id="bulk-approve-btn"><i class="fas fa-check"></i> Approve All Pending</button>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title" id="section-label">Pending Users</div>
+    <button class="refresh-btn" id="refreshBtn"><i class="fas fa-rotate-right"></i> Refresh</button>
+  </div>
+
+  <div class="users-grid" id="users-grid">
+    <div class="loading-placeholder"><div class="spinner"></div><br><br>Loading users...</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toast-text"></span></div>
+
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import {
+  collection, getDocs, doc, getDoc, updateDoc, serverTimestamp, query, where
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+let allUsers = [];
+let currentFilter = 'pending';
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (!snap.exists() || snap.data().role !== 'admin') {
+    window.location.href = 'index.html'; return;
+  }
+  loadUsers();
+});
+
+async function loadUsers() {
+  const grid = document.getElementById('users-grid');
+  grid.innerHTML = `<div class="loading-placeholder"><div class="spinner"></div><br><br>Loading users...</div>`;
+
+  const snap = await getDocs(collection(db, "users"));
+  allUsers = [];
+  snap.forEach(d => {
+    const data = d.data();
+    if (data.role !== 'admin') allUsers.push({ id: d.id, ...data });
+  });
+
+  updateStats();
+  renderGrid();
+}
+
+function updateStats() {
+  const waiting = allUsers.filter(u => !u.approved && u.accountStatus !== 'rejected').length;
+  const approved = allUsers.filter(u => u.approved === true).length;
+  const rejected = allUsers.filter(u => u.accountStatus === 'rejected').length;
+  document.getElementById('s-waiting').textContent = waiting;
+  document.getElementById('s-approved').textContent = approved;
+  document.getElementById('s-rejected').textContent = rejected;
+  document.getElementById('s-total').textContent = allUsers.length;
+
+  const bulkBar = document.getElementById('bulk-bar');
+  if (currentFilter === 'pending' && waiting > 0) {
+    bulkBar.style.display = 'flex';
+    document.getElementById('bulk-info').textContent = `${waiting} user${waiting > 1 ? 's' : ''} waiting for approval`;
+  } else {
+    bulkBar.style.display = 'none';
+  }
+}
+
+function renderGrid() {
+  const grid = document.getElementById('users-grid');
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const labels = { pending: 'Pending Users', approved: 'Approved Users', all: 'All Users' };
+  document.getElementById('section-label').textContent = labels[currentFilter] || 'Users';
+
+  let filtered = allUsers.filter(u => {
+    const matchSearch = !search ||
+      (u.name || '').toLowerCase().includes(search) ||
+      (u.email || '').toLowerCase().includes(search) ||
+      (u.phone || '').toLowerCase().includes(search);
+    let matchFilter = true;
+    if (currentFilter === 'pending') matchFilter = !u.approved && u.accountStatus !== 'rejected';
+    else if (currentFilter === 'approved') matchFilter = u.approved === true;
+    return matchSearch && matchFilter;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-users"></i><p>No ${currentFilter} users found</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(u => {
+    const init = (u.name || u.email || '?').charAt(0).toUpperCase();
+    const status = u.approved ? 'approved' : (u.accountStatus === 'rejected' ? 'rejected' : 'pending');
+    const statusLabel = { approved: 'Approved', rejected: 'Rejected', pending: 'Pending' }[status];
+    const statusIcon = { approved: 'fa-check-circle', rejected: 'fa-times-circle', pending: 'fa-hourglass-half' }[status];
+    const regDate = u.createdAt
+      ? (u.createdAt.toDate ? u.createdAt.toDate().toLocaleDateString() : new Date(u.createdAt).toLocaleDateString())
+      : '—';
+
+    return `<div class="user-card">
+      <div class="user-card-header">
+        <div class="avatar">${init}</div>
+        <div>
+          <div class="user-name">${u.name || 'Unknown'}</div>
+          <div class="user-email">${u.email || ''}</div>
+        </div>
+      </div>
+      <div class="user-meta">
+        <div class="meta-row">
+          <span class="meta-label"><i class="fas fa-calendar"></i> Registered</span>
+          <span class="meta-value">${regDate}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label"><i class="fas fa-phone"></i> Phone</span>
+          <span class="meta-value">${u.phone || '—'}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label"><i class="fas fa-layer-group"></i> Plan</span>
+          <span class="meta-value">${u.plan || u.subscriptionPlan || '—'}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label"><i class="fas fa-circle-dot"></i> Status</span>
+          <span class="badge ${status}"><i class="fas ${statusIcon}"></i> ${statusLabel}</span>
+        </div>
+      </div>
+      ${status === 'pending' ? `
+        <div class="user-actions">
+          <button class="btn-approve" onclick="window.approveUser('${u.id}')"><i class="fas fa-check"></i> Approve</button>
+          <button class="btn-reject" onclick="window.rejectUser('${u.id}')"><i class="fas fa-times"></i> Reject</button>
+        </div>
+      ` : `<div style="text-align:center;font-size:.8rem;color:var(--muted);padding:4px 0">${status === 'approved' ? '✅ Account is active' : '❌ Account rejected'}</div>`}
+    </div>`;
+  }).join('');
+}
+
+window.approveUser = async (uid) => {
+  try {
+    await updateDoc(doc(db, "users", uid), {
+      approved: true,
+      accountStatus: 'approved',
+      approvedAt: serverTimestamp()
+    });
+    const idx = allUsers.findIndex(u => u.id === uid);
+    if (idx !== -1) { allUsers[idx].approved = true; allUsers[idx].accountStatus = 'approved'; }
+    updateStats();
+    renderGrid();
+    showToast('User approved!', 'success');
+  } catch (err) {
+    showToast('Error approving user', 'error');
+  }
+};
+
+window.rejectUser = async (uid) => {
+  if (!confirm('Reject this user account?')) return;
+  try {
+    await updateDoc(doc(db, "users", uid), {
+      approved: false,
+      accountStatus: 'rejected',
+      rejectedAt: serverTimestamp()
+    });
+    const idx = allUsers.findIndex(u => u.id === uid);
+    if (idx !== -1) { allUsers[idx].approved = false; allUsers[idx].accountStatus = 'rejected'; }
+    updateStats();
+    renderGrid();
+    showToast('User rejected.', 'error');
+  } catch (err) {
+    showToast('Error rejecting user', 'error');
+  }
+};
+
+document.getElementById('bulk-approve-btn').addEventListener('click', async () => {
+  const pending = allUsers.filter(u => !u.approved && u.accountStatus !== 'rejected');
+  if (!confirm(`Approve all ${pending.length} pending users?`)) return;
+  for (const u of pending) {
+    await updateDoc(doc(db, "users", u.id), {
+      approved: true, accountStatus: 'approved', approvedAt: serverTimestamp()
+    });
+    const idx = allUsers.findIndex(x => x.id === u.id);
+    if (idx !== -1) { allUsers[idx].approved = true; allUsers[idx].accountStatus = 'approved'; }
+  }
+  updateStats();
+  renderGrid();
+  showToast(`${pending.length} users approved!`, 'success');
+});
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    updateStats();
+    renderGrid();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', renderGrid);
+document.getElementById('refreshBtn').addEventListener('click', loadUsers);
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+
+<script>
+const saved = localStorage.getItem('ict-theme') || 'light';
+if (saved === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>';
+}
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const d = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = d ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme', d ? 'light' : 'dark');
+});
+function createBubbles() {
+  const w = document.getElementById('bubbles');
+  const cols = ['#7c3aed','#9333ea','#a855f7','#c084fc','#6d28d9'];
+  for (let i = 0; i < 12; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = Math.random() * 80 + 30;
+    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${10+Math.random()*20}s;animation-delay:${Math.random()*12}s;`;
+    w.appendChild(b);
+  }
+}
+createBubbles();
+</script>
+</body>
+</html>
