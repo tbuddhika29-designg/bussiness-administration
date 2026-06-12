@@ -58,7 +58,7 @@ header{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filte
 
 /* ADMIN BUTTON */
 #admin-link{
-  display:none;
+  display:none; /* මුලින්ම හංගලා තියෙන්නේ, Admin නම් විතරක් පේනවා */
   align-items:center;
   gap:6px;
   background:linear-gradient(135deg,var(--accent),var(--accent2));
@@ -174,7 +174,6 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 <div id="progress-bar"></div>
 <div class="bubbles" id="bubbles"></div>
 
-<!-- AI MODAL -->
 <div class="ai-overlay" id="ai-overlay" onclick="closeAiOutside(event)">
   <div class="ai-modal">
     <div class="ai-icon">✨</div>
@@ -193,8 +192,8 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
   </div>
   <div class="header-right">
-    <a href="admin-panel.html" id="admin-link">
-      <i class="fas fa-shield-halved"></i> <span>Admin</span>
+    <a href="admin-approvals.html" id="admin-link">
+      <i class="fas fa-shield-halved"></i> <span>Admin Panel</span>
     </a>
     <button class="theme-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
   </div>
@@ -202,14 +201,12 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
 
 <main>
 
-  <!-- HERO -->
   <div class="hero reveal">
     <div class="hero-tag"><i class="fas fa-star"></i>&nbsp; Premium Student Workspace</div>
     <h1>MY Index</h1>
     <p class="hero-sub">ඔබගේ සුඛෝපභෝගී මධ්‍යම වැඩතලයට සාදරයෙන් පිළිගනිමු. ඔබගේ අධ්‍යයන කටයුතු සහ AI මෙවලම් පහසුවෙන් කළමනාකරණය කරන්න.</p>
   </div>
 
-  <!-- QUICK ACCESS -->
   <section style="margin-bottom:60px">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-th"></i> 01</div>
@@ -241,7 +238,6 @@ footer{background:var(--card2);border-top:1px solid var(--border);padding:28px 2
     </div>
   </section>
 
-  <!-- GPA CALCULATOR -->
   <section style="margin-bottom:60px">
     <div class="section-label reveal">
       <div class="section-badge"><i class="fas fa-chart-bar"></i> 02</div>
@@ -366,54 +362,32 @@ document.querySelector('.credit-val').addEventListener('input',calcGPA);
 document.querySelector('.grade-val').addEventListener('change',calcGPA);
 </script>
 
-<!-- FIREBASE - Admin Check -->
-<script type="module">
-import { auth } from "./firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-const ADMIN_UID = "VQO3ENwqo5O4XYakBi2bGC4R8uB3";
-
-onAuthStateChanged(auth, (user) => {
-  const adminLink = document.getElementById('admin-link');
-  if (user && user.uid === ADMIN_UID) {
-    adminLink.style.display = 'flex';
-  } else {
-    adminLink.style.display = 'none';
-  }
-});
-</script>
-  // මෙම කේතය index.html හි අවසානයට ඇති කොටසට ආදේශ කරන්න
-
 <script type="module">
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 onAuthStateChanged(auth, async (user) => {
-  const loginNavBtn = document.getElementById('loginNavBtn'); // ඔබේ Navbar එකේ ඇති Login බටන් එකේ ID එක දෙන්න
-  const adminLinkDiv = document.getElementById('adminLinkDiv'); // Admin පැනලයට යාමට තබන රහස් දිවියේ ID එක
+  const adminLink = document.getElementById('admin-link');
 
   if (user) {
-    // 1. Login බටන් එක "Profile" බවට පත් කිරීම
-    if(loginNavBtn) {
-      loginNavBtn.textContent = "My Profile";
-      loginNavBtn.onclick = () => { window.location.href = 'student-profile.html'; };
-    }
-
-    // 2. පරිශීලකයා Admin කෙනෙක්දැයි බැලීම
-    const snap = await getDoc(doc(db, "users", user.uid));
-    if (snap.exists() && snap.data().role === 'admin') {
-      // Home page එකේ Admin පැනලයට යාමට බටන් එකක් දර්ශනය කිරීම
-      if(adminLinkDiv) {
-        adminLinkDiv.innerHTML = `
-          <div style="background:var(--card); padding:15px; border-radius:12px; text-align:center; margin-top:20px; border:1px dashed var(--accent)">
-            <p style="margin:0 0 10px 0; font-weight:600;">Logged in as Administrator</p>
-            <button onclick="window.location.href='admin-approvals.html'" class="btn-gpa" style="width:auto; padding:8px 20px;">
-              <i class="fas fa-user-shield"></i> Open Admin Panel
-            </button>
-          </div>`;
+    try {
+      // ලොග් වුණු යූසර්ගේ UID එකෙන් Firestore එකේ 'users' collection එක චෙක් කරනවා
+      const snap = await getDoc(doc(db, "users", user.uid));
+      
+      // යූසර් කෙනෙක් ඉන්නවා නම් සහ රෝල් එක 'admin' නම් විතරක් බටන් එක පෙන්වනවා
+      if (snap.exists() && snap.data().role === 'admin') {
+        if(adminLink) adminLink.style.display = 'flex';
+      } else {
+        if(adminLink) adminLink.style.display = 'none';
       }
+    } catch (error) {
+      console.error("Admin check failed:", error);
+      if(adminLink) adminLink.style.display = 'none';
     }
+  } else {
+    // යූසර් ලොග් වෙලා නැත්නම් බටන් එක සම්පූර්ණයෙන්ම හංගනවා
+    if(adminLink) adminLink.style.display = 'none';
   }
 });
 </script>
