@@ -385,42 +385,5 @@ function createBubbles() {
 }
 createBubbles();
 </script>
-  <script type="module">
-import { auth, db } from "./firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-// පිටුව Load වන විට මුලින්ම body එක සඟවා තැබීම (පිටුව හොරෙන් පෙනීම වැළැක්වීමට)
-document.documentElement.style.display = 'none';
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) { 
-    window.location.href = 'login.html'; 
-    return; 
-  }
-
-  try {
-    const snap = await getDoc(doc(db, "users", user.uid));
-    if (snap.exists() && snap.data().role === 'admin') {
-      // පරිශීලකයා Admin කෙනෙක් නම් පමණක් පිටුව පෙන්වන්න
-      document.documentElement.style.display = 'block';
-    } else {
-      alert("Access Denied! You do not have permission to access this page.");
-      window.location.href = 'login.html';
-    }
-  } catch (err) {
-    console.error(err);
-    window.location.href = 'login.html';
-  }
-  // HTML එකේ ඇති onclick බටන්ස් වලට Module එක ඇතුළේ ඇති Functions පෙනීම සඳහා window scope එකට ලබා දීම
-window.approveUser = approveUser;
-window.rejectUser = rejectUser;
-
-// පිටුව refresh කිරීමට හෝ බටන්ස් වල loadUsers තිබේ නම්:
-if (typeof loadUsers !== 'undefined') {
-  window.loadUsers = loadUsers;
-}
-});
-</script>
 </body>
 </html>
