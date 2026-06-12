@@ -58,7 +58,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .form-input{padding:10px 14px;border-radius:12px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:.85rem;outline:none;transition:all .3s;font-family:'Inter',sans-serif}
 .form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
 .form-input::placeholder{color:var(--muted)}
-.form-hint{font-size:.72rem;color:var(--muted)}
 
 /* PLAN CARDS */
 .plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px}
@@ -74,7 +73,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* TOGGLE */
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
 .toggle-row:last-child{border-bottom:none}
-.toggle-info{}
 .toggle-title{font-weight:600;font-size:.88rem;margin-bottom:3px}
 .toggle-desc{font-size:.77rem;color:var(--muted)}
 .toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0}
@@ -116,7 +114,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     </div>
   </div>
 
-  <!-- SUBSCRIPTION PLANS -->
   <div class="settings-section">
     <div class="section-head">
       <div class="section-head-icon"><i class="fas fa-layer-group"></i></div>
@@ -127,15 +124,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     </div>
     <div class="section-body">
       <div class="plans-grid" id="plans-grid">
-        <!-- Dynamically filled -->
-      </div>
+        </div>
       <div class="save-row">
         <button class="save-btn" id="save-plans-btn"><i class="fas fa-save"></i> Save Plans</button>
       </div>
     </div>
   </div>
 
-  <!-- PAYMENT SETTINGS -->
   <div class="settings-section">
     <div class="section-head">
       <div class="section-head-icon"><i class="fas fa-wallet"></i></div>
@@ -193,7 +188,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     </div>
   </div>
 
-  <!-- GENERAL SETTINGS -->
   <div class="settings-section">
     <div class="section-head">
       <div class="section-head-icon"><i class="fas fa-sliders"></i></div>
@@ -271,9 +265,9 @@ import {
 const SETTINGS_DOC = "settings/config";
 
 const defaultPlans = [
-  { id: 'monthly', name: 'Monthly', price: 1500, period: '1 month' },
-  { id: 'quarterly', name: 'Quarterly', price: 3500, period: '3 months' },
-  { id: 'yearly', name: 'Yearly', price: 10000, period: '12 months' },
+  { id: 'monthly', name: 'Monthly', price: 2500, period: '1 month' },
+  { id: 'semester', name: 'Semester', price: 6500, period: '6 months' },
+  { id: 'annual', name: 'Annual', price: 11500, period: '12 months' },
 ];
 
 onAuthStateChanged(auth, async (user) => {
@@ -291,7 +285,7 @@ async function loadSettings() {
     const data = snap.exists() ? snap.data() : {};
 
     // Render plans
-    const plans = data.plans || defaultPlans;
+    const plans = data.plans && data.plans.length > 0 ? data.plans : defaultPlans;
     renderPlans(plans);
 
     // Payment
@@ -325,15 +319,15 @@ async function loadSettings() {
 
 function renderPlans(plans) {
   document.getElementById('plans-grid').innerHTML = plans.map((p, i) => `
-    <div class="plan-card">
-      <input type="text" class="plan-name-input" data-idx="${i}" data-field="name" value="${p.name}" placeholder="Plan Name"/>
+    <div class="plan-card" data-id="${p.id}">
+      <input type="text" class="plan-name-input" data-field="name" value="${p.name}" placeholder="Plan Name"/>
       <div class="plan-price-row">
         <span class="plan-currency">Rs.</span>
-        <input type="number" class="plan-price-input" data-idx="${i}" data-field="price" value="${p.price}" placeholder="0"/>
+        <input type="number" class="plan-price-input" data-field="price" value="${p.price}" placeholder="0"/>
       </div>
       <div class="plan-period">
         Duration
-        <input type="text" data-idx="${i}" data-field="period" value="${p.period}" placeholder="e.g. 1 month"/>
+        <input type="text" data-field="period" value="${p.period}" placeholder="e.g. 1 month"/>
       </div>
     </div>
   `).join('');
@@ -341,11 +335,11 @@ function renderPlans(plans) {
 
 function getPlansFromDOM() {
   const cards = document.querySelectorAll('.plan-card');
-  return Array.from(cards).map((card, i) => {
+  return Array.from(cards).map(card => {
+    const id = card.getAttribute('data-id'); // ID එක වෙනස් වෙන්නේ නෑ
     const name = card.querySelector('[data-field="name"]').value;
     const price = parseFloat(card.querySelector('[data-field="price"]').value) || 0;
     const period = card.querySelector('[data-field="period"]').value;
-    const id = name.toLowerCase().replace(/\s+/g, '_');
     return { id, name, price, period };
   });
 }
