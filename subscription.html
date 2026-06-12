@@ -119,7 +119,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .action-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 
 /* ALERT */
-.alert{padding:12px 16px;border-radius:10px;font-size:.84rem;font-weight:500;display:none;align-items:center;gap:10px;animation:fadeUp .3s ease;margin-bottom:16px}
+.alert{padding:12px 16px;border-radius:10px;font-size:.84rem;font-weight:500;display:none;align-items:center;gap:10px;animation:fadeUp .3s ease;margin-bottom:16px;border-radius:10px}
 .alert.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);display:flex}
 .alert.success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--green);display:flex}
 .alert.show{display:flex}
@@ -139,7 +139,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back to Profile</button>
 
   <div class="header">
-    <span class="header-logo" id="dynamic-site-logo">MY Index</span>
+    <span class="header-logo">MY Index</span>
     <h1>Select Your Subscription Plan</h1>
     <p>Unlock full access to all course materials, lectures, and resources</p>
   </div>
@@ -149,10 +149,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <span id="alert-text">Please select a plan</span>
   </div>
 
-  <div class="plans-grid" id="plans-container"></div>
+  <!-- PRICING PLANS -->
+  <div class="plans-grid" id="plans-container">
+    <!-- ඩයිනමිකව පිරෙනු ඇත -->
+  </div>
 
   <div class="divider"></div>
 
+  <!-- PAYMENT SECTION -->
   <div class="payment-section" id="payment-section">
     <div class="payment-title">
       <i class="fas fa-credit-card"></i> Payment Method
@@ -163,16 +167,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <i class="fas fa-credit-card"></i>
         <span>Card</span>
       </div>
-      <div class="payment-method" id="btn-bank-method" onclick="selectPaymentMethod('bank', this)">
+      <div class="payment-method" onclick="selectPaymentMethod('bank', this)">
         <i class="fas fa-landmark"></i>
         <span>Bank Transfer</span>
       </div>
-      <div class="payment-method" id="btn-qr-method" onclick="selectPaymentMethod('mobile', this)">
+      <div class="payment-method" onclick="selectPaymentMethod('mobile', this)">
         <i class="fas fa-mobile-alt"></i>
         <span>Mobile Money</span>
       </div>
     </div>
 
+    <!-- CARD PAYMENT FORM -->
     <div id="card-form" style="display:none;margin-bottom:24px">
       <div class="form-group">
         <label class="form-label">Card Holder Name</label>
@@ -194,11 +199,25 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
+    <!-- BANK TRANSFER FORM -->
     <div id="bank-form" style="display:none;margin-bottom:24px;background:rgba(124,58,237,.04);padding:16px;border-radius:12px;border:1px solid var(--border)">
-      </div>
+      <p style="font-size:.9rem;color:var(--text);line-height:1.6">
+        <strong>Bank Transfer Details:</strong><br/>
+        Account Name: MY INDEX Education<br/>
+        Bank: Standard Chartered Bank<br/>
+        Account No: 012-345-678-901<br/>
+        Code: SCBLKLCX<br/><br/>
+        Please use your student ID in the reference field.
+      </p>
+    </div>
 
+    <!-- MOBILE MONEY FORM -->
     <div id="mobile-form" style="display:none;margin-bottom:24px">
+      <div class="form-group">
+        <label class="form-label">Mobile Number</label>
+        <input type="tel" class="form-input" placeholder="+94 71 234 5678" id="mobile-number"/>
       </div>
+    </div>
 
     <button class="action-btn" onclick="processPayment()">
       <i class="fas fa-lock"></i> Complete Payment
@@ -212,119 +231,78 @@ import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-const BACKUP_PLANS = [
-  { id: 'monthly', name: 'Monthly', price: 2500, currency: 'LKR', period: 'per month', featured: false, features: ['Full course access', '30 daily downloads', 'Support via email', '1 month validity'] },
-  { id: 'semester', name: 'Semester', price: 6500, currency: 'LKR', period: 'per semester', featured: true, features: ['Full course access', 'Unlimited downloads', 'Priority support', '6 months validity', 'Certificate'] },
-  { id: 'annual', name: 'Annual', price: 11500, currency: 'LKR', period: 'per year', featured: false, features: ['Full course access', 'Unlimited downloads', 'Premium support', '12 months validity', 'Certificate', 'Expert guidance'] }
+// ගෙවීමේ පැකේජ
+const PLANS = [
+  {
+    id: 'monthly',
+    name: 'Monthly',
+    price: 2500,
+    currency: 'LKR',
+    period: 'per month',
+    featured: false,
+    features: [
+      'Full course access',
+      '30 daily downloads',
+      'Support via email',
+      '1 month validity'
+    ]
+  },
+  {
+    id: 'semester',
+    name: 'Semester',
+    price: 6500,
+    currency: 'LKR',
+    period: 'per semester',
+    featured: true,
+    features: [
+      'Full course access',
+      'Unlimited downloads',
+      'Priority support',
+      '6 months validity',
+      'Certificate'
+    ]
+  },
+  {
+    id: 'annual',
+    name: 'Annual',
+    price: 11500,
+    currency: 'LKR',
+    period: 'per year',
+    featured: false,
+    features: [
+      'Full course access',
+      'Unlimited downloads',
+      'Premium support',
+      '12 months validity',
+      'Certificate',
+      'Expert guidance'
+    ]
+  }
 ];
 
-let PLANS = [];
 let selectedPlan = null;
 let selectedPaymentMethod = null;
 
+// ස්ටුඩන්ට් logged in check කරන්න
 onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = 'login.html'; return; }
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
 
   try {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
     
     if (!userSnap.exists() || !userSnap.data().approved) {
-      window.location.href = 'login.html'; return;
+      window.location.href = 'login.html';
+      return;
     }
 
-    // 🔄 Admin settings (Firestore) එකෙන් දත්ත ලබා ගැනීම
-    const configSnap = await getDoc(doc(db, "settings", "config"));
-    
-    if (configSnap.exists()) {
-      const data = configSnap.data();
-
-      // 1. SITE NAME UPDATE
-      if (data.general && data.general.siteName) {
-        document.getElementById('dynamic-site-logo').textContent = data.general.siteName;
-        document.title = `Subscription Plans | ${data.general.siteName}`;
-      }
-
-      // 2. PLANS DYNAMIC MAP (Crash වීම වැළැක්වීමට Features auto-generate කිරීම)
-      if (data.plans && data.plans.length > 0) {
-        PLANS = data.plans.map(p => {
-          let autoFeatures = ['Full access to all course resources', 'Lectures & Study materials', `${p.period} validity period`];
-          if (p.id.includes('year') || p.id.includes('annu') || p.price >= 10000) {
-            autoFeatures.push('Course Completion Certificate', 'Expert mentor support');
-          } else if (p.id.includes('sem') || p.id.includes('quart') || p.price >= 5000) {
-            autoFeatures.push('Course Completion Certificate');
-          }
-          return {
-            id: p.id,
-            name: p.name,
-            price: p.price,
-            currency: 'Rs.',
-            period: p.period.toLowerCase().includes('per') ? p.period : `per ${p.period}`,
-            featured: p.id.includes('semester') || p.id.includes('quarter') || p.id.includes('yearly') ? true : false,
-            features: autoFeatures
-          };
-        });
-      } else {
-        PLANS = BACKUP_PLANS;
-      }
-
-      // 3. PAYMENT METHODS UPDATE
-      if (data.payment) {
-        // Bank Details Fill
-        const bankForm = document.getElementById('bank-form');
-        if (bankForm) {
-          bankForm.innerHTML = `
-            <p style="font-size:.9rem;color:var(--text);line-height:1.6">
-              <strong>Bank Transfer Details:</strong><br/>
-              Account Name: ${data.payment.bankHolder || 'MY INDEX Education'}<br/>
-              Bank Name: ${data.payment.bankName || 'Commercial Bank'}<br/>
-              Account No: ${data.payment.bankAccount || '0000-0000-0000'}<br/>
-              Branch: ${data.payment.bankBranch || 'Main Branch'}<br/><br/>
-              <span style="color:var(--accent);font-weight:600;">⚠️ Please use your Student Name/ID as the reference.</span>
-            </p>
-          `;
-        }
-
-        // QR / PayHere Link Fill
-        const mobileForm = document.getElementById('mobile-form');
-        if (mobileForm) {
-          mobileForm.innerHTML = `
-            <div style="background:rgba(124,58,237,.04);padding:16px;border-radius:12px;border:1px solid var(--border);margin-bottom:16px;">
-              <p style="font-size:.9rem;color:var(--text);line-height:1.6">
-                <strong>Online Card Payment / QR Code:</strong><br/>
-                <a href="${data.payment.qrLink || '#'}" target="_blank" style="display:inline-block;margin-top:6px;color:#fff;background:var(--accent);padding:6px 14px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.8rem;">
-                  <i class="fas fa-external-link-alt"></i> Click Here to Pay Online
-                </a><br/><br/>
-                Hotline Support: ${data.payment.qrContact || 'Contact Admin'}
-              </p>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Reference Number or Mobile Number</label>
-              <input type="text" class="form-input" placeholder="Enter Ref No or your Phone No" id="mobile-number"/>
-            </div>
-          `;
-        }
-
-        // Button Names & Visibility Change
-        const bankBtn = document.getElementById('btn-bank-method');
-        const qrBtn = document.getElementById('btn-qr-method');
-        
-        if (bankBtn) bankBtn.style.display = data.payment.bankEnabled ? 'block' : 'none';
-        if (qrBtn) {
-          qrBtn.style.display = data.payment.qrEnabled ? 'block' : 'none';
-          qrBtn.querySelector('span').textContent = 'QR / PayHere';
-          qrBtn.querySelector('i').className = 'fas fa-qrcode';
-        }
-      }
-    } else {
-      PLANS = BACKUP_PLANS;
-    }
-
+    // ගෙවීමේ පැකේජ ගොඩනැගීම
     renderPlans();
   } catch (error) {
-    console.error('Error fetching plans:', error);
-    PLANS = BACKUP_PLANS;
-    renderPlans();
+    console.error('Error:', error);
   }
 });
 
@@ -337,20 +315,11 @@ function renderPlans() {
     card.className = `plan-card ${plan.featured ? 'featured' : ''}`;
     card.onclick = () => selectPlan(plan.id);
     
-    let iconClass = 'calendar-alt';
-    if (plan.id.includes('month')) iconClass = 'calendar';
-    else if (plan.id.includes('quarter') || plan.id.includes('sem')) iconClass = 'hourglass-half';
-    else if (plan.id.includes('year') || plan.id.includes('annu')) iconClass = 'star';
-
-    let descText = `Perfect package for dedicated learners.`;
-    if (plan.id.includes('month')) descText = 'Ideal for getting started quickly.';
-    if (plan.id.includes('year')) descText = 'Ultimate value for full course duration.';
-
     card.innerHTML = `
       ${plan.featured ? '<div class="popular-badge"><i class="fas fa-star"></i> Most Popular</div>' : ''}
-      <div class="plan-icon"><i class="fas fa-${iconClass}"></i></div>
+      <div class="plan-icon"><i class="fas fa-${plan.id === 'monthly' ? 'calendar' : plan.id === 'semester' ? 'hourglass-half' : 'calendar-alt'}"></i></div>
       <div class="plan-name">${plan.name}</div>
-      <div class="plan-desc">${descText}</div>
+      <div class="plan-desc">Great for ${plan.id === 'monthly' ? 'testing' : plan.id === 'semester' ? 'serious' : 'ultimate'} learners</div>
       <div class="plan-price">
         <span class="price-currency">${plan.currency}</span><span class="price-amount">${plan.price}</span>
         <div class="price-period">${plan.period}</div>
@@ -360,6 +329,7 @@ function renderPlans() {
       </ul>
       <button class="plan-btn">${selectedPlan === plan.id ? '✓ Selected' : 'Select Plan'}</button>
     `;
+    
     container.appendChild(card);
   });
 }
@@ -381,26 +351,39 @@ window.selectPaymentMethod = (method, element) => {
 };
 
 window.processPayment = async () => {
-  if (!selectedPlan) { showAlert('Please select a plan', 'error'); return; }
-  if (!selectedPaymentMethod) { showAlert('Please select a payment method', 'error'); return; }
+  if (!selectedPlan) {
+    showAlert('Please select a plan', 'error');
+    return;
+  }
+
+  if (!selectedPaymentMethod) {
+    showAlert('Please select a payment method', 'error');
+    return;
+  }
 
   const user = auth.currentUser;
   if (!user) return;
 
   try {
+    // ✅ Payment pending status බවට සකසන්න - ඇඩ්මින්ගේ බලාපොරොත්තුවෙන්
     const userRef = doc(db, "users", user.uid);
+    
     await updateDoc(userRef, {
-      subscriptionActive: false,
-      paymentPending: true,
+      subscriptionActive: false,                    // ❌ අගම FALSE - පිටින්ඩ ඇපෲ
+      paymentPending: true,                         // ✅ Payment pending status
       subscriptionPlan: selectedPlan,
       paymentMethod: selectedPaymentMethod,
       paymentDate: new Date(),
       paidAmount: PLANS.find(p => p.id === selectedPlan).price,
-      paymentStatus: 'pending'
+      paymentStatus: 'pending'                      // 'pending' | 'approved' | 'rejected'
     });
 
     showAlert('✓ Payment submitted! Admin will review your payment shortly. Redirecting...', 'success');
-    setTimeout(() => { window.location.href = 'payment-pending.html'; }, 2500);
+    
+    setTimeout(() => {
+      window.location.href = 'payment-pending.html';  // නව පේජ - pending status පෙන්නන්න
+    }, 2500);
+
   } catch (error) {
     console.error('Payment error:', error);
     showAlert('Payment failed. Please try again.', 'error');
@@ -414,10 +397,13 @@ function showAlert(msg, type) {
   txt.textContent = msg;
 }
 
-window.goBack = () => { window.location.href = 'student-profile.html'; };
+window.goBack = () => {
+  window.location.href = 'student-profile.html';
+};
 </script>
 
 <script>
+// Theme
 const saved = localStorage.getItem('ict-theme') || 'light';
 if (saved === 'dark') {
   document.documentElement.setAttribute('data-theme', 'dark');
@@ -430,6 +416,7 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   localStorage.setItem('ict-theme', d ? 'light' : 'dark');
 });
 
+// Bubbles
 function createBubbles() {
   const w = document.getElementById('bubbles');
   const cols = ['#7c3aed', '#9333ea', '#a855f7', '#c084fc', '#6d28d9'];
