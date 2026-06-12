@@ -7,109 +7,430 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
-:root { --bg:#f3f0ff; --accent:#7c3aed; --text:#1e1b4b; --card:#ffffff; --border:rgba(124,58,237,0.15); }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-.wrapper { max-width: 600px; margin: 0 auto; background: var(--card); padding: 30px; border-radius: 20px; }
-.payment-method { border: 1px solid var(--border); padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-.payment-method.selected { border-color: var(--accent); background: #f5f3ff; }
-.save-btn { width: 100%; padding: 15px; background: var(--accent); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; margin-top: 20px; }
-#qr-form { display:none; margin: 20px 0; padding: 15px; background: #f8f7ff; border-radius: 10px; border: 1px dashed var(--accent); }
+:root {
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;
+  --text:#1e1b4b;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow:0 4px 24px rgba(124,58,237,0.12);
+  --shadow2:0 8px 40px rgba(124,58,237,0.22);
+  --gold:#f59e0b;--green:#10b981;--red:#ef4444;
+  --glass:rgba(255,255,255,0.7);
+}
+[data-theme="dark"]{
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;
+  --text:#e9e4ff;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.85);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;position:relative;padding:20px}
+
+/* BUBBLES */
+.bubbles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bubble{position:absolute;border-radius:50%;opacity:.12;animation:floatBubble linear infinite}
+[data-theme="dark"] .bubble{opacity:.07}
+@keyframes floatBubble{0%{transform:translateY(110vh) scale(0)}50%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+/* THEME BTN */
+.theme-btn{position:fixed;top:20px;right:20px;z-index:100;width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:var(--shadow)}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+
+/* CONTAINER */
+.subscription-wrapper{position:relative;z-index:10;max-width:1000px;margin:0 auto;animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:48px}
+.header-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:20px}
+.header h1{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:800;margin-bottom:12px;line-height:1.2}
+.header p{font-size:.95rem;color:var(--muted);max-width:500px;margin:0 auto}
+
+/* BACK BTN */
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--accent);cursor:pointer;font-size:.8rem;font-weight:600;margin-bottom:24px;transition:all .3s}
+.back-btn:hover{background:var(--accent);color:#fff}
+
+/* PLANS GRID */
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:40px}
+
+/* PLAN CARD */
+.plan-card{background:var(--glass);backdrop-filter:blur(24px);border:2px solid var(--border);border-radius:20px;padding:32px;position:relative;overflow:hidden;transition:all .3s;cursor:pointer}
+.plan-card::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;background:radial-gradient(circle,rgba(124,58,237,.15),transparent 70%);border-radius:50%;pointer-events:none}
+.plan-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow2)}
+.plan-card.featured{border-color:var(--accent);background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(168,85,247,.06))}
+.plan-card.featured::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+
+/* POPULAR BADGE */
+.popular-badge{position:absolute;top:-12px;right:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:6px 16px;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+
+/* PLAN INFO */
+.plan-icon{font-size:2rem;margin-bottom:12px}
+.plan-name{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:8px}
+.plan-desc{font-size:.85rem;color:var(--muted);margin-bottom:20px}
+
+/* PRICE */
+.plan-price{font-family:'Poppins',sans-serif;margin-bottom:24px}
+.price-amount{font-size:2.2rem;font-weight:800;color:var(--accent)}
+.price-currency{font-size:.8rem;color:var(--muted);margin-right:2px}
+.price-period{font-size:.85rem;color:var(--muted)}
+
+/* FEATURES */
+.features{list-style:none;margin-bottom:24px}
+.features li{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.85rem}
+.features i{color:var(--green);margin-top:2px;flex-shrink:0}
+.features span{color:var(--text)}
+
+/* CTA BUTTON */
+.plan-btn{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border2);background:transparent;color:var(--accent);font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .3s}
+.plan-btn:hover{background:var(--accent);color:#fff}
+.plan-card.featured .plan-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none}
+.plan-card.featured .plan-btn:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(124,58,237,.3)}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border2);margin:40px 0}
+
+/* PAYMENT METHOD SECTION */
+.payment-section{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--border2);border-radius:20px;padding:32px;display:none}
+.payment-section.show{display:block;animation:fadeUp .4s ease}
+.payment-title{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.payment-title i{color:var(--accent)}
+
+/* PAYMENT METHODS */
+.payment-methods{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:24px}
+.payment-method{padding:16px;border:2px solid var(--border);border-radius:12px;text-align:center;cursor:pointer;transition:all .3s;position:relative}
+.payment-method:hover,.payment-method.selected{border-color:var(--accent);background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(168,85,247,.04))}
+.payment-method i{font-size:2rem;color:var(--accent);margin-bottom:8px;display:block}
+.payment-method span{font-size:.85rem;font-weight:600;color:var(--text)}
+.payment-method.selected::after{content:'✓';position:absolute;top:8px;right:12px;background:var(--accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:bold}
+
+/* FORM */
+.form-group{margin-bottom:20px}
+.form-label{display:block;font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.form-input{width:100%;padding:12px;border:1px solid var(--border2);border-radius:10px;background:var(--card);color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+
+/* ACTION BTN */
+.action-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(124,58,237,.35)}
+.action-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.45)}
+.action-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* ALERT */
+.alert{padding:12px 16px;border-radius:10px;font-size:.84rem;font-weight:500;display:none;align-items:center;gap:10px;animation:fadeUp .3s ease;margin-bottom:16px;border-radius:10px}
+.alert.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);display:flex}
+.alert.success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--green);display:flex}
+.alert.show{display:flex}
+
+@media(max-width:768px){
+  .plans-grid{grid-template-columns:1fr}
+  .header h1{font-size:1.6rem}
+}
 </style>
 </head>
 <body>
 
-<div class="wrapper">
-  <h2>Select Subscription Plan</h2>
-  <div id="plans-container"></div>
+<div class="bubbles" id="bubbles"></div>
+<button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
 
-  <h3>Payment Method</h3>
-  <div class="payment-methods">
-    <div class="payment-method" onclick="selectPaymentMethod('bank', this)">Bank Transfer</div>
-    <div class="payment-method" id="qr-method-btn" onclick="selectPaymentMethod('qr', this)" style="display:none">PayHere / QR Payment</div>
+<div class="subscription-wrapper">
+  <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back to Profile</button>
+
+  <div class="header">
+    <span class="header-logo">MY Index</span>
+    <h1>Select Your Subscription Plan</h1>
+    <p>Unlock full access to all course materials, lectures, and resources</p>
   </div>
 
-  <div id="qr-form">
-    <p id="qr-details-text"></p>
+  <div class="alert" id="alert-box">
+    <i class="fas fa-circle-exclamation"></i>
+    <span id="alert-text">Please select a plan</span>
   </div>
 
-  <button class="save-btn" onclick="processPayment()">Confirm Payment</button>
+  <div class="plans-grid" id="plans-container">
+    </div>
+
+  <div class="divider"></div>
+
+  <div class="payment-section" id="payment-section">
+    <div class="payment-title">
+      <i class="fas fa-credit-card"></i> Payment Method
+    </div>
+
+    <div class="payment-methods">
+      <div class="payment-method" onclick="selectPaymentMethod('card', this)">
+        <i class="fas fa-credit-card"></i>
+        <span>Card</span>
+      </div>
+      <div class="payment-method" onclick="selectPaymentMethod('bank', this)">
+        <i class="fas fa-landmark"></i>
+        <span>Bank Transfer</span>
+      </div>
+      <div class="payment-method" onclick="selectPaymentMethod('mobile', this)">
+        <i class="fas fa-mobile-alt"></i>
+        <span>Mobile Money</span>
+      </div>
+    </div>
+
+    <div id="card-form" style="display:none;margin-bottom:24px">
+      <div class="form-group">
+        <label class="form-label">Card Holder Name</label>
+        <input type="text" class="form-input" placeholder="Full Name" id="card-name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Card Number</label>
+        <input type="text" class="form-input" placeholder="1234 5678 9012 3456" id="card-number" maxlength="19"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group">
+          <label class="form-label">Expiry</label>
+          <input type="text" class="form-input" placeholder="MM/YY" id="card-expiry" maxlength="5"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVV</label>
+          <input type="text" class="form-input" placeholder="123" id="card-cvv" maxlength="3"/>
+        </div>
+      </div>
+    </div>
+
+    <div id="bank-form" style="display:none;margin-bottom:24px;background:rgba(124,58,237,.04);padding:16px;border-radius:12px;border:1px solid var(--border)">
+      <p style="font-size:.9rem;color:var(--text);line-height:1.6">
+        <strong>Bank Transfer Details:</strong><br/>
+        Account Name: MY INDEX Education<br/>
+        Bank: Standard Chartered Bank<br/>
+        Account No: 012-345-678-901<br/>
+        Code: SCBLKLCX<br/><br/>
+        Please use your student ID in the reference field.
+      </p>
+    </div>
+
+    <div id="mobile-form" style="display:none;margin-bottom:24px">
+      <div class="form-group">
+        <label class="form-label">Mobile Number</label>
+        <input type="tel" class="form-input" placeholder="+94 71 234 5678" id="mobile-number"/>
+      </div>
+    </div>
+
+    <button class="action-btn" onclick="processPayment()">
+      <i class="fas fa-lock"></i> Complete Payment
+    </button>
+  </div>
+
 </div>
 
 <script type="module">
 import { auth, db } from "./firebase-config.js";
-import { doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+// ගෙවීමේ පැකේජ (දැන් Database එකෙන් Dynamic ලෙස පිරේ)
+let PLANS = [];
+
+// Features සඳහා Default ලිස්ට් එකක් (Admin panel එකේ features වෙනම නැති නිසා)
+const DEFAULT_FEATURES = {
+  monthly: ['Full course access', '30 daily downloads', 'Support via email', '1 month validity'],
+  quarterly: ['Full course access', 'Unlimited downloads', 'Priority support', '3 months validity', 'Certificate'],
+  semester: ['Full course access', 'Unlimited downloads', 'Priority support', '6 months validity', 'Certificate'],
+  yearly: ['Full course access', 'Unlimited downloads', 'Premium support', '12 months validity', 'Certificate', 'Expert guidance'],
+  annual: ['Full course access', 'Unlimited downloads', 'Premium support', '12 months validity', 'Certificate', 'Expert guidance']
+};
 
 let selectedPlan = null;
 let selectedPaymentMethod = null;
-let isAutoApprove = false;
-let PLANS = [];
 
+// ස්ටුඩන්ට් logged in check කරන්න
 onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = 'login.html'; return; }
-  
-  const settingsSnap = await getDoc(doc(db, "settings", "config"));
-  if (settingsSnap.exists()) {
-    const data = settingsSnap.data();
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
     
-    // Maintenance Check
-    if (data.general?.maintenanceMode) {
-      alert("System is under maintenance. Please try again later.");
+    if (!userSnap.exists() || !userSnap.data().approved) {
       window.location.href = 'login.html';
       return;
     }
 
-    isAutoApprove = data.general?.autoApprove || false;
-    PLANS = data.plans || [];
-    renderPlans(PLANS);
+    // Settings config එක කියවීම
+    const settingsSnap = await getDoc(doc(db, "settings", "config"));
+    if (settingsSnap.exists()) {
+      const settingsData = settingsSnap.data();
+      
+      // 1. Admin සැකසූ පැකේජ ලබාගැනීම
+      if (settingsData.plans && settingsData.plans.length > 0) {
+        PLANS = settingsData.plans.map((p, index) => ({
+          id: p.id,
+          name: p.name,
+          price: p.price,
+          currency: 'Rs.',
+          period: `per ${p.period}`,
+          featured: index === 1, // දෙවැනි පැකේජය featured (Most Popular) ලෙස පෙන්වීමට
+          features: DEFAULT_FEATURES[p.id] || ['Full course access', 'Standard support', `${p.period} validity`]
+        }));
+      }
 
-    // QR Settings
-    if (data.payment?.qrEnabled) {
-      document.getElementById('qr-method-btn').style.display = 'flex';
-      document.getElementById('qr-details-text').innerHTML = `
-        <strong>PayHere / QR Payment:</strong><br/>
-        <a href="${data.payment.qrLink}" target="_blank">Click here to pay</a><br/>
-        Contact: ${data.payment.qrContact}
-      `;
+      // 2. Admin සැකසූ බැංකු විස්තර ලබාගැනීම
+      if (settingsData.payment && settingsData.payment.bankEnabled) {
+        const pm = settingsData.payment;
+        const bankForm = document.getElementById('bank-form');
+        if (bankForm) {
+          bankForm.innerHTML = `
+            <p style="font-size:.9rem;color:var(--text);line-height:1.6">
+              <strong>Bank Transfer Details:</strong><br/>
+              Account Name: ${pm.bankHolder || 'MY INDEX Education'}<br/>
+              Bank: ${pm.bankName || 'Standard Chartered Bank'}<br/>
+              Account No: ${pm.bankAccount || '012-345-678-901'}<br/>
+              Branch: ${pm.bankBranch || 'SCBLKLCX'}<br/><br/>
+              Please use your student ID in the reference field.
+            </p>
+          `;
+        }
+      }
     }
+
+    // කිසිම ඩේටා එකක් නැතිනම් පමණක් Fallback එකක් ලෙස පැරණි දත්ත පෙන්වයි
+    if (PLANS.length === 0) {
+      PLANS = [
+        { id: 'monthly', name: 'Monthly', price: 2500, currency: 'LKR', period: 'per month', featured: false, features: DEFAULT_FEATURES.monthly },
+        { id: 'semester', name: 'Semester', price: 6500, currency: 'LKR', period: 'per semester', featured: true, features: DEFAULT_FEATURES.semester },
+        { id: 'annual', name: 'Annual', price: 11500, currency: 'LKR', period: 'per year', featured: false, features: DEFAULT_FEATURES.annual }
+      ];
+    }
+
+    // ගෙවීමේ පැකේජ ගොඩනැගීම
+    renderPlans();
+  } catch (error) {
+    console.error('Error:', error);
   }
 });
 
-function renderPlans(plans) {
+function renderPlans() {
   const container = document.getElementById('plans-container');
-  container.innerHTML = plans.map(p => `
-    <div class="payment-method" onclick="selectedPlan='${p.id}'">
-      ${p.name} - Rs.${p.price} (${p.period})
-    </div>
-  `).join('');
+  container.innerHTML = '';
+
+  PLANS.forEach(plan => {
+    const card = document.createElement('div');
+    card.className = `plan-card ${plan.featured ? 'featured' : ''}`;
+    card.onclick = () => selectPlan(plan.id);
+    
+    card.innerHTML = `
+      ${plan.featured ? '<div class="popular-badge"><i class="fas fa-star"></i> Most Popular</div>' : ''}
+      <div class="plan-icon"><i class="fas fa-${plan.id === 'monthly' ? 'calendar' : plan.id === 'semester' || plan.id === 'quarterly' ? 'hourglass-half' : 'calendar-alt'}"></i></div>
+      <div class="plan-name">${plan.name}</div>
+      <div class="plan-desc">Great for ${plan.id === 'monthly' ? 'testing' : plan.id === 'semester' || plan.id === 'quarterly' ? 'serious' : 'ultimate'} learners</div>
+      <div class="plan-price">
+        <span class="price-currency">${plan.currency}</span><span class="price-amount">${plan.price}</span>
+        <div class="price-period">${plan.period}</div>
+      </div>
+      <ul class="features">
+        ${plan.features.map(f => `<li><i class="fas fa-check"></i><span>${f}</span></li>`).join('')}
+      </ul>
+      <button class="plan-btn">${selectedPlan === plan.id ? '✓ Selected' : 'Select Plan'}</button>
+    `;
+    
+    container.appendChild(card);
+  });
 }
+
+window.selectPlan = (planId) => {
+  selectedPlan = planId;
+  document.getElementById('payment-section').classList.add('show');
+  renderPlans();
+};
 
 window.selectPaymentMethod = (method, element) => {
   selectedPaymentMethod = method;
   document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
-  document.getElementById('qr-form').style.display = method === 'qr' ? 'block' : 'none';
+  
+  document.getElementById('card-form').style.display = method === 'card' ? 'block' : 'none';
+  document.getElementById('bank-form').style.display = method === 'bank' ? 'block' : 'none';
+  document.getElementById('mobile-form').style.display = method === 'mobile' ? 'block' : 'none';
 };
 
 window.processPayment = async () => {
-  if (!selectedPlan || !selectedPaymentMethod) { alert("Select plan and method!"); return; }
-  
+  if (!selectedPlan) {
+    showAlert('Please select a plan', 'error');
+    return;
+  }
+
+  if (!selectedPaymentMethod) {
+    showAlert('Please select a payment method', 'error');
+    return;
+  }
+
   const user = auth.currentUser;
-  const userRef = doc(db, "users", user.uid);
-  
+  if (!user) return;
+
   try {
+    const userRef = doc(db, "users", user.uid);
+    
     await updateDoc(userRef, {
-      subscriptionActive: isAutoApprove,
-      paymentStatus: isAutoApprove ? 'approved' : 'pending',
+      subscriptionActive: false,
+      paymentPending: true,
       subscriptionPlan: selectedPlan,
       paymentMethod: selectedPaymentMethod,
-      updatedAt: serverTimestamp()
+      paymentDate: new Date(),
+      paidAmount: PLANS.find(p => p.id === selectedPlan).price,
+      paymentStatus: 'pending'
     });
+
+    showAlert('✓ Payment submitted! Admin will review your payment shortly. Redirecting...', 'success');
     
-    alert(isAutoApprove ? "Subscription Active!" : "Payment submitted for review.");
-    window.location.href = 'student-profile.html';
-  } catch(e) { console.error(e); }
+    setTimeout(() => {
+      window.location.href = 'payment-pending.html';
+    }, 2500);
+
+  } catch (error) {
+    console.error('Payment error:', error);
+    showAlert('Payment failed. Please try again.', 'error');
+  }
 };
+
+function showAlert(msg, type) {
+  const box = document.getElementById('alert-box');
+  const txt = document.getElementById('alert-text');
+  box.className = `alert ${type} show`;
+  txt.textContent = msg;
+}
+
+window.goBack = () => {
+  window.location.href = 'student-profile.html';
+};
+</script>
+
+<script>
+// Theme
+const saved = localStorage.getItem('ict-theme') || 'light';
+if (saved === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>';
+}
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const d = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = d ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme', d ? 'light' : 'dark');
+});
+
+// Bubbles
+function createBubbles() {
+  const w = document.getElementById('bubbles');
+  const cols = ['#7c3aed', '#9333ea', '#a855f7', '#c084fc', '#6d28d9'];
+  for (let i = 0; i < 14; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = Math.random() * 80 + 30;
+    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${12+Math.random()*18}s;animation-delay:${Math.random()*10}s;`;
+    w.appendChild(b);
+  }
+}
+createBubbles();
 </script>
 </body>
 </html>
