@@ -149,14 +149,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <span id="alert-text">Please select a plan</span>
   </div>
 
-  <!-- PRICING PLANS -->
   <div class="plans-grid" id="plans-container">
-    <!-- ඩයිනමිකව පිරෙනු ඇත -->
-  </div>
+    </div>
 
   <div class="divider"></div>
 
-  <!-- PAYMENT SECTION -->
   <div class="payment-section" id="payment-section">
     <div class="payment-title">
       <i class="fas fa-credit-card"></i> Payment Method
@@ -177,7 +174,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
-    <!-- CARD PAYMENT FORM -->
     <div id="card-form" style="display:none;margin-bottom:24px">
       <div class="form-group">
         <label class="form-label">Card Holder Name</label>
@@ -199,7 +195,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
 
-    <!-- BANK TRANSFER FORM -->
     <div id="bank-form" style="display:none;margin-bottom:24px;background:rgba(124,58,237,.04);padding:16px;border-radius:12px;border:1px solid var(--border)">
       <p style="font-size:.9rem;color:var(--text);line-height:1.6">
         <strong>Bank Transfer Details:</strong><br/>
@@ -211,7 +206,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </p>
     </div>
 
-    <!-- MOBILE MONEY FORM -->
     <div id="mobile-form" style="display:none;margin-bottom:24px">
       <div class="form-group">
         <label class="form-label">Mobile Number</label>
@@ -231,54 +225,8 @@ import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-// ගෙවීමේ පැකේජ
-const PLANS = [
-  {
-    id: 'monthly',
-    name: 'Monthly',
-    price: 2500,
-    currency: 'LKR',
-    period: 'per month',
-    featured: false,
-    features: [
-      'Full course access',
-      '30 daily downloads',
-      'Support via email',
-      '1 month validity'
-    ]
-  },
-  {
-    id: 'semester',
-    name: 'Semester',
-    price: 6500,
-    currency: 'LKR',
-    period: 'per semester',
-    featured: true,
-    features: [
-      'Full course access',
-      'Unlimited downloads',
-      'Priority support',
-      '6 months validity',
-      'Certificate'
-    ]
-  },
-  {
-    id: 'annual',
-    name: 'Annual',
-    price: 11500,
-    currency: 'LKR',
-    period: 'per year',
-    featured: false,
-    features: [
-      'Full course access',
-      'Unlimited downloads',
-      'Premium support',
-      '12 months validity',
-      'Certificate',
-      'Expert guidance'
-    ]
-  }
-];
+// ගෙවීමේ පැකේජ (Firestore එකෙන් ඩයිනමිකව ලබාගැනීමට let ලෙස වෙනස් කර මුලින් හිස් කරන ලදී)
+let PLANS = [];
 
 let selectedPlan = null;
 let selectedPaymentMethod = null;
@@ -297,6 +245,14 @@ onAuthStateChanged(auth, async (user) => {
     if (!userSnap.exists() || !userSnap.data().approved) {
       window.location.href = 'login.html';
       return;
+    }
+
+    // 🔄 Admin settings (Firestore) එකෙන් plans දත්ත ලබා ගැනීම
+    const configSnap = await getDoc(doc(db, "settings", "config"));
+    if (configSnap.exists() && configSnap.data().plans) {
+      PLANS = configSnap.data().plans;
+    } else {
+      console.error("No plans found in admin settings config.");
     }
 
     // ගෙවීමේ පැකේජ ගොඩනැගීම
@@ -321,7 +277,7 @@ function renderPlans() {
       <div class="plan-name">${plan.name}</div>
       <div class="plan-desc">Great for ${plan.id === 'monthly' ? 'testing' : plan.id === 'semester' ? 'serious' : 'ultimate'} learners</div>
       <div class="plan-price">
-        <span class="price-currency">${plan.currency}</span><span class="price-amount">${plan.price}</span>
+        <span class="price-currency">${plan.currency || 'LKR'}</span><span class="price-amount">${plan.price}</span>
         <div class="price-period">${plan.period}</div>
       </div>
       <ul class="features">
