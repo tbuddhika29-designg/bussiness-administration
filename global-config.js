@@ -1,36 +1,33 @@
 // global-config.js
 import { db } from "./firebase-config.js";
-import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { doc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
+// 1. මධ්‍යගත සැකසුම් (Maintenance, Site Name) පාලනය කිරීම
 export function initializeGlobalSettings() {
-    // 1. Settings Document එක නිරීක්ෂණය කිරීම (Real-time)
     onSnapshot(doc(db, "settings", "config"), (snapshot) => {
         if (!snapshot.exists()) {
-            console.error("Error: 'settings/config' document does not exist in Firestore.");
+            console.error("Error: 'settings/config' document does not exist.");
             return;
         }
-
+        
         const data = snapshot.data();
-        const general = data.general;
-
+        const general = data.general; // ඔබගේ Firestore ව්‍යුහය 'general' Map එකක් නම්
+        
         if (!general) {
             console.error("Error: 'general' field not found inside the document.");
             return;
         }
 
-        console.log("Global Settings Loaded:", general);
-
-        // 2. Site Name යාවත්කාලීන කිරීම
+        // 1. Site Name යාවත්කාලීන කිරීම
         if (general.siteName) {
+            console.log("Setting site name to:", general.siteName);
             document.title = general.siteName;
         }
 
-        // 3. Maintenance Mode පාලනය
+        // 2. Maintenance Mode පාලනය
         const currentPath = window.location.pathname;
-        
-        // Admin සහ Maintenance පිටු redirect වීමෙන් වළක්වන්න
-        const isExcluded = currentPath.includes('admin-panel.html') || 
-                           currentPath.includes('settings.html') || 
+        const isExcluded = currentPath.includes('admin') || 
+                           currentPath.includes('settings') || 
                            currentPath.includes('maintenance.html');
 
         if (general.maintenanceMode === true && !isExcluded) {
@@ -38,12 +35,25 @@ export function initializeGlobalSettings() {
             window.location.href = 'maintenance.html'; 
         }
 
-        // 4. නව ලියාපදිංචි කිරීම් පාලනය
+        // 3. ලියාපදිංචි කිරීම් පාලනය
         if (general.registrationOpen === false && currentPath.includes('register.html')) {
-            console.log("Registration is closed. Redirecting...");
             window.location.href = 'index.html';
         }
     }, (error) => {
         console.error("Firestore Snapshot Error:", error);
     });
+}
+
+// 2. පරිශීලකයා Admin කෙනෙක්දැයි පරීක්ෂා කිරීම
+export async function isAdmin(user) {
+    if (!user) return false;
+    try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists() && userDoc.data().role === "admin") {
+            return true;
+        }
+    } catch (error) {
+        console.error("Error checking admin status:", error);
+    }
+    return false;
 }
