@@ -12,13 +12,14 @@ export async function initializeGlobalSettings() {
 
     const currentPath = window.location.pathname;
     const isAdminPage = currentPath.includes("admin");
+    const isExemptPage = isAdminPage
+      || currentPath.includes("login.html")
+      || currentPath.includes("maintenance.html");
 
     // 1. Maintenance Mode (නඩත්තු කටයුතු) පරීක්ෂාව
-    if (data.general?.maintenanceMode && !isAdminPage) {
-      if (!currentPath.includes("maintenance.html")) {
-        window.location.href = "maintenance.html";
-        return;
-      }
+    if (data.general?.maintenanceMode && !isExemptPage) {
+      window.location.href = "maintenance.html";
+      return;
     }
 
     // 2. Site Name එක ඔටෝමැටිකව වෙනස් කිරීම
