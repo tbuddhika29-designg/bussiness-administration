@@ -1,18 +1,60 @@
 <!DOCTYPE html>
-<html>
-<body style="display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif;">
-    <div style="text-align:center;">
-        <h1>අලුත්වැඩියාවක් සිදුවේ!</h1>
-        <p>අපගේ වෙබ් අඩවිය මේ වන විට වැඩිදියුණු කරමින් පවතී. කරුණාකර පසුව නැවත උත්සාහ කරන්න.</p>
-    </div>
-    <script type="module">
-    // 1. මෙන්න මේ පේළිය අනිවාර්යයෙන්ම එකතු කරන්න
-    import { initializeGlobalSettings } from "./global-config.js";
-    
-    // 2. මේ පේළියෙන් එම සැකසුම් ක්‍රියාත්මක වේ
-    initializeGlobalSettings();
-
-    // ඔබේ පවතින අනෙකුත් JavaScript කෝඩ් මෙතනින් පහළට තිබිය හැක
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Under Maintenance | MY Index</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root {
+  --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;
+  --text:#1e1b4b;--muted:#6d6a8a;
+  --accent:#7c3aed;--accent2:#9333ea;
+  --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3);
+  --shadow2:0 8px 40px rgba(124,58,237,0.22);
+  --glass:rgba(255,255,255,0.7);
+}
+[data-theme="dark"]{
+  --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;
+  --text:#e9e4ff;--muted:#8b8aaa;
+  --accent:#a78bfa;--accent2:#c084fc;
+  --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3);
+  --shadow2:0 8px 40px rgba(124,58,237,0.25);
+  --glass:rgba(26,23,48,0.85);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;transition:background .3s,color .3s;padding:20px}
+.theme-btn{position:fixed;top:20px;right:20px;width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.card{background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--border2);border-radius:24px;padding:48px 36px;text-align:center;max-width:460px;box-shadow:var(--shadow2);animation:fadeUp .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2rem;color:#fff;box-shadow:0 8px 24px rgba(124,58,237,.3)}
+.brand{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.4rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:14px;display:block}
+h1{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:12px}
+p{font-size:.9rem;color:var(--muted);line-height:1.7}
+</style>
+</head>
+<body>
+<button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
+<div class="card">
+  <div class="icon"><i class="fas fa-screwdriver-wrench"></i></div>
+  <span class="brand dynamic-site-name">MY Index</span>
+  <h1>We'll be right back</h1>
+  <p>This site is currently undergoing scheduled maintenance. We're working hard to improve your experience and will be back online shortly. Thank you for your patience!</p>
+</div>
+<script>
+const saved = localStorage.getItem('ict-theme') || 'light';
+if (saved === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>';
+}
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const d = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = d ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+  localStorage.setItem('ict-theme', d ? 'light' : 'dark');
+});
 </script>
 </body>
 </html>
