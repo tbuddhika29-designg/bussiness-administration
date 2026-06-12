@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MY INDEX | Academic Portal</title>
+    <!-- FontAwesome Font for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@600;700&viewport=width=device-width,initial-scale=1.0" rel="stylesheet">
     
     <style>
         :root { 
-            --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff; \
-            --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a; \
-            --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7; \
-            --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3); \
-            --shadow:0 4px 24px rgba(124,58,237,0.12); --shadow2:0 8px 40px rgba(124,58,237,0.2); \
-            --gold:#f59e0b;--green:#10b981;--red:#ef4444; --glass:rgba(255,255,255,0.7); \
+            --bg:#f3f0ff;--bg2:#ede9fe;--card:#ffffff;--card2:#faf8ff; 
+            --text:#1e1b4b;--text2:#4c1d95;--muted:#6d6a8a; 
+            --accent:#7c3aed;--accent2:#9333ea;--accent3:#a855f7; 
+            --border:rgba(124,58,237,0.15);--border2:rgba(124,58,237,0.3); 
+            --shadow:0 4px 24px rgba(124,58,237,0.12); --shadow2:0 8px 40px rgba(124,58,237,0.2); 
+            --gold:#f59e0b;--green:#10b981;--red:#ef4444; --glass:rgba(255,255,255,0.7); 
         } 
-        [data-theme="dark"]{ \
-            --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38; \
-            --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa; \
-            --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe; \
-            --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3); \
-            --shadow:0 4px 24px rgba(0,0,0,0.4); --shadow2:0 8px 40px rgba(124,58,237,0.25); \
-            --glass:rgba(26,23,48,0.8); \
+        [data-theme="dark"]{ 
+            --bg:#0d0b1e;--bg2:#110f2a;--card:#1a1730;--card2:#1f1c38; 
+            --text:#e9e4ff;--text2:#c4b5fd;--muted:#8b8aaa; 
+            --accent:#a78bfa;--accent2:#c084fc;--accent3:#d8b4fe; 
+            --border:rgba(167,139,250,0.15);--border2:rgba(167,139,250,0.3); 
+            --shadow:0 4px 24px rgba(0,0,0,0.4); --shadow2:0 8px 40px rgba(124,58,237,0.25); 
+            --glass:rgba(26,23,48,0.8); 
         } 
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box} 
         html{scroll-behavior:smooth} 
@@ -55,7 +57,7 @@
         .theme-btn,.back-btn,.logout-btn{display:flex;align-items:center;gap:6px}
         .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border2);background:var(--card);color:var(--accent);cursor:pointer;font-size:1rem;justify-content:center;transition:all .3s}
         .theme-btn:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
-        .back-btn{text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap;cursor:pointer;}
+        .back-btn{text-decoration:none;font-size:.78rem;font-weight:600;color:var(--accent);background:rgba(124,58,237,.08);border:1px solid var(--border2);padding:8px 14px;border-radius:100px;transition:all .3s;white-space:nowrap}
         .back-btn:hover{background:var(--accent);color:#fff}
         .logout-btn{font-size:.78rem;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--red),#dc2626);border:none;padding:8px 14px;border-radius:100px;cursor:pointer;transition:all .3s;white-space:nowrap;border:1px solid rgba(239,68,68,.3)}
         .logout-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(239,68,68,.3);background:linear-gradient(135deg,#dc2626,#991b1b)}
@@ -176,15 +178,19 @@
 </head>
 <body>
 
+    <!-- LOADER -->
     <div id="loader">
         <div class="loader-ring"></div>
         <div class="loader-text">Loading Portal...</div>
     </div>
 
+    <!-- PROGRESS BAR -->
     <div id="progress-bar"></div>
 
+    <!-- BUBBLES BACKGROUND -->
     <div class="bubbles" id="bubbles"></div>
 
+    <!-- HEADER -->
     <header>
         <div class="header-left">
             <div class="header-logo"><i class="fas fa-graduation-cap"></i> Academic Portal</div>
@@ -192,22 +198,22 @@
         </div>
         <div class="header-right">
             <button class="theme-btn" id="themeBtn"><i class="fas fa-moon"></i></button>
-            
-            <button class="back-btn" id="home-btn" onclick="goToHome()"><i class="fas fa-home"></i> <span>Home</span></button>
-            <a href="profile.html" class="back-btn" id="profile-btn"><i class="fas fa-user-circle"></i> <span>Profile</span></a>
-            
             <button class="logout-btn" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button>
         </div>
     </header>
 
+    <!-- STICKY NAVIGATION -->
     <div class="sticky-nav">
         <div class="nav-inner" id="sem-nav"></div>
     </div>
 
+    <!-- MAIN CONTENT CONTAINER -->
     <main>
         
+        <!-- SUBJECTS CONTENT SECTION -->
         <div id="subjects-section">
             
+            <!-- HERO SECTION -->
             <div class="hero reveal">
                 <div class="hero-tag"><i class="fas fa-bookmark"></i> Academic Portal</div>
                 <h1>Bachelor of Business Administration</h1>
@@ -217,6 +223,7 @@
                 </div>
             </div>
 
+            <!-- STATS STRIP -->
             <div class="stats-strip">
                 <div class="stat-card" style="animation-delay:0.1s">
                     <div class="stat-icon"><i class="fas fa-book"></i></div>
@@ -248,12 +255,14 @@
                 </div>
             </div>
 
+            <!-- SECTION LABEL -->
             <div class="section-label reveal">
                 <div class="section-badge">Course Modules</div>
                 <div class="section-title">Academic Structure</div>
                 <div class="section-line"></div>
             </div>
 
+            <!-- FILTER TABS -->
             <div class="filter-bar reveal">
                 <button class="filter-btn active" onclick="filterSem('all', this)">All Semesters</button>
                 <button class="filter-btn" onclick="filterSem('year1', this)">Year 01</button>
@@ -263,13 +272,16 @@
                 <button class="filter-btn" onclick="filterSem('elective', this)">Electives</button>
             </div>
 
+            <!-- MODULES TIMELINE GRID -->
             <div class="timeline-outer reveal">
                 <div class="timeline-track" id="timeline-track">
-                    </div>
+                    <!-- Dynamic Columns Inserted via JavaScript -->
+                </div>
             </div>
 
         </div>
 
+        <!-- LECTURES & PACKS EXPANDED VIEW -->
         <div id="lectures-view">
             <button class="lectures-back" onclick="closeLecturesView()"><i class="fas fa-arrow-left"></i> Back to Modules</button>
             
@@ -286,11 +298,13 @@
             </div>
 
             <div class="lectures-grid" id="lectures-grid">
-                </div>
+                <!-- 30 Dynamic Lecture Cards Inserted via JavaScript -->
+            </div>
         </div>
 
     </main>
 
+    <!-- FOOTER -->
     <footer>
         <div class="footer-inner">
             <p>Academic Portal — Bachelor of Business Administration</p>
@@ -298,9 +312,11 @@
         </div>
     </footer>
 
+    <!-- SCROLL BACK TO TOP -->
     <button id="back-top"><i class="fas fa-chevron-up"></i></button>
 
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         const SEMESTERS=[ 
             {id:'sem1',year:'year1',label:'Year 1 — Semester 1',subjects:[ 
@@ -425,13 +441,6 @@
             document.getElementById('subjects-section').style.display='block'; 
         } 
 
-        // ✅ Home බටන් එක ක්ලික් කල විට ක්‍රියාත්මක වන Function එක
-        function goToHome(){
-            closeLecturesView();
-            const allBtn = document.querySelector('.filter-bar .filter-btn');
-            if(allBtn) filterSem('all', allBtn);
-        }
-
         function buildNav(){ 
             const nav=document.getElementById('sem-nav'); 
             nav.innerHTML=''; 
@@ -499,64 +508,72 @@
         }); 
     </script>
 
+    <!-- FIREBASE INTEGRATION MODULE -->
     <script type="module">
-        import { auth, db } from "./firebase-config.js";
-        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+ // dashboard.html හි Firebase script tag එක සිතු කරන්න
 
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-            try {
-                const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
 
-                if (!userSnap.exists()) {
-                    window.location.href = 'login.html';
-                    return;
-                }
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
 
-                const userData = userSnap.data();
+    if (!userSnap.exists()) {
+      window.location.href = 'login.html';
+      return;
+    }
 
-                // ✅ Admin Approval check කිරීම
-                if (!userData.approved) {
-                    window.location.href = 'pending-approval.html';
-                    return;
-                }
+    const userData = userSnap.data();
 
-                // ✅ Subscription/Payment check කිරීම
-                if (!userData.subscriptionActive) {
-                    if (userData.paymentPending) {
-                        window.location.href = 'payment-pending.html';
-                    } else {
-                        window.location.href = 'subscription.html';
-                    }
-                    return;
-                }
+    // ✅ Step 1: Admin Approval check කරන්න
+    if (!userData.approved) {
+      window.location.href = 'pending-approval.html';
+      return;
+    }
 
-                console.log('✓ User fully authenticated and payment approved');
+    // ✅ Step 2: Subscription/Payment check කරන්න
+    if (!userData.subscriptionActive) {
+      // Payment pending අඩුවිය නම් pending page එකට
+      if (userData.paymentPending) {
+        window.location.href = 'payment-pending.html';
+      } else {
+        // Payment කිරීමට subscription page එකට
+        window.location.href = 'subscription.html';
+      }
+      return;
+    }
 
-            } catch (error) {
-                console.error('Auth error:', error);
-                window.location.href = 'login.html';
-            }
-        });
+    // ✅ Step 3: සම්පූර්ණ දිගුවට ලබා දෙන්න
+    console.log('✓ User fully authenticated and payment approved');
+    // ඔබගේ dashboard logic එයට පුර්ණය හරි ගලන්න
 
-        // Logout functionality
-        const logoutBtn = document.getElementById('logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    window.location.href = 'login.html';
-                } catch (error) {
-                    console.error('Logout error:', error);
-                }
-            });
-        }
+  } catch (error) {
+    console.error('Auth error:', error);
+    window.location.href = 'login.html';
+  }
+});
+
+// Logout functionality
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      window.location.href = 'index.html';
+    } catch (error) {
+      console.error("Logout error:", error);
+      alert("Logout failed. Please try again.");
+    }
+  });
+}
     </script>
 </body>
 </html>
