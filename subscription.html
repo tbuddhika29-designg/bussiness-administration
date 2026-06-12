@@ -225,9 +225,38 @@ import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-// ගෙවීමේ පැකේජ (Firestore එකෙන් ඩයිනමිකව ලබාගැනීමට let ලෙස වෙනස් කර මුලින් හිස් කරන ලදී)
-let PLANS = [];
+// ⚠️ BACKUP PLANS: Firestore එකේ දත්ත නැත්නම් හෝ වැරදුනොත් auto-load වෙන්න දාපු ලිස්ට් එක
+const BACKUP_PLANS = [
+  {
+    id: 'monthly',
+    name: 'Monthly',
+    price: 2500,
+    currency: 'LKR',
+    period: 'per month',
+    featured: false,
+    features: ['Full course access', '30 daily downloads', 'Support via email', '1 month validity']
+  },
+  {
+    id: 'semester',
+    name: 'Semester',
+    price: 6500,
+    currency: 'LKR',
+    period: 'per semester',
+    featured: true,
+    features: ['Full course access', 'Unlimited downloads', 'Priority support', '6 months validity', 'Certificate']
+  },
+  {
+    id: 'annual',
+    name: 'Annual',
+    price: 11500,
+    currency: 'LKR',
+    period: 'per year',
+    featured: false,
+    features: ['Full course access', 'Unlimited downloads', 'Premium support', '12 months validity', 'Certificate', 'Expert guidance']
+  }
+];
 
+let PLANS = [];
 let selectedPlan = null;
 let selectedPaymentMethod = null;
 
@@ -249,16 +278,22 @@ onAuthStateChanged(auth, async (user) => {
 
     // 🔄 Admin settings (Firestore) එකෙන් plans දත්ත ලබා ගැනීම
     const configSnap = await getDoc(doc(db, "settings", "config"));
-    if (configSnap.exists() && configSnap.data().plans) {
-      PLANS = configSnap.data().plans;
+    
+    if (configSnap.exists() && configSnap.data().plans && configSnap.data().plans.length > 0) {
+      PLANS = configSnap.data().plans; // Firestore එකේ තියෙන ඒවා ගන්නවා
     } else {
-      console.error("No plans found in admin settings config.");
+      // Database එකේ නැත්නම් Backup plans ටික load කරනවා
+      console.warn("Firestore plans empty! Loading backup plans.");
+      PLANS = BACKUP_PLANS;
     }
 
     // ගෙවීමේ පැකේජ ගොඩනැගීම
     renderPlans();
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error fetching plans:', error);
+    // Error එකක් ආවොත් පේජ් එක හිස් කරන්නේ නැතුව backup එක දෙනවා
+    PLANS = BACKUP_PLANS;
+    renderPlans();
   }
 });
 
@@ -321,23 +356,22 @@ window.processPayment = async () => {
   if (!user) return;
 
   try {
-    // ✅ Payment pending status බවට සකසන්න - ඇඩ්මින්ගේ බලාපොරොත්තුවෙන්
     const userRef = doc(db, "users", user.uid);
     
     await updateDoc(userRef, {
-      subscriptionActive: false,                    // ❌ අගම FALSE - පිටින්ඩ ඇපෲ
-      paymentPending: true,                         // ✅ Payment pending status
+      subscriptionActive: false,
+      paymentPending: true,
       subscriptionPlan: selectedPlan,
       paymentMethod: selectedPaymentMethod,
       paymentDate: new Date(),
       paidAmount: PLANS.find(p => p.id === selectedPlan).price,
-      paymentStatus: 'pending'                      // 'pending' | 'approved' | 'rejected'
+      paymentStatus: 'pending'
     });
 
     showAlert('✓ Payment submitted! Admin will review your payment shortly. Redirecting...', 'success');
     
     setTimeout(() => {
-      window.location.href = 'payment-pending.html';  // නව පේජ - pending status පෙන්නන්න
+      window.location.href = 'payment-pending.html';
     }, 2500);
 
   } catch (error) {
