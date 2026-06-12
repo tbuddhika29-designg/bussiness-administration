@@ -159,19 +159,24 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <i class="fas fa-credit-card"></i> Payment Method
     </div>
 
-    <div class="payment-methods">
-      <div class="payment-method" onclick="selectPaymentMethod('card', this)">
+    <div class="payment-methods" id="payment-methods">
+      <div class="payment-method" id="pm-tile-card" onclick="selectPaymentMethod('card', this)">
         <i class="fas fa-credit-card"></i>
         <span>Card</span>
       </div>
-      <div class="payment-method" onclick="selectPaymentMethod('bank', this)">
+      <div class="payment-method" id="pm-tile-bank" onclick="selectPaymentMethod('bank', this)">
         <i class="fas fa-landmark"></i>
         <span>Bank Transfer</span>
       </div>
-      <div class="payment-method" onclick="selectPaymentMethod('mobile', this)">
-        <i class="fas fa-mobile-alt"></i>
-        <span>Mobile Money</span>
+      <div class="payment-method" id="pm-tile-qr" onclick="selectPaymentMethod('qr', this)">
+        <i class="fas fa-qrcode"></i>
+        <span>QR / PayHere</span>
       </div>
+    </div>
+
+    <div class="alert error" id="no-payment-msg" style="display:none">
+      <i class="fas fa-circle-exclamation"></i>
+      <span>No payment methods are currently available. Please contact support.</span>
     </div>
 
     <div id="card-form" style="display:none;margin-bottom:24px">
@@ -206,12 +211,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </p>
     </div>
 
-    <div id="mobile-form" style="display:none;margin-bottom:24px">
-      <div class="form-group">
-        <label class="form-label">Mobile Number</label>
-        <input type="tel" class="form-input" placeholder="+94 71 234 5678" id="mobile-number"/>
-      </div>
+    <div id="qr-form" style="display:none;margin-bottom:24px;background:rgba(124,58,237,.04);padding:16px;border-radius:12px;border:1px solid var(--border);text-align:center">
+      <p style="font-size:.9rem;color:var(--text);line-height:1.6;margin-bottom:12px">
+        <strong>Scan the QR code below to pay via PayHere:</strong>
+      </p>
+      <img id="qr-image" src="" alt="Payment QR Code" style="max-width:220px;width:100%;border-radius:12px;border:1px solid var(--border2);display:none"/>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:12px">
+        Need help? Contact: <span id="qr-contact-text">-</span>
+      </p>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:8px">
+        After paying, click "Complete Payment" below so the admin can verify your transaction.
+      </p>
     </div>
+
 
     <button class="action-btn" onclick="processPayment()">
       <i class="fas fa-lock"></i> Complete Payment
@@ -275,20 +287,43 @@ onAuthStateChanged(auth, async (user) => {
       }
 
       // 2. Admin සැකසූ බැංකු විස්තර ලබාගැනීම
-      if (settingsData.payment && settingsData.payment.bankEnabled) {
+      if (settingsData.payment) {
         const pm = settingsData.payment;
-        const bankForm = document.getElementById('bank-form');
-        if (bankForm) {
-          bankForm.innerHTML = `
-            <p style="font-size:.9rem;color:var(--text);line-height:1.6">
-              <strong>Bank Transfer Details:</strong><br/>
-              Account Name: ${pm.bankHolder || 'MY INDEX Education'}<br/>
-              Bank: ${pm.bankName || 'Standard Chartered Bank'}<br/>
-              Account No: ${pm.bankAccount || '012-345-678-901'}<br/>
-              Branch: ${pm.bankBranch || 'SCBLKLCX'}<br/><br/>
-              Please use your student ID in the reference field.
-            </p>
-          `;
+
+        if (pm.bankEnabled) {
+          const bankForm = document.getElementById('bank-form');
+          if (bankForm) {
+            bankForm.innerHTML = `
+              <p style="font-size:.9rem;color:var(--text);line-height:1.6">
+                <strong>Bank Transfer Details:</strong><br/>
+                Account Name: ${pm.bankHolder || 'MY INDEX Education'}<br/>
+                Bank: ${pm.bankName || 'Standard Chartered Bank'}<br/>
+                Account No: ${pm.bankAccount || '012-345-678-901'}<br/>
+                Branch: ${pm.bankBranch || 'SCBLKLCX'}<br/><br/>
+                Please use your student ID in the reference field.
+              </p>
+            `;
+          }
+        } else {
+          // Bank Transfer ක්‍රමය ඕෆ් කර ඇත්නම් ටයිල් එක හංගනවා
+          document.getElementById('pm-tile-bank').style.display = 'none';
+        }
+
+        if (pm.qrEnabled) {
+          const qrImg = document.getElementById('qr-image');
+          if (qrImg && pm.qrLink) {
+            qrImg.src = pm.qrLink;
+            qrImg.style.display = 'inline-block';
+          }
+          document.getElementById('qr-contact-text').textContent = pm.qrContact || '-';
+        } else {
+          // QR / PayHere ක්‍රමය ඕෆ් කර ඇත්නම් ටයිල් එක හංගනවා
+          document.getElementById('pm-tile-qr').style.display = 'none';
+        }
+
+        // දෙකම ඕෆ් නම්, "no payment method" පණිවිඩය පෙන්වනවා
+        if (!pm.bankEnabled && !pm.qrEnabled) {
+          document.getElementById('no-payment-msg').style.display = 'flex';
         }
       }
     }
@@ -347,10 +382,10 @@ window.selectPaymentMethod = (method, element) => {
   selectedPaymentMethod = method;
   document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
-  
+
   document.getElementById('card-form').style.display = method === 'card' ? 'block' : 'none';
   document.getElementById('bank-form').style.display = method === 'bank' ? 'block' : 'none';
-  document.getElementById('mobile-form').style.display = method === 'mobile' ? 'block' : 'none';
+  document.getElementById('qr-form').style.display = method === 'qr' ? 'block' : 'none';
 };
 
 window.processPayment = async () => {
